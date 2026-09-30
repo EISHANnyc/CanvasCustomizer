@@ -1,10 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "CanvasVibe",
-  "version": "1.0.51",
-  "version_name": "1.0.51",
+  "name": "Canvas Customizer",
+  "version": "1.0.52",
+  "version_name": "1.0.52",
 
-  "description": "100% free, unmetered, non-slop theme and preset customizer for Canvas LMS.",
+  "description": "A free way to customize Canvas.",
   "permissions": [
     "storage",
     "activeTab",
@@ -12,7 +12,7 @@
   ],
   "action": {
     "default_popup": "popup/popup.html",
-    "default_title": "CanvasVibe Customizer"
+    "default_title": "Canvas Customizer"
   },
   "icons": {
     "16": "icons/icon16.png",
