@@ -22,7 +22,7 @@ Built with vanilla JavaScript and pure CSS. Zero telemetry, zero external tracke
 1. **Download the code**:
    - Clone this repository:
      ```bash
-     git clone https://github.com/EISHANnyc/CanvasVibe.git
+     git clone https://github.com/EISHANnyc/CanvasCustomizer.git
      ```
    - Or download and extract the ZIP from the latest release.
 
