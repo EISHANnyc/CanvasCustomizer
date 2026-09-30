@@ -1,4 +1,4 @@
-# Canvas Customizer
+# CanvasCustomizer (CC)
 
 A free way to customize Canvas.
 

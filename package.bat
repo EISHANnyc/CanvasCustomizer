@@ -1,9 +1,9 @@
 @echo off
 setlocal
-echo Packaging CanvasVibe for friends...
+echo Packaging CanvasCustomizer for friends...
 set "SRC=%~dp0"
-set "ZIP=%SRC%..\CanvasVibe.zip"
-set "DIST=%TEMP%\CanvasVibe_dist"
+set "ZIP=%SRC%..\CanvasCustomizer.zip"
+set "DIST=%TEMP%\CanvasCustomizer_dist"
 
 if exist "%ZIP%" del /f /q "%ZIP%"
 if exist "%DIST%" rd /s /q "%DIST%"

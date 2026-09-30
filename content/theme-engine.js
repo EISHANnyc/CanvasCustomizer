@@ -16,7 +16,7 @@
       document.body.classList.toggle('vibe-theme-light', preset.mode === 'light');
     }
 
-    // CanvasVibe CSS variables
+    // CanvasCustomizer CSS variables
     root.style.setProperty('--bcbackground-0', c['background-0']);
     root.style.setProperty('--bcbackground-1', c['background-1']);
     root.style.setProperty('--bcbackground-2', c['background-2']);
@@ -2759,13 +2759,13 @@
             hideNativeTodoList(rightSide);
             renderReformattedWidget(duoContainer, upcomingItems, gradedItems, presetId);
           } catch(e) {
-            console.error('[CanvasVibe] Error rendering widgets:', e);
+            console.error('[CanvasCustomizer] Error rendering widgets:', e);
           } finally {
             isRenderingWidget = false;
           }
         });
       } catch(e) {
-        console.error('[CanvasVibe] Error processing items:', e);
+        console.error('[CanvasCustomizer] Error processing items:', e);
         isRenderingWidget = false;
       }
     });
