@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CanvasVibe</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- TOP HEADER -->
+    <header class="app-header">
+      <div class="header-main">
+        <div class="brand-wrap">
+          <span class="brand-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </span>
+          <span class="brand-title">CanvasVibe</span>
+          <span class="version-badge" id="version-badge">v1.0.31</span>
+        </div>
+        <span class="status-badge"><span class="status-dot"></span>Active</span>
+      </div>
+
+      <!-- SEGMENTED NAVIGATION TABS -->
+      <nav class="popup-nav-segmented" role="tablist">
+        <button type="button" class="popup-nav-tab active" data-tab="themes" role="tab" aria-selected="true">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a7 7 0 0 0 7 7c0 2-2 3-2 3s.5 1 .5 2a2.5 2.5 0 0 1-2.5 2.5H12"/></svg>
+          Themes
+        </button>
+        <button type="button" class="popup-nav-tab" data-tab="dashboard" role="tab" aria-selected="false">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+          Dashboard
+        </button>
+        <button type="button" class="popup-nav-tab" data-tab="backdrops" role="tab" aria-selected="false">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          Backdrops
+        </button>
+      </nav>
+    </header>
+
+    <!-- TAB PANES CONTAINER -->
+    <main class="popup-content-body">
+      <!-- PANE 1: THEMES -->
+      <section class="popup-tab-pane active" data-pane="themes" role="tabpanel">
+        <div class="pane-inner">
+          <div class="theme-group-list" id="theme-group-list"></div>
+        </div>
+      </section>
+
+      <!-- PANE 2: DASHBOARD FEATURES -->
+      <section class="popup-tab-pane" data-pane="dashboard" role="tabpanel">
+        <div class="pane-inner">
+          <!-- GPA Feature Card -->
+          <div class="feature-card">
+            <div class="feature-card-header">
+              <div class="feature-title-wrap">
+                <span class="feature-title">GPA Calculator Card</span>
+                <span class="feature-desc">Live GPA badge & grade breakdown</span>
+              </div>
+              <label class="apple-switch" title="Toggle GPA Calculator Card on Dashboard">
+                <input type="checkbox" id="gpa-toggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div id="gpa-color-row" class="feature-sub-row">
+              <div class="sub-label-wrap">
+                <span class="sub-label">Header Accent Color</span>
+                <span class="sub-caption">Banner tint on the GPA card</span>
+              </div>
+              <div class="sub-color-action">
+                <input type="color" id="gpa-color-input" value="#457354" title="Choose GPA Header Background Color">
+                <button type="button" class="mini-text-btn" id="gpa-color-reset-btn" title="Reset to preset accent">Reset</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual Styling Card -->
+          <div class="feature-card">
+            <div class="feature-card-header">
+              <div class="feature-title-wrap">
+                <span class="feature-title">Soft Eye Comfort</span>
+                <span class="feature-desc">Warm, glare-free night filter</span>
+              </div>
+              <label class="apple-switch" title="Toggle Soft Eye Comfort Filter">
+                <input type="checkbox" id="soft-night-toggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="feature-card-divider"></div>
+
+            <div class="feature-slider-block">
+              <div class="slider-title-row">
+                <div class="feature-title-wrap">
+                  <span class="feature-title">Corner Radius</span>
+                  <span class="feature-desc">Dashboard & card curvature</span>
+                </div>
+                <span class="value-pill" id="radius-val">14px</span>
+              </div>
+              <div class="slider-track-wrap">
+                <input type="range" id="radius-slider" min="0" max="24" value="14">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANE 3: BACKDROPS (WALLPAPER & SIDEBAR) -->
+      <section class="popup-tab-pane" data-pane="backdrops" role="tabpanel">
+        <div class="pane-inner">
+          <!-- Dashboard Wallpaper -->
+          <div class="feature-card">
+            <div class="card-headline-row">
+              <div class="feature-title-wrap">
+                <span class="feature-title">Dashboard Wallpaper</span>
+                <span class="feature-desc">Canvas page background photo</span>
+              </div>
+              <button type="button" class="mini-text-btn danger" id="clear-wallpaper-btn" title="Remove wallpaper" style="display:none;">Clear</button>
+            </div>
+
+            <div class="action-btn-grid">
+              <input type="file" id="wallpaper-file-input" accept="image/*" style="display:none;">
+              <button type="button" class="tactile-btn" id="upload-wallpaper-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Upload Photo
+              </button>
+              <button type="button" class="tactile-btn secondary" id="url-wallpaper-btn" title="Paste image URL">
+                URL
+              </button>
+            </div>
+
+            <div id="wallpaper-url-box" class="url-input-wrap" style="display: none;">
+              <input type="text" id="wallpaper-url-input" placeholder="Paste image URL...">
+              <button type="button" class="tactile-btn primary mini" id="wallpaper-url-apply-btn">Apply</button>
+            </div>
+
+            <div id="wallpaper-controls" class="backdrop-sliders-wrap" style="display: none;">
+              <div class="backdrop-slider-row">
+                <span class="slider-prop-label">Opacity</span>
+                <div class="slider-track-wrap">
+                  <input type="range" id="wallpaper-opacity-slider" min="5" max="100" value="25">
+                </div>
+                <span class="value-pill" id="wallpaper-opacity-val">25%</span>
+              </div>
+              <div class="backdrop-slider-row">
+                <span class="slider-prop-label">Blur</span>
+                <div class="slider-track-wrap">
+                  <input type="range" id="wallpaper-blur-slider" min="0" max="20" value="0">
+                </div>
+                <span class="value-pill" id="wallpaper-blur-val">0px</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar Background -->
+          <div class="feature-card">
+            <div class="card-headline-row">
+              <div class="feature-title-wrap">
+                <span class="feature-title">Sidebar Backdrop</span>
+                <span class="feature-desc">Global navigation rail theme</span>
+              </div>
+              <button type="button" class="mini-text-btn danger" id="clear-sidebar-bg-btn" title="Reset sidebar background" style="display:none;">Reset</button>
+            </div>
+
+            <div class="action-btn-grid">
+              <input type="file" id="sidebar-bg-file-input" accept="image/*" style="display:none;">
+              <button type="button" class="tactile-btn" id="upload-sidebar-bg-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Custom Photo
+              </button>
+              <button type="button" class="tactile-btn secondary" id="url-sidebar-bg-btn" title="Paste image URL">
+                URL
+              </button>
+            </div>
+
+            <div id="sidebar-bg-url-box" class="url-input-wrap" style="display: none;">
+              <input type="text" id="sidebar-bg-url-input" placeholder="Paste image URL...">
+              <button type="button" class="tactile-btn primary mini" id="sidebar-bg-url-apply-btn">Apply</button>
+            </div>
+
+            <div id="sidebar-bg-controls" class="backdrop-sliders-wrap">
+              <div class="backdrop-slider-row">
+                <span class="slider-prop-label">Opacity</span>
+                <div class="slider-track-wrap">
+                  <input type="range" id="sidebar-bg-opacity-slider" min="0" max="100" value="15">
+                </div>
+                <span class="value-pill" id="sidebar-bg-opacity-val">15%</span>
+              </div>
+              <div class="backdrop-slider-row">
+                <span class="slider-prop-label">Blur</span>
+                <div class="slider-track-wrap">
+                  <input type="range" id="sidebar-bg-blur-slider" min="0" max="40" value="16">
+                </div>
+                <span class="value-pill" id="sidebar-bg-blur-val">16px</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- PERSISTENT COMPACT FOOTER -->
+    <footer class="app-footer">
+      <button id="reset-btn" class="tactile-btn reset-hold-btn" type="button" title="Click: Restore tasks · Hold: Full Reset">
+        <span class="reset-progress-fill"></span>
+        <span class="reset-btn-text">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: -1px;"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Reset Options
+        </span>
+      </button>
+    </footer>
+  </div>
+
+  <script src="../shared/presets.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
+

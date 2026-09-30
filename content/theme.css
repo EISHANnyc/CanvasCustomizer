@@ -1,0 +1,5948 @@
+/* CanvasVibe Apple Design Standard Stylesheet (Anti-Slop, Pure Human Craft) */
+:root {
+  --bcbackground-0: #F5F0E8;
+  --bcbackground-1: #EDE5DA;
+  --bcbackground-2: #E2D8CA;
+  --bcborders: #D8CDBC;
+  --bcbuttons: #E8DFCFAF;
+  --bclinks: #B85338;
+  --bcsidebar: #1F1915;
+  --bc-sidebar: #1F1915;
+  --bcsidebar-text: #F7F2EA;
+  --bctext-0: #29221C;
+  --bctext-1: #52453B;
+  --bctext-2: #7A6B5F;
+  --bccards: #FAF6EE;
+  --bcaccent: #B85338;
+  --bc-card-radius: 12px;
+
+  --bc-bg-0: var(--bcbackground-0);
+  --bc-bg-1: var(--bcbackground-1);
+  --bc-bg-2: var(--bcbackground-2);
+  --bc-border: var(--bcborders);
+  --bc-btn: var(--bcbuttons);
+  --bc-link: var(--bclinks);
+  --bc-text-0: var(--bctext-0);
+  --bc-text-1: var(--bctext-1);
+  --bc-text-2: var(--bctext-2);
+  --bc-card: var(--bccards);
+
+  /* Canvas LMS Native Theme Variables */
+  --ic-brand-global-nav-bgd: var(--bcsidebar);
+  --ic-brand-global-nav-logo-bgd: var(--bcsidebar);
+  --ic-brand-global-nav-ic-icon-svg-fill: var(--bcsidebar-text);
+  --ic-brand-global-nav-ic-icon-svg-fill--active: var(--bcaccent, var(--bclinks));
+  --ic-brand-global-nav-menu-item__text-color: var(--bcsidebar-text);
+  --ic-brand-global-nav-menu-item__text-color--active: var(--bcaccent, var(--bclinks));
+  --ic-brand-global-nav-menu-item__badge-bgd: var(--bcaccent, var(--bclinks));
+  --ic-brand-global-nav-menu-item__badge-text: #ffffff;
+  --ic-brand-header-image: none;
+}
+
+/* Guarded Base Layout (Instant Pre-Paint Styling) */
+html,
+html.ic-app,
+body,
+body.ic-app,
+body.with-left-side,
+body.with-right-side,
+body.primary-nav-expanded,
+div#application,
+div#application.ic-app {
+  background-color: var(--bcbackground-0) !important;
+  color: var(--bctext-0) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+#wrapper.ic-Layout-wrapper,
+#main.ic-Layout-columns,
+#content-wrapper.ic-Layout-contentWrapper,
+#content.ic-Layout-contentMain,
+#not_right_side.ic-app-main-content,
+#dashboard.ic-dashboard-app {
+  background-color: var(--bcbackground-0) !important;
+  color: var(--bctext-0) !important;
+}
+
+/* ==========================================================================
+   Apple Global Navigation Sidebar - Frosted Glass & Translucent Depth
+   ========================================================================== */
+header#header.ic-app-header,
+#header.ic-app-header,
+.ic-app-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 84px !important;
+  background-color: color-mix(in srgb, var(--bcsidebar) 82%, transparent) !important;
+  background: color-mix(in srgb, var(--bcsidebar) 82%, transparent) !important;
+  backdrop-filter: blur(28px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  border-right: 1px solid var(--bcborders, rgba(0, 0, 0, 0.12)) !important;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.1) !important;
+  overflow: hidden !important;
+  z-index: 100 !important;
+}
+
+/* Sidebar Dedicated Background & Frosted Wallpaper Layer */
+#vibe-sidebar-bg-layer {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+  z-index: 0 !important;
+}
+
+#vibe-sidebar-bg-layer .vibe-sidebar-bg-img {
+  position: absolute !important;
+  top: -24px !important;
+  left: -24px !important;
+  width: calc(100% + 48px) !important;
+  height: calc(100% + 48px) !important;
+  background-size: cover !important;
+  background-position: left center !important;
+  background-repeat: no-repeat !important;
+  opacity: var(--vibe-sidebar-bg-opacity, 0.15) !important;
+  filter: blur(var(--vibe-sidebar-bg-blur, 16px)) !important;
+  transform: scale(1.08) !important;
+  transition: opacity 0.2s ease, filter 0.2s ease !important;
+  display: block !important;
+}
+
+#vibe-sidebar-bg-layer .vibe-sidebar-bg-tint {
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: var(--bcsidebar) !important;
+  opacity: 0.85 !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.ic-app-header__main-navigation,
+.ic-app-header__secondary-navigation,
+#header.ic-app-header .ic-app-header__logomark-container,
+.ic-app-header .ic-app-header__logomark-container,
+.ic-app-header__logomark-container,
+.ic-brand-global-nav__logo-container,
+#menu,
+.ic-app-header__menu-list {
+  background-color: transparent !important;
+  background: transparent !important;
+  border-right: none !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+#header.ic-app-header .ic-app-header__logomark-container,
+.ic-app-header .ic-app-header__logomark-container,
+.ic-app-header__logomark-container,
+.ic-brand-global-nav__logo-container {
+  border-bottom: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 60px !important;
+  box-sizing: border-box !important;
+  z-index: 2 !important;
+}
+
+#header.ic-app-header .ic-app-header__logomark,
+.ic-app-header .ic-app-header__logomark,
+.ic-app-header__logomark,
+a.ic-app-header__logomark,
+.ic-brand-global-nav__logo {
+  background-color: transparent !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  text-decoration: none !important;
+}
+
+.ic-app-header__menu-list-item a,
+.ic-app-header__menu-list-link,
+.menu-item__text,
+.menu-item-icon-container {
+  color: var(--bcsidebar-text) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif !important;
+  letter-spacing: -0.015em !important;
+  transition: color 0.15s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.ic-app-header__menu-list-link svg,
+.ic-app-header__menu-list-link .ic-icon-svg,
+.ic-app-header__menu-list-link svg path,
+.ic-app-header__menu-list-link svg g {
+  fill: var(--bcsidebar-text) !important;
+  transition: fill 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.ic-app-header__menu-list-item:hover .ic-app-header__menu-list-link,
+.ic-app-header__menu-list-link:hover,
+.ic-app-header__menu-list-link:focus {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.08)) !important;
+}
+
+.ic-app-header__menu-list-item:hover .menu-item__text,
+.ic-app-header__menu-list-link:hover .menu-item__text {
+  color: var(--bcaccent, var(--bclinks)) !important;
+}
+
+.ic-app-header__menu-list-item:hover svg,
+.ic-app-header__menu-list-item:hover svg path,
+.ic-app-header__menu-list-item:hover .ic-icon-svg,
+.ic-app-header__menu-list-link:hover svg,
+.ic-app-header__menu-list-link:hover svg path,
+.ic-app-header__menu-list-link:hover .ic-icon-svg {
+  fill: var(--bcaccent, var(--bclinks)) !important;
+}
+
+.ic-app-header__menu-list-item.ic-app-header__menu-list-item--active,
+.ic-app-header__menu-list-item--active {
+  position: relative !important;
+}
+
+.ic-app-header__menu-list-item.ic-app-header__menu-list-item--active .ic-app-header__menu-list-link,
+.ic-app-header__menu-list-item--active .ic-app-header__menu-list-link {
+  background: color-mix(in srgb, var(--bcaccent, var(--bclinks)) 14%, transparent) !important;
+  background-color: color-mix(in srgb, var(--bcaccent, var(--bclinks)) 14%, transparent) !important;
+  border-left: 3.5px solid var(--bcaccent, var(--bclinks)) !important;
+  box-shadow: inset 3.5px 0 0 var(--bcaccent, var(--bclinks)) !important;
+}
+
+.ic-app-header__menu-list-item.ic-app-header__menu-list-item--active .menu-item__text,
+.ic-app-header__menu-list-item--active .menu-item__text {
+  color: var(--bcaccent, var(--bclinks)) !important;
+  font-weight: 700 !important;
+}
+
+.ic-app-header__menu-list-item.ic-app-header__menu-list-item--active svg,
+.ic-app-header__menu-list-item.ic-app-header__menu-list-item--active svg path,
+.ic-app-header__menu-list-item.ic-app-header__menu-list-item--active .ic-icon-svg,
+.ic-app-header__menu-list-item--active svg,
+.ic-app-header__menu-list-item--active svg path,
+.ic-app-header__menu-list-item--active .ic-icon-svg {
+  fill: var(--bcaccent, var(--bclinks)) !important;
+}
+
+.ic-avatar,
+.ic-app-header__menu-list-link .ic-avatar {
+  border: 2px solid var(--bcaccent, var(--bclinks)) !important;
+  transition: border-color 0.15s ease !important;
+}
+
+.menu-item__badge,
+.nav-badge,
+.ic-unread-badge,
+.ic-app-header .badge {
+  background-color: var(--bcaccent, var(--bclinks)) !important;
+  color: #FFFFFF !important;
+  border-color: var(--bcsidebar) !important;
+  font-variant-numeric: tabular-nums !important;
+  font-weight: 700 !important;
+}
+
+.ic-app-header__toggle-button,
+.ic-app-header__secondary-navigation button {
+  background-color: transparent !important;
+  color: var(--bcsidebar-text) !important;
+}
+
+.ic-app-header__toggle-button svg,
+.ic-app-header__toggle-button .ic-icon-svg {
+  fill: var(--bcsidebar-text) !important;
+}
+
+.ic-app-header__toggle-button:hover {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.08)) !important;
+}
+
+.ic-app-header__toggle-button:hover svg {
+  fill: var(--bcaccent, var(--bclinks)) !important;
+}
+
+.navigation-tray-container,
+.tray-with-space-for-global-nav,
+.ui-tray {
+  background-color: var(--bcbackground-0) !important;
+  color: var(--bctext-0) !important;
+  border-right: 1px solid var(--bcborders) !important;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.25) !important;
+}
+
+.navigation-tray-container *,
+.tray-with-space-for-global-nav * {
+  color: var(--bctext-0) !important;
+}
+
+.navigation-tray-container a,
+.tray-with-space-for-global-nav a {
+  color: var(--bclinks) !important;
+}
+
+.navigation-tray-container a:hover,
+.tray-with-space-for-global-nav a:hover {
+  color: var(--bcaccent, var(--bclinks)) !important;
+}
+
+/* ==========================================================================
+   Dashboard Content & Course Cards
+   ========================================================================== */
+#dashboard_header_container,
+.ic-Dashboard-header,
+.ic-Dashboard-header__layout,
+.ic-Dashboard-header__title,
+.ic-Dashboard-header h1,
+.ic-Dashboard-header h2 {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  visibility: hidden !important;
+}
+
+/* 3-Column Cap (3 on top, 2 on bottom) */
+#DashboardCard_Container,
+#DashboardCard_Container > div,
+.ic-Dashboard-cards,
+#dashboard_cards,
+.ic-DashboardCard__box {
+  display: block !important;
+  width: 880px !important;
+  max-width: 880px !important;
+  margin: 0 !important;
+  padding-top: 36px !important;
+  padding-bottom: 24px !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  border: none !important;
+  overflow: visible !important;
+}
+
+.ic-DashboardCard__box__container,
+#DashboardCard_Container > div > div,
+.ic-DashboardCard__box > div,
+div[data-testid="dashboard-cards"] {
+  display: grid !important;
+  grid-template-columns: repeat(3, 280px) !important;
+  justify-content: flex-start !important;
+  gap: 20px !important;
+  width: 880px !important;
+  max-width: 880px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  border: none !important;
+  overflow: visible !important;
+}
+
+.ic-DashboardCard,
+[data-testid="draggable-card"] {
+  width: 280px !important;
+  max-width: 280px !important;
+  min-width: 280px !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+  background-color: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 90%, transparent) !important;
+  background: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 90%, transparent) !important;
+  backdrop-filter: blur(28px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.1)) !important;
+  border-radius: var(--bc-card-radius, 14px) !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
+  transition: transform 0.16s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.16s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.16s ease !important;
+}
+
+.ic-DashboardCard:hover {
+  transform: translateY(-2px) !important;
+  border-color: var(--bcaccent, var(--bclinks)) !important;
+  box-shadow: 0 8px 24px -2px rgba(0, 0, 0, 0.22) !important;
+}
+
+.ic-DashboardCard__box {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ic-DashboardCard__header_content,
+.ic-DashboardCard__header-content {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--bctext-0) !important;
+  padding: 12px 16px 4px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.ic-DashboardCard__link {
+  text-decoration: none !important;
+  color: inherit !important;
+  display: block !important;
+}
+
+.ic-DashboardCard__header-title,
+.ic-DashboardCard__header-title a,
+.ic-DashboardCard__header-title h2,
+.ic-DashboardCard__header-title h3,
+.ic-DashboardCard__header-title span,
+h2.ic-DashboardCard__header-title,
+h3.ic-DashboardCard__header-title,
+.ic-DashboardCard__header_content h2,
+.ic-DashboardCard__header_content h3,
+.ic-DashboardCard__header-content h2,
+.ic-DashboardCard__header-content h3,
+.ic-DashboardCard h2,
+.ic-DashboardCard h3 {
+  color: var(--bctext-0) !important;
+  font-size: 16px !important;
+  font-weight: 750 !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.02em !important;
+  text-decoration: none !important;
+  margin: 0px 0px 4px 0px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.ic-DashboardCard__header-subtitle {
+  color: var(--bcaccent, var(--bclinks)) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.03em !important;
+  margin: 0 0 3px 0 !important;
+  line-height: 1.2 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.ic-DashboardCard__header-term {
+  display: none !important;
+}
+
+.ic-DashboardCard__action-container {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--bcborders, rgba(255, 255, 255, 0.08)) !important;
+  padding: 4px 0 8px 0 !important;
+  margin: 0 16px 4px 16px !important;
+  width: calc(100% - 32px) !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.ic-DashboardCard__action-layout svg {
+  fill: var(--bctext-1) !important;
+}
+
+.ic-DashboardCard__action-layout:hover svg {
+  fill: var(--bcaccent, var(--bclinks)) !important;
+}
+
+/* 3-Dots Options Menu Button on Course Card Hero */
+.ic-DashboardCard__header-button-bg {
+  display: none !important;
+}
+
+.ic-DashboardCard__header-button,
+button.ic-DashboardCard__header-button {
+  background: rgba(0, 0, 0, 0.38) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border-radius: 50% !important;
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+  transition: transform 0.12s ease, background 0.12s ease !important;
+}
+
+.ic-DashboardCard__header-button:hover {
+  background: rgba(0, 0, 0, 0.6) !important;
+  transform: scale(1.06) !important;
+}
+
+.ic-DashboardCard__header-button i,
+.ic-DashboardCard__header-button svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+
+.vibe-urgent-badge {
+  display: none !important;
+}
+
+.vibe-urgent-badge .vibe-urgent-class-dot {
+  display: none !important;
+}
+
+.vibe-urgent-chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  font-size: 9.5px !important;
+  font-weight: 650 !important;
+  padding: 1.5px 5.5px !important;
+  border-radius: 4px !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1.2 !important;
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+}
+
+.vibe-urgent-chip.vibe-urgency-critical {
+  background: rgba(225, 29, 72, 0.12) !important;
+  color: #BE123C !important;
+  border: 1px solid rgba(225, 29, 72, 0.25) !important;
+  font-weight: 700 !important;
+}
+
+.vibe-urgent-chip.vibe-urgency-high {
+  background: rgba(217, 119, 6, 0.12) !important;
+  color: #B45309 !important;
+  border: 1px solid rgba(217, 119, 6, 0.25) !important;
+}
+
+.vibe-urgent-chip.vibe-urgency-soon {
+  background: rgba(202, 138, 4, 0.12) !important;
+  color: #854D0E !important;
+  border: 1px solid rgba(202, 138, 4, 0.25) !important;
+}
+
+.vibe-urgent-chip.vibe-urgency-approaching {
+  background: rgba(120, 113, 108, 0.1) !important;
+  color: #57534E !important;
+  border: 1px solid rgba(120, 113, 108, 0.2) !important;
+  font-weight: 600 !important;
+}
+
+.vibe-urgent-chip.vibe-urgency-relaxed {
+  background: rgba(0, 0, 0, 0.04) !important;
+  color: #78716C !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.vibe-urgent-chip.vibe-urgency-notice {
+  background: rgba(99, 102, 241, 0.12) !important;
+  color: #4338CA !important;
+  border: 1px solid rgba(99, 102, 241, 0.25) !important;
+}
+
+.vibe-urgent-chip.vibe-urgency-locked {
+  background: rgba(0, 0, 0, 0.04) !important;
+  color: #A8A29E !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Dark mode chip adjustments */
+[data-theme-mode="dark"] .vibe-urgent-chip.vibe-urgency-critical,
+.dark-theme .vibe-urgent-chip.vibe-urgency-critical {
+  background: rgba(255, 69, 58, 0.2) !important;
+  color: #FF6961 !important;
+  border-color: rgba(255, 69, 58, 0.4) !important;
+}
+
+[data-theme-mode="dark"] .vibe-urgent-chip.vibe-urgency-high,
+.dark-theme .vibe-urgent-chip.vibe-urgency-high {
+  background: rgba(255, 159, 10, 0.2) !important;
+  color: #FFB340 !important;
+  border-color: rgba(255, 159, 10, 0.4) !important;
+}
+
+[data-theme-mode="dark"] .vibe-urgent-chip.vibe-urgency-approaching,
+.dark-theme .vibe-urgent-chip.vibe-urgency-approaching {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #E7E5E4 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.vibe-urgent-title {
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  color: var(--bctext-1) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  max-width: 160px !important;
+  line-height: 1.2 !important;
+}
+
+[data-theme-mode="dark"] .vibe-urgent-title,
+.dark-theme .vibe-urgent-title {
+  color: var(--bctext-1) !important;
+}
+
+.vibe-urgent-badge.vibe-urgent-caughtup {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  gap: 5px !important;
+}
+
+[data-theme-mode="dark"] .vibe-urgent-badge.vibe-urgent-caughtup,
+.dark-theme .vibe-urgent-badge.vibe-urgent-caughtup {
+  background: transparent !important;
+  border: none !important;
+}
+
+.vibe-urgent-badge.vibe-urgent-caughtup .vibe-urgent-dot {
+  width: 5px !important;
+  height: 5px !important;
+  background: #10B981 !important;
+  border-radius: 50% !important;
+}
+
+.vibe-urgent-badge.vibe-urgent-caughtup .vibe-urgent-label {
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  color: #10B981 !important;
+}
+
+[data-theme-mode="dark"] .vibe-urgent-badge.vibe-urgent-caughtup .vibe-urgent-label,
+.dark-theme .vibe-urgent-badge.vibe-urgent-caughtup .vibe-urgent-label {
+  color: #34D399 !important;
+}
+
+.vibe-urgent-dot {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background-color: currentColor !important;
+  flex-shrink: 0 !important;
+}
+
+.vibe-urgent-badge.vibe-urgent-imminent .vibe-urgent-dot {
+  animation: vibeUrgentPulse 1.5s infinite ease-in-out !important;
+}
+
+@keyframes vibeUrgentPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+.vibe-urgent-label {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* Apple Design Floating Undo Toast */
+.vibe-undo-toast {
+  position: fixed !important;
+  bottom: 28px !important;
+  right: 32px !important;
+  z-index: 2147483647 !important;
+  background-color: var(--bcbackground-1, #1C2028) !important;
+  color: var(--bctext-0, #FFFFFF) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: 10px !important;
+  padding: 10px 14px 12px 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.32), 0 2px 8px rgba(0, 0, 0, 0.18) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  opacity: 0 !important;
+  transform: translateY(16px) scale(0.96) !important;
+  pointer-events: none !important;
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease !important;
+  overflow: hidden !important;
+}
+
+.vibe-undo-toast.vibe-undo-visible {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+  pointer-events: auto !important;
+}
+
+.vibe-undo-content {
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  color: var(--bctext-0, #FFFFFF) !important;
+}
+
+.vibe-undo-content svg {
+  stroke: var(--bclinks, #0A84FF) !important;
+}
+
+.vibe-undo-btn {
+  background: var(--bclinks, #0A84FF) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 6px !important;
+  padding: 4px 10px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: transform 0.12s ease, opacity 0.12s ease !important;
+}
+
+.vibe-undo-btn:hover {
+  opacity: 0.9 !important;
+  transform: scale(1.03) !important;
+}
+
+.vibe-undo-btn:active {
+  transform: scale(0.96) !important;
+}
+
+.vibe-undo-progress {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 2.5px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.vibe-undo-progress-bar {
+  height: 100% !important;
+  background: var(--bclinks, #0A84FF) !important;
+  width: 100% !important;
+  animation: vibeUndoProgress 5s linear forwards !important;
+}
+
+@keyframes vibeUndoProgress {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+.ic-DashboardCard[data-vibe-color] .ic-DashboardCard__action-badge,
+.ic-DashboardCard .ic-DashboardCard__action-badge {
+  background-color: var(--card-course-color, var(--bcaccent, var(--bclinks))) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+.ic-DashboardCard[data-vibe-color] .ic-DashboardCard__action.announcements:hover svg,
+.ic-DashboardCard[data-vibe-color] a.ic-DashboardCard__action[href*="announcement"]:hover svg {
+  fill: var(--card-course-color, var(--bcaccent)) !important;
+}
+
+.ic-DashboardCard__header_hero,
+.ic-DashboardCard__header_image {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 130px !important;
+  min-height: 130px !important;
+  max-height: 130px !important;
+  border-radius: var(--bc-card-radius, 14px) var(--bc-card-radius, 14px) 0 0 !important;
+  display: block !important;
+  opacity: 1 !important;
+  box-sizing: border-box !important;
+}
+
+.vibe-edit-nick-btn {
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  color: var(--bctext-2) !important;
+  padding: 2px 4px !important;
+  margin-left: 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+  opacity: 0.45 !important;
+  border-radius: 4px !important;
+  transition: opacity 0.12s ease, color 0.12s ease !important;
+}
+
+.vibe-edit-nick-btn:hover {
+  opacity: 1 !important;
+  color: var(--bcaccent, var(--bclinks)) !important;
+}
+
+/* Course Card Grade Badge (Top-Left of Hero Image - Refined Frosted Glass Pill) */
+.vibe-card-grade-badge {
+  position: absolute !important;
+  top: 10px !important;
+  left: 10px !important;
+  z-index: 10 !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  color: #18181b !important;
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 999px !important;
+  padding: 3px 9px !important;
+  font-size: 11px !important;
+  font-weight: 750 !important;
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: -0.01em !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18) !important;
+  pointer-events: none !important;
+}
+
+/* Course Card Due Section (Upcoming & Completed items list matching user reference) */
+.vibe-card-due-section {
+  padding: 6px 16px 14px 16px !important;
+  margin: 0 !important;
+  border: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 5px !important;
+}
+
+.vibe-card-due-header {
+  font-size: 11.5px !important;
+  font-weight: 750 !important;
+  color: var(--bctext-0) !important;
+  letter-spacing: -0.01em !important;
+  margin-bottom: 2px !important;
+}
+
+.vibe-card-due-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+
+.vibe-card-due-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  padding: 3px 6px !important;
+  margin: 0 -6px !important;
+  border-radius: 6px !important;
+  font-size: 11.5px !important;
+  line-height: 1.35 !important;
+  text-decoration: none !important;
+  color: inherit !important;
+  cursor: pointer !important;
+  background-color: transparent !important;
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition: background-color 0.12s ease, color 0.12s ease !important;
+}
+
+.vibe-card-due-row:hover {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.05)) !important;
+  text-decoration: none !important;
+}
+
+.vibe-card-due-row:focus,
+.vibe-card-due-row:focus-visible,
+.vibe-card-due-row:active {
+  outline: none !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+.vibe-card-due-title {
+  color: var(--bctext-1) !important;
+  font-weight: 500 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  flex: 1 !important;
+  text-decoration: none !important;
+  transition: color 0.12s ease !important;
+}
+
+.vibe-card-due-row:hover .vibe-card-due-title {
+  text-decoration: underline !important;
+  text-decoration-color: currentColor !important;
+  color: var(--bctext-0) !important;
+}
+
+.vibe-card-due-row.strike .vibe-card-due-title,
+.vibe-card-due-title.strike {
+  text-decoration: line-through !important;
+  color: var(--bctext-2) !important;
+  opacity: 0.75 !important;
+}
+
+.vibe-card-due-row.strike:hover .vibe-card-due-title {
+  text-decoration: line-through underline !important;
+  color: var(--bctext-1) !important;
+  opacity: 0.9 !important;
+}
+
+.vibe-card-due-row.strike .vibe-card-due-date {
+  text-decoration: line-through !important;
+  color: var(--bctext-2) !important;
+  opacity: 0.75 !important;
+}
+
+.vibe-card-due-date {
+  color: var(--bctext-2) !important;
+  font-weight: 600 !important;
+  font-variant-numeric: tabular-nums !important;
+  font-size: 11px !important;
+  flex-shrink: 0 !important;
+  transition: color 0.12s ease !important;
+}
+
+.vibe-card-due-row:hover .vibe-card-due-date {
+  color: var(--bctext-1) !important;
+}
+
+/* Guard against native or stray dimming, shading, and focus outlines on course cards */
+.ic-DashboardCard,
+[data-testid="draggable-card"] {
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+.ic-DashboardCard.ic-DashboardCard--dimmed,
+.ic-DashboardCard[class*="dimmed"],
+.ic-DashboardCard[data-dimmed="true"],
+.ic-DashboardCard.is-dimmed {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+.ic-DashboardCard:focus,
+.ic-DashboardCard:focus-within,
+.ic-DashboardCard__header:focus-within,
+.ic-DashboardCard__link:focus,
+.ic-DashboardCard__header_content:focus {
+  outline: none !important;
+}
+
+.ic-DashboardCard:hover,
+html.vibe-has-wallpaper .ic-DashboardCard:hover {
+  transform: translateY(-2px) !important;
+  border-color: var(--bcaccent, var(--bclinks)) !important;
+  box-shadow: 0 8px 24px -2px rgba(0, 0, 0, 0.22) !important;
+}
+
+/* ==========================================================================
+   Sidebar Duo Widget Architecture (Apple macOS Tahoe / Sequoia Standard)
+   ========================================================================== */
+#right-side .todo-list-wrapper,
+#right-side .to-do-list,
+#right-side .events_list,
+#right-side .todo-list-header,
+#right-side .events_list_header,
+#right-side .recent_feedback,
+#right-side .right-side-list,
+#right-side aside > div:not(#vibe-todo-widget):not(#vibe-side-duo):not(#vibe-graded-widget):not(#vibe-gpa-card),
+#right-side div:has(> .to-do-list),
+#right-side div:has(> .events_list),
+#right-side div:has(> .todo-list-header),
+#right-side div:has(> .events_list_header),
+#right-side div:has(.to-do-list),
+#right-side div:has(.events_list),
+#right-side div:has(.todo-list-item),
+#right-side div:has(.ToDoSidebarItem),
+#right-side div[data-testid*="todo"],
+#right-side div[data-testid*="coming-up"],
+#right-side section[data-testid*="todo"],
+#right-side section[data-testid*="coming-up"],
+.todo-list-wrapper,
+ul.to-do-list,
+h2.todo-list-header,
+.events_list_header {
+  display: none !important;
+}
+
+:root {
+  --vibe-nav-width: 84px;
+}
+
+html, body {
+  overflow-x: clip;
+  overflow-y: auto !important;
+  min-height: 100vh;
+}
+
+div#application,
+div#application.ic-app {
+  min-height: 100vh;
+  overflow-x: clip;
+  overflow-y: auto !important;
+}
+
+#wrapper {
+  margin-left: var(--vibe-nav-width, 84px) !important;
+  width: calc(100% - var(--vibe-nav-width, 84px)) !important;
+  max-width: calc(100% - var(--vibe-nav-width, 84px)) !important;
+  box-sizing: border-box !important;
+  min-height: 100vh;
+  overflow: visible !important;
+  padding: 24px 28px 36px 28px !important;
+}
+
+/* Dashboard padding */
+body.ic-dashboard-app #wrapper,
+body.dashboard #wrapper,
+#dashboard #wrapper,
+.vibe-dashboard-page #wrapper {
+  padding: 28px 36px 40px 36px !important;
+}
+
+/* Course & Quiz pages padding */
+body.context-course #wrapper,
+body[class*="context-course"] #wrapper,
+body.quizzes #wrapper,
+body[class*="quizzes"] #wrapper,
+.vibe-quiz-page #wrapper {
+  padding: 20px 32px 40px 32px !important;
+}
+
+/* Full-width tool pages padding: ZERO only on standalone external tool iframes */
+body:has(iframe#tool_content):not(:has(.quiz-header)):not(:has(#quiz_instructions)):not(:has(#content)) #wrapper,
+body:has(iframe[src*="external_tools"]):not(:has(#content)) #wrapper {
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+#main.ic-Layout-columns,
+#main {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+/* Two-column layout ONLY on Dashboard: #not_right_side flex holds course cards on left and duo on right */
+body.ic-dashboard-app #not_right_side,
+body.dashboard #not_right_side,
+#dashboard #not_right_side,
+.vibe-dashboard-page #not_right_side,
+#not_right_side:has(.vibe-sidebar-duo) {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 24px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  float: none !important;
+}
+
+/* Non-dashboard pages (quizzes, modules, grades, discussions, assignments): Natural block flow */
+#not_right_side {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+/* On Dashboard: Cards column is 880px */
+body.ic-dashboard-app #content-wrapper,
+body.dashboard #content-wrapper,
+#dashboard #content-wrapper,
+.vibe-dashboard-page #content-wrapper,
+body:not([class*="context-course"]):not(.context-course) #main:has(.vibe-sidebar-duo) #content-wrapper {
+  flex: 0 0 880px !important;
+  width: 880px !important;
+  min-width: 0 !important;
+  max-width: 880px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  float: none !important;
+}
+
+/* Course pages: fluid flexible layout aligned with sidebar */
+body[class*="context-course"] #content-wrapper,
+body.context-course #content-wrapper,
+body[class*="context-course"] #main:has(.vibe-sidebar-duo) #content-wrapper,
+body.context-course #main:has(.vibe-sidebar-duo) #content-wrapper,
+.with-left-side #content-wrapper {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
+}
+
+body[class*="context-course"] #right-side-wrapper:has(.vibe-sidebar-duo),
+body.context-course #right-side-wrapper:has(.vibe-sidebar-duo) {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Quizzes content wrapper: 100% width, unconstrained, free scrolling */
+.vibe-quiz-page #content-wrapper,
+body.quizzes #content-wrapper,
+body[class*="quizzes"] #content-wrapper,
+body.full-width #content-wrapper,
+body:has(#questions) #content-wrapper,
+body:has(#question_list) #content-wrapper,
+body:has(.quiz-submission) #content-wrapper,
+body:has(#assessment_questions) #content-wrapper,
+body:has(.take_quiz_wrapper) #content-wrapper,
+body:has(iframe#tool_content) #content-wrapper,
+body:has(iframe[src*="quiz"]) #content-wrapper,
+body:has([data-testid*="quiz"]) #content-wrapper {
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+#content.ic-Layout-contentMain,
+#content {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  float: none !important;
+  overflow: visible !important;
+}
+
+/* Right-side wrapper: 560px ONLY when it contains the vibe-sidebar-duo */
+#right-side-wrapper:has(.vibe-sidebar-duo) {
+  width: 560px !important;
+  min-width: 0 !important;
+  max-width: 560px !important;
+  flex: 0 0 560px !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  padding: 36px 0 0 0 !important;
+  padding-top: 36px !important;
+  box-sizing: border-box !important;
+  float: none !important;
+  display: block !important;
+}
+
+/* On pages WITHOUT the duo (like modules, grades): Collapse right-side-wrapper completely */
+#right-side-wrapper:not(:has(.vibe-sidebar-duo)):not(:has(#quiz-timer-wrapper)):not(:has(.time_running)):not(:has(.countdown_timer)):not(:has(#student-grades-right-content)) {
+  display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  flex: 0 0 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Quiz pages: hide ONLY the non-timer stuff, preserve the timer */
+.vibe-quiz-page #right-side-wrapper .vibe-sidebar-duo,
+body.quizzes #right-side-wrapper .vibe-sidebar-duo,
+body[class*="quizzes"] #right-side-wrapper .vibe-sidebar-duo,
+body:has(#questions) #right-side-wrapper .vibe-sidebar-duo,
+body:has(.quiz-submission) #right-side-wrapper .vibe-sidebar-duo,
+body:has(iframe#tool_content) #right-side-wrapper .vibe-sidebar-duo {
+  display: none !important;
+}
+
+/* Quiz pages: right-side-wrapper holds attempt details and instructions cleanly beneath quiz */
+.vibe-quiz-page #right-side-wrapper,
+body.quizzes #right-side-wrapper,
+body[class*="quizzes"] #right-side-wrapper {
+  width: 100% !important;
+  max-width: 860px !important;
+  margin: 0 auto !important;
+  padding: 0 20px !important;
+  box-sizing: border-box !important;
+  flex: none !important;
+  float: none !important;
+}
+
+/* Keep quiz timer visible and positioned */
+#quiz-timer-wrapper,
+.time_running,
+.countdown_timer,
+.quiz_timer,
+#quiz_timer,
+.time_header {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 50 !important;
+}
+
+#right-side {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.vibe-sidebar-duo {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 14px !important;
+  align-items: flex-start !important;
+  width: 100% !important;
+  margin-bottom: 20px !important;
+  box-sizing: border-box !important;
+}
+
+.vibe-feed-card {
+  flex: 1 1 calc(50% - 7px) !important;
+  min-width: 0 !important;
+  background-color: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 90%, transparent) !important;
+  background: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 90%, transparent) !important;
+  backdrop-filter: blur(28px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: 18px !important;
+  padding: 14px 14px 10px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
+  box-sizing: border-box !important;
+}
+
+/* ==========================================================================
+   Quizzes & Assessments: Global Navigation Clearance & Unlocked Flow
+   ========================================================================== */
+.vibe-quiz-page,
+body.quizzes,
+body[class*="quizzes"],
+body.full-width,
+body.ic-Layout--fluid,
+body:has(#questions),
+body:has(#question_list),
+body:has(.quiz-submission),
+body:has(#assessment_questions),
+body:has(.take_quiz_wrapper),
+body:has(iframe#tool_content),
+body:has(iframe[src*="quiz"]),
+body:has([data-testid*="quiz"]) {
+  overflow-y: auto !important;
+  overflow-x: visible !important;
+  height: auto !important;
+  min-height: 100vh !important;
+}
+
+.vibe-quiz-page html,
+html:has(.vibe-quiz-page) {
+  overflow-y: auto !important;
+  overflow-x: visible !important;
+  height: auto !important;
+}
+
+/* Ensure Question Navigator drawer clears the 84px sidebar */
+body:not(.primary-nav-expanded) [data-testid="question-nav"],
+body:not(.primary-nav-expanded) [aria-label="Question Navigator"],
+body:not(.primary-nav-expanded) [aria-label*="Question list"],
+body:not(.primary-nav-expanded) [aria-label*="question list"],
+body:not(.primary-nav-expanded) nav[aria-label*="Question"],
+body:not(.primary-nav-expanded) aside[aria-label*="uestion"],
+body:not(.primary-nav-expanded) div[class*="QuestionNav"],
+body:not(.primary-nav-expanded) div[class*="questionNav"],
+body:not(.primary-nav-expanded) div[class*="question-nav"] {
+  z-index: 90 !important;
+}
+
+/* Question cards: optimal reading width and centering */
+.take_quiz_wrapper,
+#questions,
+.quiz_sortable,
+.question_holder,
+form#submit_quiz_form {
+  max-width: 1040px !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* ── Quiz Page Layout & Spacing System ────────────────────────────────── */
+#quiz_show,
+.quiz-header {
+  max-width: 860px !important;
+  margin: 16px auto 0 auto !important;
+  padding: 0 20px !important;
+  box-sizing: border-box !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color: var(--bctext-1, #333333) !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Quiz Title */
+#quiz_title,
+.quiz-header h1,
+h1#quiz_title,
+h1.quiz-title {
+  font-size: 26px !important;
+  font-weight: 700 !important;
+  color: var(--bctext-0, #111111) !important;
+  letter-spacing: -0.02em !important;
+  text-align: center !important;
+  margin: 12px auto 20px auto !important;
+  line-height: 1.25 !important;
+}
+
+/* Quiz Meta Row - Centered in the middle */
+ul#quiz_student_details,
+.quiz_details_text,
+.quiz_details,
+dl.quiz_details,
+[data-testid="quiz-meta"] {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px 28px !important;
+  padding: 14px 20px !important;
+  margin: 0 auto 28px auto !important;
+  list-style: none !important;
+  border-top: 1px solid var(--bcborders, rgba(0, 0, 0, 0.08)) !important;
+  border-bottom: 1px solid var(--bcborders, rgba(0, 0, 0, 0.08)) !important;
+  background: var(--bcbuttons, rgba(0, 0, 0, 0.02)) !important;
+  border-radius: var(--bc-card-radius, 10px) !important;
+  box-shadow: none !important;
+  max-width: 860px !important;
+  box-sizing: border-box !important;
+}
+
+ul#quiz_student_details li,
+.quiz_details_text li,
+.quiz_details dt,
+.quiz_details dd {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  color: var(--bctext-1, rgba(255, 255, 255, 0.8)) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+ul#quiz_student_details .title,
+.quiz_details_text strong,
+.quiz_details_text b,
+.quiz_details dt {
+  font-weight: 600 !important;
+  color: var(--bctext-0, #FFFFFF) !important;
+  font-size: 13px !important;
+}
+
+ul#quiz_student_details .value,
+.quiz_details_text .value,
+.quiz_details dd {
+  font-weight: 400 !important;
+  color: var(--bctext-1, rgba(255, 255, 255, 0.75)) !important;
+  font-size: 13px !important;
+}
+
+/* Instructions Heading & Body */
+.quiz-header h2,
+#content h2,
+#content > h2:has(+ #quiz_instructions),
+#content > h2:has(+ .quiz_description) {
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  color: var(--bctext-0, #FFFFFF) !important;
+  letter-spacing: -0.015em !important;
+  margin: 24px 0 12px 0 !important;
+}
+
+.description.user_content,
+.user_content.enhanced,
+#quiz_instructions,
+.quiz_description,
+#quiz_instructions_wrapper,
+.quiz_instructions_holder,
+.quiz-instructions,
+.quiz_description_holder {
+  font-size: 14.5px !important;
+  font-weight: 400 !important;
+  line-height: 1.7 !important;
+  color: var(--bctext-1, rgba(255, 255, 255, 0.88)) !important;
+  max-width: 880px !important;
+  margin: 0 0 28px 0 !important;
+  padding: 24px 28px !important;
+  box-sizing: border-box !important;
+}
+
+blockquote,
+.user_content blockquote {
+  border-left: 3.5px solid var(--bcaccent, var(--bclinks)) !important;
+  background-color: var(--bcbuttons, rgba(255, 255, 255, 0.04)) !important;
+  padding: 12px 18px !important;
+  margin: 18px 0 !important;
+  border-radius: 0 8px 8px 0 !important;
+  color: var(--bctext-1) !important;
+  font-style: normal !important;
+}
+
+.description.user_content p,
+#quiz_instructions p,
+.quiz_description p {
+  font-size: 14.5px !important;
+  font-weight: 400 !important;
+  line-height: 1.7 !important;
+  color: var(--bctext-1, rgba(255, 255, 255, 0.88)) !important;
+  margin: 0 0 14px 0 !important;
+}
+
+.description.user_content p:last-child,
+#quiz_instructions p:last-child,
+.quiz_description p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.description.user_content strong,
+.description.user_content b,
+#quiz_instructions strong,
+.quiz_description strong {
+  font-weight: 600 !important;
+  color: var(--bctext-0, #FFFFFF) !important;
+}
+
+.description.user_content span,
+#quiz_instructions span,
+.quiz_description span {
+  font-size: 14.5px !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+}
+
+.description.user_content code,
+#quiz_instructions code,
+.quiz_description code {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.1)) !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
+  font-size: 12.5px !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+}
+
+.description.user_content pre,
+#quiz_instructions pre,
+.quiz_description pre {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.04)) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.08)) !important;
+  border-radius: 8px !important;
+  padding: 14px 18px !important;
+  overflow-x: auto !important;
+}
+
+/* Take Quiz Actions */
+.take_quiz_button,
+.take_quiz_wrapper {
+  margin: 24px 0 32px 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+
+a#take_quiz_link.btn,
+.take_quiz_button .btn,
+.take_quiz_button a,
+#take_quiz_link,
+.take_quiz_link,
+a.btn-primary.btn-large[href*="/take"],
+.quiz-header .btn-primary,
+button[data-testid="take-quiz"],
+button[data-testid="begin-quiz-button"] {
+  background: var(--bcaccent, #0A84FF) !important;
+  color: #FFFFFF !important;
+  border: 1px solid transparent !important;
+  border-radius: 8px !important;
+  padding: 11px 32px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  transition: transform 0.12s ease, filter 0.12s ease !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+a#take_quiz_link.btn:hover,
+.take_quiz_button .btn:hover,
+.take_quiz_button a:hover,
+#take_quiz_link:hover,
+.take_quiz_link:hover {
+  transform: translateY(-1px) !important;
+  filter: brightness(1.08) !important;
+}
+
+/* Question Cards when taking Quiz */
+#submit_quiz_form,
+#questions,
+.take_quiz_wrapper,
+.quiz_sortable {
+  max-width: 860px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+.question,
+.question_holder,
+.quiz_sortable .question,
+#questions .question {
+  background: var(--bcsurface, var(--bcbackground, #FFFFFF)) !important;
+  border: 1px solid var(--bcborders, rgba(0, 0, 0, 0.1)) !important;
+  border-radius: var(--bc-card-radius, 12px) !important;
+  padding: 24px 28px !important;
+  margin: 24px auto !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+  max-width: 860px !important;
+  color: var(--bctext-0, inherit) !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+}
+
+.question .header {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--bcborders, rgba(0, 0, 0, 0.08)) !important;
+  padding: 0 0 14px 30px !important;
+  margin-bottom: 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  color: var(--bctext-0, inherit) !important;
+  position: relative !important;
+}
+
+.question .question_name {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: var(--bctext-0, #111111) !important;
+}
+
+.question .question_points,
+.question .points {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--bctext-1, rgba(255, 255, 255, 0.75)) !important;
+  background: var(--bcbuttons, rgba(0, 0, 0, 0.04)) !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  border: 1px solid var(--bcborders, rgba(0, 0, 0, 0.06)) !important;
+}
+
+.question .text,
+.question .question_text {
+  font-size: 14.5px !important;
+  line-height: 1.65 !important;
+  color: var(--bctext-1, rgba(255, 255, 255, 0.88)) !important;
+}
+
+.question .text pre,
+.question .question_text pre,
+.question pre {
+  background: var(--bcbuttons, rgba(0, 0, 0, 0.04)) !important;
+  border: 1px solid var(--bcborders, rgba(0, 0, 0, 0.08)) !important;
+  border-radius: 8px !important;
+  padding: 14px 18px !important;
+  color: var(--bctext-0, inherit) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 13.5px !important;
+  margin: 14px 0 !important;
+  overflow-x: auto !important;
+}
+
+.question .text code,
+.question code {
+  background: var(--bcbuttons, rgba(0, 0, 0, 0.06)) !important;
+  border: 1px solid var(--bcborders, rgba(0, 0, 0, 0.08)) !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
+  font-size: 13px !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  color: var(--bctext-0, inherit) !important;
+}
+
+.question .answers {
+  margin-top: 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+.question .answer {
+  background: var(--bcbuttons, rgba(0, 0, 0, 0.02)) !important;
+  border: 1px solid var(--bcborders, rgba(0, 0, 0, 0.08)) !important;
+  border-radius: 8px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  transition: background 0.12s ease, border-color 0.12s ease !important;
+  color: var(--bctext-0, inherit) !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+}
+
+.question .answer:hover {
+  background: var(--bcbuttons, rgba(0, 0, 0, 0.05)) !important;
+  border-color: var(--bcaccent, #0A84FF) !important;
+}
+
+.question .answer label.answer_row,
+.question .answer .answer_label_wrapper,
+.question .answer .select_answer {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  padding: 12px 18px !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+  gap: 12px !important;
+  color: var(--bctext-0, inherit) !important;
+}
+
+.question .answer .answer_label,
+.question .answer .answer_text {
+  flex: 1 !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: var(--bctext-0, inherit) !important;
+}
+
+.question .answer input[type="radio"],
+.question .answer input[type="checkbox"] {
+  cursor: pointer !important;
+  margin: 0 !important;
+  width: 16px !important;
+  height: 16px !important;
+  accent-color: var(--bcaccent, #0A84FF) !important;
+  flex-shrink: 0 !important;
+}
+
+.question .answer.selected_answer,
+.question .answer:has(input:checked) {
+  background: rgba(10, 132, 255, 0.08) !important;
+  border-color: var(--bcaccent, #0A84FF) !important;
+}
+
+/* Flag / bookmark question icon aligned inside header */
+.question .flag_question {
+  position: absolute !important;
+  top: 25px !important;
+  left: 26px !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  opacity: 0.55 !important;
+  transition: opacity 0.15s ease, transform 0.12s ease !important;
+  z-index: 5 !important;
+}
+
+.question .flag_question:hover {
+  opacity: 1 !important;
+  transform: scale(1.1) !important;
+}
+
+.question .flag_question[aria-checked="true"],
+.question .flag_question.flagged {
+  opacity: 1 !important;
+}
+
+/* Quiz Submission divider cleanup */
+.quiz-header hr,
+#content hr {
+  display: none !important;
+}
+
+/* Quiz submission summary page unhindered scrolling */
+.quiz-submission,
+#quiz-submission-version-switcher,
+#quiz_student_details,
+.quiz_response_feedback {
+  overflow-y: visible !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+/* ── Quiz Bottom Elements: Universal Frosted Cards (Muted notice, Attempt details, Summary table) ── */
+.muted-notice,
+div.muted-notice,
+#quiz_show .muted-notice {
+  background-color: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
+  background: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: var(--bc-card-radius, 14px) !important;
+  padding: 20px 24px !important;
+  margin: 20px auto 28px auto !important;
+  max-width: 860px !important;
+  box-sizing: border-box !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06) !important;
+  color: var(--bctext-0) !important;
+}
+
+.muted-notice h3,
+div.muted-notice h3 {
+  color: var(--bctext-0) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  margin: 0 0 8px 0 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.muted-notice p,
+div.muted-notice p {
+  color: var(--bctext-1) !important;
+  font-size: 13.5px !important;
+  line-height: 1.55 !important;
+  margin: 0 !important;
+}
+
+/* Quiz Right-side / bottom attempts container: Single unified frosted card */
+.vibe-quiz-page #right-side,
+body.quizzes #right-side,
+#quiz_show ~ #right-side-wrapper #right-side {
+  max-width: 860px !important;
+  margin: 0 auto 36px auto !important;
+  padding: 24px 28px !important;
+  box-sizing: border-box !important;
+  background-color: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
+  background: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: var(--bc-card-radius, 14px) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06) !important;
+  color: var(--bctext-0) !important;
+}
+
+.vibe-quiz-page #right-side > div,
+body.quizzes #right-side > div {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 0 16px 0 !important;
+  box-shadow: none !important;
+}
+
+.vibe-quiz-page #right-side > div:last-child,
+body.quizzes #right-side > div:last-child {
+  margin-bottom: 0 !important;
+}
+
+.vibe-quiz-page #right-side div[style*="border-bottom"],
+body.quizzes #right-side div[style*="border-bottom"] {
+  border-bottom: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  color: var(--bctext-0) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.015em !important;
+  padding-bottom: 12px !important;
+  margin-bottom: 14px !important;
+}
+
+.vibe-quiz-page #right-side table.summary,
+body.quizzes #right-side table.summary {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 8px 0 14px 0 !important;
+  color: var(--bctext-0) !important;
+}
+
+.vibe-quiz-page #right-side table.summary th,
+body.quizzes #right-side table.summary th {
+  color: var(--bctext-0) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  padding: 8px 0 !important;
+  text-align: left !important;
+  border: none !important;
+}
+
+.vibe-quiz-page #right-side table.summary td,
+body.quizzes #right-side table.summary td {
+  color: var(--bctext-1) !important;
+  font-size: 14px !important;
+  padding: 8px 0 !important;
+  border: none !important;
+}
+
+.vibe-quiz-page #right-side table.summary tfoot td,
+body.quizzes #right-side table.summary tfoot td {
+  color: var(--bctext-2, #888888) !important;
+  font-size: 12.5px !important;
+  font-style: italic !important;
+  padding-top: 8px !important;
+}
+
+.vibe-quiz-page #right-side div[style*="margin-left: 20px"],
+body.quizzes #right-side div[style*="margin-left: 20px"] {
+  margin-left: 0 !important;
+  margin-top: 12px !important;
+  color: var(--bctext-1) !important;
+  font-size: 13.5px !important;
+}
+
+.vibe-quiz-page #right-side a:not(.btn),
+body.quizzes #right-side a:not(.btn) {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: var(--bcaccent, #0A84FF) !important;
+  color: #FFFFFF !important;
+  border: 1px solid transparent !important;
+  border-radius: 8px !important;
+  padding: 9px 22px !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.15s ease !important;
+}
+
+.vibe-quiz-page #right-side a:not(.btn):hover,
+body.quizzes #right-side a:not(.btn):hover {
+  filter: brightness(1.08) !important;
+  transform: translateY(-1px) !important;
+  text-decoration: none !important;
+}
+
+.vibe-quiz-page #right-side span[style*="font-size: 0.7em"],
+body.quizzes #right-side span[style*="font-size: 0.7em"] {
+  display: block !important;
+  margin-top: 6px !important;
+  padding-left: 0 !important;
+  font-size: 12px !important;
+  color: var(--bctext-2, #888888) !important;
+}
+
+/* Tool content iframe */
+iframe#tool_content,
+iframe.tool_content,
+iframe[src*="quiz"],
+iframe[src*="external_tools"] {
+  width: 100% !important;
+  min-height: calc(100vh - 60px) !important;
+  height: 100% !important;
+  border: none !important;
+  display: block !important;
+}
+
+/* Responsive Zooming & Screen Width Media Queries */
+
+/* Monitor view (> 1650px): Duo cards side-by-side (560px) */
+@media (min-width: 1650px) {
+  #main:has(.vibe-sidebar-duo),
+  body.ic-dashboard-app #main,
+  body.dashboard #main,
+  #dashboard #main,
+  .vibe-dashboard-page #main {
+    gap: 28px !important;
+  }
+  #right-side-wrapper:has(.vibe-sidebar-duo) {
+    width: 560px !important;
+    min-width: 560px !important;
+    max-width: 560px !important;
+    flex: 0 0 560px !important;
+  }
+  .vibe-sidebar-duo {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 14px !important;
+    width: 100% !important;
+  }
+  .vibe-feed-card {
+    flex: 1 1 calc(50% - 7px) !important;
+    min-width: 0 !important;
+  }
+}
+
+/* Laptop screens & scaled displays (1180px - 1649px): Stack Duo vertically (290px) alongside 3 course cards (880px) */
+@media (max-width: 1649px) and (min-width: 1180px) {
+  #wrapper {
+    padding: 20px 24px 36px 24px !important;
+  }
+  #not_right_side:has(.vibe-sidebar-duo),
+  body.ic-dashboard-app #not_right_side,
+  body.dashboard #not_right_side,
+  #dashboard #not_right_side,
+  .vibe-dashboard-page #not_right_side {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 24px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  body.ic-dashboard-app #content-wrapper,
+  body.dashboard #content-wrapper,
+  #dashboard #content-wrapper,
+  .vibe-dashboard-page #content-wrapper,
+  #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
+    flex: 0 0 880px !important;
+    width: 880px !important;
+    max-width: 880px !important;
+    min-width: 0 !important;
+  }
+  body[class*="context-course"] #content-wrapper,
+  body.context-course #content-wrapper,
+  .with-left-side #content-wrapper {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  #DashboardCard_Container,
+  .ic-DashboardCard__box {
+    display: block !important;
+    width: 880px !important;
+    max-width: 880px !important;
+  }
+  .ic-DashboardCard__box__container,
+  div[data-testid="dashboard-cards"] {
+    display: grid !important;
+    grid-template-columns: repeat(3, 280px) !important;
+    gap: 20px !important;
+    width: 880px !important;
+    max-width: 880px !important;
+  }
+  .ic-DashboardCard,
+  [data-testid="draggable-card"] {
+    width: 280px !important;
+    max-width: 280px !important;
+    min-width: 280px !important;
+  }
+  #right-side-wrapper:has(.vibe-sidebar-duo) {
+    width: 290px !important;
+    min-width: 290px !important;
+    max-width: 290px !important;
+    flex: 0 0 290px !important;
+    display: block !important;
+  }
+  body[class*="context-course"] #right-side-wrapper,
+  body.context-course #right-side-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .vibe-sidebar-duo {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    width: 290px !important;
+    max-width: 290px !important;
+  }
+  .vibe-feed-card {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+}
+
+/* Tablet & split-screen views (768px - 1179px): Stack main vertically (cards on top, duo beneath) */
+@media (max-width: 1179px) and (min-width: 768px) {
+  #wrapper {
+    padding: 16px 20px 32px 20px !important;
+  }
+  body.ic-dashboard-app #not_right_side,
+  body.dashboard #not_right_side,
+  #dashboard #not_right_side,
+  .vibe-dashboard-page #not_right_side,
+  #not_right_side:has(.vibe-sidebar-duo) {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 28px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  body.ic-dashboard-app #content-wrapper,
+  body.dashboard #content-wrapper,
+  #dashboard #content-wrapper,
+  .vibe-dashboard-page #content-wrapper,
+  #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 auto !important;
+  }
+  #DashboardCard_Container,
+  #DashboardCard_Container > div,
+  .ic-Dashboard-cards,
+  #dashboard_cards,
+  .ic-DashboardCard__box,
+  .ic-DashboardCard__box__container,
+  #DashboardCard_Container > div > div,
+  .ic-DashboardCard__box > div,
+  div[data-testid="dashboard-cards"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+  }
+  .ic-DashboardCard,
+  [data-testid="draggable-card"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+  #right-side-wrapper:has(.vibe-sidebar-duo) {
+    width: 100% !important;
+    max-width: 880px !important;
+    min-width: 0 !important;
+    flex: 0 0 auto !important;
+  }
+  .vibe-sidebar-duo {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 16px !important;
+    width: 100% !important;
+  }
+  .vibe-feed-card {
+    flex: 1 1 calc(50% - 8px) !important;
+    width: auto !important;
+  }
+}
+
+/* Mobile & compact narrow view (< 768px) */
+@media (max-width: 767px) {
+  #wrapper {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 12px !important;
+  }
+  #main:has(.vibe-sidebar-duo),
+  body.ic-dashboard-app #main {
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+  #content-wrapper,
+  #right-side-wrapper:has(.vibe-sidebar-duo) {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .vibe-sidebar-duo {
+    flex-direction: column !important;
+    gap: 14px !important;
+    width: 100% !important;
+  }
+  .vibe-feed-card {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+  }
+}
+
+.vibe-todo-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 9px !important;
+  padding-bottom: 7px !important;
+  border-bottom: 1px solid var(--bcborders) !important;
+}
+
+.vibe-todo-title {
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--bctext-0) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+}
+
+.vibe-todo-title svg {
+  width: 13px !important;
+  height: 13px !important;
+  stroke: var(--bcaccent, #0A84FF) !important;
+}
+
+.vibe-todo-count {
+  font-size: 9px !important;
+  font-weight: 700 !important;
+  padding: 2px 6px !important;
+  border-radius: 8px !important;
+  background-color: var(--bcbackground-1) !important;
+  color: var(--bctext-1) !important;
+  border: 1px solid var(--bcborders) !important;
+  white-space: nowrap !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+
+.vibe-todo-list,
+.vibe-graded-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  margin: 0 !important;
+  padding: 1px 4px 4px 1px !important;
+  max-height: 560px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent !important;
+  box-sizing: border-box !important;
+}
+
+#vibe-side-duo *::-webkit-scrollbar,
+.vibe-feed-card *::-webkit-scrollbar,
+.vibe-todo-list::-webkit-scrollbar,
+.vibe-graded-list::-webkit-scrollbar {
+  width: 5px !important;
+  height: 5px !important;
+  background: transparent !important;
+}
+
+#vibe-side-duo *::-webkit-scrollbar-track,
+.vibe-feed-card *::-webkit-scrollbar-track,
+.vibe-todo-list::-webkit-scrollbar-track,
+.vibe-graded-list::-webkit-scrollbar-track {
+  background: transparent !important;
+  border: none !important;
+  margin: 4px 0 !important;
+}
+
+#vibe-side-duo *::-webkit-scrollbar-thumb,
+.vibe-feed-card *::-webkit-scrollbar-thumb,
+.vibe-todo-list::-webkit-scrollbar-thumb,
+.vibe-graded-list::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.22) !important;
+  border-radius: 999px !important;
+  border: none !important;
+}
+
+#vibe-side-duo *::-webkit-scrollbar-thumb:hover,
+.vibe-feed-card *::-webkit-scrollbar-thumb:hover,
+.vibe-todo-list::-webkit-scrollbar-thumb:hover,
+.vibe-graded-list::-webkit-scrollbar-thumb:hover {
+  background-color: var(--bcaccent, rgba(255, 255, 255, 0.45)) !important;
+}
+
+#vibe-side-duo *::-webkit-scrollbar-button,
+.vibe-feed-card *::-webkit-scrollbar-button,
+.vibe-todo-list::-webkit-scrollbar-button,
+.vibe-graded-list::-webkit-scrollbar-button,
+.vibe-todo-list::-webkit-scrollbar-button:start,
+.vibe-todo-list::-webkit-scrollbar-button:end,
+.vibe-graded-list::-webkit-scrollbar-button:start,
+.vibe-graded-list::-webkit-scrollbar-button:end {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+#vibe-side-duo *::-webkit-scrollbar-corner,
+.vibe-feed-card *::-webkit-scrollbar-corner,
+.vibe-todo-list::-webkit-scrollbar-corner,
+.vibe-graded-list::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+/* Day Groups */
+.vibe-todo-day-group {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  margin-bottom: 6px !important;
+}
+
+.vibe-todo-day-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+  padding: 3px 0 !important;
+  border-bottom: 1px dashed var(--bcborders) !important;
+  margin-bottom: 2px !important;
+}
+
+.vibe-todo-day-title-wrap {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  min-width: 0 !important;
+  flex: 1 !important;
+}
+
+.vibe-todo-day-bullet {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background-color: var(--bctext-2) !important;
+  flex-shrink: 0 !important;
+}
+
+.vibe-todo-day-bullet.vibe-bullet-today {
+  background-color: #FF9F0A !important;
+}
+
+.vibe-todo-day-bullet.vibe-bullet-tomorrow {
+  background-color: #FFD60A !important;
+}
+
+.vibe-todo-day-label {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em !important;
+  color: var(--bctext-0) !important;
+  text-transform: uppercase !important;
+}
+
+.vibe-todo-day-count {
+  font-size: 8.5px !important;
+  font-weight: 600 !important;
+  padding: 1px 5px !important;
+  border-radius: 5px !important;
+  background-color: var(--bcbackground-2) !important;
+  color: var(--bctext-1) !important;
+  border: 1px solid var(--bcborders) !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+.vibe-todo-day-cards {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
+/* Card Styling */
+.vibe-todo-card,
+.vibe-graded-card {
+  position: relative !important;
+  background-color: var(--bcbackground-1) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-left-width: 3.5px !important;
+  border-left-style: solid !important;
+  border-radius: 8px !important;
+  padding: 8px 10px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+  max-height: 140px !important;
+  transition: transform 0.18s cubic-bezier(0.2, 0.9, 0.3, 1),
+              opacity 0.15s ease,
+              max-height 0.22s cubic-bezier(0.4, 0, 0.2, 1) 0.05s,
+              margin 0.22s cubic-bezier(0.4, 0, 0.2, 1) 0.05s,
+              padding 0.22s cubic-bezier(0.4, 0, 0.2, 1) 0.05s,
+              background-color 0.15s ease,
+              box-shadow 0.15s ease !important;
+}
+
+.vibe-todo-card:hover,
+.vibe-graded-card:hover {
+  background-color: var(--bcbackground-2) !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12) !important;
+}
+
+.vibe-todo-card.vibe-dismissing,
+.vibe-graded-card.vibe-dismissing {
+  transform: translateX(42px) scale(0.96) !important;
+  opacity: 0 !important;
+  max-height: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-top-width: 0 !important;
+  border-bottom-width: 0 !important;
+  border-left-width: 0 !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+}
+
+.vibe-todo-card-top,
+.vibe-graded-card-top {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  margin-bottom: 5px !important;
+}
+
+.vibe-todo-card-heading,
+.vibe-graded-card-heading {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 6px !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.vibe-todo-icon,
+.vibe-graded-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 14px !important;
+  height: 14px !important;
+  min-width: 14px !important;
+  min-height: 14px !important;
+  color: var(--bcaccent, #0A84FF) !important;
+  flex-shrink: 0 !important;
+  margin-top: 1px !important;
+}
+
+.vibe-todo-icon svg,
+.vibe-graded-icon svg {
+  width: 13px !important;
+  height: 13px !important;
+}
+
+.vibe-todo-card-title,
+.vibe-graded-card-title {
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  color: var(--bctext-0) !important;
+  line-height: 1.35 !important;
+  word-break: break-word !important;
+  text-decoration: none !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+  letter-spacing: -0.01em !important;
+}
+
+.vibe-todo-card-title:hover,
+.vibe-graded-card-title:hover {
+  color: var(--bcaccent, var(--bclinks)) !important;
+  text-decoration: underline !important;
+}
+
+.vibe-graded-actions {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  flex-shrink: 0 !important;
+}
+
+.vibe-todo-dismiss,
+.vibe-graded-dismiss {
+  background: none !important;
+  border: none !important;
+  padding: 2px 4px !important;
+  cursor: pointer !important;
+  color: var(--bctext-2) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 0.35 !important;
+  border-radius: 4px !important;
+  flex-shrink: 0 !important;
+  margin-left: 2px !important;
+  transition: opacity 0.12s ease, background-color 0.12s ease, color 0.12s ease, transform 0.1s ease !important;
+}
+
+.vibe-todo-card:hover .vibe-todo-dismiss,
+.vibe-graded-card:hover .vibe-graded-dismiss {
+  opacity: 0.75 !important;
+}
+
+.vibe-todo-dismiss:hover,
+.vibe-graded-dismiss:hover {
+  opacity: 1 !important;
+  color: #FF453A !important;
+  background-color: rgba(255, 69, 58, 0.14) !important;
+}
+
+.vibe-todo-dismiss:active,
+.vibe-graded-dismiss:active {
+  transform: scale(0.9) !important;
+}
+
+.vibe-todo-card-bottom,
+.vibe-graded-card-bottom {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+  margin-top: 3px !important;
+  padding-left: 20px !important;
+  min-width: 0 !important;
+}
+
+.vibe-todo-course-tag,
+.vibe-graded-course-tag {
+  font-size: 9.5px !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.025em !important;
+  padding: 2.5px 7px 2.5px 6px !important;
+  border-radius: 5px !important;
+  max-width: 58% !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  line-height: 1 !important;
+  transition: background-color 0.12s ease, border-color 0.12s ease !important;
+}
+
+.vibe-course-name {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.vibe-course-dot {
+  width: 6px !important;
+  height: 6px !important;
+  min-width: 6px !important;
+  min-height: 6px !important;
+  border-radius: 50% !important;
+  flex-shrink: 0 !important;
+  display: inline-block !important;
+}
+
+.vibe-graded-date-inline {
+  font-size: 9.5px !important;
+  font-weight: 600 !important;
+  color: var(--bctext-1) !important;
+  opacity: 0.75 !important;
+  text-transform: none !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  margin-left: auto !important;
+}
+
+.vibe-todo-date-tag,
+.vibe-graded-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  font-size: 9.5px !important;
+  font-weight: 700 !important;
+  padding: 2.5px 8px !important;
+  min-height: 19px !important;
+  box-sizing: border-box !important;
+  border-radius: 5px !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  line-height: 1 !important;
+  border: 1px solid transparent !important;
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: -0.01em !important;
+}
+
+.vibe-todo-date-tag {
+  background-color: var(--bcbackground-2) !important;
+  color: var(--bctext-1) !important;
+  border-color: var(--bcborders) !important;
+}
+
+/* Urgency Countdown Chip Levels (Color-coded by Due Date) */
+.vibe-todo-date-tag.vibe-urgency-critical {
+  background-color: rgba(255, 69, 58, 0.16) !important;
+  color: #FF453A !important;
+  border-color: rgba(255, 69, 58, 0.38) !important;
+  box-shadow: 0 0 8px rgba(255, 69, 58, 0.14) !important;
+  font-weight: 800 !important;
+}
+
+.vibe-todo-date-tag.vibe-urgency-high,
+.vibe-todo-date-tag.vibe-date-today {
+  background-color: rgba(255, 159, 10, 0.16) !important;
+  color: #FF9F0A !important;
+  border-color: rgba(255, 159, 10, 0.38) !important;
+  font-weight: 700 !important;
+}
+
+.vibe-todo-date-tag.vibe-urgency-soon,
+.vibe-todo-date-tag.vibe-date-tomorrow {
+  background-color: rgba(255, 214, 10, 0.16) !important;
+  color: #D4A700 !important;
+  border-color: rgba(255, 214, 10, 0.35) !important;
+  font-weight: 700 !important;
+}
+
+.vibe-todo-date-tag.vibe-urgency-approaching {
+  background-color: var(--bcbackground-2, rgba(120, 113, 108, 0.08)) !important;
+  color: var(--bctext-1, #57534E) !important;
+  border-color: var(--bcborders, rgba(120, 113, 108, 0.2)) !important;
+  font-weight: 600 !important;
+}
+
+.vibe-todo-date-tag.vibe-urgency-relaxed {
+  background-color: var(--bcbackground-2, rgba(0, 0, 0, 0.04)) !important;
+  color: var(--bctext-2) !important;
+  border-color: var(--bcborders) !important;
+  font-weight: 500 !important;
+  opacity: 0.85 !important;
+}
+
+.vibe-todo-date-tag.vibe-urgency-notice,
+.vibe-todo-date-tag.vibe-date-announcement {
+  background-color: rgba(94, 92, 230, 0.14) !important;
+  color: #5E5CE6 !important;
+  border-color: rgba(94, 92, 230, 0.3) !important;
+}
+
+.vibe-todo-date-tag.vibe-urgency-locked,
+.vibe-todo-date-tag.vibe-date-locked {
+  background-color: var(--bcbackground-2) !important;
+  color: var(--bctext-2) !important;
+  border-color: var(--bcborders) !important;
+  opacity: 0.8 !important;
+}
+
+.vibe-badge-pending {
+  background-color: rgba(255, 214, 10, 0.16) !important;
+  color: #D4A700 !important;
+  border-color: rgba(255, 214, 10, 0.35) !important;
+}
+
+.vibe-todo-empty {
+  font-size: 11.5px !important;
+  color: var(--bctext-1) !important;
+  text-align: center !important;
+  padding: 24px 10px !important;
+  line-height: 1.45 !important;
+}
+
+.vibe-todo-footer {
+  margin-top: 10px !important;
+  padding-top: 8px !important;
+  border-top: 1px solid var(--bcborders) !important;
+  text-align: center !important;
+}
+
+.vibe-todo-cal-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: var(--bctext-1) !important;
+  text-decoration: none !important;
+  padding: 5px 12px !important;
+  border-radius: 6px !important;
+  background-color: var(--bcbackground-1) !important;
+  border: 1px solid var(--bcborders) !important;
+  transition: all 0.12s ease !important;
+}
+
+.vibe-todo-cal-btn:hover {
+  color: var(--bcaccent, var(--bclinks)) !important;
+  background-color: var(--bcbackground-2) !important;
+  border-color: var(--bcaccent, var(--bclinks)) !important;
+}
+
+.vibe-todo-cal-btn:active {
+  transform: scale(0.98) !important;
+}
+
+/* ==========================================================================
+   Revamped Minimal Checklist Architecture (Hyper-Readable & Ultra-Clean)
+   ========================================================================== */
+.vibe-feed-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 9px !important;
+  padding-bottom: 7px !important;
+  border-bottom: 1px solid var(--bcborders) !important;
+}
+
+.vibe-feed-title-wrap {
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+}
+
+.vibe-feed-title {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--bctext-0) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+}
+
+.vibe-feed-title svg {
+  width: 13px !important;
+  height: 13px !important;
+  stroke: var(--bcaccent, #B85338) !important;
+}
+
+.vibe-feed-badge {
+  font-size: 9.5px !important;
+  font-weight: 700 !important;
+  padding: 1.5px 6px !important;
+  border-radius: 10px !important;
+  background-color: var(--bcbackground-1) !important;
+  color: var(--bctext-1) !important;
+  border: 1px solid var(--bcborders) !important;
+  font-variant-numeric: tabular-nums !important;
+  line-height: 1 !important;
+}
+
+.vibe-feed-header-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.vibe-feed-action-btn {
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: var(--bclinks, #0A84FF) !important;
+  padding: 2px 4px !important;
+  border-radius: 4px !important;
+  line-height: 1 !important;
+  opacity: 0.75 !important;
+  transition: opacity 0.12s ease !important;
+}
+
+.vibe-feed-action-btn:hover {
+  opacity: 1 !important;
+}
+
+.vibe-feed-cal-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: var(--bctext-2) !important;
+  text-decoration: none !important;
+  padding: 2px 4px !important;
+  border-radius: 4px !important;
+  opacity: 0.65 !important;
+  transition: all 0.12s ease !important;
+}
+
+.vibe-feed-cal-link:hover {
+  opacity: 1 !important;
+  color: var(--bcaccent, var(--bclinks)) !important;
+}
+
+.vibe-minimal-day-section {
+  margin-bottom: 11px !important;
+}
+
+.vibe-minimal-day-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin-top: 8px !important;
+  margin-bottom: 5px !important;
+  padding: 0 4px !important;
+}
+
+.vibe-minimal-day-label {
+  font-size: 9.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--bctext-2) !important;
+  white-space: nowrap !important;
+}
+
+.vibe-minimal-day-label.is-today {
+  color: var(--bcaccent, #B85338) !important;
+  font-weight: 800 !important;
+}
+
+.vibe-minimal-day-line {
+  flex: 1 1 auto !important;
+  height: 1px !important;
+  background: var(--bcborders, rgba(0, 0, 0, 0.18)) !important;
+  opacity: 0.6 !important;
+}
+
+[data-theme-mode="dark"] .vibe-minimal-day-line,
+.dark-theme .vibe-minimal-day-line {
+  background: rgba(255, 255, 255, 0.12) !important;
+  opacity: 0.45 !important;
+}
+
+.vibe-minimal-day-count {
+  font-size: 9px !important;
+  font-weight: 600 !important;
+  color: var(--bctext-2) !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+.vibe-minimal-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+
+.vibe-minimal-row {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 11px !important;
+  padding: 7px 10px !important;
+  border-radius: 7px !important;
+  background-color: transparent !important;
+  border: 1px solid transparent !important;
+  max-height: 80px !important;
+  transition: background-color 0.12s ease,
+              border-color 0.12s ease,
+              max-height 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+              margin 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.18s cubic-bezier(0.2, 0.9, 0.3, 1),
+              opacity 0.16s ease !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+}
+
+.vibe-minimal-row:hover {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.04)) !important;
+  border-color: var(--bcborders, rgba(255, 255, 255, 0.08)) !important;
+}
+
+/* Centered inset separator between items (more inset on each side, clear contrast in light themes) */
+.vibe-minimal-row:not(:last-child)::after {
+  content: "" !important;
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 28px !important;
+  right: 28px !important;
+  height: 1px !important;
+  background: var(--bcborders, rgba(0, 0, 0, 0.18)) !important;
+  opacity: 0.65 !important;
+  pointer-events: none !important;
+  transition: opacity 0.12s ease !important;
+}
+
+[data-theme-mode="dark"] .vibe-minimal-row:not(:last-child)::after,
+.dark-theme .vibe-minimal-row:not(:last-child)::after {
+  background: rgba(255, 255, 255, 0.12) !important;
+  opacity: 0.45 !important;
+}
+
+.vibe-minimal-row:hover::after,
+.vibe-minimal-row.vibe-row-completed::after {
+  opacity: 0 !important;
+}
+
+.vibe-minimal-row.vibe-row-completed {
+  max-height: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  opacity: 0 !important;
+  transform: translateX(24px) scale(0.96) !important;
+  border-width: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+.vibe-minimal-check {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 17px !important;
+  height: 17px !important;
+  min-width: 17px !important;
+  min-height: 17px !important;
+  border-radius: 50% !important;
+  border: 1.5px solid var(--bcborders, rgba(255, 255, 255, 0.25)) !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  flex-shrink: 0 !important;
+  transition: all 0.14s ease !important;
+  color: transparent !important;
+  z-index: 5 !important;
+}
+
+/* Expanded invisible click hitbox so user never misses the checkmark */
+.vibe-minimal-check::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -9px -9px -9px -9px !important;
+  background: transparent !important;
+  cursor: pointer !important;
+}
+
+.vibe-minimal-row:hover .vibe-minimal-check {
+  border-color: var(--item-course-color, var(--bcaccent)) !important;
+}
+
+.vibe-minimal-check:hover {
+  background-color: color-mix(in srgb, var(--item-course-color, var(--bcaccent)) 25%, transparent) !important;
+  transform: scale(1.1) !important;
+}
+
+.vibe-minimal-check.checked {
+  background-color: #10B981 !important;
+  border-color: #10B981 !important;
+  color: #FFFFFF !important;
+}
+
+.vibe-minimal-body {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+
+.vibe-minimal-title {
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  color: var(--bctext-0) !important;
+  text-decoration: none !important;
+  line-height: 1.35 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  letter-spacing: -0.012em !important;
+}
+
+.vibe-minimal-title:hover {
+  color: var(--bcaccent, var(--bclinks)) !important;
+  text-decoration: underline !important;
+}
+
+.vibe-minimal-meta {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 10.5px !important;
+  line-height: 1.25 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.vibe-minimal-course {
+  font-weight: 750 !important;
+  letter-spacing: 0.025em !important;
+  text-transform: uppercase !important;
+}
+
+.vibe-minimal-sep {
+  color: var(--bctext-2) !important;
+  opacity: 0.5 !important;
+}
+
+.vibe-minimal-time {
+  color: var(--bctext-1) !important;
+  font-weight: 500 !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+.vibe-minimal-time.is-urgent {
+  color: #FF453A !important;
+  font-weight: 700 !important;
+}
+
+.vibe-minimal-time.is-soon {
+  color: #FF9F0A !important;
+  font-weight: 700 !important;
+}
+
+.vibe-minimal-actions {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  flex-shrink: 0 !important;
+}
+
+.vibe-minimal-dismiss {
+  background: none !important;
+  border: none !important;
+  padding: 3px !important;
+  cursor: pointer !important;
+  color: var(--bctext-2) !important;
+  opacity: 0 !important;
+  border-radius: 4px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.12s ease !important;
+}
+
+.vibe-minimal-row:hover .vibe-minimal-dismiss {
+  opacity: 0.5 !important;
+}
+
+.vibe-minimal-dismiss:hover {
+  opacity: 1 !important;
+  color: #FF453A !important;
+  background: rgba(255, 69, 58, 0.12) !important;
+}
+
+/* Graded / Completed Items in Minimal View */
+.vibe-minimal-uncomplete-btn {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+.vibe-minimal-uncomplete-btn::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -9px -9px -9px -9px !important;
+  background: transparent !important;
+  cursor: pointer !important;
+}
+
+.vibe-minimal-graded-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 17px !important;
+  height: 17px !important;
+  min-width: 17px !important;
+  min-height: 17px !important;
+  border-radius: 50% !important;
+  background: rgba(16, 185, 129, 0.16) !important;
+  color: #10B981 !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  flex-shrink: 0 !important;
+  transition: transform 0.14s ease, background-color 0.14s ease, color 0.14s ease !important;
+}
+
+.vibe-minimal-uncomplete-btn:hover .vibe-minimal-graded-icon {
+  transform: scale(1.12) !important;
+  background-color: rgba(239, 68, 68, 0.18) !important;
+  color: #EF4444 !important;
+}
+
+.vibe-minimal-score-tag {
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  padding: 2px 7px !important;
+  border-radius: 4px !important;
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: #10B981 !important;
+  border: 1px solid rgba(16, 185, 129, 0.25) !important;
+  font-variant-numeric: tabular-nums !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.vibe-minimal-score-tag.vibe-score-pending {
+  background: rgba(99, 102, 241, 0.12) !important;
+  color: #6366F1 !important;
+  border-color: rgba(99, 102, 241, 0.25) !important;
+}
+
+/* ==========================================================================
+   Calendar Events & Assignments Course Visibility
+   ========================================================================== */
+.fc-event,
+a.fc-event,
+#calendar-app .fc-event,
+#calendar-drag-and-drop-container .fc-event {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.08)) !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--bctext-0) !important;
+  border-left-width: 4.5px !important;
+  border-left-style: solid !important;
+  border-top-width: 1px !important;
+  border-right-width: 1px !important;
+  border-bottom-width: 1px !important;
+  border-style: solid !important;
+  border-radius: 6px !important;
+  padding: 3px 6px !important;
+  margin-top: 2px !important;
+  margin-bottom: 2px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
+.fc-event .fc-title,
+.fc-event .fc-time {
+  color: var(--bctext-0) !important;
+  font-weight: 600 !important;
+}
+
+.fc-event .fc-time {
+  font-weight: 700 !important;
+  opacity: 0.9 !important;
+  background: rgba(0, 0, 0, 0.06) !important;
+  border-radius: 3px !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+/* ==========================================================================
+   Apple Design Top Course Navigation Bar
+   ========================================================================== */
+body[class*="context-course"] #left-side,
+body.context-course #left-side,
+body.with-left-side #left-side,
+#left-side.ic-app-course-menu {
+  display: none !important;
+}
+
+body[class*="context-course"] #content-wrapper,
+body.context-course #content-wrapper,
+.with-left-side #content-wrapper {
+  max-width: 100% !important;
+}
+
+.vibe-course-nav {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 8px 16px 12px 16px !important;
+  margin: 0 0 16px 0 !important;
+  overflow-x: auto !important;
+  flex-wrap: wrap !important;
+  border-bottom: 1px solid var(--bcborders, rgba(0, 0, 0, 0.08)) !important;
+  scrollbar-width: none !important;
+  -webkit-overflow-scrolling: touch !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+.vibe-course-nav::-webkit-scrollbar {
+  display: none !important;
+}
+
+.vibe-course-nav-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 5px 13px !important;
+  border-radius: 9999px !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  line-height: 1.3 !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  transition: transform 0.12s ease, background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease !important;
+  background-color: var(--bcbackground-1, rgba(0, 0, 0, 0.05)) !important;
+  color: var(--bctext-1, #444) !important;
+  border: 1px solid var(--bcborders, rgba(0, 0, 0, 0.08)) !important;
+}
+
+.vibe-course-nav-pill:hover {
+  transform: translateY(-1px) !important;
+  color: var(--bctext-0, #111) !important;
+  background-color: var(--bcbuttons, rgba(0, 0, 0, 0.08)) !important;
+  border-color: var(--bcaccent, var(--bclinks)) !important;
+}
+
+.vibe-course-nav-pill:active {
+  transform: scale(0.97) !important;
+}
+
+.vibe-course-nav-pill.active {
+  background-color: var(--bcaccent, var(--bclinks, #C75D41)) !important;
+  color: #ffffff !important;
+  border-color: var(--bcaccent, var(--bclinks, #C75D41)) !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16) !important;
+}
+
+.vibe-nav-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  padding: 0 5px !important;
+  margin-left: 6px !important;
+  border-radius: 9999px !important;
+  background-color: var(--bclinks, #0A84FF) !important;
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+  font-variant-numeric: tabular-nums !important;
+  flex-shrink: 0 !important;
+}
+
+.vibe-course-nav-pill.active .vibe-nav-badge {
+  background-color: #ffffff !important;
+  color: var(--bcaccent, var(--bclinks, #C75D41)) !important;
+}
+
+/* ==========================================================================
+   Soft Eye Comfort Night Filter
+   ========================================================================== */
+html.vibe-soft-night {
+  filter: sepia(0.20) brightness(0.96) contrast(0.95) !important;
+  transition: filter 0.25s ease !important;
+}
+
+/* ==========================================================================
+   Custom Background Wallpaper & Theme Base Layers
+   ========================================================================== */
+#vibe-theme-base-layer {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: -10000 !important;
+  pointer-events: none !important;
+  background-color: var(--bcbackground-0, #FAF8F5) !important;
+  display: none !important;
+}
+
+#vibe-wallpaper-layer {
+  position: fixed !important;
+  top: -20px !important;
+  left: -20px !important;
+  width: calc(100vw + 40px) !important;
+  height: calc(100vh + 40px) !important;
+  z-index: -9998 !important;
+  pointer-events: none !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  display: none !important;
+  transition: opacity 0.25s ease, filter 0.25s ease !important;
+}
+
+html.vibe-has-wallpaper #vibe-theme-base-layer,
+body.vibe-has-wallpaper #vibe-theme-base-layer,
+html.vibe-has-wallpaper #vibe-wallpaper-layer,
+body.vibe-has-wallpaper #vibe-wallpaper-layer {
+  display: block !important;
+}
+
+html.vibe-has-wallpaper,
+body.vibe-has-wallpaper,
+html.vibe-has-wallpaper div#application,
+html.vibe-has-wallpaper #application,
+html.vibe-has-wallpaper #wrapper,
+html.vibe-has-wallpaper #main,
+html.vibe-has-wallpaper #content,
+html.vibe-has-wallpaper #content-wrapper,
+html.vibe-has-wallpaper .ic-Layout-wrapper,
+html.vibe-has-wallpaper .ic-Layout-columns,
+html.vibe-has-wallpaper .ic-Layout-contentMain,
+html.vibe-has-wallpaper .ic-Layout-contentWrapper,
+html.vibe-has-wallpaper #not_right_side,
+html.vibe-has-wallpaper #dashboard,
+html.vibe-has-wallpaper .ic-app-main-layout-horizontal,
+body.vibe-has-wallpaper div#application,
+body.vibe-has-wallpaper #application,
+body.vibe-has-wallpaper #wrapper,
+body.vibe-has-wallpaper #main,
+body.vibe-has-wallpaper #content,
+body.vibe-has-wallpaper #content-wrapper {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+html.vibe-has-wallpaper #dashboard_header_container,
+html.vibe-has-wallpaper .ic-Dashboard-header,
+html.vibe-has-wallpaper .ic-Dashboard-header__layout,
+html.vibe-has-wallpaper .css-1l42eo8-view--flex-flex,
+html.vibe-has-wallpaper .ic-Dashboard-header__title,
+html.vibe-has-wallpaper .ic-Dashboard-header h1,
+html.vibe-has-wallpaper .ic-Dashboard-header h2 {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  visibility: hidden !important;
+}
+
+html.vibe-has-wallpaper .ic-DashboardCard {
+  background-color: color-mix(in srgb, var(--bccards, #ffffff) 88%, transparent) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid var(--bcborders, rgba(0, 0, 0, 0.08)) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.18) !important;
+  border-radius: var(--bc-card-radius, 14px) !important;
+  overflow: hidden !important;
+}
+
+html.vibe-has-wallpaper .ic-DashboardCard__header_content {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+html.vibe-has-wallpaper #vibe-todo-widget,
+html.vibe-has-wallpaper #vibe-graded-widget,
+html.vibe-has-wallpaper #right-side .card {
+  background-color: color-mix(in srgb, var(--bccards, #ffffff) 88%, transparent) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid var(--bcborders, rgba(0, 0, 0, 0.08)) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.16) !important;
+  border-radius: var(--bc-card-radius, 14px) !important;
+}
+
+html.vibe-has-wallpaper #header.ic-app-header,
+body.vibe-has-wallpaper #header.ic-app-header,
+html.vibe-has-wallpaper .ic-app-header,
+body.vibe-has-wallpaper .ic-app-header {
+  background-color: color-mix(in srgb, var(--bcsidebar) 85%, transparent) !important;
+  background: color-mix(in srgb, var(--bcsidebar) 85%, transparent) !important;
+  backdrop-filter: blur(32px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(190%) !important;
+  border-right: 1px solid var(--bcborders, rgba(0, 0, 0, 0.12)) !important;
+  box-shadow: 6px 0 28px rgba(0, 0, 0, 0.14) !important;
+}
+
+html.vibe-has-wallpaper .ic-app-header__main-navigation,
+html.vibe-has-wallpaper .ic-app-header__logomark-container,
+html.vibe-has-wallpaper #menu,
+html.vibe-has-wallpaper .ic-app-header__menu-list {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* Course pages with wallpaper: transparent layout wrappers */
+html.vibe-has-wallpaper #breadcrumbs,
+html.vibe-has-wallpaper .header-bar,
+html.vibe-has-wallpaper .ic-app-nav-toggle-and-crumbs,
+html.vibe-has-wallpaper .page-header,
+html.vibe-has-wallpaper .ic-Action-header,
+html.vibe-has-wallpaper .ic-Action-header--before-item-groups,
+html.vibe-has-wallpaper #content_wrapper,
+html.vibe-has-wallpaper #course_home_content {
+  background-color: transparent !important;
+  background: transparent !important;
+  border-color: var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  box-shadow: none !important;
+}
+
+/* Course content reading cards: frosted tactile highlight behind text with comfortable padding */
+html.vibe-has-wallpaper #content-wrapper .show-content,
+html.vibe-has-wallpaper #wiki_page_show,
+html.vibe-has-wallpaper .user_content,
+html.vibe-has-wallpaper .content_box,
+html.vibe-has-wallpaper .alert,
+html.vibe-has-wallpaper .alert-info,
+html.vibe-has-wallpaper #syllabusContainer,
+html.vibe-has-wallpaper .syllabus_content,
+html.vibe-has-wallpaper .quiz_description_holder,
+html.vibe-has-wallpaper #quiz_instructions_holder,
+html.vibe-has-wallpaper .module-sequence-footer .module-sequence-footer-content {
+  background-color: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
+  background: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: var(--bc-card-radius, 14px) !important;
+  padding: 24px 28px !important;
+  box-sizing: border-box !important;
+  margin-bottom: 24px !important;
+}
+
+/* Prevent double padding when user_content is nested */
+.user_content .user_content {
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.user_content > :first-child {
+  margin-top: 0 !important;
+}
+
+/* Intermediate layout wrappers: 100% transparent, NO nested borders or shadows */
+.item-group-container,
+#context_modules_sortable_container,
+#ag-list,
+.assignment_list,
+.quiz-list,
+.discussion-list,
+.ig-list,
+ul.ig-list,
+ul.collectionViewItems,
+ul.context_module_items,
+#context_modules,
+.context_modules,
+#wiki_page_show,
+html.vibe-has-wallpaper .item-group-container,
+html.vibe-has-wallpaper #context_modules_sortable_container,
+html.vibe-has-wallpaper #ag-list,
+html.vibe-has-wallpaper .assignment_list,
+html.vibe-has-wallpaper .quiz-list,
+html.vibe-has-wallpaper .discussion-list,
+html.vibe-has-wallpaper .ig-list,
+html.vibe-has-wallpaper ul.ig-list,
+html.vibe-has-wallpaper ul.collectionViewItems,
+html.vibe-has-wallpaper ul.context_module_items,
+html.vibe-has-wallpaper #context_modules,
+html.vibe-has-wallpaper .context_modules,
+html.vibe-has-wallpaper #wiki_page_show {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Course list sections / modules: single clean frosted card with internal padding */
+.item-group-condensed,
+.context_module,
+.item-group-expandable,
+html.vibe-has-wallpaper .item-group-condensed,
+html.vibe-has-wallpaper .context_module,
+html.vibe-has-wallpaper .item-group-expandable,
+html.vibe-has-wallpaper .course-list-table {
+  background-color: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
+  background: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: var(--bc-card-radius, 16px) !important;
+  padding: 16px 20px !important;
+  box-sizing: border-box !important;
+  margin-bottom: 24px !important;
+  list-style: none !important;
+  overflow: hidden !important;
+}
+
+/* Anti-nesting guard: prevent any nested cards inside cards */
+.item-group-condensed .item-group-condensed,
+.context_module .context_module,
+.item-group-condensed .item-group-expandable,
+[data-testid="assignments-2-student-view"] .user_content,
+#assignment_show .user_content,
+.show-content .user_content:not(.show-content),
+.item-group-condensed .user_content,
+.context_module .user_content,
+.user_content .user_content {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html.vibe-has-wallpaper .ig-row,
+html.vibe-has-wallpaper .module-item,
+html.vibe-has-wallpaper .ig-list .ig-row,
+html.vibe-has-wallpaper .item-group-condensed .ig-row {
+  background-color: color-mix(in srgb, var(--bcbackground-1) 84%, transparent) !important;
+  background: color-mix(in srgb, var(--bcbackground-1) 84%, transparent) !important;
+  backdrop-filter: blur(16px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.1)) !important;
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+  box-sizing: border-box !important;
+  margin-bottom: 4px !important;
+  transition: background-color 0.12s ease !important;
+}
+
+/* Module Sub-headers: clean category label without awkward box border */
+html.vibe-has-wallpaper .context_module_sub_header,
+html.vibe-has-wallpaper .context_module_sub_header .ig-row,
+html.vibe-has-wallpaper .context_module_item.context_module_sub_header,
+html.vibe-has-wallpaper .item-group-condensed .context_module_sub_header,
+html.vibe-has-wallpaper .item-group-condensed .context_module_sub_header .ig-row {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 0 !important;
+  padding: 14px 4px 6px 4px !important;
+  margin-top: 10px !important;
+  margin-bottom: 2px !important;
+}
+
+html.vibe-has-wallpaper .context_module_sub_header:first-child,
+html.vibe-has-wallpaper .context_module_sub_header:first-child .ig-row {
+  margin-top: 0 !important;
+  padding-top: 4px !important;
+}
+
+html.vibe-has-wallpaper .context_module_sub_header .name,
+html.vibe-has-wallpaper .context_module_sub_header .module-item-title,
+html.vibe-has-wallpaper .context_module_sub_header .module-item-title span {
+  color: var(--bctext-1) !important;
+  font-weight: 700 !important;
+  font-size: 11.5px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  opacity: 0.85 !important;
+}
+
+html.vibe-has-wallpaper .ig-row:hover,
+html.vibe-has-wallpaper .module-item:hover,
+html.vibe-has-wallpaper .ig-list .ig-row:hover {
+  background-color: color-mix(in srgb, var(--bcbackground-1) 94%, transparent) !important;
+  background: color-mix(in srgb, var(--bcbackground-1) 94%, transparent) !important;
+}
+
+/* Empty notices and info boxes on course pages: clean frosted card matching Apple design */
+html.vibe-has-wallpaper .item-group-condensed .emptyMessage,
+html.vibe-has-wallpaper .ig-list .ig-row.ig-row-empty,
+html.vibe-has-wallpaper .ig-empty-msg,
+html.vibe-has-wallpaper #no_topics_message,
+html.vibe-has-wallpaper .no_content,
+html.vibe-has-wallpaper .item-group-expandable .emptyMessage {
+  background: color-mix(in srgb, var(--bccards, #ffffff) 82%, transparent) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.14)) !important;
+  border-radius: var(--bc-card-radius, 12px) !important;
+  padding: 16px 22px !important;
+  margin: 6px 0 !important;
+  color: var(--bctext-0) !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+  display: block !important;
+}
+
+/* Hamburger toggle button: transparent background with no square box */
+#primaryNavToggle,
+.ic-app-nav-toggle-and-crumbs__toggle,
+button.ic-app-crumbs__link--toggle,
+html.vibe-has-wallpaper #primaryNavToggle,
+html.vibe-has-wallpaper .ic-app-nav-toggle-and-crumbs__toggle,
+html.vibe-has-wallpaper button.ic-app-crumbs__link--toggle {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ==========================================================================
+   Canvas Files, Groups & Utility Pages Universal Layout & Spacing
+   ========================================================================== */
+/* Outer Container: Comfortable spacing from viewport and nav walls */
+#files_content,
+.files-wrapper,
+#files_app,
+.files-page,
+#files-view,
+body.files #content,
+body[class*="files"] #content,
+body.groups #content,
+body[class*="groups"] #content,
+#groups_index,
+#group_categories,
+.group_categories {
+  padding: 24px 32px !important;
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+  background-color: transparent !important;
+  background: transparent !important;
+  color: var(--bctext-0) !important;
+}
+
+/* Folder Tree Sidebar: Clean tactile card */
+.ef-folder-tree,
+#files_structure_tree,
+.treeview {
+  background-color: var(--bcbackground-0) !important;
+  background: var(--bcbackground-0) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: var(--bc-card-radius, 12px) !important;
+  padding: 16px !important;
+  margin-right: 20px !important;
+  box-sizing: border-box !important;
+  box-shadow: none !important;
+}
+
+/* Main File Directory Frame: Card wrapper with single clean border */
+.ef-main,
+.ef-directory,
+.ef-item-list {
+  background-color: var(--bcbackground-0) !important;
+  background: var(--bcbackground-0) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: var(--bc-card-radius, 12px) !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  box-shadow: none !important;
+}
+
+/* React Virtualized Grid inside .ef-main: Remove nested duplicate border */
+div[role="grid"],
+div[role="table"],
+.ReactVirtualized__Table,
+.ReactVirtualized__Grid {
+  border: none !important;
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* Directory Header & Action Toolbar */
+.ef-header,
+.ef-directory-header {
+  padding: 14px 20px !important;
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.04)) !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.04)) !important;
+  border-bottom: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  box-sizing: border-box !important;
+}
+
+/* Remove all vertical column dividers & cell borders */
+div[role="gridcell"],
+div[role="cell"],
+div[role="columnheader"],
+.ReactVirtualized__Table__rowColumn,
+.ReactVirtualized__Table__headerColumn,
+.ef-item-row > div,
+table.ic-Table td,
+table.ic-Table th,
+table td,
+table th {
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  box-shadow: none !important;
+  padding-left: 14px !important;
+  padding-right: 14px !important;
+  box-sizing: border-box !important;
+}
+
+/* Table Data Rows: Clean horizontal divider and smooth hover */
+.ef-item-row,
+.ef-item-row-content,
+.ReactVirtualized__Table__row,
+div[role="row"],
+div[class*="css-"][role="row"],
+[class*="FileRow"],
+table.ic-Table tbody tr,
+table tbody tr {
+  background-color: var(--bcbackground-0) !important;
+  background: var(--bcbackground-0) !important;
+  color: var(--bctext-0) !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: 1px solid var(--bcborders, rgba(255, 255, 255, 0.08)) !important;
+  transition: background-color 0.12s ease !important;
+}
+
+/* Row Hover */
+.ef-item-row:hover,
+.ef-item-row-content:hover,
+.ReactVirtualized__Table__row:hover,
+div[role="row"]:hover,
+[class*="FileRow"]:hover,
+table.ic-Table tbody tr:hover,
+table tbody tr:hover {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.05)) !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.05)) !important;
+}
+
+/* Header Row & Column Headers */
+.ReactVirtualized__Table__headerRow,
+div[role="row"].ReactVirtualized__Table__headerRow,
+div[role="columnheader"],
+table thead th,
+table.ic-Table thead th {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.06)) !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.06)) !important;
+  color: var(--bctext-1) !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: 1px solid var(--bcborders, rgba(255, 255, 255, 0.15)) !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+}
+
+/* Cell typography & icon colors */
+div[role="gridcell"],
+div[role="cell"],
+.ReactVirtualized__Table__rowColumn,
+.ef-item-row > div {
+  color: var(--bctext-0) !important;
+}
+
+/* Checkboxes in Table Rows & Header */
+span[class*="toggleFacade__facade"],
+span[class*="checkboxFacade__facade"],
+div[role="grid"] span[class*="toggleFacade"],
+div[role="row"] span[class*="toggleFacade"],
+div[role="grid"] span[class*="checkboxFacade"],
+div[role="row"] span[class*="checkboxFacade"] {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.08)) !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.08)) !important;
+  border-color: var(--bcborders, rgba(255, 255, 255, 0.25)) !important;
+  box-shadow: none !important;
+}
+
+div[role="grid"] input[type="checkbox"]:checked ~ span[class*="toggleFacade__facade"],
+div[role="row"] input[type="checkbox"]:checked ~ span[class*="toggleFacade__facade"],
+span[class*="toggleFacade__facade"][class*="checked"],
+span[class*="checkboxFacade__facade"][class*="checked"],
+[aria-checked="true"] span[class*="toggleFacade__facade"] {
+  background-color: var(--bcaccent, var(--bclinks)) !important;
+  background: var(--bcaccent, var(--bclinks)) !important;
+  border-color: var(--bcaccent, var(--bclinks)) !important;
+}
+
+.ef-name-col a,
+[class*="FileRow"] a,
+div[role="gridcell"] a {
+  color: var(--bclinks, var(--bcaccent)) !important;
+  font-weight: 600 !important;
+}
+
+.ef-name-col a:hover,
+[class*="FileRow"] a:hover,
+div[role="gridcell"] a:hover {
+  text-decoration: underline !important;
+}
+
+.ef-date-created-col,
+.ef-date-modified-col,
+.ef-modified-by-col,
+.ef-size-col {
+  color: var(--bctext-1) !important;
+}
+
+/* Instructure UI Text Inputs & Search Facades */
+span[class*="textInput__facade"],
+span[class*="TextInput__facade"],
+div[class*="textInput__facade"],
+.ic-Input,
+input.ic-Input,
+textarea.ic-Input,
+select.ic-Input,
+input[type="text"]:not([class*="baseButton"]):not([role="button"]),
+input[type="search"]:not([class*="baseButton"]):not([role="button"]),
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="url"],
+input[type="tel"],
+textarea:not([class*="baseButton"]),
+select:not([class*="baseButton"]),
+.form-control,
+.ui-autocomplete-input {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.06)) !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.06)) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.15)) !important;
+  border-radius: var(--bc-card-radius, 8px) !important;
+  box-shadow: none !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+.ic-Input:focus,
+span[class*="textInput__facade"]:focus-within {
+  border-color: var(--bcaccent, var(--bclinks)) !important;
+  outline: none !important;
+}
+
+input::placeholder,
+textarea::placeholder,
+.ic-Input::placeholder {
+  color: var(--bctext-1, rgba(255, 255, 255, 0.5)) !important;
+  opacity: 0.8 !important;
+}
+
+span[class*="textInput__layout"],
+span[class*="TextInput__layout"],
+span[class*="textInput__adornment"],
+span[class*="TextInput__adornment"],
+span[class*="textInput__inputLayout"],
+label[data-cid="TextInput"],
+label[class*="formFieldLayout"] {
+  background-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+input[class*="textInput"],
+input[class*="TextInput"],
+.ef-search-form input,
+.ef-search-input,
+#files_content input[type="text"],
+.files-wrapper input[type="text"],
+#files_content input[type="search"],
+.files-wrapper input[type="search"],
+div[class*="Search"] input {
+  background-color: transparent !important;
+  background: transparent !important;
+  color: var(--bctext-0) !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-size: 13.5px !important;
+}
+
+/* Form field labels & helper text */
+span[class*="formFieldLayout__label"],
+span[class*="formFieldLayout__messages"],
+label[class*="formFieldLayout"] span {
+  color: var(--bctext-1) !important;
+}
+
+/* Search icons and prefix glyphs */
+.ef-search-form svg,
+.ef-search-form i,
+div[class*="Search"] svg,
+div[class*="Search"] i,
+span[class*="textInput__adornment"] svg,
+span[class*="textInput__adornment"] i,
+span[class*="inlineSVG"] svg,
+svg[class*="inlineSVG-svgIcon"] {
+  fill: var(--bctext-1, rgba(255, 255, 255, 0.7)) !important;
+  color: var(--bctext-1, rgba(255, 255, 255, 0.7)) !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Instructure UI Base Buttons & Action Controls */
+button[class*="baseButton"],
+button[class*="BaseButton"],
+button[data-cid*="Button"],
+a[class*="baseButton"],
+[class*="baseButton"],
+[class*="BaseButton"],
+button.Button,
+a.Button,
+.btn {
+  color: var(--bctext-0) !important;
+}
+
+button[class*="baseButton"] *,
+button[class*="BaseButton"] *,
+button[data-cid*="Button"] *,
+a[class*="baseButton"] *,
+[class*="baseButton"] *,
+[class*="BaseButton"] *,
+span[class*="baseButton__content"],
+span[class*="BaseButton__content"],
+span[class*="baseButton__children"],
+span[class*="BaseButton__children"],
+span[class*="baseButton__childrenLayout"],
+span[class*="BaseButton__childrenLayout"] {
+  color: var(--bctext-0) !important;
+}
+
+span[class*="baseButton__content"],
+span[class*="BaseButton__content"] {
+  background-color: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.15)) !important;
+  border-radius: var(--bc-card-radius, 8px) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transition: background-color 0.12s ease, border-color 0.12s ease !important;
+}
+
+button[class*="baseButton"]:hover span[class*="baseButton__content"],
+button[class*="BaseButton"]:hover span[class*="BaseButton__content"],
+button[data-cid*="Button"]:hover span[class*="baseButton__content"],
+a[class*="baseButton"]:hover span[class*="baseButton__content"] {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.16)) !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.16)) !important;
+  border-color: var(--bcaccent, var(--bclinks)) !important;
+  color: var(--bctext-0) !important;
+}
+
+button[class*="baseButton"],
+button[class*="BaseButton"],
+button[data-cid*="BaseButton"],
+button[data-cid*="Button"],
+a[class*="baseButton"] {
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Traditional Canvas Action Buttons */
+.ef-header-actions button,
+.ef-header-actions a,
+.files-wrapper .btn,
+.files-wrapper button,
+.files-wrapper a.btn,
+#files_content .btn,
+#files_content button,
+#files_content a.btn,
+#files_content a[role="button"],
+#files_app button,
+#files_app a.btn,
+#files_app a[role="button"],
+#files-view button,
+#files-view a.btn {
+  background-color: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.15)) !important;
+  border-radius: var(--bc-card-radius, 8px) !important;
+  padding: 7px 16px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  cursor: pointer !important;
+}
+
+.ef-header-actions button:hover,
+.files-wrapper .btn:hover,
+.files-wrapper button:hover,
+#files_content .btn:hover,
+#files_content button:hover,
+#files_app button:hover,
+#files-view button:hover {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.14)) !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.14)) !important;
+}
+
+.ef-selected-count,
+span[class*="selectedCount"],
+div[class*="selected"] {
+  color: var(--bctext-1) !important;
+}
+
+/* ==========================================================================
+   Assignment Submission Tray & Upload Dropzone Universal Theme Integration
+   ========================================================================== */
+/* Main Assignment View Container: Frosted Card with Generous Padding away from outer borders */
+div[data-testid="assignments-2-student-view"],
+#assignment_show,
+.assignment_show,
+.assignment-details,
+[data-testid="assignment-details"] {
+  background-color: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
+  background: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: var(--bc-card-radius, 16px) !important;
+  padding: 24px 28px !important;
+  box-sizing: border-box !important;
+  margin-bottom: 32px !important;
+}
+
+div[data-testid="assignment-student-header"],
+#assignments-2-student-header {
+  margin-bottom: 16px !important;
+  padding: 0 !important;
+}
+
+div[data-testid="assignment-2-student-content-tabs"],
+div[data-testid="attempt-tab"],
+div[data-testid="attempt-tab"] > div,
+div[data-testid="upload-pane"],
+div[data-testid="upload-pane"] > div,
+div[data-testid="upload-box"],
+#file-upload-container,
+div:has(> [data-testid="upload-pane"]),
+div:has(> [data-testid="attempt-tab"]) {
+  background-color: var(--bcbackground-0) !important;
+  background: var(--bcbackground-0) !important;
+  color: var(--bctext-0) !important;
+}
+
+/* Outer Submission Box Frame */
+div[data-testid="attempt-tab"] > div,
+div:has(> [data-testid="upload-pane"]) {
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: var(--bc-card-radius, 14px) !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
+}
+
+/* Submission Type Icon Buttons / Tabs ("Upload", "More", etc.) */
+.submission-type-icon-contents,
+div[class*="submission-type-icon-contents"] {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.08)) !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.15)) !important;
+  border-radius: var(--bc-card-radius, 10px) !important;
+}
+
+.submission-type-icon-contents[class*="selected"],
+.submission-type-icon-contents[aria-selected="true"],
+div[aria-selected="true"] .submission-type-icon-contents,
+button[aria-selected="true"] .submission-type-icon-contents {
+  background-color: var(--bcaccent, var(--bclinks)) !important;
+  background: var(--bcaccent, var(--bclinks)) !important;
+  border-color: var(--bcaccent, var(--bclinks)) !important;
+  color: #ffffff !important;
+}
+
+/* FileDrop Area (Drag a file here) */
+span[data-cid="FileDrop"],
+label[class*="fileDrop__label"],
+span[class*="fileDrop__layout"],
+span[class*="fileDrop__labelContent"] {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.04)) !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.04)) !important;
+  border-color: var(--bcborders, rgba(255, 255, 255, 0.18)) !important;
+  border-radius: var(--bc-card-radius, 12px) !important;
+  color: var(--bctext-0) !important;
+}
+
+/* Inner Rocket/FileDrop Card */
+div.css-kgdmps-view,
+div.css-158wiqr-view,
+div[class*="fileDrop"] div {
+  background-color: transparent !important;
+  background: transparent !important;
+  color: var(--bctext-0) !important;
+}
+
+span[data-cid="FileDrop"] svg path,
+span[data-cid="FileDrop"] svg g {
+  stroke: var(--bctext-0) !important;
+}
+
+span[data-cid="FileDrop"] span,
+span[data-cid="FileDrop"] div,
+span[data-cid="FileDrop"] p {
+  color: var(--bctext-0) !important;
+}
+
+span[data-cid="FileDrop"] a,
+span[data-cid="FileDrop"] button[class*="Button--link"] {
+  color: var(--bclinks, var(--bcaccent)) !important;
+  font-weight: 600 !important;
+}
+
+/* Middle Divider & "or" badge */
+div[data-testid="upload-pane"] hr,
+div[data-testid="upload-pane"] span[class*="divider"],
+div[data-testid="upload-pane"] div[class*="divider"] {
+  border-color: var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  background-color: var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+}
+
+span[style*="background-color: rgb(242, 244, 244)"],
+span[style*="background-color: #f2f4f4"],
+div[data-testid="upload-pane"] span:not([class]) {
+  background-color: var(--bcbackground-0) !important;
+  color: var(--bctext-1) !important;
+}
+
+button[class*="baseButton"] span[class*="text"],
+span[class*="baseButton__content"] span[class*="text"] {
+  color: var(--bctext-0) !important;
+}
+
+/* ==========================================================================
+   Course Header Styling (Universal — All Courses)
+   ========================================================================== */
+/* Universal Breadcrumbs & Course Header Styling */
+#breadcrumbs,
+.ic-app-nav-toggle-and-crumbs,
+.ic-app-crumbs,
+.breadcrumb,
+.header-bar,
+.header-bar-right {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-color: var(--bcborders) !important;
+  color: var(--bctext-0) !important;
+}
+
+#breadcrumbs ul,
+#breadcrumbs li {
+  background: transparent !important;
+  color: var(--bctext-0) !important;
+}
+
+#breadcrumbs a,
+#breadcrumbs span,
+.ic-app-crumbs__link,
+.crumb {
+  color: var(--bctext-0) !important;
+}
+
+#breadcrumbs li a,
+#breadcrumbs .ellipsible,
+.ic-app-crumbs__link,
+.mobile-header-title a {
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--bctext-0) !important;
+}
+
+#breadcrumbs li + li:before {
+  color: var(--bctext-2) !important;
+}
+
+/* Center the big course title on course home pages */
+.page-header h2,
+.course-title,
+body[class*="context-course"] h1.page-title,
+body[class*="context-course"] h2.page-title,
+body.context-course h1.page-title,
+body.context-course h2.page-title,
+#course_home_content > h1,
+#course_home_content > h2,
+.pages.show .page-title {
+  text-align: center !important;
+}
+
+/* ==========================================================================
+   Course Card Custom Photo & Color Accent Preservation
+   ========================================================================== */
+.ic-DashboardCard__header_hero.vibe-has-custom-photo {
+  position: relative !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-bottom: 3.5px solid var(--card-course-color) !important;
+  outline: none !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.ic-DashboardCard__header_hero.vibe-has-custom-photo::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.15) 55%, rgba(0, 0, 0, 0.45) 100%) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+/* Dashboard Right-Side Action Buttons (Start a New Course, View Grades, etc.) */
+#right-side .button-sidebar-wide,
+#right-side .btn.button-sidebar-wide,
+#right-side a.button-sidebar-wide,
+#right-side #start_new_course,
+#right-side a[href*="/grades"],
+.button-sidebar-wide,
+#start_new_course,
+a[href*="/grades"].button-sidebar-wide,
+a[href*="/grades"].btn,
+.Button.button-sidebar-wide,
+a.Button.button-sidebar-wide,
+button.Button.button-sidebar-wide,
+#right-side a.Button,
+#right-side button.Button,
+#right-side .btn {
+  background-color: var(--bcbuttons, var(--bcbackground-1, rgba(255, 255, 255, 0.08))) !important;
+  background: var(--bcbuttons, var(--bcbackground-1, rgba(255, 255, 255, 0.08))) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.15)) !important;
+  border-radius: var(--bc-card-radius, 10px) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  padding: 10px 14px !important;
+  transition: all 0.15s ease !important;
+}
+
+#right-side .button-sidebar-wide:hover,
+#right-side .btn.button-sidebar-wide:hover,
+#right-side a.button-sidebar-wide:hover,
+#right-side #start_new_course:hover,
+#right-side a[href*="/grades"]:hover,
+.button-sidebar-wide:hover,
+#start_new_course:hover,
+a[href*="/grades"].button-sidebar-wide:hover,
+a[href*="/grades"].btn:hover,
+.Button.button-sidebar-wide:hover,
+a.Button.button-sidebar-wide:hover,
+button.Button.button-sidebar-wide:hover,
+#right-side a.Button:hover,
+#right-side button.Button:hover,
+#right-side .btn:hover {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.16)) !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.16)) !important;
+  border-color: var(--bcaccent, var(--bclinks)) !important;
+  color: var(--bctext-0) !important;
+  transform: translateY(-1px) !important;
+}
+
+#right-side .button-sidebar-wide *,
+.Button.button-sidebar-wide * {
+  color: var(--bctext-0) !important;
+}
+
+.vibe-card-photo-btn {
+  position: absolute !important;
+  top: 10px !important;
+  right: 44px !important;
+  left: auto !important;
+  z-index: 12 !important;
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  background: rgba(0, 0, 0, 0.38) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #FFFFFF !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  opacity: 0 !important;
+  transform: scale(0.85) !important;
+  transition: opacity 0.16s ease, transform 0.16s ease, background-color 0.16s ease !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+  padding: 0 !important;
+}
+
+.ic-DashboardCard:hover .vibe-card-photo-btn,
+[data-testid="draggable-card"]:hover .vibe-card-photo-btn {
+  opacity: 0.9 !important;
+  transform: scale(1) !important;
+}
+
+.vibe-card-photo-btn:hover {
+  opacity: 1 !important;
+  background: rgba(15, 15, 20, 0.88) !important;
+  transform: scale(1.1) !important;
+  border-color: #FFFFFF !important;
+}
+
+/* ==========================================================================
+   Photo Crop, Zoom & Reposition Interactive Modal
+   ========================================================================== */
+#vibe-photo-modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0, 0, 0, 0.72) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  z-index: 100000 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  animation: vibeModalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+@keyframes vibeModalFadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.vibe-photo-modal-dialog {
+  background: var(--bccards, #2A2522) !important;
+  color: var(--bctext-0, #FFFFFF) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.15)) !important;
+  border-radius: 18px !important;
+  width: 480px !important;
+  max-width: 90vw !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45) !important;
+  padding: 22px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif !important;
+}
+
+.vibe-modal-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.vibe-modal-title {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--bctext-0, #FFFFFF) !important;
+}
+
+.vibe-modal-close-btn {
+  background: transparent !important;
+  border: none !important;
+  color: var(--bctext-2, #999) !important;
+  cursor: pointer !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+  transition: color 0.12s ease !important;
+}
+
+.vibe-modal-close-btn:hover {
+  color: var(--bctext-0, #FFF) !important;
+}
+
+.vibe-crop-preview-container {
+  width: 100% !important;
+  height: 160px !important;
+  border-radius: 12px !important;
+  border: 1.5px dashed var(--bcborders, rgba(255, 255, 255, 0.25)) !important;
+  overflow: hidden !important;
+  position: relative !important;
+  background: #151518 !important;
+  cursor: grab !important;
+  user-select: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.vibe-crop-preview-container:active {
+  cursor: grabbing !important;
+}
+
+.vibe-crop-preview-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  pointer-events: none !important;
+  transition: none !important;
+  transform-origin: center center !important;
+}
+
+.vibe-crop-badge-overlay {
+  position: absolute !important;
+  bottom: 10px !important;
+  left: 10px !important;
+  background: rgba(20, 20, 25, 0.8) !important;
+  backdrop-filter: blur(8px) !important;
+  border-radius: 14px !important;
+  padding: 3px 10px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #FFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  pointer-events: none !important;
+}
+
+.vibe-crop-controls {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+.vibe-crop-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.vibe-crop-label {
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  color: var(--bctext-2, #AAA) !important;
+  min-width: 70px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+}
+
+.vibe-crop-slider {
+  flex: 1 !important;
+  -webkit-appearance: none !important;
+  height: 4px !important;
+  background: var(--bcborders, rgba(255, 255, 255, 0.2)) !important;
+  border-radius: 2px !important;
+  outline: none !important;
+}
+
+.vibe-crop-slider::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 50% !important;
+  background: var(--bcaccent, #0A84FF) !important;
+  cursor: pointer !important;
+}
+
+.vibe-crop-actions {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-top: 6px !important;
+  gap: 8px !important;
+}
+
+.vibe-modal-btn {
+  padding: 6px 14px !important;
+  border-radius: 8px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  border: 1px solid transparent !important;
+  transition: transform 0.12s ease, opacity 0.12s ease !important;
+}
+
+.vibe-modal-btn:hover {
+  transform: translateY(-1px) !important;
+}
+
+.vibe-modal-btn.primary {
+  background: var(--bcaccent, #0A84FF) !important;
+  color: #FFFFFF !important;
+}
+
+.vibe-modal-btn.secondary {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.1)) !important;
+  color: var(--bctext-0, #FFFFFF) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.2)) !important;
+}
+
+.vibe-modal-btn.danger {
+  background: rgba(255, 69, 58, 0.15) !important;
+  color: #FF453A !important;
+  border: 1px solid rgba(255, 69, 58, 0.3) !important;
+}
+
+/* ── Discussions & Announcements Redesign Theming ─────────────────── */
+div:has(button[data-testid="splitscreenButton"]),
+div[class*="-view"]:has(button[data-testid="splitscreenButton"]),
+div[class*="-view"]:has(button[data-testid="collapseAllThreadsButton"]),
+div[class*="-view"]:has(input[placeholder*="Search entries"]),
+div[class*="-view"]:has(input[placeholder*="Search"]),
+div:has(> * > * button[data-testid="splitscreenButton"]),
+div:has(> * > * button[data-testid="collapseAllThreadsButton"]),
+div[class*="css-"][dir="ltr"]:has(button[data-testid*="split"]),
+div[class*="css-"][dir="ltr"]:has(button[data-testid*="Thread"]),
+.discussions-v2__wrapper,
+.discussions-v2__container,
+.discussions-v2__toolbar,
+.discussion-section {
+  background: transparent !important;
+}
+
+button[data-testid="splitscreenButton"],
+button[data-testid="collapseAllThreadsButton"] {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: 8px !important;
+  color: var(--bctext-0, inherit) !important;
+  transition: background 0.12s ease, border-color 0.12s ease !important;
+}
+
+button[data-testid="splitscreenButton"]:hover,
+button[data-testid="collapseAllThreadsButton"]:hover {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.15)) !important;
+  border-color: var(--bcaccent, #0A84FF) !important;
+}
+
+button[data-testid="splitscreenButton"] svg,
+button[data-testid="collapseAllThreadsButton"] svg {
+  fill: var(--bctext-0, currentColor) !important;
+  color: var(--bctext-0, currentColor) !important;
+}
+
+div:has(> input[placeholder*="Search entries"]),
+div:has(> input[placeholder*="Search"]) {
+  background: transparent !important;
+}
+
+/* ==========================================================================
+   Canvas Modules & Item Groups Theming (Universal Dark / Light & Presets)
+   ========================================================================== */
+#context_modules,
+.context_modules,
+.item-group-container,
+.item-group-condensed,
+.item-group-expandable {
+  background: transparent !important;
+  border-color: var(--bcborders) !important;
+}
+
+.context_module,
+.item-group-condensed.context_module {
+  background-color: var(--bccards, var(--bcbackground-0)) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: var(--bc-card-radius, 16px) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  margin-bottom: 24px !important;
+  overflow: hidden !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+/* Module Accordion Header */
+.ig-header,
+.ig-header.header,
+.context_module .header,
+.context_module .ig-header {
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.04)) !important;
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.04)) !important;
+  border-bottom: 1px solid var(--bcborders) !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  color: var(--bctext-0) !important;
+  padding: 10px 16px !important;
+}
+
+.ig-header .name,
+.ig-header .name a,
+.ig-header h2,
+.ig-header h3,
+.context_module .header .name {
+  color: var(--bctext-0) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.015em !important;
+}
+
+.ig-header .name:hover,
+.ig-header .name a:hover {
+  color: var(--bcaccent, var(--bclinks)) !important;
+}
+
+.ig-header .btn,
+.ig-header .al-trigger,
+.ig-header .ig-header-admin button,
+.collapse_module_link,
+.expand_module_link {
+  color: var(--bctext-1) !important;
+  background: transparent !important;
+}
+
+.ig-header .btn:hover,
+.ig-header .al-trigger:hover {
+  color: var(--bctext-0) !important;
+}
+
+.ig-header svg,
+.ig-header [class*="icon-"],
+.context_module .header svg,
+.context_module .header [class*="icon-"] {
+  fill: var(--bctext-1) !important;
+  color: var(--bctext-1) !important;
+}
+
+/* Module Items List */
+.ig-list,
+.context_module_items,
+.context_module .content {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  list-style: none !important;
+}
+
+/* Module Item Rows */
+.ig-row,
+
+.context_module_item .ig-row {
+  background-color: transparent !important;
+  background: transparent !important;
+  border-bottom: 1px solid var(--bcborders) !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  color: var(--bctext-0) !important;
+  transition: background-color 0.12s ease !important;
+}
+
+.context_module_item:last-child,
+.context_module_item:last-child .ig-row {
+  border-bottom: none !important;
+}
+
+/* Item Hover State */
+.ig-row:hover,
+.context_module_item:hover,
+.context_module_item.context_module_item_hover,
+.context_module_item_hover {
+  background-color: var(--bcbuttons, rgba(255, 255, 255, 0.05)) !important;
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.05)) !important;
+}
+
+/* Sub Headers inside Modules */
+.context_module_sub_header,
+.context_module_sub_header .ig-row,
+.context_module_item.context_module_sub_header {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  font-weight: 600 !important;
+  padding: 12px 4px 6px 4px !important;
+}
+
+.context_module_sub_header .name,
+.context_module_sub_header .module-item-title,
+.context_module_sub_header .module-item-title span {
+  color: var(--bctext-1) !important;
+  font-weight: 700 !important;
+  font-size: 11.5px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  opacity: 0.85 !important;
+}
+
+/* Item Titles and Text */
+.module-item-title,
+.module-item-title a,
+.ig-title,
+.ig-title a,
+.ig-row a {
+  color: var(--bctext-0) !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+}
+
+.module-item-title a:hover,
+.ig-title a:hover,
+.ig-row a:hover {
+  color: var(--bcaccent, var(--bclinks)) !important;
+  text-decoration: underline !important;
+}
+
+/* Meta Details / Requirements / Points */
+.ig-details,
+.ig-details__item,
+.requirement-description,
+.due_date_display,
+.points_possible_display,
+.module-item-status,
+.context_module .footer {
+  color: var(--bctext-2) !important;
+  font-size: 12px !important;
+}
+
+/* Icons in Module Items */
+.ig-type-icon,
+.module_item_icons,
+.context_module_item i[class*="icon-"],
+.context_module_item svg {
+  color: var(--bctext-2) !important;
+  fill: var(--bctext-2) !important;
+}
+
+/* Target / Hash Selected Module */
+.context_module:target,
+.context_module.highlighted,
+#context_modules .context_module.highlighted {
+  box-shadow: 0 0 0 2px var(--bcaccent, var(--bclinks)), 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+  background: var(--bccards, var(--bcbackground-0)) !important;
+}
+
+/* Module Sequence Footer / Navigation */
+.module-sequence-footer,
+.module-sequence-footer-content,
+.module-sequence-padding {
+  background: transparent !important;
+  border-color: var(--bcborders) !important;
+}
+
+.module-sequence-footer a.btn {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: 8px !important;
+}
+
+.module-sequence-footer a.btn:hover {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.15)) !important;
+  border-color: var(--bcaccent, var(--bclinks)) !important;
+}
+
+/* Top Action Bar (Expand/Collapse All, Progress) */
+.header-bar,
+.ic-Action-header,
+.ic-Action-header--before-item-groups {
+  background: transparent !important;
+  border-color: var(--bcborders) !important;
+}
+
+.header-bar .btn,
+.ic-Action-header .btn,
+#expand_collapse_all {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: 8px !important;
+}
+
+.header-bar .btn:hover,
+.ic-Action-header .btn:hover,
+#expand_collapse_all:hover {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.15)) !important;
+  border-color: var(--bcaccent, var(--bclinks)) !important;
+}
+
+/* ==========================================================================
+   Discussions v2 Index Page Theming
+   ========================================================================== */
+.unpinned-discussions-v2__wrapper,
+.pinned-discussions-v2__wrapper,
+.closed-for-comments-discussions-v2__wrapper,
+.discussions-v2__container,
+.discussions-v2__wrapper,
+.ic-item-row,
+.ic-discussion-row,
+.ic-item-row.ic-discussion-row,
+.discussions-v2__container-image,
+div[class*="discussions-v2__"] {
+  background-color: var(--bcbackground-0) !important;
+  background: var(--bcbackground-0) !important;
+  color: var(--bctext-0) !important;
+}
+
+.ic-item-row,
+.ic-discussion-row {
+  border-bottom: 1px solid var(--bcborders) !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.ic-item-row:hover,
+.ic-discussion-row:hover {
+  background-color: var(--bcbuttons, rgba(255, 255, 255, 0.05)) !important;
+}
+
+.ic-item-row a,
+.ic-discussion-row a,
+.ic-discussion-row .discussion-title {
+  color: var(--bclinks) !important;
+}
+
+.ic-item-row a:hover,
+.ic-discussion-row a:hover {
+  color: var(--bcaccent, var(--bclinks)) !important;
+}
+
+/* Discussions v2 section headings (Discussions, Closed for Comments) */
+div[class*="discussions-v2"] h2,
+div[class*="discussions-v2"] h3,
+.discussions-container__header,
+.discussions-v2__header {
+  color: var(--bctext-0) !important;
+  background: transparent !important;
+}
+
+/* ── Dark mode: Canvas Instructure UI emotion CSS hardcodes rgb(65,64,66) on
+   discussion toggle buttons, section headings, row text, and sidebar icons.
+   Override the entire content area for dark themes only. ── */
+html.vibe-theme-dark .unpinned-discussions-v2__wrapper *,
+html.vibe-theme-dark .pinned-discussions-v2__wrapper *,
+html.vibe-theme-dark .closed-for-comments-discussions-v2__wrapper *,
+html.vibe-theme-dark .discussions-v2__container *,
+html.vibe-theme-dark [class*="toggleDetails"] *,
+html.vibe-theme-dark [class*="toggleDetails__toggle"],
+html.vibe-theme-dark [class*="toggleDetails__summary"],
+html.vibe-theme-dark [class*="toggleDetails__summaryText"],
+html.vibe-theme-dark [class*="toggleDetails__icon"],
+html.vibe-theme-dark .recent-activity-text-container,
+html.vibe-theme-dark [class*="discussion-index"] *,
+html.vibe-theme-dark [class*="DiscussionTopicIndex"] * {
+  color: var(--bctext-0) !important;
+}
+
+/* Muted/secondary text within rows — slightly dimmed but still readable */
+html.vibe-theme-dark .unpinned-discussions-v2__wrapper [class*="text--secondary"],
+html.vibe-theme-dark .unpinned-discussions-v2__wrapper [class*="-caption"],
+html.vibe-theme-dark .closed-for-comments-discussions-v2__wrapper [class*="text--secondary"],
+html.vibe-theme-dark .recent-activity-text-container {
+  color: var(--bctext-2) !important;
+}
+
+/* Settings cog button icon text */
+html.vibe-theme-dark [class*="baseButton"] [class*="view"],
+html.vibe-theme-dark [class*="baseButton"] span {
+  color: var(--bctext-0) !important;
+}
+
+
+/* Discussion row meta/date text */
+.ic-item-row .discussion-availability,
+.ic-item-row .discussion-info-icons,
+.ic-item-row [class*="discussion-"] {
+  color: var(--bctext-2) !important;
+}
+
+/* Empty state container */
+.discussions-v2__container-image,
+.ic-empty-state,
+.ic-empty-state * {
+  background: transparent !important;
+  color: var(--bctext-2) !important;
+}
+
+/* ==========================================================================
+   Grades Page Fixes — Print Grades button, Show All Details, Sidebar Table
+   ========================================================================== */
+/* Print Grades button */
+a[href*="grades"].btn,
+.btn[href*="grades"],
+#printGrades,
+button[aria-label*="Print"],
+a[aria-label*="Print Grades"],
+.print-grades-link,
+.print-grades-link.btn {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: 8px !important;
+}
+
+/* Show All Details button */
+#show_all_details_button,
+button[id*="show_all"],
+.btn[id*="show_all"] {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: 8px !important;
+}
+
+/* Grades sidebar weighted group table */
+#student-grades-right-content,
+#student-grades-right-content *,
+.student_assignment_brief,
+.student_assignment_brief *,
+.breakdown_graphs,
+.breakdown_graphs *,
+.grade_summary_table,
+.grade_summary_table *,
+#assignment-groups-grades,
+#assignment-groups-grades *,
+.score_details_table,
+.score_details_table * {
+  background-color: transparent !important;
+  background: transparent !important;
+  color: var(--bctext-0) !important;
+  border-color: var(--bcborders) !important;
+}
+
+table.summary {
+  background-color: var(--bcbackground-0) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+table.summary th,
+table.summary td {
+  color: var(--bctext-0) !important;
+  border-color: var(--bcborders) !important;
+  background: transparent !important;
+}
+
+table.summary tr:nth-child(even) td {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.03)) !important;
+}
+
+/* ==========================================================================
+   People Page — Search bar white strip
+   ========================================================================== */
+#people-search-bar,
+.people-search,
+.roster-table-header,
+.roster-tab,
+.roster-tab-content,
+.ic-Table--hover-row,
+.ic-Table--condensed,
+.roster-filter,
+.roster_filter_container,
+#roster .content-box,
+#users_list,
+.users_list,
+div[data-testid="roster-search"],
+div[data-testid*="search"] {
+  background-color: transparent !important;
+  background: transparent !important;
+  border-color: var(--bcborders) !important;
+}
+
+#people-search-bar input,
+.people-search input,
+.roster_filter_container input,
+.roster-search-input {
+  background-color: var(--bcbackground-1) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: 8px !important;
+}
+
+/* Strip above search bar on People tab */
+#tab-people,
+#tab-people > *,
+.course-people-tab,
+.people-tab-content,
+.user_list_wrapper,
+.enrollments_table_wrapper,
+#enrollment_table_wrapper {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* ==========================================================================
+   Quizzes — Assignment Quizzes group header pill
+   ========================================================================== */
+.quiz_sortable h2,
+.quiz_sortable h3,
+.quiz-group-header,
+.item_group,
+.quiz_submission_listing h2,
+#show_quiz_results h2,
+.quizzes-list .quizzes-group-title,
+.quizzes-group-title,
+.quiz_group_title,
+.quiz-list-header,
+.quiz-list-header * {
+  background: var(--bcbackground-1) !important;
+  background-color: var(--bcbackground-1) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: 8px !important;
+  padding: 6px 12px !important;
+}
+
+/* The specific "Assignment Quizzes" collapsible badge in new quizzes UI */
+div[class*="QuizIndex"] h2,
+div[class*="quiz-index"] h2,
+.quiz-index__group-heading,
+.quiz-index__group-heading *,
+div[data-testid*="quiz-group"] h2,
+div[data-testid*="quiz-group"] > * {
+  background: var(--bcbackground-1) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: 8px !important;
+}
+
+/* ==========================================================================
+   Pages — Front Page badge pill
+   ========================================================================== */
+.wiki-front-page-label,
+.front-page-label,
+.badge[data-wiki*="front"],
+.badge.front-page,
+span.badge.front-page,
+.wiki_page .front-page,
+.pages-list .front-page,
+.pages-index .front-page,
+span[data-testid*="front-page"],
+.front_page_label,
+.front_page .badge,
+.pages-index span.badge {
+  background: color-mix(in srgb, var(--bcaccent) 15%, transparent) !important;
+  background-color: color-mix(in srgb, var(--bcaccent) 15%, transparent) !important;
+  color: var(--bcaccent, var(--bclinks)) !important;
+  border: 1px solid color-mix(in srgb, var(--bcaccent) 35%, transparent) !important;
+  border-radius: 12px !important;
+}
+
+/* ==========================================================================
+   Global Dark Mode — InstUI / Emotion CSS Hardcoded Color Override
+   Canvas's component library injects rgb(65,64,66) across all pages via
+   hashed emotion class names. Override all of them in dark mode.
+   ========================================================================== */
+
+/* Targeted: inline style overrides for Canvas's hardcoded dark-grey colors */
+html.vibe-theme-dark [style*="color: rgb(45, 59, 69)"],
+html.vibe-theme-dark [style*="color: rgb(65, 64, 66)"],
+html.vibe-theme-dark [style*="color: rgb(61, 74, 79)"],
+html.vibe-theme-dark [style*="color: rgb(47, 58, 64)"],
+html.vibe-theme-dark [style*="color:#2f3a40"],
+html.vibe-theme-dark [style*="color:#413f42"] {
+  color: var(--bctext-0) !important;
+}
+
+/* InstUI emotion class patterns that consistently carry dark-grey text */
+html.vibe-theme-dark [class*="toggleDetails"],
+html.vibe-theme-dark [class*="toggleDetails"] *,
+html.vibe-theme-dark [class*="toggleDetails__toggle"],
+html.vibe-theme-dark [class*="toggleDetails__summary"],
+html.vibe-theme-dark [class*="toggleDetails__summaryText"],
+html.vibe-theme-dark [class*="toggleDetails__icon"] {
+  color: var(--bctext-0) !important;
+}
+
+/* Announcements, Discussion, Assignment, Quiz page section/group headings */
+html.vibe-theme-dark [class*="-view-heading"],
+html.vibe-theme-dark [class$="-view-heading"] {
+  color: var(--bctext-0) !important;
+}
+
+/* InstUI base button text in dark mode */
+html.vibe-theme-dark [class*="-baseButton"] > *,
+html.vibe-theme-dark [class*="-baseButton"] span:not([class*="badge"]) {
+  color: inherit !important;
+}
+
+/* ==========================================================================
+   Legibility Fixes Round 2 (Targeted)
+   ========================================================================== */
+
+/* 1. Assignments & Quizzes - group header toggle button has near-black text */
+html.vibe-theme-dark .ig-header .element_toggler,
+html.vibe-theme-dark .ig-header .accessible-toggler,
+html.vibe-theme-dark .ig-header button.element_toggler,
+html.vibe-theme-dark .assignment_group .ig-header button,
+html.vibe-theme-dark .ig-header .group-name,
+html.vibe-theme-dark button.element_toggler,
+html.vibe-theme-dark .element_toggler.accessible-toggler {
+  color: var(--bctext-0) !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* 2. Pages wiki h1 title - boost font-weight and ensure crisp text color */
+html.vibe-theme-dark .page-title,
+html.vibe-theme-dark h1.page-title,
+html.vibe-theme-dark .wiki-page-title,
+html.vibe-theme-dark #wiki_page_title,
+html.vibe-theme-dark #wiki_page_show h1,
+html.vibe-theme-dark .show-content h1,
+html.vibe-theme-dark .user_content h1,
+html.vibe-theme-dark .user_content h2,
+html.vibe-theme-dark .user_content h3 {
+  color: var(--bctext-0) !important;
+  font-weight: 600 !important;
+}
+
+/* 3. Native select dropdowns white bg in dark mode */
+html.vibe-theme-dark select,
+html.vibe-theme-dark select option {
+  background-color: var(--bcbackground-1) !important;
+  background: var(--bcbackground-1) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: 6px !important;
+}
+
+html.vibe-theme-dark select:focus {
+  border-color: var(--bcaccent, var(--bclinks)) !important;
+  outline: none !important;
+}
+
+/* 4. Quizzes group header - transparent border pill */
+html.vibe-theme-dark .quiz_sortable .quiz-group-header,
+html.vibe-theme-dark .quiz_group,
+html.vibe-theme-dark .quiz-group-title,
+html.vibe-theme-dark .assignment_group_bar,
+html.vibe-theme-dark .quiz-index-header button,
+html.vibe-theme-dark .quizzes-list > li > h2 button {
+  background: transparent !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: 8px !important;
+}
+
+/* 5. Subtext and metadata contrast in dark mode */
+html.vibe-theme-dark .ig-details,
+html.vibe-theme-dark .ig-details__item,
+html.vibe-theme-dark .assignment-date-available,
+html.vibe-theme-dark .assignment-date-due,
+html.vibe-theme-dark .date_range,
+html.vibe-theme-dark .quiz-details {
+  color: var(--bctext-1, rgba(255, 255, 255, 0.75)) !important;
+}
+
+/* ==========================================================================
+   Canvas Submission Feedback Tray & Response Drawers
+   ========================================================================== */
+[class*="-tray"],
+[class*="tray__content"],
+[class*="Tray__content"],
+#comments-tray,
+div[data-testid*="tray"],
+span[class*="-tray"],
+div[class*="-tray"],
+.submission-feedback,
+.submission_details,
+#submission_details,
+#rubric_holder,
+#rubric_summary_holder {
+  background-color: var(--bcbackground-0) !important;
+  background: var(--bcbackground-0) !important;
+  color: var(--bctext-0) !important;
+  border-color: var(--bcborders) !important;
+}
+
+[class*="-tray"] h2,
+[class*="-tray"] h3,
+#comments-tray h2,
+#comments-tray h3,
+[class*="tray"] [class*="-view-heading"],
+.submission-feedback h2,
+.submission-feedback h3 {
+  color: var(--bctext-0) !important;
+}
+
+/* Comment rows & feedback bubble containers */
+.comment-row-container,
+.comment-text-comment-container,
+[class*="comment-text"],
+[class*="comment-row"],
+.submission-comment,
+.comment_list,
+#submission_comment_list {
+  color: var(--bctext-0) !important;
+  background: transparent !important;
+}
+
+.comment-row-container span,
+.comment-row-container div,
+.comment-row-container p,
+.submission-comment * {
+  color: var(--bctext-0) !important;
+}
+
+/* Author timestamps & metadata */
+.comment-row-container [class*="secondary"],
+.comment-row-container [class*="caption"],
+.comment-row-container time,
+.submission-comment .author,
+.submission-comment .posted_at {
+  color: var(--bctext-2) !important;
+}
+
+/* Comment textareas and inputs */
+[class*="-tray"] textarea,
+#comments-tray textarea,
+textarea.css-1lyu7iw-textArea,
+[class*="textArea"] textarea,
+textarea[placeholder*="Comment"],
+textarea[id*="comment"],
+#submission_comment_textarea,
+#speedgrader_comment_textarea {
+  background-color: var(--bcbackground-1) !important;
+  background: var(--bcbackground-1) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: 8px !important;
+}
+
+[class*="-tray"] textarea:focus,
+#comments-tray textarea:focus,
+textarea[placeholder*="Comment"]:focus {
+  border-color: var(--bcaccent, var(--bclinks)) !important;
+  outline: none !important;
+}
+
+/* Action buttons inside feedback tray */
+[class*="-tray"] [class*="baseButton"],
+#comments-tray [class*="baseButton"],
+[class*="-tray"] button:not([class*="vibe"]),
+#comments-tray button:not([class*="vibe"]) {
+  background-color: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: 8px !important;
+}
+
+[class*="-tray"] [class*="baseButton"] svg,
+#comments-tray [class*="baseButton"] svg {
+  fill: var(--bctext-0) !important;
+  color: var(--bctext-0) !important;
+}
+
+[class*="-tray"] [class*="baseButton"]:hover,
+#comments-tray [class*="baseButton"]:hover {
+  background-color: var(--bcaccent, var(--bclinks)) !important;
+  color: #ffffff !important;
+  border-color: var(--bcaccent, var(--bclinks)) !important;
+}
+
+[class*="-tray"] [class*="baseButton"]:hover svg,
+#comments-tray [class*="baseButton"]:hover svg {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* Close (X) button */
+[class*="closeButton"] button,
+[class*="-tray"] [class*="closeButton"] * {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  border-color: var(--bcborders) !important;
+  color: var(--bctext-0) !important;
+}
+
+/* ==========================================================================
+   Canvas Sticky Bottom Student Action Footer Bar (New Attempt / Submissions)
+/* ==========================================================================
+   File Tables, Submission Details & InstUI Data Grids
+   ========================================================================== */
+table[class*="-view-table"],
+table#files-table,
+.submission-details-table,
+table.summary,
+table.ic-Table,
+table.grid,
+div[class*="files-wrapper"] table,
+div[id="files_content"] table,
+[class*="filesTable"] {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: var(--bc-card-radius, 12px) !important;
+  overflow: hidden !important;
+}
+
+table[class*="-view-table"] thead tr:first-child th:first-child,
+table#files-table thead tr:first-child th:first-child,
+table.summary thead tr:first-child th:first-child,
+.submission-details-table thead tr:first-child th:first-child {
+  border-top-left-radius: var(--bc-card-radius, 12px) !important;
+}
+
+table[class*="-view-table"] thead tr:first-child th:last-child,
+table#files-table thead tr:first-child th:last-child,
+table.summary thead tr:first-child th:last-child,
+.submission-details-table thead tr:first-child th:last-child {
+  border-top-right-radius: var(--bc-card-radius, 12px) !important;
+}
+
+table[class*="-view-table"] tbody tr:last-child td:first-child,
+table[class*="-view-table"] tbody tr:last-child th:first-child,
+table#files-table tbody tr:last-child td:first-child,
+table#files-table tbody tr:last-child th:first-child,
+table.summary tbody tr:last-child td:first-child,
+.submission-details-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: var(--bc-card-radius, 12px) !important;
+}
+
+table[class*="-view-table"] tbody tr:last-child td:last-child,
+table#files-table tbody tr:last-child td:last-child,
+table.summary tbody tr:last-child td:last-child,
+.submission-details-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: var(--bc-card-radius, 12px) !important;
+}
+
+table[class*="-view-table"],
+table#files-table,
+thead[class*="-head"],
+tbody[class*="-view-body"],
+tr[class*="-view-row"],
+[class*="-view-cell"],
+[class*="view-cell"],
+[class*="table__cell"],
+[class*="Table__cell"],
+th[class*="-view-rowHeader"],
+th[class*="rowHeader"],
+th[class*="-view-columnHeader"],
+th[class*="columnHeader"],
+th[scope="row"],
+th[scope="col"],
+.submission-details-table td,
+.submission-details-table th,
+table tr td,
+table tr th,
+table.summary td,
+table.summary th {
+  background-color: var(--bcbackground-1) !important;
+  background: var(--bcbackground-1) !important;
+  color: var(--bctext-0) !important;
+  border-color: var(--bcborders) !important;
+}
+
+table tr th *,
+th[class*="rowHeader"] *,
+th[class*="columnHeader"] *,
+[class*="-view-cell"] *,
+table tr td * {
+  color: var(--bctext-0) !important;
+}
+
+/* Checkbox Facades inside tables and lists */
+span[class*="checkboxFacade__facade"] {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.08)) !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.08)) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.2)) !important;
+  border-radius: 4px !important;
+}
+
+/* Download button and other action buttons in table cells */
+[class*="-view-cell"] button,
+[class*="-view-cell"] a.Button,
+[class*="-view-cell"] a[class*="baseButton"] {
+  background-color: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: var(--bc-card-radius, 6px) !important;
+}
+
+/* ==========================================================================
+   Canvas Transparent Floating Student Action Bar (Compact New Attempt Button)
+   ========================================================================== */
+#assignments-student-footer,
+[id*="student-footer"],
+[class*="student-footer"],
+[class*="assignments-footer"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
+  padding: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+#assignments-student-footer > *,
+[id*="student-footer"] > * {
+  pointer-events: auto !important;
+}
+
+#assignments-student-footer button,
+#assignments-student-footer [role="button"],
+[id*="student-footer"] button,
+[id*="student-footer"] [role="button"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 12px 24px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: inline-flex !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+#assignments-student-footer [class*="baseButton__content"],
+[id*="student-footer"] [class*="baseButton__content"] {
+  background-color: var(--bcaccent, var(--bclinks)) !important;
+  background: var(--bcaccent, var(--bclinks)) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: var(--bc-card-radius, 8px) !important;
+  font-weight: 600 !important;
+  font-size: 13.5px !important;
+  height: 36px !important;
+  padding: 0 16px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+  transition: filter 0.15s ease, transform 0.1s ease !important;
+}
+
+#assignments-student-footer [class*="baseButton__children"],
+#assignments-student-footer [class*="baseButton__childrenLayout"],
+#assignments-student-footer [class*="baseButton__iconOnly"],
+#assignments-student-footer span,
+[id*="student-footer"] [class*="baseButton__children"],
+[id*="student-footer"] [class*="baseButton__childrenLayout"],
+[id*="student-footer"] [class*="baseButton__iconOnly"],
+[id*="student-footer"] span {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  height: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+#assignments-student-footer button:hover [class*="baseButton__content"],
+[id*="student-footer"] button:hover [class*="baseButton__content"] {
+  filter: brightness(1.12) !important;
+  transform: translateY(-1px) !important;
+}
+
+#assignments-student-footer button:active [class*="baseButton__content"],
+[id*="student-footer"] button:active [class*="baseButton__content"] {
+  transform: translateY(0px) !important;
+}
+
+/* ── GPA School Card ─────────────────────────────────────────────────────── */
+#vibe-gpa-school-card.vibe-gpa-card {
+  width: 280px;
+  min-height: 359px;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--bc-card-radius, 12px);
+  overflow: hidden;
+  background: var(--bccards, var(--bcbackground-1));
+  border: 1px solid var(--bcborders);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Hero banner */
+.vibe-gpa-hero {
+  position: relative;
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  overflow: hidden;
+  border-radius: var(--bc-card-radius, 12px) var(--bc-card-radius, 12px) 0 0;
+}
+
+/* Big GPA number */
+.vibe-gpa-big {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.25);
+}
+.vibe-gpa-label {
+  font-size: 0.70rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.82);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.vibe-gpa-scale-badge {
+  font-size: 0.60rem;
+  color: rgba(255,255,255,0.60);
+  margin-top: 1px;
+}
+
+/* Settings gear button — top-left like photo btn */
+.vibe-gpa-settings-btn {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(0,0,0,0.30);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 120ms ease, background 120ms ease;
+  z-index: 10;
+}
+#vibe-gpa-school-card:hover .vibe-gpa-settings-btn {
+  opacity: 1;
+}
+.vibe-gpa-settings-btn:hover {
+  background: rgba(0,0,0,0.50) !important;
+}
+.vibe-gpa-settings-btn svg {
+  pointer-events: none;
+}
+
+/* Settings panel — overlays hero */
+.vibe-gpa-settings-panel {
+  position: absolute;
+  inset: 0;
+  background: var(--bcbackground-1, #1e1e1e);
+  border-radius: var(--bc-card-radius, 12px) var(--bc-card-radius, 12px) 0 0;
+  padding: 10px 12px 8px;
+  display: none;
+  flex-direction: column;
+  gap: 7px;
+  z-index: 20;
+  overflow-y: auto;
+}
+.vibe-gpa-settings-panel.vibe-gpa-settings-open {
+  display: flex;
+}
+.vibe-gpa-settings-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.vibe-gpa-settings-row label {
+  font-size: 0.70rem;
+  font-weight: 600;
+  color: var(--bctext-1);
+  width: 72px;
+  flex-shrink: 0;
+}
+.vibe-gpa-settings-row select,
+.vibe-gpa-settings-row input[type="number"] {
+  flex: 1;
+  background: var(--bcbackground-2, #2a2a2a);
+  border: 1px solid var(--bcborders);
+  border-radius: 6px;
+  color: var(--bctext-0);
+  font-size: 0.72rem;
+  padding: 4px 7px;
+  outline: none;
+}
+.vibe-gpa-settings-row input[type="color"] {
+  width: 28px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid var(--bcborders);
+  background: transparent;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.vibe-gpa-settings-row select:focus,
+.vibe-gpa-settings-row input:focus {
+  border-color: var(--bcaccent);
+}
+.vibe-gpa-settings-save {
+  margin-top: 2px;
+  padding: 5px 12px;
+  background: var(--bcaccent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: filter 100ms;
+}
+.vibe-gpa-settings-save:hover { filter: brightness(1.12); }
+
+/* Body — breakdown table */
+.vibe-gpa-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 12px 10px;
+  gap: 0;
+  overflow: hidden;
+}
+.vibe-gpa-breakdown-header {
+  display: grid;
+  grid-template-columns: 1fr 52px 44px;
+  gap: 4px;
+  font-size: 0.60rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--bctext-2);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--bcborders);
+  margin-bottom: 4px;
+}
+.vibe-gpa-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow-y: auto;
+  flex: 1;
+}
+.vibe-gpa-row {
+  display: grid;
+  grid-template-columns: 1fr 52px 44px;
+  gap: 4px;
+  align-items: center;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(128,128,128,0.08);
+}
+.vibe-gpa-row:last-child { border-bottom: none; }
+.vibe-gpa-row-name {
+  font-size: 0.72rem;
+  color: var(--bctext-0);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.vibe-gpa-row-score {
+  font-size: 0.70rem;
+  color: var(--bctext-1);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.vibe-gpa-row-gp {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.vibe-gpa-empty {
+  font-size: 0.72rem;
+  color: var(--bctext-2);
+  text-align: center;
+  padding: 16px 0;
+}
+/* ── End GPA Card ─────────────────────────────────────────────────────────── */
+
+/* Fix for Announcements & Discussions right padding */
+html.vibe-theme-dark .ic-announcement-row,
+html.vibe-theme-dark .discussion-topic {
+  padding-right: 16px !important;
+}
+html.vibe-theme-dark .ic-item-row__meta-col {
+  padding-right: 16px !important;
+}
+
+/* Discussion List Wrapper Styling Fixes */
+.unpinned-discussions-v2__wrapper,
+.pinned-discussions-v2__wrapper,
+.closed-for-comments-discussions-v2__wrapper {
+  border-radius: var(--bc-card-radius, 14px) !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  margin-bottom: 24px !important;
+}
+
+/* Ensure no double borders on modules */
+html.vibe-theme-dark .context_module_item { border: none !important; }
+
+
+/* Fix for Module Sequence Footer */
+html.vibe-theme-dark .module-sequence-footer .module-sequence-footer-content {
+  border-radius: var(--bc-card-radius, 14px) !important;
+  padding: 16px !important;
+  background-color: var(--bccards, var(--bcbackground-1)) !important;
+  margin-top: 24px !important;
+  margin-bottom: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+/* Profile Page Fixes */
+html.vibe-theme-dark .profile_pic_link, 
+html.vibe-theme-dark .profile-edit-link, 
+html.vibe-theme-dark .account-info-block .btn {
+  background-color: var(--bccards, var(--bcbackground-1)) !important;
+  color: var(--bctext-0) !important;
+  border-color: var(--bcborders) !important;
+}
+html.vibe-theme-dark .profile_pic_link:hover {
+  background-color: var(--bcbackground-1) !important;
+}
+
+/* Notification Settings Hierarchy */
+html.vibe-theme-dark .ic-Layout-contentMain button:has(svg[name="IconMuted"]) {
+  opacity: 0.3 !important;
+  color: var(--bctext-2) !important;
+}
+html.vibe-theme-dark .ic-Layout-contentMain button:has(svg[name*="Calendar"]) {
+  opacity: 0.8 !important;
+  color: color-mix(in srgb, var(--bcaccent) 60%, var(--bctext-1)) !important;
+}
+html.vibe-theme-dark .ic-Layout-contentMain button:has(svg[name="IconAlerts"]) {
+  opacity: 1.0 !important;
+  color: var(--bcaccent) !important;
+  filter: brightness(1.2) drop-shadow(0 0 8px color-mix(in srgb, var(--bcaccent) 40%, transparent)) !important;
+}
+
+/* Catch-all for border-radius on profile/settings boxes */
+html.vibe-has-wallpaper .profile_table,
+html.vibe-has-wallpaper .profile_avatar_wrapper,
+html.vibe-has-wallpaper .email_channel,
+html.vibe-has-wallpaper .other_channels,
+html.vibe-has-wallpaper .communication_channel,
+html.vibe-has-wallpaper #content > .ic-Layout-contentMain .content-block,
+html.vibe-has-wallpaper #content > .ic-Layout-contentMain fieldset {
+  border-radius: var(--bc-card-radius, 14px) !important;
+}
+/* Buttons & inputs get proportional rounding */
+html.vibe-has-wallpaper .Button,
+html.vibe-has-wallpaper .btn,
+html.vibe-has-wallpaper input[type="text"],
+html.vibe-has-wallpaper input[type="password"],
+html.vibe-has-wallpaper input[type="email"],
+html.vibe-has-wallpaper select,
+html.vibe-has-wallpaper textarea {
+  border-radius: calc(var(--bc-card-radius, 14px) * 0.4) !important;
+}
+
+/* Inbox Centering & Cleanup */
+html.vibe-has-wallpaper body.vibe-inbox-page #content {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+}
+html.vibe-has-wallpaper body.vibe-inbox-page .messaging-wrapper {
+  border-radius: var(--bc-card-radius, 14px) !important;
+  overflow: hidden !important;
+  background: var(--bcbackground-1) !important;
+}
+
+/* Inbox Active Row Glow & Text */
+html.vibe-theme-dark .message-list .active,
+html.vibe-theme-dark .message-list [aria-selected="true"],
+html.vibe-theme-dark [class*="selected"] {
+  background-color: var(--bcaccent) !important;
+  color: #ffffff !important;
+}
+html.vibe-theme-dark .message-list .active *,
+html.vibe-theme-dark .message-list [aria-selected="true"] * {
+  color: #ffffff !important;
+}
+
+/* Group Info Text Contrast */
+html.vibe-theme-dark .group-home,
+html.vibe-theme-dark .group-home *,
+html.vibe-theme-dark #group_home_content,
+html.vibe-theme-dark #group_home_content * {
+  color: var(--bctext-0) !important;
+}
+
+/* Profile Edit Button Contrast */
+html.vibe-theme-dark a.edit_settings_link,
+html.vibe-theme-dark a.edit_profile_link,
+html.vibe-theme-dark .profile-edit-btn,
+html.vibe-theme-dark #print-grades-button,
+html.vibe-theme-dark .print-grades,
+html.vibe-theme-dark a[href*="print"] {
+  background-color: var(--bcbackground-1) !important;
+  color: var(--bctext-0) !important;
+  border: 1px solid var(--bcborders) !important;
+}
+html.vibe-theme-dark a.edit_settings_link:hover,
+html.vibe-theme-dark a.edit_profile_link:hover,
+html.vibe-theme-dark .profile-edit-btn:hover,
+html.vibe-theme-dark a[href*="print"]:hover {
+  background-color: var(--bcborders) !important;
+}
+
+/* Settings Profile Rounding Fix */
+html.vibe-theme-dark .profile_table,
+html.vibe-theme-dark .profile_table td,
+html.vibe-theme-dark .profile_table th,
+html.vibe-theme-dark .web-services-container,
+html.vibe-theme-dark .registered_services,
+html.vibe-theme-dark .unregistered_services,
+html.vibe-theme-dark #registered_services,
+html.vibe-theme-dark #unregistered_services {
+  border-radius: calc(var(--bc-card-radius, 14px) * 0.6) !important;
+  overflow: hidden;
+}
+
+/* Announcements Rounding */
+html.vibe-theme-dark .ic-announcement-row,
+html.vibe-theme-dark .discussion-topic,
+html.vibe-theme-dark .recent-activity-header {
+  border-radius: var(--bc-card-radius, 14px) !important;
+  overflow: hidden;
+}
+
+/* Dropdown Styling */
+html.vibe-theme-dark select,
+html.vibe-theme-dark .ic-Input {
+  background: var(--bccards, var(--bcbackground-1)) !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: calc(var(--bc-card-radius, 14px) * 0.4) !important;
+  color: var(--bctext-0) !important;
+  box-shadow: none !important;
+}
+
+/* Add glow to Calendar SVGs */
+html.vibe-theme-dark .ic-Layout-contentMain button:has(svg[name*="Calendar"]) {
+  filter: brightness(1.1) drop-shadow(0 0 6px color-mix(in srgb, var(--bcaccent) 20%, transparent)) !important;
+}
+
+/* GPA row course link */
+a.vibe-gpa-row-name {
+  color: var(--bcaccent) !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+}
+a.vibe-gpa-row-name:hover { text-decoration: underline !important; }
+
+/* Profile settings table: no cell-level rounding, only outer container */
+html.vibe-has-wallpaper .profile_table td,
+html.vibe-has-wallpaper .profile_table th { border-radius: 0 !important; }
+html.vibe-has-wallpaper .profile_table { border-radius: var(--bc-card-radius, 14px) !important; overflow: hidden; }
+
+/* -- Course Grades page: side-by-side layout with sticky weight sidebar -- */
+body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #not_right_side.ic-app-main-content {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 0 !important;
+}
+body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #content-wrapper.ic-Layout-contentWrapper {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: auto !important;
+}
+body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #right-side-wrapper.ic-app-main-content__secondary {
+  flex: 0 0 280px !important;
+  width: 280px !important;
+  min-width: 280px !important;
+  max-width: 280px !important;
+  overflow: visible !important;
+  display: block !important;
+  padding: 0 0 0 16px !important;
+}
+body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #right-side-wrapper #right-side {
+  position: sticky !important;
+  top: 16px !important;
+  max-height: calc(100vh - 80px) !important;
+  overflow-y: auto !important;
+}
+
+/* -- Sidebar Duo must ALWAYS preserve full 560px on any page -- */
+#right-side-wrapper:has(.vibe-sidebar-duo),
+body #right-side-wrapper:has(.vibe-sidebar-duo),
+body.responsive_student_grades_page #right-side-wrapper:has(.vibe-sidebar-duo) {
+  width: 560px !important;
+  max-width: 560px !important;
+  min-width: 560px !important;
+  flex: 0 0 560px !important;
+  display: block !important;
+}
+
+/* -- Dropdown / Select theming ------------------------------- */
+html.vibe-theme-dark select,
+html.vibe-theme-dark .ic-Input select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background-color: var(--bcbackground-1) !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a0a0a0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  background-size: 12px !important;
+  padding-right: 30px !important;
+  border: 1px solid var(--bcborders) !important;
+  border-radius: calc(var(--bc-card-radius, 14px) * 0.5) !important;
+  color: var(--bctext-0) !important;
+  cursor: pointer !important;
+}
+html.vibe-theme-dark select option {
+  background-color: var(--bcbackground-1) !important;
+  color: var(--bctext-0) !important;
+}
+html.vibe-theme-dark select:focus {
+  outline: 2px solid var(--bcaccent) !important;
+  outline-offset: 1px !important;
+  border-color: var(--bcaccent) !important;
+}
+
+/* Remove double-border on grades filter bar selects */
+html.vibe-theme-dark .grading_periods_filter select,
+html.vibe-theme-dark #course_select_menu,
+html.vibe-theme-dark #submit_assignment_form select {
+  box-shadow: none !important;
+}
+
+/* -- Announcements: clean border & remove white outline ------- */
+html.vibe-theme-dark .ic-announcement-row,
+html.vibe-theme-dark .ic-item-row.ic-announcement-row,
+.ic-announcement-row {
+  margin-bottom: 12px !important;
+  border-radius: var(--bc-card-radius, 14px) !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.08)) !important;
+}
+html.vibe-theme-dark .ic-announcement-row *,
+.ic-announcement-row * {
+  box-shadow: none !important;
+}
+.discussion-container .ic-item-row + .ic-item-row,
+.ic-announcement-row + .ic-announcement-row {
+  margin-top: 8px !important;
+}
+
+/* -- Recent Announcements on Course Home ----------------------- */
+.recent-activity-header { margin-top: 12px !important; }
+.announcement-area,
+#announcements_widget,
+[data-testid="announcement-row"] {
+  margin-bottom: 12px !important;
+  padding: 10px 14px !important;
+  border-radius: var(--bc-card-radius, 14px) !important;
+  box-shadow: none !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.08)) !important;
+}
+
+/* -- GPA row: tighten score column --------------------------- */
+.vibe-gpa-row { grid-template-columns: 1fr 42px 40px !important; }
+
+/* ── Instructure UI Text Input & Select Facades (Eliminate nested pill border) ── */
+html.vibe-has-wallpaper [class*="textInput__facade"] input,
+html.vibe-has-wallpaper [class*="textInput__layout"] input,
+html.vibe-has-wallpaper [class*="select"] input[type="text"],
+html.vibe-has-wallpaper [class*="textInput__inputLayout"] input,
+html.vibe-theme-dark [class*="textInput__facade"] input,
+html.vibe-theme-dark [class*="textInput__layout"] input,
+html.vibe-theme-dark [class*="select"] input[type="text"],
+html.vibe-theme-dark [class*="textInput__inputLayout"] input {
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+html.vibe-theme-dark [class*="textInput__facade"] {
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: calc(var(--bc-card-radius, 14px) * 0.5) !important;
+  background: var(--bccards, var(--bcbackground-1)) !important;
+  box-shadow: none !important;
+}
+
+/* ── Instructure UI Segmented Radio / Toggle (Show by Date / Type) ── */
+html.vibe-theme-dark [data-cid="RadioInputGroup"],
+html.vibe-theme-dark fieldset:has([class*="radioInput"]) {
+  background: transparent !important;
+  border: none !important;
+}
+
+html.vibe-theme-dark [class*="radioInput__control"] {
+  border-radius: var(--bc-card-radius, 14px) !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+}
+
+/* Unchecked state */
+html.vibe-theme-dark input[type="radio"]:not(:checked) + [class*="radioInput__control"] [class*="radioInput__facade"],
+html.vibe-theme-dark input[type="radio"]:not(:checked) ~ [class*="radioInput__control"] [class*="radioInput__facade"] {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: var(--bc-card-radius, 14px) !important;
+}
+
+html.vibe-theme-dark input[type="radio"]:not(:checked) + [class*="radioInput__control"] [class*="radioInput__label"],
+html.vibe-theme-dark input[type="radio"]:not(:checked) ~ [class*="radioInput__control"] [class*="radioInput__label"] {
+  color: var(--bctext-1, #e0d0d8) !important;
+  font-weight: 500 !important;
+}
+
+/* Checked state */
+html.vibe-theme-dark input[type="radio"]:checked + [class*="radioInput__control"] [class*="radioInput__facade"],
+html.vibe-theme-dark input[type="radio"]:checked ~ [class*="radioInput__control"] [class*="radioInput__facade"] {
+  background: var(--bcaccent) !important;
+  border: 1px solid var(--bcaccent) !important;
+  border-radius: var(--bc-card-radius, 14px) !important;
+}
+
+html.vibe-theme-dark input[type="radio"]:checked + [class*="radioInput__control"] [class*="radioInput__label"],
+html.vibe-theme-dark input[type="radio"]:checked ~ [class*="radioInput__control"] [class*="radioInput__label"] {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+/* ── Gradebook action buttons (score details, comments, rubrics) ── */
+html.vibe-theme-dark #grades_summary td.details a,
+html.vibe-theme-dark .toggle_score_details_link,
+html.vibe-theme-dark .toggle_comments_link,
+html.vibe-theme-dark .toggle_rubric_assessments_link,
+html.vibe-theme-dark .toggle_final_grade_info {
+  background-color: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--bctext-1, #e0d0d8) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: 6px !important;
+  padding: 3px 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.15s ease !important;
+}
+
+html.vibe-theme-dark #grades_summary td.details a:hover,
+html.vibe-theme-dark .toggle_score_details_link:hover,
+html.vibe-theme-dark .toggle_comments_link:hover,
+html.vibe-theme-dark .toggle_rubric_assessments_link:hover {
+  background-color: var(--bcaccent) !important;
+  color: #ffffff !important;
+  border-color: var(--bcaccent) !important;
+}
+
+html.vibe-theme-dark #grades_summary td.details a svg,
+html.vibe-theme-dark #grades_summary td.details a i,
+html.vibe-theme-dark #grades_summary td.details a span {
+  color: inherit !important;
+  fill: currentColor !important;
+}
+
+/* ── Full width score details & comments containers ── */
+#grades_summary tr.comments > td,
+#grades_summary tr.grade_details > td {
+  width: 100% !important;
+}
+
+#grades_summary .score_details_table,
+#grades_summary table.score_details_table {
+  width: 100% !important;
+  max-width: 100% !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: var(--bc-card-radius, 14px) !important;
+  overflow: hidden !important;
+  background: var(--bccards, var(--bcbackground-1)) !important;
+}
+
+/* ── Compact Gradebook Layout (Original Canvas Proportions) ── */
+body.grades #grades_summary,
+body[class*="grades"] #grades_summary {
+  max-width: 1020px !important;
+  width: 100% !important;
+}
+
+body.grades #content-wrapper,
+body[class*="grades"] #content-wrapper {
+  max-width: 1050px !important;
+  flex: 0 1 1050px !important;
+}
+
+body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #not_right_side,
+body[class*="grades"]:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #not_right_side {
+  gap: 32px !important;
+}
+
+/* ── Search Bar: Eliminate inner nested pill border ── */
+input[class*="textInput"],
+[class*="textInput__facade"] input,
+[class*="textInput__layout"] input,
+[class*="textInput__inputLayout"] input,
+input#announcements-search {
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* ── Announcements: Card Padding & Timestamp Right Spacing ── */
+.ic-announcement-row,
+.ic-item-row.ic-announcement-row {
+  padding-left: 20px !important;
+  padding-right: 28px !important;
+}
+
+.ic-item-row__meta-col {
+  padding-right: 12px !important;
+}
