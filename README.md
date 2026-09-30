@@ -18,17 +18,13 @@ A free way to customize Canvas.
 ## Installation
 
 1. **Download the code**:
-   - Clone this repository:
-     ```bash
-     git clone https://github.com/EISHANnyc/CanvasCustomizer.git
-     ```
-   - Or download and extract the ZIP from this repo.
+   - Download and extract the ZIP from this repo.
 
-2. **Open Extensions in Chrome**:
+3. **Open Extensions in Chrome**:
    - Go to `chrome://extensions` in your address bar.
    - Turn on **Developer mode** in the top-right corner.
 
-3. **Load the Extension**:
+4. **Load the Extension**:
    - Click **Load unpacked**.
    - Select the `CanvasCustomizer` folder.
    - Open Canvas and click the extension icon to start customizing.
