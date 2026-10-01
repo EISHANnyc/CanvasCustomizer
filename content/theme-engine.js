@@ -4541,7 +4541,6 @@
 
     checkCourseLandingRedirect();
     applyCourseRedirectsAndRenaming();
-          initAnnouncementsToggle();
     initQuizAnswerClickDelegation();
 
     // Early synchronous pass using cached preset & wallpaper (0ms)
@@ -4731,7 +4730,6 @@
                 if (oldNav) oldNav.remove();
                 injectCourseNavBar(newId);
                 applyCourseRedirectsAndRenaming();
-          initAnnouncementsToggle();
               });
             }
             if (changes.course_nicknames) {
@@ -4740,7 +4738,6 @@
                 applyCardHeroColors(pId);
                 initTodoReformatter(pId);
                 applyCourseRedirectsAndRenaming();
-          initAnnouncementsToggle();
               });
             }
             if (changes.card_radius && changes.card_radius.newValue !== undefined) {
@@ -4863,88 +4860,6 @@
 
   var observerTimeout = null;
   var isApplyingTheme = false;
-
-    function initAnnouncementsToggle() {
-    if (window.location.pathname.indexOf('/announcements') === -1 && window.location.search.indexOf('only_announcements=1') === -1 && !document.querySelector('.announcements-v2__wrapper') && !document.querySelector('.ic-announcement-row')) return;
-
-    var actionHeader = document.querySelector('.ic-Action-header__Secondary') || document.querySelector('.announcements-v2__wrapper header') || document.querySelector('#content > header') || document.querySelector('.ic-Action-header') || document.querySelector('.discussion-list-header') || document.querySelector('.item-group-container') || document.querySelector('#content');
-    if (!actionHeader) return;
-    if (document.getElementById('vibe-announcement-toggle')) return;
-
-    var toggleContainer = document.createElement('div');
-    toggleContainer.id = 'vibe-announcement-toggle';
-    toggleContainer.style.display = 'inline-flex';
-    toggleContainer.style.alignItems = 'center';
-    toggleContainer.style.marginLeft = '16px';
-    toggleContainer.style.background = 'var(--bcbackground-1, rgba(0,0,0,0.05))';
-    toggleContainer.style.borderRadius = '8px';
-    toggleContainer.style.padding = '4px';
-    toggleContainer.style.border = '1px solid var(--bcborders)';
-    toggleContainer.style.verticalAlign = 'middle';
-
-    var btnCompact = document.createElement('button');
-    btnCompact.textContent = 'Compact';
-    btnCompact.className = 'vibe-modal-btn';
-    btnCompact.style.borderRadius = '6px';
-    btnCompact.style.padding = '4px 10px';
-    btnCompact.style.fontSize = '12px';
-    btnCompact.style.fontWeight = '600';
-    btnCompact.style.border = 'none';
-    btnCompact.style.cursor = 'pointer';
-    btnCompact.style.transition = 'all 0.15s ease';
-
-    var btnExpanded = document.createElement('button');
-    btnExpanded.textContent = 'Expanded';
-    btnExpanded.className = 'vibe-modal-btn';
-    btnExpanded.style.borderRadius = '6px';
-    btnExpanded.style.padding = '4px 10px';
-    btnExpanded.style.fontSize = '12px';
-    btnExpanded.style.fontWeight = '600';
-    btnExpanded.style.border = 'none';
-    btnExpanded.style.cursor = 'pointer';
-    btnExpanded.style.transition = 'all 0.15s ease';
-
-    function updateState(isExpanded) {
-      if (isExpanded) {
-        btnExpanded.style.background = 'var(--bcbackground-0, #fff)';
-        btnExpanded.style.color = 'var(--bctext-0)';
-        btnExpanded.style.boxShadow = '0 2px 6px rgba(0,0,0,0.1)';
-        btnCompact.style.background = 'transparent';
-        btnCompact.style.color = 'var(--bctext-1)';
-        btnCompact.style.boxShadow = 'none';
-        document.body.classList.add('vibe-announcements-expanded');
-      } else {
-        btnCompact.style.background = 'var(--bcbackground-0, #fff)';
-        btnCompact.style.color = 'var(--bctext-0)';
-        btnCompact.style.boxShadow = '0 2px 6px rgba(0,0,0,0.1)';
-        btnExpanded.style.background = 'transparent';
-        btnExpanded.style.color = 'var(--bctext-1)';
-        btnExpanded.style.boxShadow = 'none';
-        document.body.classList.remove('vibe-announcements-expanded');
-      }
-    }
-
-    btnCompact.onclick = function(e) {
-      e.preventDefault();
-      updateState(false);
-      safeStorageSet({ vibe_announcements_expanded: false });
-    };
-
-    btnExpanded.onclick = function(e) {
-      e.preventDefault();
-      updateState(true);
-      safeStorageSet({ vibe_announcements_expanded: true });
-    };
-
-    toggleContainer.appendChild(btnCompact);
-    toggleContainer.appendChild(btnExpanded);
-    actionHeader.insertBefore(toggleContainer, actionHeader.firstChild);
-
-    safeStorageGet(['vibe_announcements_expanded'], function(res) {
-      updateState(res && res.vibe_announcements_expanded === true);
-    });
-  }
-
 function attachObserver() {
     if (!isCanvasPage()) return;
     var observer = new MutationObserver(function(mutations) {
@@ -4981,7 +4896,6 @@ function attachObserver() {
         if (!isExtensionContextValid()) return;
         hideNativeTodoList();
         applyCourseRedirectsAndRenaming();
-          initAnnouncementsToggle();
         safeStorageGet([
           'active_preset', 'custom_theme_colors',
           'vibe_sidebar_bg_url', 'vibe_sidebar_bg_opacity', 'vibe_sidebar_bg_blur', 'vibe_wallpaper_url'
@@ -5075,7 +4989,6 @@ function attachObserver() {
       syncCanvasLayout();
       checkCourseLandingRedirect();
       applyCourseRedirectsAndRenaming();
-          initAnnouncementsToggle();
       sanitizeFilesAndTables();
       safeStorageGet([
         'active_preset', 'vibe_sidebar_bg_url', 'vibe_sidebar_bg_opacity', 'vibe_sidebar_bg_blur',
