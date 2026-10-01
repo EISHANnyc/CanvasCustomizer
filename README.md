@@ -3,6 +3,7 @@
 A free way to customize Canvas.
 
 ---
+If you find any bugs, idk how you can tell me but just tell me somehow okay?
 
 ## Features
 
@@ -12,6 +13,7 @@ A free way to customize Canvas.
 - Ability to put custom photos on course cards with crop and zoom
 - Task list and Completed list for upcoming & recently finished assignments, quizzes, and tests
 - Clean compact grades table, rounded cards, and themed dropdowns
+- Very lightweight
 
 ---
 
@@ -31,6 +33,7 @@ A free way to customize Canvas.
 
 ---
 
+I used Antigravityy for this. I just wanted a free alternative to a paid alternate one.
 ## License
 
 [MIT](LICENSE) © 2026 Eishan Mohammed
