@@ -69,15 +69,15 @@
     styleTag.textContent = rules;
 
     try {
-      null /* disabled for security */;
+      localStorage.setItem('vibe_cached_preset', preset.id);
     } catch (e) {}
   }
 
   // ── 0ms Instant Pre-Paint Theme Injection ──
   try {
-    var cachedPresetId = null /* disabled for security */ || DEFAULT_PRESET_ID;
-    var cachedSoft = null /* disabled for security */ === 'true';
-    var cachedRadius = null /* disabled for security */ || '12';
+    var cachedPresetId = localStorage.getItem('vibe_cached_preset') || DEFAULT_PRESET_ID;
+    var cachedSoft = localStorage.getItem('vibe_cached_soft_night') === 'true';
+    var cachedRadius = localStorage.getItem('vibe_cached_radius') || '12';
 
     if (cachedSoft) {
       document.documentElement.classList.add('vibe-soft-night');
@@ -378,9 +378,9 @@
         imgDiv.style.display = 'block';
       }
       try {
-        null /* disabled for security */;
-        null /* disabled for security */;
-        null /* disabled for security */;
+        localStorage.setItem('vibe_cached_sidebar_url', targetUrl);
+        localStorage.setItem('vibe_cached_sidebar_op', op);
+        localStorage.setItem('vibe_cached_sidebar_bl', bl);
       } catch (e) {}
     } else {
       if (imgDiv) {
@@ -388,9 +388,9 @@
         imgDiv.style.display = 'none';
       }
       try {
-        null /* disabled for security */;
-        null /* disabled for security */;
-        null /* disabled for security */;
+        localStorage.removeItem('vibe_cached_sidebar_url');
+        localStorage.removeItem('vibe_cached_sidebar_op');
+        localStorage.removeItem('vibe_cached_sidebar_bl');
       } catch (e) {}
     }
   }
@@ -881,16 +881,7 @@
     updatePreviewTransform();
   }
 
-  function injectStateClasses() {
-  var b = document.body;
-  if (!b) return;
-  b.classList.toggle('vibe-is-quiz-page', !!(document.getElementById('questions') || document.getElementById('question_list') || document.querySelector('.quiz-submission') || document.getElementById('assessment_questions') || document.querySelector('.take_quiz_wrapper')));
-  b.classList.toggle('vibe-has-tool-content', !!document.querySelector('iframe#tool_content'));
-  b.classList.toggle('vibe-has-sidebar-duo', !!document.querySelector('.vibe-sidebar-duo'));
-  b.classList.toggle('vibe-has-grades-summary', !!document.getElementById('grades_summary'));
-}
-
-function applyCardHeroColors(presetId) {
+  function applyCardHeroColors(presetId) {
     var cards = document.querySelectorAll('.ic-DashboardCard, [data-testid="draggable-card"]');
     if (!cards.length) return;
 
@@ -1641,7 +1632,7 @@ function applyCardHeroColors(presetId) {
     if (!items || !items.length) {
       items = cachedPlannerItems || [];
     }
-    presetId = presetId || null /* disabled for security */ || DEFAULT_PRESET_ID;
+    presetId = presetId || localStorage.getItem('vibe_cached_preset') || DEFAULT_PRESET_ID;
 
     var courseUpcomingMap = {};
     var coursePastMap = {};
@@ -1871,7 +1862,7 @@ function applyCardHeroColors(presetId) {
 
   function getDismissedTasks() {
     try {
-      var saved = null /* disabled for security */;
+      var saved = localStorage.getItem('vibe_dismissed_tasks_v2');
       return saved ? JSON.parse(saved) : {};
     } catch (e) {
       return {};
@@ -1883,13 +1874,13 @@ function applyCardHeroColors(presetId) {
     try {
       var map = getDismissedTasks();
       map[key] = Date.now();
-      null /* disabled for security */);
+      localStorage.setItem('vibe_dismissed_tasks_v2', JSON.stringify(map));
     } catch (e) {}
   }
 
   function getManuallyCompletedTasks() {
     try {
-      var saved = null /* disabled for security */;
+      var saved = localStorage.getItem('vibe_completed_tasks_v1');
       return saved ? JSON.parse(saved) : {};
     } catch (e) {
       return {};
@@ -1919,7 +1910,7 @@ function applyCardHeroColors(presetId) {
         completedAt: Date.now()
       };
       map[k] = compEntry;
-      null /* disabled for security */);
+      localStorage.setItem('vibe_completed_tasks_v1', JSON.stringify(map));
 
       // Also mark as dismissed from upcoming tasks
       saveDismissedTask(k);
@@ -1951,7 +1942,7 @@ function applyCardHeroColors(presetId) {
     try {
       var map = getManuallyCompletedTasks();
       delete map[key];
-      null /* disabled for security */);
+      localStorage.setItem('vibe_completed_tasks_v1', JSON.stringify(map));
       lastGradedFetchTime = 0;
       if (Array.isArray(cachedGradedItems)) {
         cachedGradedItems = cachedGradedItems.filter(function(x) { return x.key !== key; });
@@ -1961,7 +1952,7 @@ function applyCardHeroColors(presetId) {
 
   function getDismissedGraded() {
     try {
-      var saved = null /* disabled for security */;
+      var saved = localStorage.getItem('vibe_dismissed_graded_v1');
       return saved ? JSON.parse(saved) : {};
     } catch (e) {
       return {};
@@ -1973,7 +1964,7 @@ function applyCardHeroColors(presetId) {
     try {
       var map = getDismissedGraded();
       map[key] = Date.now();
-      null /* disabled for security */);
+      localStorage.setItem('vibe_dismissed_graded_v1', JSON.stringify(map));
     } catch (e) {}
   }
 
@@ -1982,7 +1973,7 @@ function applyCardHeroColors(presetId) {
     try {
       var map = getDismissedTasks();
       delete map[key];
-      null /* disabled for security */);
+      localStorage.setItem('vibe_dismissed_tasks_v2', JSON.stringify(map));
     } catch (e) {}
   }
 
@@ -1991,18 +1982,18 @@ function applyCardHeroColors(presetId) {
     try {
       var map = getDismissedGraded();
       delete map[key];
-      null /* disabled for security */);
+      localStorage.setItem('vibe_dismissed_graded_v1', JSON.stringify(map));
     } catch (e) {}
   }
 
   function restoreAllDismissedItems(presetId) {
     try {
-      null /* disabled for security */;
-      null /* disabled for security */;
-      null /* disabled for security */;
-      null /* disabled for security */;
-      null /* disabled for security */;
-      null /* disabled for security */;
+      localStorage.removeItem('vibe_dismissed_tasks_v2');
+      localStorage.removeItem('vibe_dismissed_graded_v1');
+      localStorage.removeItem('vibe_completed_tasks_v1');
+      localStorage.removeItem('vibe_dismissed_tasks');
+      localStorage.removeItem('vibe_dismissed_todo');
+      localStorage.removeItem('vibe_dismissed_graded');
       if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
         chrome.storage.local.set({
           vibe_dismissed_tasks_v2: {},
@@ -4149,10 +4140,10 @@ function applyCardHeroColors(presetId) {
     var sq = document.getElementById('vibe-pomodoro-squircle');
     if (sq) sq.remove();
     try {
-      null /* disabled for security */;
-      null /* disabled for security */;
-      null /* disabled for security */;
-      null /* disabled for security */;
+      localStorage.removeItem('vibe_pomodoro_state_v5');
+      localStorage.removeItem('vibe_pomodoro_state_v4');
+      localStorage.removeItem('vibe_pomodoro_squircle_pos');
+      localStorage.removeItem('vibe_pomodoro_squircle_size');
     } catch(e) {}
   }
 
@@ -4232,18 +4223,18 @@ function applyCardHeroColors(presetId) {
       document.documentElement.classList.add('vibe-has-wallpaper');
       if (document.body) document.body.classList.add('vibe-has-wallpaper');
       try {
-        null /* disabled for security */;
-        null /* disabled for security */;
-        null /* disabled for security */;
+        localStorage.setItem('vibe_cached_wallpaper', url);
+        localStorage.setItem('vibe_cached_wp_op', op);
+        localStorage.setItem('vibe_cached_wp_bl', bl);
       } catch (e) {}
     } else {
       layer.style.removeProperty('background-image');
       document.documentElement.classList.remove('vibe-has-wallpaper');
       if (document.body) document.body.classList.remove('vibe-has-wallpaper');
       try {
-        null /* disabled for security */;
-        null /* disabled for security */;
-        null /* disabled for security */;
+        localStorage.removeItem('vibe_cached_wallpaper');
+        localStorage.removeItem('vibe_cached_wp_op');
+        localStorage.removeItem('vibe_cached_wp_bl');
       } catch (e) {}
     }
 
@@ -4308,25 +4299,25 @@ function applyCardHeroColors(presetId) {
       if (resizeRaf) cancelAnimationFrame(resizeRaf);
       resizeRaf = requestAnimationFrame(function() {
         resizeRaf = null;
-        syncCanvasLayout(); injectStateClasses();
+        syncCanvasLayout();
       });
     }, { passive: true });
-    var cachedId = null /* disabled for security */ || DEFAULT_PRESET_ID;
+    var cachedId = localStorage.getItem('vibe_cached_preset') || DEFAULT_PRESET_ID;
     applyCardHeroColors(cachedId);
     applySidebarTheme(cachedId);
     enhanceCalendarEvents(cachedId);
     initTodoReformatter(cachedId);
 
-    var cachedWp = null /* disabled for security */;
+    var cachedWp = localStorage.getItem('vibe_cached_wallpaper');
     if (cachedWp) {
-      var cachedOp = null /* disabled for security */;
-      var cachedBl = null /* disabled for security */;
+      var cachedOp = localStorage.getItem('vibe_cached_wp_op');
+      var cachedBl = localStorage.getItem('vibe_cached_wp_bl');
       applyWallpaper(cachedWp, cachedOp, cachedBl);
     }
 
-    var cachedSbUrl = null /* disabled for security */;
-    var cachedSbOp = null /* disabled for security */;
-    var cachedSbBl = null /* disabled for security */;
+    var cachedSbUrl = localStorage.getItem('vibe_cached_sidebar_url');
+    var cachedSbOp = localStorage.getItem('vibe_cached_sidebar_op');
+    var cachedSbBl = localStorage.getItem('vibe_cached_sidebar_bl');
     if (cachedSbUrl || cachedWp) {
       applySidebarBackground(cachedSbUrl, cachedSbOp, cachedSbBl, cachedWp);
     }
@@ -4348,7 +4339,7 @@ function applyCardHeroColors(presetId) {
     ], function(res) {
       if (res && res.vibe_soft_night !== undefined) {
         document.documentElement.classList.toggle('vibe-soft-night', !!res.vibe_soft_night);
-        try { null /* disabled for security */; } catch (e) {}
+        try { localStorage.setItem('vibe_cached_soft_night', res.vibe_soft_night ? 'true' : 'false'); } catch (e) {}
       }
       if (res) {
         applyWallpaper(res.vibe_wallpaper_url, res.vibe_wallpaper_opacity, res.vibe_wallpaper_blur);
@@ -4360,7 +4351,7 @@ function applyCardHeroColors(presetId) {
         );
       }
       var presetId = (res && res.active_preset) || DEFAULT_PRESET_ID;
-      try { null /* disabled for security */; } catch (e) {}
+      try { localStorage.setItem('vibe_cached_preset', presetId); } catch (e) {}
       var catalog = (typeof PRESETS !== 'undefined') ? PRESETS : {};
       var preset = catalog[presetId] || catalog[DEFAULT_PRESET_ID];
       if (preset) {
@@ -4377,7 +4368,7 @@ function applyCardHeroColors(presetId) {
         var r0 = parseInt(res.card_radius, 10);
         if (!isNaN(r0)) {
           document.documentElement.style.setProperty('--bc-card-radius', r0 + 'px');
-          try { null /* disabled for security */; } catch (e) {}
+          try { localStorage.setItem('vibe_cached_radius', r0); } catch (e) {}
         }
       }
       applyCardHeroColors(presetId);
@@ -4386,7 +4377,7 @@ function applyCardHeroColors(presetId) {
       initTodoReformatter(presetId);
       injectCourseNavBar(presetId);
       cleanupObsoleteWidgets();
-      syncCanvasLayout(); injectStateClasses();
+      syncCanvasLayout();
     });
 
     if (isExtensionContextValid() && chrome.storage && chrome.storage.onChanged) {
@@ -4395,7 +4386,7 @@ function applyCardHeroColors(presetId) {
           if (area === 'local' && isExtensionContextValid()) {
             if (changes.vibe_soft_night !== undefined) {
               document.documentElement.classList.toggle('vibe-soft-night', !!changes.vibe_soft_night.newValue);
-              try { null /* disabled for security */; } catch (e) {}
+              try { localStorage.setItem('vibe_cached_soft_night', changes.vibe_soft_night.newValue ? 'true' : 'false'); } catch (e) {}
             }
             if (changes.vibe_wallpaper_url) {
               safeStorageGet(['vibe_wallpaper_url', 'vibe_wallpaper_opacity', 'vibe_wallpaper_blur'], function(res) {
@@ -4413,13 +4404,13 @@ function applyCardHeroColors(presetId) {
                   var op = parseInt(changes.vibe_wallpaper_opacity.newValue, 10);
                   var effOp = isContentPage ? Math.min(op, 45) : op;
                   wpLayer.style.setProperty('opacity', (effOp / 100).toString(), 'important');
-                  try { null /* disabled for security */; } catch (e) {}
+                  try { localStorage.setItem('vibe_cached_wp_op', op); } catch (e) {}
                 }
                 if (changes.vibe_wallpaper_blur && changes.vibe_wallpaper_blur.newValue !== undefined) {
                   var bl = parseInt(changes.vibe_wallpaper_blur.newValue, 10);
                   var effBl = isContentPage ? Math.max(bl, 15) : bl;
                   wpLayer.style.setProperty('filter', 'blur(' + effBl + 'px)', 'important');
-                  try { null /* disabled for security */; } catch (e) {}
+                  try { localStorage.setItem('vibe_cached_wp_bl', bl); } catch (e) {}
                 }
               }
             }
@@ -4440,12 +4431,12 @@ function applyCardHeroColors(presetId) {
                 if (changes.vibe_sidebar_bg_opacity && changes.vibe_sidebar_bg_opacity.newValue !== undefined) {
                   var sOp = parseInt(changes.vibe_sidebar_bg_opacity.newValue, 10);
                   sbImg.style.setProperty('opacity', (sOp / 100).toString(), 'important');
-                  try { null /* disabled for security */; } catch (e) {}
+                  try { localStorage.setItem('vibe_cached_sidebar_op', sOp); } catch (e) {}
                 }
                 if (changes.vibe_sidebar_bg_blur && changes.vibe_sidebar_bg_blur.newValue !== undefined) {
                   var sBl = parseInt(changes.vibe_sidebar_bg_blur.newValue, 10);
                   sbImg.style.setProperty('filter', 'blur(' + sBl + 'px)', 'important');
-                  try { null /* disabled for security */; } catch (e) {}
+                  try { localStorage.setItem('vibe_cached_sidebar_bl', sBl); } catch (e) {}
                 }
               }
             }
@@ -4472,10 +4463,10 @@ function applyCardHeroColors(presetId) {
                 applyCardHeroColors(pId);
               });
             }
-            syncCanvasLayout(); injectStateClasses();
+            syncCanvasLayout();
             if (changes.active_preset && changes.active_preset.newValue) {
               var newId = changes.active_preset.newValue;
-              try { null /* disabled for security */; } catch (e) {}
+              try { localStorage.setItem('vibe_cached_preset', newId); } catch (e) {}
               var catalog = (typeof PRESETS !== 'undefined') ? PRESETS : {};
               var p = catalog[newId];
               playInkTransition(p, function() {
@@ -4502,7 +4493,7 @@ function applyCardHeroColors(presetId) {
               var r = parseInt(changes.card_radius.newValue, 10);
               if (!isNaN(r)) {
                 document.documentElement.style.setProperty('--bc-card-radius', r + 'px');
-                try { null /* disabled for security */; } catch (e) {}
+                try { localStorage.setItem('vibe_cached_radius', r); } catch (e) {}
               }
             }
             if (changes.vibe_restore_signal) {
@@ -4534,15 +4525,15 @@ function applyCardHeroColors(presetId) {
           }
           if (msg.action === 'full_reset' || msg.type === 'FULL_RESET') {
             try {
-              null /* disabled for security */;
-              null /* disabled for security */;
-              null /* disabled for security */;
-              null /* disabled for security */;
-              null /* disabled for security */;
-              null /* disabled for security */;
-              null /* disabled for security */;
-              null /* disabled for security */;
-              null /* disabled for security */;
+              localStorage.removeItem('vibe_dismissed_tasks_v2');
+              localStorage.removeItem('vibe_dismissed_graded_v1');
+              localStorage.removeItem('vibe_completed_tasks_v1');
+              localStorage.removeItem('vibe_custom_nicknames');
+              localStorage.removeItem('vibe_custom_photos');
+              localStorage.removeItem('vibe_cached_preset');
+              localStorage.removeItem('vibe_cached_radius');
+              localStorage.removeItem('vibe_cached_wp_url');
+              localStorage.removeItem('vibe_cached_sidebar_url');
             } catch (e) {}
             cachedPlannerItems = null;
             lastPlannerFetchTime = 0;
@@ -4559,7 +4550,7 @@ function applyCardHeroColors(presetId) {
               var isContentPage = !isDashboardPage();
               var effOp = isContentPage ? Math.min(op, 45) : op;
               wpLayer.style.setProperty('opacity', (effOp / 100).toString(), 'important');
-              try { null /* disabled for security */; } catch(e) {}
+              try { localStorage.setItem('vibe_cached_wp_op', op); } catch(e) {}
             }
           } else if (msg.key === 'vibe_wallpaper_blur') {
             var bl = parseInt(msg.value, 10);
@@ -4568,31 +4559,31 @@ function applyCardHeroColors(presetId) {
               var isContentPage = !isDashboardPage();
               var effBl = isContentPage ? Math.max(bl, 15) : bl;
               wpLayer.style.setProperty('filter', 'blur(' + effBl + 'px)', 'important');
-              try { null /* disabled for security */; } catch(e) {}
+              try { localStorage.setItem('vibe_cached_wp_bl', bl); } catch(e) {}
             }
           } else if (msg.key === 'vibe_sidebar_bg_opacity') {
             var sImg = document.querySelector('#vibe-sidebar-bg-layer .vibe-sidebar-bg-img');
             if (sImg) {
               var sOp = parseInt(msg.value, 10);
               sImg.style.setProperty('opacity', (sOp / 100).toString(), 'important');
-              try { null /* disabled for security */; } catch(e) {}
+              try { localStorage.setItem('vibe_cached_sidebar_op', sOp); } catch(e) {}
             }
           } else if (msg.key === 'vibe_sidebar_bg_blur') {
             var sImg = document.querySelector('#vibe-sidebar-bg-layer .vibe-sidebar-bg-img');
             if (sImg) {
               var sBl = parseInt(msg.value, 10);
               sImg.style.setProperty('filter', 'blur(' + sBl + 'px)', 'important');
-              try { null /* disabled for security */; } catch(e) {}
+              try { localStorage.setItem('vibe_cached_sidebar_bl', sBl); } catch(e) {}
             }
           } else if (msg.key === 'card_radius') {
             var r = parseInt(msg.value, 10);
             if (!isNaN(r)) {
               document.documentElement.style.setProperty('--bc-card-radius', r + 'px');
-              try { null /* disabled for security */; } catch(e) {}
+              try { localStorage.setItem('vibe_cached_radius', r); } catch(e) {}
             }
           } else if (msg.key === 'vibe_show_gpa') {
             safeStorageGet(['active_preset'], function(res) {
-              var activeId = (res && res.active_preset) || null /* disabled for security */ || DEFAULT_PRESET_ID;
+              var activeId = (res && res.active_preset) || localStorage.getItem('vibe_cached_preset') || DEFAULT_PRESET_ID;
               renderGpaSchoolCard(activeId);
             });
           } else if (msg.key === 'vibe_gpa_bg_color') {
@@ -4602,7 +4593,7 @@ function applyCardHeroColors(presetId) {
                 gpaHero.style.background = msg.value;
               } else {
                 safeStorageGet(['active_preset'], function(res) {
-                  var activeId = (res && res.active_preset) || null /* disabled for security */ || DEFAULT_PRESET_ID;
+                  var activeId = (res && res.active_preset) || localStorage.getItem('vibe_cached_preset') || DEFAULT_PRESET_ID;
                   var catalog = (typeof PRESETS !== 'undefined') ? PRESETS : {};
                   var p = catalog[activeId] || catalog[DEFAULT_PRESET_ID];
                   var accent = (p && p.colors && (p.colors.accent || p.colors.links)) || '#457354';
@@ -4659,7 +4650,7 @@ function applyCardHeroColors(presetId) {
           'active_preset', 'custom_theme_colors',
           'vibe_sidebar_bg_url', 'vibe_sidebar_bg_opacity', 'vibe_sidebar_bg_blur', 'vibe_wallpaper_url'
         ], function(res) {
-          var activeId = (res && res.active_preset) || null /* disabled for security */ || DEFAULT_PRESET_ID;
+          var activeId = (res && res.active_preset) || localStorage.getItem('vibe_cached_preset') || DEFAULT_PRESET_ID;
           isApplyingTheme = true;
           try {
             applyCardHeroColors(activeId);
@@ -4672,7 +4663,7 @@ function applyCardHeroColors(presetId) {
             );
             enhanceCalendarEvents(activeId);
             initTodoReformatter(activeId);
-            syncCanvasLayout(); injectStateClasses();
+            syncCanvasLayout();
             sanitizeFilesAndTables();
             if (window.location.pathname.match(/^\/courses\/\d+/) && !document.getElementById('vibe-course-nav')) {
               injectCourseNavBar(activeId);
@@ -4718,7 +4709,7 @@ function applyCardHeroColors(presetId) {
 
       if (rightSide && (!duo || !rightSide.contains(duo) || !duo.querySelector('#vibe-todo-widget'))) {
         safeStorageGet(['active_preset'], function(res) {
-          var activeId = (res && res.active_preset) || null /* disabled for security */ || DEFAULT_PRESET_ID;
+          var activeId = (res && res.active_preset) || localStorage.getItem('vibe_cached_preset') || DEFAULT_PRESET_ID;
           initTodoReformatter(activeId);
         });
       } else if (rightSide && duo) {
@@ -4729,7 +4720,7 @@ function applyCardHeroColors(presetId) {
         safeStorageGet([
           'active_preset', 'vibe_sidebar_bg_url', 'vibe_sidebar_bg_opacity', 'vibe_sidebar_bg_blur', 'vibe_wallpaper_url'
         ], function(res) {
-          var activeId = (res && res.active_preset) || null /* disabled for security */ || DEFAULT_PRESET_ID;
+          var activeId = (res && res.active_preset) || localStorage.getItem('vibe_cached_preset') || DEFAULT_PRESET_ID;
           applySidebarTheme(activeId);
           applySidebarBackground(
             res && res.vibe_sidebar_bg_url,
@@ -4745,7 +4736,7 @@ function applyCardHeroColors(presetId) {
   function attachNavigationListeners() {
     function handleRouteTransition() {
       cleanupObsoleteWidgets();
-      syncCanvasLayout(); injectStateClasses();
+      syncCanvasLayout();
       checkCourseLandingRedirect();
       applyCourseRedirectsAndRenaming();
       sanitizeFilesAndTables();
@@ -4753,7 +4744,7 @@ function applyCardHeroColors(presetId) {
         'active_preset', 'vibe_sidebar_bg_url', 'vibe_sidebar_bg_opacity', 'vibe_sidebar_bg_blur',
         'vibe_wallpaper_url', 'vibe_wallpaper_opacity', 'vibe_wallpaper_blur'
       ], function(res) {
-        var activeId = (res && res.active_preset) || null /* disabled for security */ || DEFAULT_PRESET_ID;
+        var activeId = (res && res.active_preset) || localStorage.getItem('vibe_cached_preset') || DEFAULT_PRESET_ID;
         // Re-apply wallpaper so course vs dashboard context-aware opacity kicks in
         if (res) {
           applyWallpaper(res.vibe_wallpaper_url, res.vibe_wallpaper_opacity, res.vibe_wallpaper_blur);
