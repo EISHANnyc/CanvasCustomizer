@@ -1909,7 +1909,7 @@ html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide {
 /* When the screen is too small to fit 800px + 560px + gap side-by-side (approx < 1450px) */
 /* The flex-wrap: wrap above will automatically push #right-side-wrapper to the bottom! */
 /* We just need to make sure the sidebar duo and buttons look good when it drops to the bottom. */
-@media (max-width: 1450px) {
+@media (max-width: 1650px) {
   body.ic-dashboard-app #right-side-wrapper,
   body.vibe-has-sidebar-duo #right-side-wrapper {
     flex: 1 1 100% !important;
@@ -6021,3 +6021,11 @@ html.vibe-theme-dark #right-side .mini_month .next_month_link:hover, html.vibe-t
 
 /* Lock native right-sidebar buttons on dashboard from stretching to 560px */
 
+
+/* Force wrapping when screen is too small */
+body.ic-dashboard-app #main,
+body.vibe-has-sidebar-duo #main {
+  max-width: 100% !important;
+  width: 100% !important;
+  overflow-x: hidden !important;
+}
