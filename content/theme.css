@@ -1,3 +1,35 @@
+
+/* Sleek Global Scrollbar */
+::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+  background: transparent !important;
+}
+::-webkit-scrollbar-track {
+  background: transparent !important;
+  border: none !important;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 128, 128, 0.35) !important;
+  border-radius: 999px !important;
+  border: none !important;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--bcaccent, rgba(128, 128, 128, 0.6)) !important;
+}
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-button:start,
+::-webkit-scrollbar-button:end {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
+  border: none !important;
+}
+::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
 /* CanvasCustomizer Apple Design Standard Stylesheet (Anti-Slop, Pure Human Craft) */
 :root {
   --bcbackground-0: #F5F0E8;
@@ -348,9 +380,9 @@ div[data-testid="dashboard-cards"] {
 
 .ic-DashboardCard,
 [data-testid="draggable-card"] {
-  width: 280px !important;
-  max-width: 280px !important;
-  min-width: 280px !important;
+  width: 340px !important;
+  max-width: 340px !important;
+  min-width: 340px !important;
   margin: 0 !important;
   display: flex !important;
   flex-direction: column !important;
@@ -987,7 +1019,7 @@ div#application,
 div#application.ic-app {
   min-height: 100vh;
   overflow-x: clip;
-  overflow-y: auto !important;
+  overflow: visible !important;
 }
 
 #wrapper {
@@ -2037,61 +2069,17 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   box-sizing: border-box !important;
 }
 
-#vibe-side-duo *::-webkit-scrollbar,
-.vibe-feed-card *::-webkit-scrollbar,
-.vibe-todo-list::-webkit-scrollbar,
-.vibe-graded-list::-webkit-scrollbar {
-  width: 5px !important;
-  height: 5px !important;
-  background: transparent !important;
-}
 
-#vibe-side-duo *::-webkit-scrollbar-track,
-.vibe-feed-card *::-webkit-scrollbar-track,
-.vibe-todo-list::-webkit-scrollbar-track,
-.vibe-graded-list::-webkit-scrollbar-track {
-  background: transparent !important;
-  border: none !important;
-  margin: 4px 0 !important;
-}
 
-#vibe-side-duo *::-webkit-scrollbar-thumb,
-.vibe-feed-card *::-webkit-scrollbar-thumb,
-.vibe-todo-list::-webkit-scrollbar-thumb,
-.vibe-graded-list::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.22) !important;
-  border-radius: 999px !important;
-  border: none !important;
-}
 
-#vibe-side-duo *::-webkit-scrollbar-thumb:hover,
-.vibe-feed-card *::-webkit-scrollbar-thumb:hover,
-.vibe-todo-list::-webkit-scrollbar-thumb:hover,
-.vibe-graded-list::-webkit-scrollbar-thumb:hover {
-  background-color: var(--bcaccent, rgba(255, 255, 255, 0.45)) !important;
-}
 
-#vibe-side-duo *::-webkit-scrollbar-button,
-.vibe-feed-card *::-webkit-scrollbar-button,
-.vibe-todo-list::-webkit-scrollbar-button,
-.vibe-graded-list::-webkit-scrollbar-button,
-.vibe-todo-list::-webkit-scrollbar-button:start,
-.vibe-todo-list::-webkit-scrollbar-button:end,
-.vibe-graded-list::-webkit-scrollbar-button:start,
-.vibe-graded-list::-webkit-scrollbar-button:end {
-  display: none !important;
-  width: 0px !important;
-  height: 0px !important;
-  background: transparent !important;
-  border: none !important;
-}
 
-#vibe-side-duo *::-webkit-scrollbar-corner,
-.vibe-feed-card *::-webkit-scrollbar-corner,
-.vibe-todo-list::-webkit-scrollbar-corner,
-.vibe-graded-list::-webkit-scrollbar-corner {
-  background: transparent !important;
-}
+
+
+
+
+
+
 
 /* Day Groups */
 .vibe-todo-day-group {
@@ -3024,9 +3012,7 @@ body.context-course #content-wrapper,
   z-index: 10 !important;
 }
 
-.vibe-course-nav::-webkit-scrollbar {
-  display: none !important;
-}
+
 
 .vibe-course-nav-pill {
   display: inline-flex !important;
@@ -5863,10 +5849,10 @@ body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #content-wrapper.i
   width: auto !important;
 }
 body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #right-side-wrapper.ic-app-main-content__secondary {
-  flex: 0 0 280px !important;
-  width: 280px !important;
-  min-width: 280px !important;
-  max-width: 280px !important;
+  flex: 0 0 340px !important;
+  width: 340px !important;
+  min-width: 340px !important;
+  max-width: 340px !important;
   overflow: visible !important;
   display: block !important;
   padding: 0 0 0 16px !important;
@@ -5875,7 +5861,7 @@ body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #right-side-wrappe
   position: sticky !important;
   top: 16px !important;
   max-height: calc(100vh - 80px) !important;
-  overflow-y: auto !important;
+  overflow: visible !important;
 }
 
 /* -- Sidebar Duo must ALWAYS preserve full 560px on any page -- */
@@ -6271,10 +6257,10 @@ body.vibe-announcements-expanded [data-testid="announcement-row"] [class*="conte
   body.responsive_student_grades_page #right-side-wrapper:has(.vibe-sidebar-duo),
   .vibe-dashboard-page #right-side-wrapper,
   #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper {
-    flex: 0 0 280px !important;
-    width: 280px !important;
-    max-width: 280px !important;
-    min-width: 280px !important;
+    flex: 0 0 340px !important;
+    width: 340px !important;
+    max-width: 340px !important;
+    min-width: 340px !important;
     margin: 0 !important;
   }
   
@@ -6372,11 +6358,11 @@ body:has(#grades_summary) #right-side-wrapper,
 body[class*="grades"] #right-side,
 .student_grades #right-side,
 body:has(#grades_summary) #right-side {
-    flex: 0 0 280px !important;
+    flex: 0 0 340px !important;
     float: none !important;
     position: sticky !important;
     top: 70px !important;
     align-self: flex-start !important;
     max-height: calc(100vh - 100px) !important;
-    overflow-y: auto !important;
+    overflow: visible !important;
 }
