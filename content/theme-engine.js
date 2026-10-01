@@ -2140,7 +2140,7 @@
     var dayNum = dateObj.getDate();
 
     if (diffDays === 0) {
-      return { label: 'Today ·· ' + monthName + ' ' + dayNum, isToday: true, isTomorrow: false };
+      return { label: 'Today · ' + monthName + ' ' + dayNum, isToday: true, isTomorrow: false };
     }
     if (diffDays === 1) {
       return { label: 'Tomorrow · ' + monthName + ' ' + dayNum, isToday: false, isTomorrow: true };
@@ -3127,7 +3127,7 @@
       var countStr = String(group.items.length);
 
       groupEl.innerHTML =
-        '<div class="vibe-minimal-day-label' + (group.header.isToday ·? ' is-today' : '') + '">' +
+        '<div class="vibe-minimal-day-label' + (group.header.isToday ? ' is-today' : '') + '">' +
           '<span class="vibe-minimal-day-text">' + group.header.label + '</span>' +
           '<span class="vibe-minimal-day-count">' + countStr + '</span>' +
         '</div>';
