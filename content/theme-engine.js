@@ -1335,8 +1335,8 @@
         var activeScale = getActiveGpaScale(scaleKey, customScaleData);
         var scaleBadgeLabel = activeScale ? activeScale.label : scaleKey;
 
-        var isNew = !existing;
-        var card = existing || document.createElement('div');
+        var card = document.getElementById('vibe-gpa-school-card') || document.createElement('div');
+        var isNew = !card.parentNode;
         card.id = 'vibe-gpa-school-card';
         card.className = 'ic-DashboardCard vibe-gpa-card';
 

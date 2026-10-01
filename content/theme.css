@@ -6148,3 +6148,10 @@ html.vibe-theme-dark #right-side .mini_month td, html.vibe-theme-dark #right-sid
 html.vibe-theme-dark #right-side .mini_month .mini-month-header, html.vibe-theme-dark #right-side .mini_month .month_title { padding: 4px 0 !important; font-size: 14px !important; border: none !important; }
 html.vibe-theme-dark #right-side .mini_month .next_month_link, html.vibe-theme-dark #right-side .mini_month .prev_month_link, html.vibe-theme-dark #right-side .mini_month a.Button, html.vibe-theme-dark #right-side .mini_month button.Button, html.vibe-theme-dark #right-side .mini_month .Button--icon-action { width: 28px !important; height: 28px !important; min-width: 28px !important; border-radius: 50% !important; padding: 0 !important; background: transparent !important; border: none !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; box-shadow: none !important; margin: 0 !important; }
 html.vibe-theme-dark #right-side .mini_month .next_month_link:hover, html.vibe-theme-dark #right-side .mini_month .prev_month_link:hover, html.vibe-theme-dark #right-side .mini_month a.Button:hover, html.vibe-theme-dark #right-side .mini_month button.Button:hover { background: rgba(255,255,255,0.1) !important; border: none !important; }
+
+/* Lock native right-sidebar buttons on dashboard from stretching to 560px */
+html.vibe-theme-dark body.ic-dashboard-app #right-side .Button--block {
+  max-width: 290px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
