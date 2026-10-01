@@ -3,12 +3,10 @@
   "name": "CanvasCustomizer",
   "version": "1.0.66",
   "version_name": "1.0.66",
-
   "description": "A free way to customize Canvas.",
   "permissions": [
     "storage",
-    "activeTab",
-    "tabs"
+    "activeTab"
   ],
   "action": {
     "default_popup": "popup/popup.html",
@@ -39,12 +37,3 @@
     }
   ]
 }
-
-
-
-
-
-
-
-
-

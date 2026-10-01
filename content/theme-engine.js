@@ -3150,18 +3150,18 @@
           '<div class="vibe-minimal-body">' +
             '<span class="vibe-minimal-title" title="' + cleanTitle + '">' + cleanTitle + '</span>' +
             '<div class="vibe-minimal-meta">' +
-              '<span class="vibe-minimal-course" style="color: ' + courseColor + ' !important;">' + (courseDisplay || (subject ? subject.toUpperCase() : 'COURSE')) + '</span>' +
+              '<span class="vibe-minimal-course" style="color: ' + courseColor + ' !important;">' + (escapeHtml(courseDisplay || (subject ? subject.toUpperCase()) : 'COURSE')) + '</span>' +
               '<span class="vibe-minimal-sep">·</span>' +
               '<span class="vibe-minimal-time">' + relativeDateStr + '</span>' +
             '</div>' +
           '</div>' +
           '<div class="vibe-minimal-actions">' +
-            '<span class="' + scoreClass + '">' + scoreText + '</span>' +
+            '<span class="' + scoreClass + '">' + escapeHtml(scoreText) + '</span>' +
           '</div>';
 
         row.addEventListener('click', function(e) {
           if (e.target.closest('.vibe-minimal-uncomplete-btn')) return;
-          if (item.href && item.href !== '#') {
+          if (item.href && item.href !== '#' && !item.href.trim().toLowerCase().startsWith("javascript:")) {
             window.location.href = item.href;
           }
         });
@@ -3236,7 +3236,7 @@
       '<div class="vibe-minimal-body">' +
         '<span class="vibe-minimal-title" title="' + cleanTitle + '">' + cleanTitle + '</span>' +
         '<div class="vibe-minimal-meta">' +
-          '<span class="vibe-minimal-course" style="color: ' + courseColor + ' !important;">' + (courseDisplay || (subject ? subject.toUpperCase() : 'COURSE')) + '</span>' +
+          '<span class="vibe-minimal-course" style="color: ' + courseColor + ' !important;">' + (escapeHtml(courseDisplay || (subject ? subject.toUpperCase()) : 'COURSE')) + '</span>' +
           '<span class="vibe-minimal-sep">·</span>' +
           '<span class="vibe-minimal-time">Today</span>' +
         '</div>' +
@@ -3386,7 +3386,7 @@
             '<div class="vibe-minimal-body">' +
               '<span class="vibe-minimal-title" title="' + cleanTitle + '">' + cleanTitle + '</span>' +
               '<div class="vibe-minimal-meta">' +
-                '<span class="vibe-minimal-course" style="color: ' + courseColor + ' !important;">' + (courseDisplay || (subject ? subject.toUpperCase() : 'COURSE')) + '</span>' +
+                '<span class="vibe-minimal-course" style="color: ' + courseColor + ' !important;">' + (escapeHtml(courseDisplay || (subject ? subject.toUpperCase()) : 'COURSE')) + '</span>' +
                 '<span class="vibe-minimal-sep">·</span>' +
                 '<span class="vibe-minimal-time ' + timeUrgencyClass + '">' + timeStr + '</span>' +
               '</div>' +
@@ -4282,7 +4282,10 @@
     });
   }
 
+  var isVibeInitialized = false;
   function init() {
+    if(isVibeInitialized) return;
+    isVibeInitialized = true;
     if (!isCanvasPage()) return;
 
     checkCourseLandingRedirect();

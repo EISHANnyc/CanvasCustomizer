@@ -805,7 +805,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }, delay || 75);
   }
 
+  let liveParamTicking = false;
+  let latestParams = {};
   function sendLiveParam(key, val) {
+    latestParams[key] = val;
+    if (!liveParamTicking) {
+      liveParamTicking = true;
+      requestAnimationFrame(() => {
+        for (let k in latestParams) {
+          if (typeof chrome !== "undefined" && chrome.tabs && chrome.tabs.query) {
+            try { chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) { if (tabs && tabs[0] && tabs[0].id) { chrome.tabs.sendMessage(tabs[0].id, { type: "VIBE_LIVE_PARAM", key: k, value: latestParams[k] }, function() { if(chrome.runtime.lastError){} }); } }); } catch(e) {}
+          }
+        }
+        latestParams = {};
+        liveParamTicking = false;
+      });
+    }
+  }
+  function oldSendLiveParam_unused(key, val) {
     if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.query) {
       try {
         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
