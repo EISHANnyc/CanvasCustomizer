@@ -1463,7 +1463,7 @@
               '</div>' +
               '<div class="vibe-gpa-settings-row">' +
                 '<label>Card Accent</label>' +
-                '<div style="display:flex;align-items:center;gap:10px;flex:1;">' +
+                '<div style="display:flex;align-items:center;justify-content:center;gap:10px;flex:1;">' +
                   '<input id="vibe-gpa-color-input" type="color" value="' + colorInputVal + '" style="width:34px;height:28px;border:none;padding:0;background:none;cursor:pointer;border-radius:6px;">' +
                   '<button type="button" id="vibe-gpa-color-reset-btn" class="mini-text-btn" style="background:none;border:none;color:var(--bctext-2);font-size:12px;cursor:pointer;text-decoration:underline;">Reset to theme</button>' +
                 '</div>' +
