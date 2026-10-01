@@ -1399,8 +1399,18 @@
           }
         }
 
-        // Clean up any existing modal backdrop in document.body
+        // Clean up any existing modal backdrop in document.body, unless it's currently open
         var oldBackdrop = document.getElementById('vibe-gpa-modal-backdrop');
+        if (oldBackdrop && oldBackdrop.classList.contains('vibe-modal-open')) {
+          var sBtn = card.querySelector('.vibe-gpa-settings-btn');
+          if (sBtn) {
+            sBtn.onclick = function(e) {
+              e.preventDefault(); e.stopPropagation();
+              oldBackdrop.classList.add('vibe-modal-open');
+            };
+          }
+          return;
+        }
         if (oldBackdrop) oldBackdrop.remove();
 
         // Settings Modal Popup (Rendered directly on document.body so it is never clipped)
@@ -1443,11 +1453,11 @@
                   '<option value="cumulative"' + (mode === 'cumulative' ? ' selected' : '') + '>Cumulative (Include Past GPA)</option>' +
                 '</select>' +
               '</div>' +
-              '<div class="vibe-gpa-settings-row" id="vibe-gpa-cumulative-row" style="' + (mode === 'cumulative' ? '' : 'display:none') + '">' +
+              '<div class="vibe-gpa-settings-row" id="vibe-gpa-cumulative-row" style="' + (mode === 'cumulative' ? 'display:flex !important;' : 'display:none !important;') + '">' +
                 '<label>Past GPA</label>' +
                 '<input id="vibe-gpa-past-gpa-input" type="number" step="0.01" min="0" max="10" placeholder="e.g. 3.50" value="' + (pastGpa !== null ? pastGpa : '') + '">' +
               '</div>' +
-              '<div class="vibe-gpa-settings-row" id="vibe-gpa-credits-row" style="' + (mode === 'cumulative' ? '' : 'display:none') + '">' +
+              '<div class="vibe-gpa-settings-row" id="vibe-gpa-credits-row" style="' + (mode === 'cumulative' ? 'display:flex !important;' : 'display:none !important;') + '">' +
                 '<label>Past Credits</label>' +
                 '<input id="vibe-gpa-past-credits-input" type="number" step="1" min="0" placeholder="e.g. 60" value="' + (pastCredits || '') + '">' +
               '</div>' +
@@ -1560,8 +1570,8 @@
         if (modeSel && cumRow && credsRow) {
           modeSel.onchange = function() {
             var isCum = modeSel.value === 'cumulative';
-            cumRow.style.display = isCum ? '' : 'none';
-            credsRow.style.display = isCum ? '' : 'none';
+            cumRow.style.setProperty('display', isCum ? 'flex' : 'none', 'important');
+            credsRow.style.setProperty('display', isCum ? 'flex' : 'none', 'important');
           };
         }
 

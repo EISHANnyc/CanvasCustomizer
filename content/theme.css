@@ -5474,6 +5474,10 @@ span[class*="checkboxFacade__facade"] {
   outline: none !important;
   transition: border-color 140ms !important;
 }
+.vibe-gpa-settings-row select {
+  text-align: center !important;
+  text-align-last: center !important;
+}
 .vibe-gpa-settings-row select:focus,
 .vibe-gpa-settings-row input:focus {
   border-color: var(--bcaccent, #b85338) !important;
