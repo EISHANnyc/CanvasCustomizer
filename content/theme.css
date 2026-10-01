@@ -1925,9 +1925,7 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
     flex-direction: column !important;
   }
   html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
-    width: 100% !important;
-    display: flex !important;
-    margin: 4px 0 !important;
+    /* OVERRIDDEN AT END OF FILE */
   }
 }
 
@@ -1981,9 +1979,7 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
     flex-direction: column !important;
   }
   html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
-    width: 100% !important;
-    display: flex !important;
-    margin: 4px 0 !important;
+    /* OVERRIDDEN AT END OF FILE */
   }
 }
 
@@ -6086,4 +6082,37 @@ body.vibe-has-sidebar-duo #main {
   max-width: 100% !important;
   width: 100% !important;
   overflow-x: hidden !important;
+}
+
+
+@media (max-width: 1650px) {
+  /* Let the duo container span the full width of the screen (up to 1160px) when dropped to the bottom */
+  body #right-side-wrapper:has(.vibe-sidebar-duo),
+  body.responsive_student_grades_page #right-side-wrapper:has(.vibe-sidebar-duo) {
+    width: 100% !important;
+    max-width: 1160px !important;
+    min-width: 0 !important;
+    flex: 1 1 100% !important;
+    margin: 20px auto 40px auto !important;
+  }
+
+  /* Make the buttons span 50% each instead of 100% if they are side-by-side, OR span 100%?
+     Wait, if max-width is 1160px, spanning 100% makes them 1160px wide. 
+     Let's make them span 50% so they sit neatly side-by-side under the two columns! */
+  html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, 
+  html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide,
+  body #right-side-wrapper:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
+    width: calc(50% - 8px) !important;
+    display: inline-flex !important;
+    margin: 4px !important;
+  }
+}
+
+/* Stack everything cleanly on actual mobile */
+@media (max-width: 768px) {
+  html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, 
+  html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide,
+  body #right-side-wrapper:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
+    /* OVERRIDDEN AT END OF FILE */
+  }
 }
