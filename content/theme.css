@@ -1902,7 +1902,8 @@ iframe[src*="external_tools"] {
 
 /* Side-by-side buttons on right sidebar */
 html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
-  width: calc(50% - 12px) !important;
+  width: calc(50% - 8px) !important;
+  box-sizing: border-box !important;
   display: inline-flex !important;
   margin: 4px !important;
 }
@@ -1957,7 +1958,8 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
 
 /* Side-by-side buttons on right sidebar */
 html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
-  width: calc(50% - 12px) !important;
+  width: calc(50% - 8px) !important;
+  box-sizing: border-box !important;
   display: inline-flex !important;
   margin: 4px !important;
 }
