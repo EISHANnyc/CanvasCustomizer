@@ -5897,10 +5897,9 @@ body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #right-side-wrappe
   overflow-y: auto !important;
 }
 
-/* -- Sidebar Duo must ALWAYS preserve full 560px on any page -- */
-#right-side-wrapper:has(.vibe-sidebar-duo),
-body #right-side-wrapper:has(.vibe-sidebar-duo),
-body.responsive_student_grades_page #right-side-wrapper:has(.vibe-sidebar-duo) {
+/* -- Sidebar Duo must ALWAYS preserve full 560px ONLY ON DASHBOARD -- */
+body.ic-dashboard-app #right-side-wrapper:has(.vibe-sidebar-duo),
+body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo) {
   width: 560px !important;
   max-width: 560px !important;
   min-width: 560px !important;
@@ -6139,3 +6138,8 @@ input#announcements-search {
 .ic-item-row__meta-col {
   padding-right: 12px !important;
 }
+h t m l . v i b e - t h e m e - d a r k   # n o t _ r i g h t _ s i d e ,   h t m l . v i b e - t h e m e - d a r k   # c o n t e n t ,   h t m l . v i b e - t h e m e - d a r k   # c o n t e n t - w r a p p e r   {   b o r d e r :   n o n e   ! i m p o r t a n t ;   o u t l i n e :   n o n e   ! i m p o r t a n t ;   b o x - s h a d o w :   n o n e   ! i m p o r t a n t ;   } 
+ 
+ 
+h t m l . v i b e - t h e m e - d a r k   . m i n i _ m o n t h   . B u t t o n ,   h t m l . v i b e - t h e m e - d a r k   . m i n i _ m o n t h   . n e x t _ m o n t h _ l i n k ,   h t m l . v i b e - t h e m e - d a r k   . m i n i _ m o n t h   . p r e v _ m o n t h _ l i n k   {   p a d d i n g :   4 p x   ! i m p o r t a n t ;   b o r d e r - r a d i u s :   5 0 %   ! i m p o r t a n t ;   b a c k g r o u n d :   t r a n s p a r e n t   ! i m p o r t a n t ;   m i n - w i d t h :   2 8 p x   ! i m p o r t a n t ;   h e i g h t :   2 8 p x   ! i m p o r t a n t ;   l i n e - h e i g h t :   1   ! i m p o r t a n t ;   d i s p l a y :   i n l i n e - f l e x   ! i m p o r t a n t ;   a l i g n - i t e m s :   c e n t e r   ! i m p o r t a n t ;   j u s t i f y - c o n t e n t :   c e n t e r   ! i m p o r t a n t ;   b o r d e r :   n o n e   ! i m p o r t a n t ;   }  
+ 
