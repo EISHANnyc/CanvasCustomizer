@@ -5373,131 +5373,247 @@ span[class*="checkboxFacade__facade"] {
   pointer-events: none;
 }
 
-/* Settings panel — overlays hero */
-.vibe-gpa-settings-panel {
-  position: absolute;
-  inset: 0;
-  background: var(--bcbackground-1, #1e1e1e);
-  border-radius: var(--bc-card-radius, 12px) var(--bc-card-radius, 12px) 0 0;
-  padding: 8px 10px 8px;
-  display: none;
-  flex-direction: column;
-  gap: 6px;
-  z-index: 20;
-  overflow-y: auto;
+/* GPA Settings Modal Popup */
+.vibe-gpa-modal-backdrop {
+  display: none !important;
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0, 0, 0, 0.65) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  z-index: 999999 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
 }
-.vibe-gpa-settings-panel.vibe-gpa-settings-open {
-  display: flex;
+.vibe-gpa-modal-backdrop.vibe-modal-open {
+  display: flex !important;
+}
+.vibe-gpa-modal-box {
+  background: var(--bcbackground-0, #1e1e1e) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45) !important;
+  width: 92vw !important;
+  max-width: 520px !important;
+  max-height: 88vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  animation: vibeGpaModalPop 160ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+@keyframes vibeGpaModalPop {
+  0% { transform: scale(0.96); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.vibe-gpa-modal-header {
+  padding: 14px 18px !important;
+  border-bottom: 1px solid var(--bcborders, rgba(255, 255, 255, 0.08)) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: var(--bcbackground-1, #252525) !important;
+}
+.vibe-gpa-modal-title-wrap {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  color: var(--bctext-0, #f5f5f5) !important;
+}
+.vibe-gpa-modal-title {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+.vibe-gpa-modal-close {
+  background: transparent !important;
+  border: none !important;
+  color: var(--bctext-2, #888) !important;
+  font-size: 22px !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  padding: 2px 6px !important;
+  border-radius: 6px !important;
+  transition: color 120ms, background 120ms !important;
+}
+.vibe-gpa-modal-close:hover {
+  color: var(--bctext-0, #fff) !important;
+  background: var(--bcbackground-2, rgba(255, 255, 255, 0.1)) !important;
+}
+.vibe-gpa-modal-body {
+  padding: 18px !important;
+  overflow-y: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  color: var(--bctext-0, #eee) !important;
 }
 .vibe-gpa-settings-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
 }
 .vibe-gpa-settings-row label {
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: var(--bctext-1);
-  width: 68px;
-  flex-shrink: 0;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--bctext-1, #bbb) !important;
+  width: 120px !important;
+  flex-shrink: 0 !important;
 }
 .vibe-gpa-settings-row select,
 .vibe-gpa-settings-row input[type="number"],
 .vibe-gpa-settings-row input[type="text"] {
-  flex: 1;
-  background: var(--bcbackground-2, #2a2a2a);
-  border: 1px solid var(--bcborders);
-  border-radius: 6px;
-  color: var(--bctext-0);
-  font-size: 0.70rem;
-  padding: 3px 6px;
-  outline: none;
-}
-.vibe-gpa-settings-row input[type="color"] {
-  width: 28px;
-  height: 22px;
-  padding: 0;
-  border: 1px solid var(--bcborders);
-  background: transparent;
-  cursor: pointer;
-  border-radius: 5px;
+  flex: 1 !important;
+  background: var(--bcbackground-1, #282828) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.14)) !important;
+  border-radius: 8px !important;
+  color: var(--bctext-0, #f0f0f0) !important;
+  font-size: 13px !important;
+  padding: 7px 10px !important;
+  outline: none !important;
+  transition: border-color 140ms !important;
 }
 .vibe-gpa-settings-row select:focus,
 .vibe-gpa-settings-row input:focus {
-  border-color: var(--bcaccent);
+  border-color: var(--bcaccent, #b85338) !important;
+}
+.vibe-gpa-custom-editor-card {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  padding: 12px 14px !important;
+  background: var(--bcbackground-1, rgba(0, 0, 0, 0.25)) !important;
+  border-radius: 10px !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.08)) !important;
+}
+.vibe-gpa-custom-editor-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+.vibe-gpa-editor-title {
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  color: var(--bctext-0, #eee) !important;
+}
+.vibe-gpa-editor-hint {
+  font-size: 11px !important;
+  color: var(--bctext-2, #888) !important;
+}
+.vibe-gpa-custom-col-headers {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr 32px !important;
+  gap: 8px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: var(--bctext-2, #999) !important;
+  text-align: center !important;
+  padding: 0 4px !important;
 }
 .vibe-gpa-custom-editor {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin: 3px 0 2px;
-  padding: 6px;
-  background: rgba(0, 0, 0, 0.20);
-  border-radius: 6px;
-  border: 1px solid var(--bcborders);
-  max-height: 120px;
-  overflow-y: auto;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  max-height: 190px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding-right: 2px !important;
 }
 .vibe-gpa-custom-row {
-  display: grid;
-  grid-template-columns: 52px 36px 42px 18px;
-  gap: 4px;
-  align-items: center;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr 32px !important;
+  gap: 8px !important;
+  align-items: center !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 .vibe-gpa-custom-row input {
-  background: var(--bcbackground-2, #2a2a2a);
-  border: 1px solid var(--bcborders);
-  border-radius: 4px;
-  color: var(--bctext-0);
-  font-size: 0.65rem;
-  padding: 2px 4px;
-  text-align: center;
+  min-width: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  background: var(--bcbackground-2, #2a2a2a) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: 6px !important;
+  color: var(--bctext-0, #f0f0f0) !important;
+  font-size: 12.5px !important;
+  padding: 5px 8px !important;
+  text-align: center !important;
+  outline: none !important;
+}
+.vibe-gpa-custom-row input:focus {
+  border-color: var(--bcaccent, #b85338) !important;
 }
 .vibe-gpa-del-btn {
-  background: none;
-  border: none;
-  color: #ff5555;
-  cursor: pointer;
-  font-size: 13px;
-  line-height: 1;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: none !important;
+  border: 1px solid transparent !important;
+  border-radius: 6px !important;
+  color: #ff5555 !important;
+  cursor: pointer !important;
+  font-size: 17px !important;
+  height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background 120ms !important;
+}
+.vibe-gpa-del-btn:hover {
+  background: rgba(255, 85, 85, 0.15) !important;
 }
 .vibe-gpa-add-row-btn {
-  background: none;
-  border: 1px dashed var(--bcborders);
-  border-radius: 4px;
-  color: var(--bctext-1);
-  font-size: 0.62rem;
-  padding: 3px 6px;
-  cursor: pointer;
-  margin-top: 2px;
-  text-align: center;
+  background: var(--bcbackground-2, rgba(255, 255, 255, 0.04)) !important;
+  border: 1px dashed var(--bcborders, rgba(255, 255, 255, 0.18)) !important;
+  border-radius: 7px !important;
+  color: var(--bctext-1, #ccc) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 7px 10px !important;
+  cursor: pointer !important;
+  text-align: center !important;
+  transition: all 120ms !important;
 }
 .vibe-gpa-add-row-btn:hover {
-  border-color: var(--bclinks, #457354);
-  color: var(--bctext-0);
+  border-color: var(--bcaccent, #b85338) !important;
+  color: var(--bctext-0, #fff) !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.08)) !important;
 }
-.vibe-gpa-settings-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 6px;
-  margin-top: 2px;
+.vibe-gpa-modal-footer {
+  padding: 12px 18px !important;
+  border-top: 1px solid var(--bcborders, rgba(255, 255, 255, 0.08)) !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 10px !important;
+  background: var(--bcbackground-1, #252525) !important;
 }
-.vibe-gpa-settings-save {
-  padding: 4px 10px;
-  background: var(--bcaccent);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.70rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: filter 100ms;
+.vibe-gpa-btn-secondary {
+  padding: 6px 14px !important;
+  background: transparent !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.15)) !important;
+  color: var(--bctext-1, #ccc) !important;
+  border-radius: 7px !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 120ms !important;
 }
-.vibe-gpa-settings-save:hover { filter: brightness(1.12); }
+.vibe-gpa-btn-secondary:hover {
+  background: var(--bcbackground-2, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--bctext-0, #fff) !important;
+}
+.vibe-gpa-btn-primary {
+  padding: 6px 16px !important;
+  background: var(--bcaccent, #b85338) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 7px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: filter 120ms !important;
+}
+.vibe-gpa-btn-primary:hover {
+  filter: brightness(1.12) !important;
+}
 
 /* Body — breakdown table */
 .vibe-gpa-body {

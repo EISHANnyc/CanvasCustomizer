@@ -272,8 +272,8 @@
     // Overdue or due now (within -3 hours to 0)
     if (diffMinutes <= 0 && diffMinutes >= -180) {
       return {
-        label: '⚡ Due Now',
-        countdownShort: '⚡ Due Now',
+        label: 'Due Now',
+        countdownShort: 'Due Now',
         urgencyTier: 'critical',
         modifier: 'vibe-urgency-critical',
         timeStr: timeStr
@@ -283,8 +283,8 @@
     // Critical: < 1 hour
     if (diffMinutes > 0 && diffMinutes < 60) {
       return {
-        label: '🔥 Due in ' + diffMinutes + 'm',
-        countdownShort: '🔥 in ' + diffMinutes + 'm',
+        label: 'Due in ' + diffMinutes + 'm',
+        countdownShort: 'In ' + diffMinutes + 'm',
         urgencyTier: 'critical',
         modifier: 'vibe-urgency-critical',
         timeStr: timeStr
@@ -294,8 +294,8 @@
     // Imminent: 1 to 5 hours
     if (diffHours >= 1 && diffHours < 6) {
       return {
-        label: '🔥 In ' + diffHours + 'h · ' + timeStr,
-        countdownShort: '🔥 in ' + diffHours + 'h',
+        label: 'In ' + diffHours + 'h · ' + timeStr,
+        countdownShort: 'In ' + diffHours + 'h',
         urgencyTier: 'critical',
         modifier: 'vibe-urgency-critical',
         timeStr: timeStr
@@ -305,8 +305,8 @@
     // Due Today: same day
     if (dayDiff === 0) {
       return {
-        label: '⚡ Tonight · ' + timeStr,
-        countdownShort: '⚡ Tonight ' + timeStr,
+        label: 'Tonight · ' + timeStr,
+        countdownShort: 'Tonight ' + timeStr,
         urgencyTier: 'high',
         modifier: 'vibe-urgency-high',
         timeStr: timeStr
@@ -316,8 +316,8 @@
     // Due Tomorrow
     if (dayDiff === 1) {
       return {
-        label: '⏳ Tomorrow · ' + timeStr,
-        countdownShort: '⏳ Tomorrow ' + timeStr,
+        label: 'Tomorrow · ' + timeStr,
+        countdownShort: 'Tomorrow ' + timeStr,
         urgencyTier: 'soon',
         modifier: 'vibe-urgency-soon',
         timeStr: timeStr
@@ -1380,49 +1380,6 @@
             '<div class="vibe-gpa-big">' + gpaStr + '</div>' +
             '<div class="vibe-gpa-label">' + modeLabel + ' GPA</div>' +
             '<div class="vibe-gpa-scale-badge">' + scaleBadgeLabel + '</div>' +
-            // Settings panel (hidden by default)
-            '<div class="vibe-gpa-settings-panel" id="vibe-gpa-settings-panel">' +
-              '<div class="vibe-gpa-settings-row">' +
-                '<label>Scale</label>' +
-                '<select id="vibe-gpa-scale-sel">' +
-                  '<option value="standard4"' + (scaleKey === 'standard4' ? ' selected' : '') + '>Standard 4.0</option>' +
-                  '<option value="scale433"' + (scaleKey === 'scale433' ? ' selected' : '') + '>4.33 Scale</option>' +
-                  '<option value="custom"' + (scaleKey === 'custom' ? ' selected' : '') + '>Custom Scale...</option>' +
-                '</select>' +
-              '</div>' +
-              '<div id="vibe-gpa-custom-editor-wrap" style="' + (scaleKey === 'custom' ? '' : 'display:none;') + '">' +
-                '<div style="font-size:0.62rem;color:var(--bctext-2);display:grid;grid-template-columns:52px 36px 42px 18px;gap:4px;text-align:center;font-weight:600;margin-bottom:2px;">' +
-                  '<span>Min %</span><span>Letter</span><span>GPA</span><span></span>' +
-                '</div>' +
-                '<div class="vibe-gpa-custom-editor" id="vibe-gpa-custom-rows-container">' + customRowsHtml + '</div>' +
-                '<button type="button" class="vibe-gpa-add-row-btn" id="vibe-gpa-add-custom-row">+ Add Grade Threshold</button>' +
-              '</div>' +
-              '<div class="vibe-gpa-settings-row">' +
-                '<label>Mode</label>' +
-                '<select id="vibe-gpa-mode-sel">' +
-                  '<option value="semester"' + (mode === 'semester' ? ' selected' : '') + '>Semester</option>' +
-                  '<option value="cumulative"' + (mode === 'cumulative' ? ' selected' : '') + '>Cumulative</option>' +
-                '</select>' +
-              '</div>' +
-              '<div class="vibe-gpa-settings-row">' +
-                '<label>Header Color</label>' +
-                '<div style="display:flex;align-items:center;gap:6px;flex:1;">' +
-                  '<input id="vibe-gpa-color-input" type="color" value="' + colorInputVal + '" style="width:28px;height:24px;border:none;padding:0;background:none;cursor:pointer;border-radius:4px;">' +
-                  '<button type="button" id="vibe-gpa-color-reset-btn" class="mini-text-btn" style="background:none;border:none;color:var(--bctext-2);font-size:10px;cursor:pointer;text-decoration:underline;">Reset</button>' +
-                '</div>' +
-              '</div>' +
-              '<div class="vibe-gpa-settings-row" id="vibe-gpa-cumulative-row" style="' + (mode === 'cumulative' ? '' : 'display:none') + '">' +
-                '<label>Past GPA</label>' +
-                '<input id="vibe-gpa-past-gpa-input" type="number" step="0.01" min="0" max="10" placeholder="e.g. 3.50" value="' + (pastGpa !== null ? pastGpa : '') + '">' +
-              '</div>' +
-              '<div class="vibe-gpa-settings-row" id="vibe-gpa-credits-row" style="' + (mode === 'cumulative' ? '' : 'display:none') + '">' +
-                '<label>Past Credits</label>' +
-                '<input id="vibe-gpa-past-credits-input" type="number" step="1" min="0" placeholder="e.g. 60" value="' + (pastCredits || '') + '">' +
-              '</div>' +
-              '<div class="vibe-gpa-settings-actions">' +
-                '<button class="vibe-gpa-settings-save" id="vibe-gpa-settings-save">Save Scale</button>' +
-              '</div>' +
-            '</div>' +
           '</div>' +
           '<div class="vibe-gpa-body">' +
             '<div class="vibe-gpa-breakdown-header">' +
@@ -1442,20 +1399,121 @@
           }
         }
 
-        // Wire settings button & panel
+        // Clean up any existing modal backdrop in document.body
+        var oldBackdrop = document.getElementById('vibe-gpa-modal-backdrop');
+        if (oldBackdrop) oldBackdrop.remove();
+
+        // Settings Modal Popup (Rendered directly on document.body so it is never clipped)
+        var modalBackdrop = document.createElement('div');
+        modalBackdrop.id = 'vibe-gpa-modal-backdrop';
+        modalBackdrop.className = 'vibe-gpa-modal-backdrop';
+        modalBackdrop.innerHTML =
+          '<div class="vibe-gpa-modal-box">' +
+            '<div class="vibe-gpa-modal-header">' +
+              '<div class="vibe-gpa-modal-title-wrap">' +
+                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>' +
+                '<span class="vibe-gpa-modal-title">GPA Calculator Settings</span>' +
+              '</div>' +
+              '<button type="button" class="vibe-gpa-modal-close" id="vibe-gpa-modal-close" title="Close">×</button>' +
+            '</div>' +
+            '<div class="vibe-gpa-modal-body">' +
+              '<div class="vibe-gpa-settings-row">' +
+                '<label>Scale Preset</label>' +
+                '<select id="vibe-gpa-scale-sel">' +
+                  '<option value="standard4"' + (scaleKey === 'standard4' ? ' selected' : '') + '>Standard 4.0 Scale</option>' +
+                  '<option value="scale433"' + (scaleKey === 'scale433' ? ' selected' : '') + '>4.33 Scale</option>' +
+                  '<option value="custom"' + (scaleKey === 'custom' ? ' selected' : '') + '>Custom Scale...</option>' +
+                '</select>' +
+              '</div>' +
+              '<div id="vibe-gpa-custom-editor-wrap" class="vibe-gpa-custom-editor-card" style="' + (scaleKey === 'custom' ? '' : 'display:none;') + '">' +
+                '<div class="vibe-gpa-custom-editor-header">' +
+                  '<span class="vibe-gpa-editor-title">Custom Grade Thresholds</span>' +
+                  '<span class="vibe-gpa-editor-hint">Assign % to letter & GPA points</span>' +
+                '</div>' +
+                '<div class="vibe-gpa-custom-col-headers">' +
+                  '<span>Min %</span><span>Letter</span><span>GPA Points</span><span></span>' +
+                '</div>' +
+                '<div class="vibe-gpa-custom-editor" id="vibe-gpa-custom-rows-container">' + customRowsHtml + '</div>' +
+                '<button type="button" class="vibe-gpa-add-row-btn" id="vibe-gpa-add-custom-row">+ Add Grade Threshold</button>' +
+              '</div>' +
+              '<div class="vibe-gpa-settings-row">' +
+                '<label>Calculation Mode</label>' +
+                '<select id="vibe-gpa-mode-sel">' +
+                  '<option value="semester"' + (mode === 'semester' ? ' selected' : '') + '>Semester (Current Courses)</option>' +
+                  '<option value="cumulative"' + (mode === 'cumulative' ? ' selected' : '') + '>Cumulative (Include Past GPA)</option>' +
+                '</select>' +
+              '</div>' +
+              '<div class="vibe-gpa-settings-row" id="vibe-gpa-cumulative-row" style="' + (mode === 'cumulative' ? '' : 'display:none') + '">' +
+                '<label>Past GPA</label>' +
+                '<input id="vibe-gpa-past-gpa-input" type="number" step="0.01" min="0" max="10" placeholder="e.g. 3.50" value="' + (pastGpa !== null ? pastGpa : '') + '">' +
+              '</div>' +
+              '<div class="vibe-gpa-settings-row" id="vibe-gpa-credits-row" style="' + (mode === 'cumulative' ? '' : 'display:none') + '">' +
+                '<label>Past Credits</label>' +
+                '<input id="vibe-gpa-past-credits-input" type="number" step="1" min="0" placeholder="e.g. 60" value="' + (pastCredits || '') + '">' +
+              '</div>' +
+              '<div class="vibe-gpa-settings-row">' +
+                '<label>Card Accent</label>' +
+                '<div style="display:flex;align-items:center;gap:10px;flex:1;">' +
+                  '<input id="vibe-gpa-color-input" type="color" value="' + colorInputVal + '" style="width:34px;height:28px;border:none;padding:0;background:none;cursor:pointer;border-radius:6px;">' +
+                  '<button type="button" id="vibe-gpa-color-reset-btn" class="mini-text-btn" style="background:none;border:none;color:var(--bctext-2);font-size:12px;cursor:pointer;text-decoration:underline;">Reset to theme</button>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="vibe-gpa-modal-footer">' +
+              '<button type="button" class="vibe-gpa-btn-secondary" id="vibe-gpa-modal-cancel">Cancel</button>' +
+              '<button type="button" class="vibe-gpa-btn-primary" id="vibe-gpa-settings-save">Save Settings</button>' +
+            '</div>' +
+          '</div>';
+        document.body.appendChild(modalBackdrop);
+
+        // Wire settings button & modal popup
         var settingsBtn = card.querySelector('.vibe-gpa-settings-btn');
-        var settingsPanel = card.querySelector('#vibe-gpa-settings-panel');
-        var scaleSel = card.querySelector('#vibe-gpa-scale-sel');
-        var customWrap = card.querySelector('#vibe-gpa-custom-editor-wrap');
-        var customRowsContainer = card.querySelector('#vibe-gpa-custom-rows-container');
-        var addRowBtn = card.querySelector('#vibe-gpa-add-custom-row');
-        var modeSel = card.querySelector('#vibe-gpa-mode-sel');
-        var cumRow = card.querySelector('#vibe-gpa-cumulative-row');
-        var credsRow = card.querySelector('#vibe-gpa-credits-row');
-        var colorInput = card.querySelector('#vibe-gpa-color-input');
-        var colorResetBtn = card.querySelector('#vibe-gpa-color-reset-btn');
-        var saveBtn = card.querySelector('#vibe-gpa-settings-save');
+        var modalClose = modalBackdrop.querySelector('#vibe-gpa-modal-close');
+        var modalCancel = modalBackdrop.querySelector('#vibe-gpa-modal-cancel');
+        var scaleSel = modalBackdrop.querySelector('#vibe-gpa-scale-sel');
+        var customWrap = modalBackdrop.querySelector('#vibe-gpa-custom-editor-wrap');
+        var customRowsContainer = modalBackdrop.querySelector('#vibe-gpa-custom-rows-container');
+        var addRowBtn = modalBackdrop.querySelector('#vibe-gpa-add-custom-row');
+        var modeSel = modalBackdrop.querySelector('#vibe-gpa-mode-sel');
+        var cumRow = modalBackdrop.querySelector('#vibe-gpa-cumulative-row');
+        var credsRow = modalBackdrop.querySelector('#vibe-gpa-credits-row');
+        var colorInput = modalBackdrop.querySelector('#vibe-gpa-color-input');
+        var colorResetBtn = modalBackdrop.querySelector('#vibe-gpa-color-reset-btn');
+        var saveBtn = modalBackdrop.querySelector('#vibe-gpa-settings-save');
         var colorWasReset = false;
+
+        function openModal() {
+          if (modalBackdrop) modalBackdrop.classList.add('vibe-modal-open');
+        }
+        function closeModal() {
+          if (modalBackdrop) modalBackdrop.classList.remove('vibe-modal-open');
+        }
+
+        if (settingsBtn) {
+          settingsBtn.onclick = function(e) {
+            e.preventDefault(); e.stopPropagation();
+            openModal();
+          };
+        }
+        if (modalClose) {
+          modalClose.onclick = function(e) {
+            e.preventDefault(); e.stopPropagation();
+            closeModal();
+          };
+        }
+        if (modalCancel) {
+          modalCancel.onclick = function(e) {
+            e.preventDefault(); e.stopPropagation();
+            closeModal();
+          };
+        }
+        if (modalBackdrop) {
+          modalBackdrop.onclick = function(e) {
+            if (e.target === modalBackdrop) {
+              closeModal();
+            }
+          };
+        }
 
         if (scaleSel && customWrap) {
           scaleSel.onchange = function() {
@@ -1499,13 +1557,6 @@
           };
         }
 
-        if (settingsBtn && settingsPanel) {
-          settingsBtn.onclick = function(e) {
-            e.preventDefault(); e.stopPropagation();
-            settingsPanel.classList.toggle('vibe-gpa-settings-open');
-          };
-        }
-
         if (modeSel && cumRow && credsRow) {
           modeSel.onchange = function() {
             var isCum = modeSel.value === 'cumulative';
@@ -1519,8 +1570,8 @@
             e.preventDefault(); e.stopPropagation();
             var newScale = scaleSel ? scaleSel.value : 'standard4';
             var newMode  = modeSel ? modeSel.value : 'semester';
-            var pgInput  = card.querySelector('#vibe-gpa-past-gpa-input');
-            var pcInput  = card.querySelector('#vibe-gpa-past-credits-input');
+            var pgInput  = modalBackdrop.querySelector('#vibe-gpa-past-gpa-input');
+            var pcInput  = modalBackdrop.querySelector('#vibe-gpa-past-credits-input');
             var newPg    = pgInput && pgInput.value !== '' ? parseFloat(pgInput.value) : null;
             var newPc    = pcInput && pcInput.value !== '' ? parseFloat(pcInput.value) : 0;
 
@@ -1552,7 +1603,7 @@
             }
 
             safeStorageSet(toSave, function() {
-              if (settingsPanel) settingsPanel.classList.remove('vibe-gpa-settings-open');
+              closeModal();
               cachedCourseScores = null; // force refresh
               renderGpaSchoolCard(presetId);
             });

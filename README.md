@@ -17,16 +17,26 @@ If you find any bugs, idk how you can tell me but just tell me somehow okay?
 
 ---
 
+## Preview
+
+![Dashboard](screenshots/dashboard.png)
+
+![GPA Settings Modal](screenshots/gpa_settings_modal.png)
+
+![Grades View](screenshots/grades_view.png)
+
+---
+
 ## Installation
 
 1. **Download the code**:
    - Download and extract the ZIP from this repo.
 
-3. **Open Extensions in Chrome**:
+2. **Open Extensions in Chrome**:
    - Go to `chrome://extensions` in your address bar.
    - Turn on **Developer mode** in the top-right corner.
 
-4. **Load the Extension**:
+3. **Load the Extension**:
    - Click **Load unpacked**.
    - Select the `CanvasCustomizer` folder.
    - Open Canvas and click the extension icon to start customizing.
@@ -36,4 +46,4 @@ If you find any bugs, idk how you can tell me but just tell me somehow okay?
 I used Antigravityy for this. I just wanted a free alternative to a paid alternate one.
 ## License
 
-[MIT](LICENSE) © 2026 Eishan Mohammed
+[MIT](LICENSE) © 2026 Eishan M
