@@ -6292,6 +6292,7 @@ body.vibe-announcements-expanded [data-testid="announcement-row"] [class*="conte
   
   .vibe-sidebar-duo > .vibe-feed-card {
     width: 100% !important;
+    max-width: 100% !important;
     flex: 1 1 auto !important;
     margin: 0 !important;
   }
@@ -6330,18 +6331,52 @@ body.vibe-announcements-expanded [data-testid="announcement-row"] [class*="conte
   }
 }
 
-/* Sticky Grades Summary Sidebar */
-body.grades #right-side-wrapper,
-.ic-app-main-content__secondary {
+
+/* =========================================================
+   Ultimate Fixes for Grades, Alignment, and Announcements
+   ========================================================= */
+
+/* Center dashboard layout when side-by-side */
+.ic-Layout-columns:has(.vibe-sidebar-duo) {
+    justify-content: center !important;
+    margin: 0 auto !important;
+}
+.vibe-dashboard-page #not_right_side:has(.vibe-sidebar-duo) {
+    margin: 0 auto !important;
+}
+
+/* Force Sticky Grades Sidebar */
+body[class*="grades"], body[class*="grades"] html, body[class*="grades"] #wrapper, body[class*="grades"] #main, body[class*="grades"] #application, body[class*="grades"] .ic-Layout-wrapper,
+.student_grades, .student_grades html, .student_grades #wrapper, .student_grades #main, .student_grades #application, .student_grades .ic-Layout-wrapper,
+body:has(#grades_summary), html:has(#grades_summary), body:has(#grades_summary) #wrapper, body:has(#grades_summary) #main, body:has(#grades_summary) #application, body:has(#grades_summary) .ic-Layout-wrapper {
+    overflow: visible !important;
+}
+
+body[class*="grades"] .ic-Layout-columns,
+.student_grades .ic-Layout-columns,
+body:has(#grades_summary) .ic-Layout-columns {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    overflow: visible !important;
+}
+body[class*="grades"] #not_right_side,
+.student_grades #not_right_side,
+body:has(#grades_summary) #not_right_side {
+    flex: 1 1 auto !important;
+    float: none !important;
+}
+body[class*="grades"] #right-side-wrapper,
+.student_grades #right-side-wrapper,
+body:has(#grades_summary) #right-side-wrapper,
+body[class*="grades"] #right-side,
+.student_grades #right-side,
+body:has(#grades_summary) #right-side {
+    flex: 0 0 280px !important;
+    float: none !important;
     position: sticky !important;
-    top: 80px !important;
+    top: 70px !important;
     align-self: flex-start !important;
     max-height: calc(100vh - 100px) !important;
     overflow-y: auto !important;
-}
-
-body.grades #right-side,
-.grades-page #right-side {
-    position: sticky !important;
-    top: 80px !important;
 }

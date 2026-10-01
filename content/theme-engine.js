@@ -4865,9 +4865,9 @@
   var isApplyingTheme = false;
 
     function initAnnouncementsToggle() {
-    if (window.location.pathname.indexOf('/announcements') === -1) return;
+    if (window.location.pathname.indexOf('/announcements') === -1 && window.location.search.indexOf('only_announcements=1') === -1 && !document.querySelector('.announcements-v2__wrapper') && !document.querySelector('.ic-announcement-row')) return;
 
-    var actionHeader = document.querySelector('.ic-Action-header__Secondary') || document.querySelector('.announcements-v2__wrapper header') || document.querySelector('#content > header') || document.querySelector('.ic-Action-header') || document.querySelector('.discussion-list-header');
+    var actionHeader = document.querySelector('.ic-Action-header__Secondary') || document.querySelector('.announcements-v2__wrapper header') || document.querySelector('#content > header') || document.querySelector('.ic-Action-header') || document.querySelector('.discussion-list-header') || document.querySelector('.item-group-container') || document.querySelector('#content');
     if (!actionHeader) return;
     if (document.getElementById('vibe-announcement-toggle')) return;
 
@@ -4938,7 +4938,7 @@
 
     toggleContainer.appendChild(btnCompact);
     toggleContainer.appendChild(btnExpanded);
-    actionHeader.appendChild(toggleContainer);
+    actionHeader.insertBefore(toggleContainer, actionHeader.firstChild);
 
     safeStorageGet(['vibe_announcements_expanded'], function(res) {
       updateState(res && res.vibe_announcements_expanded === true);
