@@ -29,8 +29,9 @@ If you find any bugs, idk how you can tell me but just tell me somehow okay?
 
 ## Installation
 
-1. **Download the code**:
+1. **Download the file**:
    - Download and extract the ZIP from this repo.
+   - You can delete the screenshots folder it is just for this github
 
 2. **Open Extensions in Chrome**:
    - Go to `chrome://extensions` in your address bar.
@@ -38,7 +39,7 @@ If you find any bugs, idk how you can tell me but just tell me somehow okay?
 
 3. **Load the Extension**:
    - Click **Load unpacked**.
-   - Select the `CanvasCustomizer` folder.
+   - Select the Extracted `CanvasCustomizer` folder.
    - Open Canvas and click the extension icon to start customizing.
 
 ---
