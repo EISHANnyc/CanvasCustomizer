@@ -2582,6 +2582,38 @@
     return txt ? txt.substring(0, 22) + '...' : 'Course';
   }
 
+  
+  function groupGradedItemsByDay(items) {
+    var groups = [];
+    var groupMap = {};
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+      var d = item.dateObj;
+      if (!d || isNaN(d.getTime())) {
+        d = new Date();
+      }
+      var y = d.getFullYear();
+      var m = ('0' + (d.getMonth() + 1)).slice(-2);
+      var dayNum = ('0' + d.getDate()).slice(-2);
+      var groupKey = y + '-' + m + '-' + dayNum;
+      var headerInfo = formatDayGroupHeader(d);
+
+      if (!groupMap[groupKey]) {
+        var newGroup = {
+          key: groupKey,
+          header: headerInfo,
+          items: [],
+          timestamp: d.getTime()
+        };
+        groupMap[groupKey] = newGroup;
+        groups.push(newGroup);
+      }
+      groupMap[groupKey].items.push(item);
+    }
+    groups.sort(function(a, b) { return b.timestamp - a.timestamp; });
+    return groups;
+  }
+
   function groupItemsByDay(items) {
     var groups = [];
     var groupMap = {};

@@ -1001,7 +1001,7 @@ div#application.ic-app {
 }
 
 /* Dashboard padding */
-body.ic-dashboard-app #wrapper,
+.vibe-dashboard-page #wrapper,
 body.dashboard #wrapper,
 #dashboard #wrapper,
 .vibe-dashboard-page #wrapper {
@@ -1036,7 +1036,7 @@ body:has(iframe[src*="external_tools"]):not(:has(#content)) #wrapper {
 }
 
 /* Two-column layout ONLY on Dashboard: #not_right_side flex holds course cards on left and duo on right */
-body.ic-dashboard-app #not_right_side,
+.vibe-dashboard-page #not_right_side,
 body.dashboard #not_right_side,
 #dashboard #not_right_side,
 .vibe-dashboard-page #not_right_side,
@@ -1066,7 +1066,7 @@ body.dashboard #not_right_side,
 }
 
 /* On Dashboard: Cards column is 880px */
-body.ic-dashboard-app #content-wrapper,
+.vibe-dashboard-page #content-wrapper,
 body.dashboard #content-wrapper,
 #dashboard #content-wrapper,
 .vibe-dashboard-page #content-wrapper,
@@ -1864,8 +1864,8 @@ iframe[src*="external_tools"] {
 
 /* --- ROBUST RESPONSIVE DASHBOARD LAYOUT --- */
 /* Base: Flex container for Dashboard */
-body.ic-dashboard-app #not_right_side,
-body.vibe-has-sidebar-duo #not_right_side {
+.vibe-dashboard-page #not_right_side,
+#not_right_side:has(.vibe-sidebar-duo) {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: wrap !important;
@@ -1877,15 +1877,15 @@ body.vibe-has-sidebar-duo #not_right_side {
   width: 100% !important;
 }
 
-body.ic-dashboard-app #content-wrapper,
-body.vibe-has-sidebar-duo #content-wrapper {
+.vibe-dashboard-page #content-wrapper,
+#not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
   flex: 1 1 800px !important; /* Grow and shrink, but try to stay around 800px */
   min-width: 0 !important;
   margin: 0 !important;
 }
 
-body.ic-dashboard-app #right-side-wrapper,
-body.vibe-has-sidebar-duo #right-side-wrapper {
+.vibe-dashboard-page #right-side-wrapper,
+#not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper {
   flex: 0 0 560px !important; /* Fixed width when there's room */
   width: 560px !important;
   max-width: 100% !important;
@@ -1901,8 +1901,8 @@ body.vibe-has-sidebar-duo #right-side-wrapper {
 }
 
 /* Side-by-side buttons on right sidebar */
-html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide {
-  width: calc(50% - 8px) !important;
+html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
+  width: calc(50% - 12px) !important;
   display: inline-flex !important;
   margin: 4px !important;
 }
@@ -1911,8 +1911,8 @@ html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide {
 /* The flex-wrap: wrap above will automatically push #right-side-wrapper to the bottom! */
 /* We just need to make sure the sidebar duo and buttons look good when it drops to the bottom. */
 @media (max-width: 1650px) {
-  body.ic-dashboard-app #right-side-wrapper,
-  body.vibe-has-sidebar-duo #right-side-wrapper {
+  .vibe-dashboard-page #right-side-wrapper,
+  #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper {
     flex: 1 1 100% !important;
     max-width: 880px !important; 
   }
@@ -1923,7 +1923,7 @@ html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide {
   .vibe-sidebar-duo {
     flex-direction: column !important;
   }
-  html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide {
+  html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
     width: 100% !important;
     display: flex !important;
     margin: 4px 0 !important;
@@ -1931,16 +1931,16 @@ html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide {
 }
 
 
-body.ic-dashboard-app #not_right_side,
-body.vibe-has-sidebar-duo #not_right_side {
+.vibe-dashboard-page #not_right_side,
+#not_right_side:has(.vibe-sidebar-duo) {
   flex: 1 1 800px !important; /* Grow and shrink, but try to stay around 800px */
   min-width: 0 !important;
   width: 100% !important;
   margin: 0 !important;
 }
 
-body.ic-dashboard-app #right-side-wrapper,
-body.vibe-has-sidebar-duo #right-side-wrapper {
+.vibe-dashboard-page #right-side-wrapper,
+#not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper {
   flex: 0 0 560px !important; /* Fixed width when there's room */
   width: 560px !important;
   max-width: 100% !important;
@@ -1956,8 +1956,8 @@ body.vibe-has-sidebar-duo #right-side-wrapper {
 }
 
 /* Side-by-side buttons on right sidebar */
-html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide {
-  width: calc(50% - 8px) !important;
+html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
+  width: calc(50% - 12px) !important;
   display: inline-flex !important;
   margin: 4px !important;
 }
@@ -1966,8 +1966,8 @@ html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide {
 /* The flex-wrap: wrap above will automatically push #right-side-wrapper to the bottom! */
 /* We just need to make sure the sidebar duo and buttons look good when it drops to the bottom. */
 @media (max-width: 1650px) {
-  body.ic-dashboard-app #right-side-wrapper,
-  body.vibe-has-sidebar-duo #right-side-wrapper {
+  .vibe-dashboard-page #right-side-wrapper,
+  #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper {
     flex: 1 1 100% !important;
     max-width: 880px !important; 
   }
@@ -1978,7 +1978,7 @@ html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide {
   .vibe-sidebar-duo {
     flex-direction: column !important;
   }
-  html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide {
+  html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
     width: 100% !important;
     display: flex !important;
     margin: 4px 0 !important;
@@ -6079,7 +6079,7 @@ html.vibe-theme-dark #right-side .mini_month .next_month_link:hover, html.vibe-t
 
 
 /* Force wrapping when screen is too small */
-body.ic-dashboard-app #main,
+.vibe-dashboard-page #main,
 body.vibe-has-sidebar-duo #main {
   max-width: 100% !important;
   width: 100% !important;
