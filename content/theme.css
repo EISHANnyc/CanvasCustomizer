@@ -1861,10 +1861,11 @@ iframe[src*="external_tools"] {
 /* Responsive Zooming & Screen Width Media Queries */
 
 
+
 /* --- ROBUST RESPONSIVE DASHBOARD LAYOUT --- */
 /* Base: Flex container for Dashboard */
-body.ic-dashboard-app #main,
-body.vibe-has-sidebar-duo #main {
+body.ic-dashboard-app #not_right_side,
+body.vibe-has-sidebar-duo #not_right_side {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: wrap !important;
@@ -1873,7 +1874,62 @@ body.vibe-has-sidebar-duo #main {
   align-items: flex-start !important;
   max-width: 1600px !important;
   margin: 0 auto !important;
+  width: 100% !important;
 }
+
+body.ic-dashboard-app #content-wrapper,
+body.vibe-has-sidebar-duo #content-wrapper {
+  flex: 1 1 800px !important; /* Grow and shrink, but try to stay around 800px */
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+body.ic-dashboard-app #right-side-wrapper,
+body.vibe-has-sidebar-duo #right-side-wrapper {
+  flex: 0 0 560px !important; /* Fixed width when there's room */
+  width: 560px !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+/* Ensure the task cards are side-by-side */
+.vibe-sidebar-duo {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 16px !important;
+  width: 100% !important;
+}
+
+/* Side-by-side buttons on right sidebar */
+html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide {
+  width: calc(50% - 8px) !important;
+  display: inline-flex !important;
+  margin: 4px !important;
+}
+
+/* When the screen is too small to fit 800px + 560px + gap side-by-side (approx < 1650px) */
+/* The flex-wrap: wrap above will automatically push #right-side-wrapper to the bottom! */
+/* We just need to make sure the sidebar duo and buttons look good when it drops to the bottom. */
+@media (max-width: 1650px) {
+  body.ic-dashboard-app #right-side-wrapper,
+  body.vibe-has-sidebar-duo #right-side-wrapper {
+    flex: 1 1 100% !important;
+    max-width: 880px !important; 
+  }
+}
+
+/* On very small mobile screens (< 768px), stack the duo cards vertically */
+@media (max-width: 768px) {
+  .vibe-sidebar-duo {
+    flex-direction: column !important;
+  }
+  html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide {
+    width: 100% !important;
+    display: flex !important;
+    margin: 4px 0 !important;
+  }
+}
+
 
 body.ic-dashboard-app #not_right_side,
 body.vibe-has-sidebar-duo #not_right_side {
