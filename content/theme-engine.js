@@ -3126,14 +3126,16 @@
 
       var countStr = String(group.items.length);
 
+      var labelClass = 'vibe-minimal-day-label' + (group.header.isToday ? ' is-today' : (group.header.isTomorrow ? ' is-tomorrow' : ''));
       groupEl.innerHTML =
-        '<div class="vibe-minimal-day-label' + (group.header.isToday ? ' is-today' : '') + '">' +
-          '<span class="vibe-minimal-day-text">' + group.header.label + '</span>' +
+        '<div class="vibe-minimal-day-header">' +
+          '<span class="' + labelClass + '">' + group.header.label + '</span>' +
+          '<span class="vibe-minimal-day-line"></span>' +
           '<span class="vibe-minimal-day-count">' + countStr + '</span>' +
-        '</div>';
+        '</div>' +
+        '<div class="vibe-minimal-list"></div>';
 
-      var groupList = document.createElement('div');
-      groupList.className = 'vibe-minimal-list';
+      var groupList = groupEl.querySelector('.vibe-minimal-list');
 
       for (var i = 0; i < group.items.length; i++) {
         (function(item, idx) {
@@ -3183,21 +3185,23 @@
           var courseTitle = formatCourseCodeDisplay(item.course, item.href, item.courseId, nicknames);
           var cleanTitle = sanitizeTitle(item.title || 'Assignment');
 
-          row.innerHTML = 
-            '<div class="vibe-minimal-content">' +
-              '<a href="' + (item.href || '#') + '" class="vibe-minimal-title" title="' + cleanTitle + '">' +
-                '<span class="vibe-minimal-icon-check">✓</span>' +
-                '<span class="vibe-minimal-text">' + cleanTitle + '</span>' +
-              '</a>' +
+          row.innerHTML =
+            '<div class="vibe-minimal-check checked" style="cursor:default;" title="Completed">' +
+              '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' +
+            '</div>' +
+            '<div class="vibe-minimal-body">' +
+              '<a href="' + (item.href || '#') + '" class="vibe-minimal-title vibe-minimal-title-link" style="text-decoration: none;" title="' + cleanTitle + '">' + cleanTitle + '</a>' +
               '<div class="vibe-minimal-meta">' +
                 '<span class="vibe-minimal-course">' + courseTitle + '</span>' +
-                '<span class="vibe-minimal-dot">&middot;</span>' +
-                '<span class="vibe-minimal-date">' + (getUrgencyDetails(item.gradedDateObj || item.dueDateObj || item.dateObj, item).label || 'Today') + '</span>' +
+                '<span class="vibe-minimal-sep">&#183;</span>' +
+                '<span class="vibe-minimal-time">' + (getUrgencyDetails(item.gradedDateObj || item.dueDateObj || item.dateObj, item).label || 'Today') + '</span>' +
               '</div>' +
             '</div>' +
-            '<div class="vibe-minimal-right">' +
+            '<div class="vibe-minimal-actions" style="opacity: 1; display: flex; align-items: center; gap: 8px;">' +
               '<div class="' + scoreClass + '">' + scoreText + '</div>' +
-              '<button class="vibe-minimal-dismiss" title="Dismiss" aria-label="Dismiss"></button>' +
+              '<button class="vibe-minimal-dismiss" type="button" title="Dismiss task" aria-label="Dismiss task">' +
+                '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>' +
+              '</button>' +
             '</div>';
 
           var dismissBtn = row.querySelector('.vibe-minimal-dismiss');
