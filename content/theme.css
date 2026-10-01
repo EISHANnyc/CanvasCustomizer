@@ -6150,8 +6150,18 @@ html.vibe-theme-dark #right-side .mini_month .next_month_link, html.vibe-theme-d
 html.vibe-theme-dark #right-side .mini_month .next_month_link:hover, html.vibe-theme-dark #right-side .mini_month .prev_month_link:hover, html.vibe-theme-dark #right-side .mini_month a.Button:hover, html.vibe-theme-dark #right-side .mini_month button.Button:hover { background: rgba(255,255,255,0.1) !important; border: none !important; }
 
 /* Lock native right-sidebar buttons on dashboard from stretching to 560px */
-html.vibe-theme-dark body.ic-dashboard-app #right-side .Button--block {
-  max-width: 290px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+/* Dynamically scale buttons or put them side-by-side on big monitors */
+@media (min-width: 1650px) {
+  html.vibe-theme-dark body.ic-dashboard-app #right-side .Button--block {
+    width: calc(50% - 6px) !important;
+    display: inline-flex !important;
+    margin: 4px 3px !important;
+  }
+}
+@media (max-width: 1649px) {
+  html.vibe-theme-dark body.ic-dashboard-app #right-side .Button--block {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 8px !important;
+  }
 }
