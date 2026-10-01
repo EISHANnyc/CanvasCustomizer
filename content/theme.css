@@ -1860,202 +1860,72 @@ iframe[src*="external_tools"] {
 
 /* Responsive Zooming & Screen Width Media Queries */
 
-/* Monitor view (> 1650px): Duo cards side-by-side (560px) */
-@media (min-width: 1650px) {
-  #main:has(.vibe-sidebar-duo),
-  body.ic-dashboard-app #main,
-  body.dashboard #main,
-  #dashboard #main,
-  .vibe-dashboard-page #main {
-    gap: 28px !important;
-  }
-  #right-side-wrapper:has(.vibe-sidebar-duo) {
-    width: 560px !important;
-    min-width: 560px !important;
-    max-width: 560px !important;
-    flex: 0 0 560px !important;
-  }
-  .vibe-sidebar-duo {
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 14px !important;
-    width: 100% !important;
-  }
-  .vibe-feed-card {
-    flex: 1 1 calc(50% - 7px) !important;
-    min-width: 0 !important;
+
+/* --- ROBUST RESPONSIVE DASHBOARD LAYOUT --- */
+/* Base: Flex container for Dashboard */
+body.ic-dashboard-app #main,
+body.vibe-has-sidebar-duo #main {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: 24px !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  max-width: 1600px !important;
+  margin: 0 auto !important;
+}
+
+body.ic-dashboard-app #not_right_side,
+body.vibe-has-sidebar-duo #not_right_side {
+  flex: 1 1 800px !important; /* Grow and shrink, but try to stay around 800px */
+  min-width: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+body.ic-dashboard-app #right-side-wrapper,
+body.vibe-has-sidebar-duo #right-side-wrapper {
+  flex: 0 0 560px !important; /* Fixed width when there's room */
+  width: 560px !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+/* Ensure the task cards are side-by-side */
+.vibe-sidebar-duo {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 16px !important;
+  width: 100% !important;
+}
+
+/* Side-by-side buttons on right sidebar */
+html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide {
+  width: calc(50% - 8px) !important;
+  display: inline-flex !important;
+  margin: 4px !important;
+}
+
+/* When the screen is too small to fit 800px + 560px + gap side-by-side (approx < 1450px) */
+/* The flex-wrap: wrap above will automatically push #right-side-wrapper to the bottom! */
+/* We just need to make sure the sidebar duo and buttons look good when it drops to the bottom. */
+@media (max-width: 1450px) {
+  body.ic-dashboard-app #right-side-wrapper,
+  body.vibe-has-sidebar-duo #right-side-wrapper {
+    flex: 1 1 100% !important;
+    max-width: 880px !important; 
   }
 }
 
-/* Laptop screens & scaled displays (1180px - 1649px): Stack Duo vertically (290px) alongside 3 course cards (880px) */
-@media (max-width: 1649px) and (min-width: 1180px) {
-  #wrapper {
-    padding: 20px 24px 36px 24px !important;
-  }
-  #not_right_side:has(.vibe-sidebar-duo),
-  body.ic-dashboard-app #not_right_side,
-  body.dashboard #not_right_side,
-  #dashboard #not_right_side,
-  .vibe-dashboard-page #not_right_side {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-start !important;
-    justify-content: flex-start !important;
-    gap: 24px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  body.ic-dashboard-app #content-wrapper,
-  body.dashboard #content-wrapper,
-  #dashboard #content-wrapper,
-  .vibe-dashboard-page #content-wrapper,
-  #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
-    flex: 0 0 880px !important;
-    width: 880px !important;
-    max-width: 880px !important;
-    min-width: 0 !important;
-  }
-  body[class*="context-course"] #content-wrapper,
-  body.context-course #content-wrapper,
-  .with-left-side #content-wrapper {
-    flex: 1 1 auto !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  #DashboardCard_Container,
-  .ic-DashboardCard__box {
-    display: block !important;
-    width: 880px !important;
-    max-width: 880px !important;
-  }
-  .ic-DashboardCard__box__container,
-  div[data-testid="dashboard-cards"] {
-    display: grid !important;
-    grid-template-columns: repeat(3, 280px) !important;
-    gap: 20px !important;
-    width: 880px !important;
-    max-width: 880px !important;
-  }
-  .ic-DashboardCard,
-  [data-testid="draggable-card"] {
-    width: 280px !important;
-    max-width: 280px !important;
-    min-width: 280px !important;
-  }
-  #right-side-wrapper:has(.vibe-sidebar-duo) {
-    width: 290px !important;
-    min-width: 290px !important;
-    max-width: 290px !important;
-    flex: 0 0 290px !important;
-    display: block !important;
-  }
-  body[class*="context-course"] #right-side-wrapper,
-  body.context-course #right-side-wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  .vibe-sidebar-duo {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 16px !important;
-    width: 290px !important;
-    max-width: 290px !important;
-  }
-  .vibe-feed-card {
-    flex: 1 1 auto !important;
-    width: 100% !important;
-    min-width: 100% !important;
-  }
-}
-
-/* Tablet & split-screen views (768px - 1179px): Stack main vertically (cards on top, duo beneath) */
-@media (max-width: 1179px) and (min-width: 768px) {
-  #wrapper {
-    padding: 16px 20px 32px 20px !important;
-  }
-  body.ic-dashboard-app #not_right_side,
-  body.dashboard #not_right_side,
-  #dashboard #not_right_side,
-  .vibe-dashboard-page #not_right_side,
-  #not_right_side:has(.vibe-sidebar-duo) {
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 28px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  body.ic-dashboard-app #content-wrapper,
-  body.dashboard #content-wrapper,
-  #dashboard #content-wrapper,
-  .vibe-dashboard-page #content-wrapper,
-  #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-    flex: 1 1 auto !important;
-  }
-  #DashboardCard_Container,
-  #DashboardCard_Container > div,
-  .ic-Dashboard-cards,
-  #dashboard_cards,
-  .ic-DashboardCard__box,
-  .ic-DashboardCard__box__container,
-  #DashboardCard_Container > div > div,
-  .ic-DashboardCard__box > div,
-  div[data-testid="dashboard-cards"] {
-    width: 100% !important;
-    max-width: 100% !important;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
-  }
-  .ic-DashboardCard,
-  [data-testid="draggable-card"] {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-  }
-  #right-side-wrapper:has(.vibe-sidebar-duo) {
-    width: 100% !important;
-    max-width: 880px !important;
-    min-width: 0 !important;
-    flex: 0 0 auto !important;
-  }
-  .vibe-sidebar-duo {
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 16px !important;
-    width: 100% !important;
-  }
-  .vibe-feed-card {
-    flex: 1 1 calc(50% - 8px) !important;
-    width: auto !important;
-  }
-}
-
-/* Mobile & compact narrow view (< 768px) */
-@media (max-width: 767px) {
-  #wrapper {
-    margin-left: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 12px !important;
-  }
-  #main:has(.vibe-sidebar-duo),
-  body.ic-dashboard-app #main {
-    flex-direction: column !important;
-    gap: 20px !important;
-  }
-  #content-wrapper,
-  #right-side-wrapper:has(.vibe-sidebar-duo) {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
+/* On very small mobile screens (< 768px), stack the duo cards vertically */
+@media (max-width: 768px) {
   .vibe-sidebar-duo {
     flex-direction: column !important;
-    gap: 14px !important;
-    width: 100% !important;
   }
-  .vibe-feed-card {
-    flex: 1 1 auto !important;
+  html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide {
     width: 100% !important;
+    display: flex !important;
+    margin: 4px 0 !important;
   }
 }
 
@@ -6150,18 +6020,4 @@ html.vibe-theme-dark #right-side .mini_month .next_month_link, html.vibe-theme-d
 html.vibe-theme-dark #right-side .mini_month .next_month_link:hover, html.vibe-theme-dark #right-side .mini_month .prev_month_link:hover, html.vibe-theme-dark #right-side .mini_month a.Button:hover, html.vibe-theme-dark #right-side .mini_month button.Button:hover { background: rgba(255,255,255,0.1) !important; border: none !important; }
 
 /* Lock native right-sidebar buttons on dashboard from stretching to 560px */
-/* Dynamically scale buttons or put them side-by-side on big monitors */
-@media (min-width: 1650px) {
-  html.vibe-theme-dark body.ic-dashboard-app #right-side .Button--block, html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide, html.vibe-theme-dark body.ic-dashboard-app #right-side .button-sidebar-wide {
-    width: calc(50% - 6px) !important;
-    display: inline-flex !important;
-    margin: 4px 3px !important;
-  }
-}
-@media (max-width: 1649px) {
-  html.vibe-theme-dark body.ic-dashboard-app #right-side .Button--block {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-bottom: 8px !important;
-  }
-}
+
