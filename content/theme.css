@@ -1093,8 +1093,8 @@ body.context-course #main:has(.vibe-sidebar-duo) #content-wrapper,
   min-width: 0 !important;
 }
 
-body[class*="context-course"] #right-side-wrapper:has(.vibe-sidebar-duo),
-body.context-course #right-side-wrapper:has(.vibe-sidebar-duo) {
+body[class*="context-course"] body.ic-dashboard-app #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo),
+body.context-course body.ic-dashboard-app #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo) {
   padding-top: 0 !important;
   margin-top: 0 !important;
 }
@@ -1133,7 +1133,7 @@ body:has([data-testid*="quiz"]) #content-wrapper {
 }
 
 /* Right-side wrapper: 560px ONLY when it contains the vibe-sidebar-duo */
-#right-side-wrapper:has(.vibe-sidebar-duo) {
+body.ic-dashboard-app #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo) {
   width: 560px !important;
   min-width: 0 !important;
   max-width: 560px !important;
@@ -1869,7 +1869,7 @@ iframe[src*="external_tools"] {
   .vibe-dashboard-page #main {
     gap: 28px !important;
   }
-  #right-side-wrapper:has(.vibe-sidebar-duo) {
+  body.ic-dashboard-app #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo) {
     width: 560px !important;
     min-width: 560px !important;
     max-width: 560px !important;
@@ -1942,7 +1942,7 @@ iframe[src*="external_tools"] {
     max-width: 280px !important;
     min-width: 280px !important;
   }
-  #right-side-wrapper:has(.vibe-sidebar-duo) {
+  body.ic-dashboard-app #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo) {
     width: 290px !important;
     min-width: 290px !important;
     max-width: 290px !important;
@@ -2012,7 +2012,7 @@ iframe[src*="external_tools"] {
     max-width: 100% !important;
     min-width: 0 !important;
   }
-  #right-side-wrapper:has(.vibe-sidebar-duo) {
+  body.ic-dashboard-app #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo) {
     width: 100% !important;
     max-width: 880px !important;
     min-width: 0 !important;
@@ -2044,7 +2044,7 @@ iframe[src*="external_tools"] {
     gap: 20px !important;
   }
   #content-wrapper,
-  #right-side-wrapper:has(.vibe-sidebar-duo) {
+  body.ic-dashboard-app #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo) {
     width: 100% !important;
     max-width: 100% !important;
   }
@@ -5898,8 +5898,8 @@ body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #right-side-wrappe
 }
 
 /* -- Sidebar Duo must ALWAYS preserve full 560px ONLY ON DASHBOARD -- */
-body.ic-dashboard-app #right-side-wrapper:has(.vibe-sidebar-duo),
-body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo) {
+body.ic-dashboard-app body.ic-dashboard-app #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo),
+body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo), body.dashboard #right-side-wrapper:has(.vibe-sidebar-duo) {
   width: 560px !important;
   max-width: 560px !important;
   min-width: 560px !important;
@@ -6143,3 +6143,9 @@ h t m l . v i b e - t h e m e - d a r k   # n o t _ r i g h t _ s i d e ,   h t 
  
 h t m l . v i b e - t h e m e - d a r k   . m i n i _ m o n t h   . B u t t o n ,   h t m l . v i b e - t h e m e - d a r k   . m i n i _ m o n t h   . n e x t _ m o n t h _ l i n k ,   h t m l . v i b e - t h e m e - d a r k   . m i n i _ m o n t h   . p r e v _ m o n t h _ l i n k   {   p a d d i n g :   4 p x   ! i m p o r t a n t ;   b o r d e r - r a d i u s :   5 0 %   ! i m p o r t a n t ;   b a c k g r o u n d :   t r a n s p a r e n t   ! i m p o r t a n t ;   m i n - w i d t h :   2 8 p x   ! i m p o r t a n t ;   h e i g h t :   2 8 p x   ! i m p o r t a n t ;   l i n e - h e i g h t :   1   ! i m p o r t a n t ;   d i s p l a y :   i n l i n e - f l e x   ! i m p o r t a n t ;   a l i g n - i t e m s :   c e n t e r   ! i m p o r t a n t ;   j u s t i f y - c o n t e n t :   c e n t e r   ! i m p o r t a n t ;   b o r d e r :   n o n e   ! i m p o r t a n t ;   }  
  
+
+/* -- AGGRESSIVE CALENDAR FIX -- */
+html.vibe-theme-dark #right-side .mini_month table { width: 100% !important; max-width: 290px !important; margin: 0 auto !important; table-layout: fixed !important; }
+html.vibe-theme-dark #right-side .mini_month td, html.vibe-theme-dark #right-side .mini_month th { padding: 2px !important; text-align: center !important; font-size: 11px !important; height: auto !important; line-height: 1.2 !important; }
+html.vibe-theme-dark #right-side .mini_month .mini-month-header, html.vibe-theme-dark #right-side .mini_month .month_title { padding: 4px 0 !important; font-size: 14px !important; }
+html.vibe-theme-dark #right-side .mini_month .next_month_link, html.vibe-theme-dark #right-side .mini_month .prev_month_link, html.vibe-theme-dark #right-side .mini_month a.Button, html.vibe-theme-dark #right-side .mini_month button.Button, html.vibe-theme-dark #right-side .mini_month .Button--icon-action { width: 28px !important; height: 28px !important; min-width: 28px !important; border-radius: 50% !important; padding: 0 !important; background: transparent !important; border: none !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; box-shadow: none !important; margin: 0 !important; }
