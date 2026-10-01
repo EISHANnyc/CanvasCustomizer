@@ -1,4 +1,4 @@
-(function() {
+﻿(function() {
   'use strict';
   var DEFAULT_PRESET_ID = 'linen-day';
 
@@ -2140,7 +2140,7 @@
     var dayNum = dateObj.getDate();
 
     if (diffDays === 0) {
-      return { label: 'Today · ' + monthName + ' ' + dayNum, isToday: true, isTomorrow: false };
+      return { label: 'Today ·· ' + monthName + ' ' + dayNum, isToday: true, isTomorrow: false };
     }
     if (diffDays === 1) {
       return { label: 'Tomorrow · ' + monthName + ' ' + dayNum, isToday: false, isTomorrow: true };
@@ -3127,8 +3127,8 @@
       var countStr = String(group.items.length);
 
       groupEl.innerHTML =
-        '<div class="vibe-minimal-day-label' + (group.header.isToday ? ' is-today' : '') + '">' +
-          '<span class="vibe-minimal-day-text">' + group.header.text + '</span>' +
+        '<div class="vibe-minimal-day-label' + (group.header.isToday ·? ' is-today' : '') + '">' +
+          '<span class="vibe-minimal-day-text">' + group.header.label + '</span>' +
           '<span class="vibe-minimal-day-count">' + countStr + '</span>' +
         '</div>';
 
@@ -3175,7 +3175,7 @@
             scoreText = 'Submitted';
             scoreClass += ' score-good';
           } else if (isCompleted) {
-            scoreText = '? Done';
+            scoreText = '✓ Done';
           } else {
             scoreText = 'Graded';
           }
@@ -3186,7 +3186,7 @@
           row.innerHTML = 
             '<div class="vibe-minimal-content">' +
               '<a href="' + (item.href || '#') + '" class="vibe-minimal-title" title="' + cleanTitle + '">' +
-                '<span class="vibe-minimal-icon-check">?</span>' +
+                '<span class="vibe-minimal-icon-check">✓</span>' +
                 '<span class="vibe-minimal-text">' + cleanTitle + '</span>' +
               '</a>' +
               '<div class="vibe-minimal-meta">' +
