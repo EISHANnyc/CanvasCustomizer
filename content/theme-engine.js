@@ -1,4 +1,4 @@
-﻿(function() {
+(function() {
   'use strict';
   var DEFAULT_PRESET_ID = 'linen-day';
 
@@ -1892,20 +1892,21 @@
     try {
       var map = getManuallyCompletedTasks();
       var k = item.key || ('task_' + (item.plannableId || item.title));
+      var origDue = item.dateISO || (item.dateObj ? (typeof item.dateObj.toISOString === 'function' ? item.dateObj.toISOString() : String(item.dateObj)) : null);
       var compEntry = {
         key: k,
         title: item.title,
         course: item.course,
         courseId: item.courseId,
         href: item.href,
-        dateObj: new Date().toISOString(),
-        dueDateObj: item.dateISO || (item.dateObj ? (typeof item.dateObj.toISOString === 'function' ? item.dateObj.toISOString() : item.dateObj) : new Date().toISOString()),
-        gradedDateObj: new Date().toISOString(),
+        dateObj: origDue,
+        dueDateObj: origDue,
+        gradedDateObj: null,
         isGraded: false,
         isSubmitted: false,
         isCompleted: true,
         score: null,
-        grade: 'Ungraded',
+        grade: 'Complete',
         points: item.points || null,
         completedAt: Date.now()
       };
@@ -1923,14 +1924,14 @@
           course: item.course,
           courseId: item.courseId,
           href: item.href,
-          dateObj: new Date(),
-          dueDateObj: item.dateObj || new Date(),
-          gradedDateObj: new Date(),
+          dateObj: item.dateObj || item.dueDateObj || null,
+          dueDateObj: item.dateObj || item.dueDateObj || null,
+          gradedDateObj: null,
           isGraded: false,
           isSubmitted: false,
           isCompleted: true,
           score: null,
-          grade: 'Ungraded',
+          grade: 'Complete',
           points: item.points || null
         });
       }
@@ -2591,9 +2592,21 @@
     var groupMap = {};
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
-      var d = item.dueDateObj || item.dateObj || item.gradedDateObj;
+      var d = item.dueDateObj || item.gradedDateObj || item.submittedDateObj || item.dateObj;
       if (!d || isNaN(d.getTime())) {
-        d = new Date();
+        var noDateKey = 'earlier-completed';
+        if (!groupMap[noDateKey]) {
+          var noDateGroup = {
+            key: noDateKey,
+            header: { label: 'Completed', isToday: false, isTomorrow: false },
+            items: [],
+            timestamp: 0
+          };
+          groupMap[noDateKey] = noDateGroup;
+          groups.push(noDateGroup);
+        }
+        groupMap[noDateKey].items.push(item);
+        continue;
       }
       var y = d.getFullYear();
       var m = ('0' + (d.getMonth() + 1)).slice(-2);
@@ -2620,8 +2633,8 @@
     // Sort items within each day group by due date/time descending
     for (var g = 0; g < groups.length; g++) {
       groups[g].items.sort(function(a, b) {
-        var tA = (a.dueDateObj || a.dateObj || a.gradedDateObj) ? (a.dueDateObj || a.dateObj || a.gradedDateObj).getTime() : 0;
-        var tB = (b.dueDateObj || b.dateObj || b.gradedDateObj) ? (b.dueDateObj || b.dateObj || b.gradedDateObj).getTime() : 0;
+        var tA = (a.dueDateObj || a.gradedDateObj || a.submittedDateObj || a.dateObj) ? (a.dueDateObj || a.gradedDateObj || a.submittedDateObj || a.dateObj).getTime() : 0;
+        var tB = (b.dueDateObj || b.gradedDateObj || b.submittedDateObj || b.dateObj) ? (b.dueDateObj || b.gradedDateObj || b.submittedDateObj || b.dateObj).getTime() : 0;
         return tB - tA;
       });
     }
@@ -2637,7 +2650,7 @@
 
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
-      var d = item.gradedDateObj || item.dueDateObj || item.dateObj;
+      var d = item.dueDateObj || item.dateObj;
 
       // Filter out items without dates, invalid dates, or dates in the past
       if (!d || isNaN(d.getTime()) || d.getTime() < todayMidnight) {
@@ -2729,7 +2742,27 @@
         }
         if (!existing.course && item.course) existing.course = item.course;
         if (!existing.courseId && item.courseId) existing.courseId = item.courseId;
-        if (!existing.dueDateObj && item.dueDateObj) existing.dueDateObj = item.dueDateObj;
+        if ((!existing.title || existing.title === 'Feedback' || existing.title === 'Assignment') && item.title && item.title !== 'Feedback' && item.title !== 'Assignment') {
+          existing.title = item.title;
+        }
+        if (item.dueDateObj && (!existing.dueDateObj || existing.isDummyDate)) {
+          existing.dueDateObj = item.dueDateObj;
+          existing.isDummyDate = false;
+        }
+        if (item.gradedDateObj && (!existing.gradedDateObj || existing.isDummyDate)) {
+          existing.gradedDateObj = item.gradedDateObj;
+        }
+        if (item.submittedDateObj && (!existing.submittedDateObj || existing.isDummyDate)) {
+          existing.submittedDateObj = item.submittedDateObj;
+        }
+        if (existing.dueDateObj) {
+          existing.dateObj = existing.dueDateObj;
+        } else if (item.dateObj && (!existing.dateObj || existing.isDummyDate)) {
+          existing.dateObj = item.dateObj;
+        }
+        if (!existing.isGraded && item.isGraded) existing.isGraded = true;
+        if (!existing.isSubmitted && item.isSubmitted) existing.isSubmitted = true;
+        if (item.isCompleted && !existing.isCompleted) existing.isCompleted = true;
         return;
       }
       seenKeys[key] = item;
@@ -2758,15 +2791,19 @@
             var href = a.html_url || ('/courses/' + activeCid + '/assignments/' + a.id);
             var dueISO = a.due_at || null;
             var subISO = sub.graded_at || sub.submitted_at || null;
+            var dueObj = parseItemDate(dueISO);
+            var gradObj = parseItemDate(sub.graded_at);
+            var submObj = parseItemDate(sub.submitted_at);
 
             addParsedItem({
               title: title,
               course: '',
               courseId: String(activeCid),
               href: href,
-              dateObj: parseItemDate(dueISO || subISO),
-              dueDateObj: parseItemDate(dueISO),
-              gradedDateObj: parseItemDate(subISO),
+              dateObj: dueObj || gradObj || submObj || null,
+              dueDateObj: dueObj,
+              gradedDateObj: gradObj || submObj || null,
+              submittedDateObj: submObj,
               isGraded: parsedSG.isGraded,
               isSubmitted: parsedSG.isSubmitted,
               score: parsedSG.score,
@@ -2800,16 +2837,20 @@
           var actGrade = (act.grade !== undefined && act.grade !== null) ? String(act.grade) : null;
           var actPoints = act.points_possible !== undefined ? act.points_possible : (act.assignment ? act.assignment.points_possible : null);
           var actDue = (act.assignment && act.assignment.due_at) || act.due_at || null;
-          var actDate = act.graded_at || act.created_at || act.updated_at;
+          var actGraded = act.graded_at || null;
+          var actSubmitted = act.submitted_at || null;
+          var dueObj = parseItemDate(actDue);
+          var gradObj = parseItemDate(actGraded || actSubmitted);
 
           addParsedItem({
             title: aTitle,
             course: aCourse,
             courseId: actCid ? String(actCid) : null,
             href: aHref,
-            dateObj: parseItemDate(actDue || actDate),
-            dueDateObj: parseItemDate(actDue),
-            gradedDateObj: parseItemDate(actDate),
+            dateObj: dueObj || gradObj || null,
+            dueDateObj: dueObj,
+            gradedDateObj: gradObj,
+            submittedDateObj: parseItemDate(actSubmitted),
             isGraded: act.workflow_state === 'graded' || actScore !== null || actGrade !== null,
             isSubmitted: true,
             score: actScore,
@@ -2852,8 +2893,9 @@
           var course = (item.context_name || item.course_title || '').replace(/\s+/g, ' ').trim();
           var href = item.html_url || plannable.html_url || '#';
           var dueISO = plannable.due_at || item.plannable_date || null;
-          var subISO = sub && (sub.graded_at || sub.submitted_at);
-          var dateISO = dueISO || subISO || null;
+          var dueObj = parseItemDate(dueISO);
+          var gradObj = parseItemDate(sub && sub.graded_at);
+          var submObj = parseItemDate(sub && sub.submitted_at);
 
           var gCm = (href || '').match(/\/courses\/(\d+)/);
           var gCid = item.course_id || (item.context_type === 'Course' ? item.context_id : null) || (plannable ? plannable.course_id : null) || (gCm ? gCm[1] : null);
@@ -2863,9 +2905,10 @@
             course: course,
             courseId: gCid ? String(gCid) : null,
             href: href,
-            dateObj: parseItemDate(dateISO),
-            dueDateObj: parseItemDate(dueISO),
-            gradedDateObj: parseItemDate(subISO),
+            dateObj: dueObj || gradObj || submObj || null,
+            dueDateObj: dueObj,
+            gradedDateObj: gradObj || submObj || null,
+            submittedDateObj: submObj,
             isGraded: parsedSG.isGraded,
             isSubmitted: parsedSG.isSubmitted,
             score: parsedSG.score,
@@ -2877,49 +2920,63 @@
     })
     .catch(function() {});
 
-    // 4. Harvest DOM Feedback from Native Sidebar
-    var domFeedbackNodes = document.querySelectorAll('#right-side .recent_feedback li, .recent_feedback li');
-    for (var f = 0; f < domFeedbackNodes.length; f++) {
-      var fNode = domFeedbackNodes[f];
-      var fLink = fNode.querySelector('a') || fNode;
-      var fHref = fLink ? fLink.getAttribute('href') : '#';
-      var fTitle = (fLink ? fLink.textContent : fNode.textContent).trim();
-      var fScoreMatch = (fNode.textContent || '').match(/(\d+(?:\.\d+)?)\s*(?:\/\s*(\d+(?:\.\d+)?))?\s*(?:pts|points|%)/i);
-      var fScore = fScoreMatch ? parseFloat(fScoreMatch[1]) : null;
-      var fPts = (fScoreMatch && fScoreMatch[2]) ? parseFloat(fScoreMatch[2]) : null;
-
-      var fCm = (fHref || '').match(/\/courses\/(\d+)/);
-      var fCid = fCm ? fCm[1] : null;
-
-      addParsedItem({
-        title: fTitle || 'Feedback',
-        course: '',
-        courseId: fCid ? String(fCid) : null,
-        href: fHref,
-        dateObj: new Date(),
-        dueDateObj: new Date(),
-        gradedDateObj: new Date(),
-        isGraded: true,
-        isSubmitted: true,
-        score: fScore,
-        grade: null,
-        points: fPts
-      });
-    }
-
     Promise.all([courseFetchPromise, streamFetchPromise, plannerFetchPromise]).then(function() {
+      // 4. Harvest DOM Feedback from Native Sidebar as fallback (NEVER use new Date())
+      var domFeedbackNodes = document.querySelectorAll('#right-side .recent_feedback li, .recent_feedback li');
+      for (var f = 0; f < domFeedbackNodes.length; f++) {
+        var fNode = domFeedbackNodes[f];
+        var fLink = fNode.querySelector('a') || fNode;
+        var fHref = fLink ? fLink.getAttribute('href') : '#';
+        var fTitle = (fLink ? fLink.textContent : fNode.textContent).trim();
+        var fScoreMatch = (fNode.textContent || '').match(/(\d+(?:\.\d+)?)\s*(?:\/\s*(\d+(?:\.\d+)?))?\s*(?:pts|points|%)/i);
+        var fScore = fScoreMatch ? parseFloat(fScoreMatch[1]) : null;
+        var fPts = (fScoreMatch && fScoreMatch[2]) ? parseFloat(fScoreMatch[2]) : null;
+
+        var fCm = (fHref || '').match(/\/courses\/(\d+)/);
+        var fCid = fCm ? fCm[1] : null;
+
+        var fDateStr = null;
+        var fTimeEl = fNode.querySelector('time[datetime]');
+        if (fTimeEl) fDateStr = fTimeEl.getAttribute('datetime');
+        if (!fDateStr) {
+          var tipEl = fNode.querySelector('.tooltip_text, .screenreader-only');
+          var tipText = tipEl ? tipEl.textContent : fNode.textContent;
+          var dateMatch = (tipText || '').match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:\s*,\s*\d{4})?(?:\s+at\s+\d{1,2}:\d{2}\s*(?:am|pm)?)?/i);
+          if (dateMatch) fDateStr = dateMatch[0];
+        }
+        var fDateObj = parseItemDate(fDateStr);
+
+        addParsedItem({
+          title: fTitle || 'Feedback',
+          course: '',
+          courseId: fCid ? String(fCid) : null,
+          href: fHref,
+          dateObj: fDateObj,
+          dueDateObj: fDateObj,
+          gradedDateObj: fDateObj,
+          isDummyDate: !fDateObj,
+          isGraded: true,
+          isSubmitted: true,
+          score: fScore,
+          grade: null,
+          points: fPts
+        });
+      }
+
       var completedMap = getManuallyCompletedTasks();
       for (var compKey in completedMap) {
         if (completedMap.hasOwnProperty(compKey)) {
           var cItem = completedMap[compKey];
+          var cDueObj = parseItemDate(cItem.dueDateObj || cItem.dateObj);
+          var cGradObj = parseItemDate(cItem.gradedDateObj);
           addParsedItem({
             title: cItem.title,
             course: cItem.course,
             courseId: cItem.courseId,
             href: cItem.href,
-            dateObj: parseItemDate(cItem.dateObj),
-            dueDateObj: parseItemDate(cItem.dueDateObj),
-            gradedDateObj: parseItemDate(cItem.gradedDateObj),
+            dateObj: cDueObj || cGradObj || null,
+            dueDateObj: cDueObj,
+            gradedDateObj: cGradObj,
             isGraded: false,
             isSubmitted: false,
             isCompleted: true,
@@ -2931,8 +2988,8 @@
       }
 
       parsedList.sort(function(a, b) {
-        var timeA = (a.dueDateObj || a.dateObj || a.gradedDateObj) ? (a.dueDateObj || a.dateObj || a.gradedDateObj).getTime() : 0;
-        var timeB = (b.dueDateObj || b.dateObj || b.gradedDateObj) ? (b.dueDateObj || b.dateObj || b.gradedDateObj).getTime() : 0;
+        var timeA = (a.dueDateObj || a.gradedDateObj || a.submittedDateObj || a.dateObj) ? (a.dueDateObj || a.gradedDateObj || a.submittedDateObj || a.dateObj).getTime() : 0;
+        var timeB = (b.dueDateObj || b.gradedDateObj || b.submittedDateObj || b.dateObj) ? (b.dueDateObj || b.gradedDateObj || b.submittedDateObj || b.dateObj).getTime() : 0;
         return timeB - timeA;
       });
 
@@ -2940,10 +2997,12 @@
       lastGradedFetchTime = Date.now();
       if (callback) callback(parsedList);
 
-      // Background enrich any items where score or points is missing (assignments & quizzes)
+      // Background enrich items where due date, score, or points is missing (assignments & quizzes)
       var enrichTasks = parsedList
         .filter(function(x) {
-          return (x.score === null || x.points === null || x.points === undefined) && x.href && (x.href.indexOf('/assignments/') !== -1 || x.href.indexOf('/quizzes/') !== -1);
+          var needsDate = (!x.dueDateObj || x.isDummyDate);
+          var needsScore = (x.score === null || x.points === null || x.points === undefined);
+          return (needsDate || needsScore) && x.href && (x.href.indexOf('/assignments/') !== -1 || x.href.indexOf('/quizzes/') !== -1);
         })
         .map(function(item) {
           var assignMatch = item.href.match(/\/courses\/(\d+)\/assignments\/(\d+)/);
@@ -2961,6 +3020,31 @@
                     item.points_possible = item.points;
                     item.maxScore = item.points;
                   }
+                  if (subData.assignment && (subData.assignment.name || subData.assignment.title)) {
+                    var realName = subData.assignment.name || subData.assignment.title;
+                    if (!item.title || item.title === 'Feedback' || item.title === 'Assignment') {
+                      item.title = realName;
+                    }
+                  }
+                  // Due Date Extraction from Assignment
+                  if (subData.assignment && subData.assignment.due_at) {
+                    var parsedDue = parseItemDate(subData.assignment.due_at);
+                    if (parsedDue) {
+                      item.dueDateObj = parsedDue;
+                      item.dateObj = parsedDue;
+                      item.isDummyDate = false;
+                    }
+                  }
+                  if (subData.graded_at) {
+                    item.gradedDateObj = parseItemDate(subData.graded_at);
+                  }
+                  if (subData.submitted_at) {
+                    item.submittedDateObj = parseItemDate(subData.submitted_at);
+                  }
+                  if (!item.dueDateObj && (item.gradedDateObj || item.submittedDateObj)) {
+                    item.dueDateObj = item.gradedDateObj || item.submittedDateObj;
+                    item.dateObj = item.dueDateObj;
+                  }
                   if (subData.workflow_state === 'graded' || item.score !== null || item.grade !== null) {
                     item.isGraded = true;
                   }
@@ -2976,10 +3060,23 @@
             return fetch('/api/v1/courses/' + quizMatch[1] + '/quizzes/' + quizMatch[2], { credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
               .then(function(r) { return r.ok ? r.json() : null; })
               .then(function(quizData) {
-                if (quizData && quizData.points_possible !== undefined && quizData.points_possible !== null) {
-                  item.points = quizData.points_possible;
-                  item.points_possible = item.points;
-                  item.maxScore = item.points;
+                if (quizData) {
+                  if (quizData.points_possible !== undefined && quizData.points_possible !== null) {
+                    item.points = quizData.points_possible;
+                    item.points_possible = item.points;
+                    item.maxScore = item.points;
+                  }
+                  if (quizData.title && (!item.title || item.title === 'Feedback' || item.title === 'Assignment')) {
+                    item.title = quizData.title;
+                  }
+                  if (quizData.due_at) {
+                    var parsedQuizDue = parseItemDate(quizData.due_at);
+                    if (parsedQuizDue) {
+                      item.dueDateObj = parsedQuizDue;
+                      item.dateObj = parsedQuizDue;
+                      item.isDummyDate = false;
+                    }
+                  }
                 }
               })
               .catch(function() {});
@@ -2989,6 +3086,11 @@
 
       if (enrichTasks.length > 0) {
         Promise.all(enrichTasks).then(function() {
+          parsedList.sort(function(a, b) {
+            var timeA = (a.dueDateObj || a.gradedDateObj || a.submittedDateObj || a.dateObj) ? (a.dueDateObj || a.gradedDateObj || a.submittedDateObj || a.dateObj).getTime() : 0;
+            var timeB = (b.dueDateObj || b.gradedDateObj || b.submittedDateObj || b.dateObj) ? (b.dueDateObj || b.gradedDateObj || b.submittedDateObj || b.dateObj).getTime() : 0;
+            return timeB - timeA;
+          });
           var gradList = document.querySelector('#vibe-graded-card-list');
           if (gradList) {
             safeStorageGet(['course_nicknames'], function(res) {
@@ -3257,15 +3359,10 @@
           var courseTitle = formatCourseCodeDisplay(item.course, item.href, item.courseId, nicknames);
           var cleanTitle = sanitizeTitle(item.title || 'Assignment');
 
-          var targetDate = item.dueDateObj || item.dateObj || item.gradedDateObj;
+          var targetDate = item.dueDateObj || item.gradedDateObj || item.submittedDateObj || item.dateObj;
           var timeDisplay = '';
           if (targetDate && !isNaN(targetDate.getTime())) {
-            var urgency = getUrgencyDetails(targetDate, item);
-            if (urgency.label === 'Due Now' || urgency.label === 'Overdue') {
-              timeDisplay = formatCardTime(targetDate, item);
-            } else {
-              timeDisplay = urgency.label || formatCardTime(targetDate, item);
-            }
+            timeDisplay = formatCardTime(targetDate, item);
           } else {
             timeDisplay = 'Completed';
           }
