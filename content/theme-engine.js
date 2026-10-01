@@ -3180,7 +3180,7 @@
             scoreText = 'Graded';
           }
 
-          var courseTitle = getNiceCourseName(item.courseId, item.course, nicknames);
+          var courseTitle = formatCourseCodeDisplay(item.course, item.href, item.courseId, nicknames);
           var cleanTitle = sanitizeTitle(item.title || 'Assignment');
 
           row.innerHTML = 
