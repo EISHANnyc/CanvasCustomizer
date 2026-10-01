@@ -3719,7 +3719,9 @@ div[class*="Search"] input {
 /* Form field labels & helper text */
 span[class*="formFieldLayout__label"],
 span[class*="formFieldLayout__messages"],
-label[class*="formFieldLayout"] span {
+label[class*="formFieldLayout"],
+label[class*="formFieldLayout"] span,
+[class*="select"] {
   color: var(--bctext-1) !important;
 }
 
@@ -5986,14 +5988,12 @@ html.vibe-theme-dark .ic-announcement-row *,
 }
 
 /* ── Instructure UI Text Input & Select Facades (Eliminate nested pill border) ── */
-html.vibe-has-wallpaper [class*="textInput__facade"] input,
-html.vibe-has-wallpaper [class*="textInput__layout"] input,
-html.vibe-has-wallpaper [class*="select"] input[type="text"],
-html.vibe-has-wallpaper [class*="textInput__inputLayout"] input,
-html.vibe-theme-dark [class*="textInput__facade"] input,
-html.vibe-theme-dark [class*="textInput__layout"] input,
-html.vibe-theme-dark [class*="select"] input[type="text"],
-html.vibe-theme-dark [class*="textInput__inputLayout"] input {
+html.vibe-has-wallpaper [class*="textInput__"] input,
+html.vibe-has-wallpaper [class*="select"] input,
+html.vibe-theme-dark [class*="textInput__"] input,
+html.vibe-theme-dark [class*="select"] input,
+html.vibe-theme-dark input[type="search"][class*="textInput"],
+html.vibe-theme-dark input[type="text"][class*="textInput"] {
   border: none !important;
   border-radius: 0 !important;
   background: transparent !important;
