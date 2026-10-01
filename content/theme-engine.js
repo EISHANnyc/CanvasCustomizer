@@ -3161,10 +3161,6 @@
     if (!duoContainer) return;
 
     var html =
-      '<div class="vibe-sidebar-tabs" id="vibe-sidebar-tabs">' +
-        '<button class="vibe-tab-btn active" data-target="todo">Tasks</button>' +
-        '<button class="vibe-tab-btn" data-target="graded">Completed</button>' +
-      '</div>' +
       '<div class="vibe-feed-card" id="vibe-todo-widget">' +
         '<div class="vibe-feed-header">' +
           '<div class="vibe-feed-title-wrap">' +
@@ -3202,23 +3198,6 @@
       '</div>';
 
     duoContainer.innerHTML = html;
-
-    // Tab Logic
-    var tabBtns = duoContainer.querySelectorAll('.vibe-tab-btn');
-    for (var i = 0; i < tabBtns.length; i++) {
-      tabBtns[i].addEventListener('click', function(e) {
-        var btn = e.currentTarget;
-        for (var j = 0; j < tabBtns.length; j++) {
-          tabBtns[j].classList.remove('active');
-        }
-        btn.classList.add('active');
-        if (btn.getAttribute('data-target') === 'graded') {
-          duoContainer.classList.add('show-completed');
-        } else {
-          duoContainer.classList.remove('show-completed');
-        }
-      });
-    }
 
     // Wire restore button on Tasks header
     var todoRestoreBtn = duoContainer.querySelector('#vibe-todo-restore-btn');

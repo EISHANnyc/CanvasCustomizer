@@ -5837,17 +5837,43 @@ a.vibe-gpa-row-name:hover { text-decoration: underline !important; }
 /* Profile settings table: no cell-level rounding, only outer container */
 html.vibe-has-wallpaper .profile_table td,
 html.vibe-has-wallpaper .profile_table th { border-radius: 0 !important; }
-html.vibe-has-wallpaper .profile_table { border-radius: var(--bc-card-radius, 14px) !important; overflow: hidden; }
-
-
-
-
-
-
+html.vibe-has-wallpaper .profile_table { border-radius: var(--bc-card-radius, 14px) !important; overflow: hidden; }/* -- Course Grades page: side-by-side layout with sticky weight sidebar -- */
+body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #not_right_side.ic-app-main-content {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 0 !important;
+}
+body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #content-wrapper.ic-Layout-contentWrapper {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: auto !important;
+}
+body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #right-side-wrapper.ic-app-main-content__secondary {
+  flex: 0 0 280px !important;
+  width: 280px !important;
+  min-width: 280px !important;
+  max-width: 280px !important;
+  overflow: visible !important;
+  display: block !important;
+  padding: 0 0 0 16px !important;
+}
+body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #right-side-wrapper #right-side {
+  position: sticky !important;
+  top: 16px !important;
+  max-height: calc(100vh - 80px) !important;
+  overflow-y: auto !important;
+}
 
 /* -- Sidebar Duo must ALWAYS preserve full 560px on any page -- */
 #right-side-wrapper:has(.vibe-sidebar-duo),
 body #right-side-wrapper:has(.vibe-sidebar-duo),
+body.responsive_student_grades_page #right-side-wrapper:has(.vibe-sidebar-duo) {
+  width: 560px !important;
+  max-width: 560px !important;
+  min-width: 560px !important;
+  flex: 0 0 560px !important;
+  display: block !important;
+}
 
 
 /* -- Dropdown / Select theming ------------------------------- */
@@ -6052,10 +6078,10 @@ body[class*="grades"] #content-wrapper {
   max-width: 1050px !important;
   flex: 0 1 1050px !important;
 }
-
-
-
-/* ── Search Bar: Eliminate inner nested pill border ── */
+body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #not_right_side,
+body[class*="grades"]:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #not_right_side {
+  gap: 32px !important;
+}/* ── Search Bar: Eliminate inner nested pill border ── */
 input[class*="textInput"],
 [class*="textInput__facade"] input,
 [class*="textInput__layout"] input,
@@ -6103,7 +6129,13 @@ body.vibe-has-sidebar-duo #main {
 @media (max-width: 1650px) {
   /* Let the duo container span the full width of the screen (up to 1160px) when dropped to the bottom */
   body #right-side-wrapper:has(.vibe-sidebar-duo),
-  
+  body.responsive_student_grades_page #right-side-wrapper:has(.vibe-sidebar-duo) {
+    width: 100% !important;
+    max-width: 1160px !important;
+    min-width: 0 !important;
+    flex: 1 1 100% !important;
+    margin: 20px auto 40px auto !important;
+  }
 
   /* Make the buttons span 50% each instead of 100% if they are side-by-side, OR span 100%?
      Wait, if max-width is 1160px, spanning 100% makes them 1160px wide. 
@@ -6158,148 +6190,5 @@ html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-
     width: calc(50% - 7px) !important;
     max-width: calc(50% - 7px) !important;
     min-width: 0 !important;
-}
-
-/* Announcements Expanded/Compact View */
-body
-
-body
-
-/* =========================================================
-   Responsive Sidebar Duo Fix (< 1650px)
-   ========================================================= */
-
-/* Default: Hide tabs on large screens */
-
-.vibe-tab-btn {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: var(--bctext-1);
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-}
-.vibe-tab-btn:hover {
-  background: var(--bcbackground-2);
-  color: var(--bctext-0);
-}
-.vibe-tab-btn.active {
-  background: var(--bcaccent);
-  color: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-@media (max-width: 1650px) and (min-width: 768px) {
-  /* Prevent sidebar from dropping to the bottom */
-  body #right-side-wrapper:has(.vibe-sidebar-duo),
-  
-  
-  .vibe-sidebar-tabs { display: flex !important; width: 100%; }
-  
-  /* Make duo cards stack on top of each other (but one is hidden) */
-  .vibe-sidebar-duo {
-    flex-direction: column !important;
-    width: 100% !important;
-    gap: 0 !important;
-  }
-  
-  .vibe-sidebar-duo > .vibe-feed-card {
-    width: 100% !important;
-    max-width: 100% !important;
-    flex: 1 1 auto !important;
-    margin: 0 !important;
-  }
-
-  /* Toggle visibility based on active tab */
-  .vibe-sidebar-duo:not(.show-completed) #vibe-graded-widget {
-    display: none !important;
-  }
-  .vibe-sidebar-duo.show-completed #vibe-todo-widget {
-    display: none !important;
-  }
-
-  /* Reset buttons to stack vertically in the narrow sidebar */
-  html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, 
-  html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide,
-  body #right-side-wrapper:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
-    width: 100% !important;
-    display: flex !important;
-    margin: 8px 0 !important;
-  }
-}
-
-/* On Mobile (< 768px), we still use tabs */
-@media (max-width: 767px) {
-  .vibe-sidebar-tabs {
-    display: flex !important;
-  }
-  .vibe-sidebar-duo {
-    gap: 0 !important;
-  }
-  .vibe-sidebar-duo:not(.show-completed) #vibe-graded-widget {
-    display: none !important;
-  }
-  .vibe-sidebar-duo.show-completed #vibe-todo-widget {
-    display: none !important;
-  }
-}
-
-
-/* =========================================================
-   Ultimate Fixes for Grades, Alignment, and Announcements
-   ========================================================= */
-
-/* Center dashboard layout when side-by-side */
-.ic-Layout-columns:has(.vibe-sidebar-duo) {
-    justify-content: center !important;
-    margin: 0 auto !important;
-}
-.vibe-dashboard-page #not_right_side:has(.vibe-sidebar-duo) {
-    margin: 0 auto !important;
-}
-
-
-body[class*="grades"], body[class*="grades"] html, body[class*="grades"] #wrapper, body[class*="grades"] #main, body[class*="grades"] #application, body[class*="grades"] .ic-Layout-wrapper,
-.student_grades, .student_grades html, .student_grades #wrapper, .student_grades #main, .student_grades #application, .student_grades .ic-Layout-wrapper,
-body:has(#grades_summary), html:has(#grades_summary), body:has(#grades_summary) #wrapper, body:has(#grades_summary) #main, body:has(#grades_summary) #application, body:has(#grades_summary) .ic-Layout-wrapper {
-    overflow: visible !important;
-}
-
-body[class*="grades"] .ic-Layout-columns,
-.student_grades .ic-Layout-columns,
-body:has(#grades_summary) .ic-Layout-columns {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-start !important;
-    overflow: visible !important;
-}
-body[class*="grades"] #not_right_side,
-.student_grades #not_right_side,
-body:has(#grades_summary) #not_right_side {
-    flex: 1 1 auto !important;
-    float: none !important;
-}
-
-
-
-.vibe-sidebar-tabs {
-  display: flex !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-.vibe-sidebar-duo {
-  flex-direction: column !important;
-  width: 100% !important;
-  gap: 0 !important;
-}
-.vibe-sidebar-duo:not(.show-completed) #vibe-graded-widget {
-  display: none !important;
-}
-.vibe-sidebar-duo.show-completed #vibe-todo-widget {
-  display: none !important;
 }
 
