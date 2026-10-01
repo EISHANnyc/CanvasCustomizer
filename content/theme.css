@@ -1900,7 +1900,7 @@ iframe[src*="external_tools"] {
 #not_right_side:has(.vibe-sidebar-duo) {
   display: flex !important;
   flex-direction: row !important;
-  flex-wrap: wrap !important;
+  flex-wrap: nowrap !important;
   gap: 24px !important;
   justify-content: center !important;
   align-items: flex-start !important;
@@ -6354,5 +6354,84 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
     max-width: 340px !important;
     min-width: 340px !important;
     margin: 0 0 0 24px !important;
+  }
+}
+
+
+/* =========================================================
+   STRICT NO-WRAP DESKTOP RULE & RESPONSIVE TOGGLE
+   ========================================================= */
+@media (min-width: 900px) {
+  .vibe-dashboard-page #not_right_side,
+  #not_right_side:has(.vibe-sidebar-duo) {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .vibe-dashboard-page #content-wrapper,
+  #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
+    flex: 0 0 880px !important;
+    width: 880px !important;
+    max-width: 880px !important;
+    min-width: 880px !important;
+    margin: 0 !important;
+  }
+}
+
+/* On screens < 1650px (e.g. 13-16in MacBooks ~1280px-1440px):
+   880px cards + 340px sidebar + 24px gap = 1244px -> FITS PERFECTLY SIDE-BY-SIDE! */
+@media (max-width: 1650px) and (min-width: 900px) {
+  .vibe-dashboard-page #right-side-wrapper,
+  #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper,
+  body #right-side-wrapper:has(.vibe-sidebar-duo) {
+    flex: 0 0 340px !important;
+    width: 340px !important;
+    min-width: 340px !important;
+    max-width: 340px !important;
+    margin: 0 0 0 24px !important;
+    display: block !important;
+  }
+
+  /* Show the toggle */
+  .vibe-sidebar-tabs {
+    display: flex !important;
+  }
+
+  /* Force single column */
+  .vibe-sidebar-duo {
+    flex-direction: column !important;
+    width: 340px !important;
+    max-width: 340px !important;
+    gap: 0 !important;
+  }
+
+  .vibe-sidebar-duo > .vibe-feed-card,
+  .vibe-sidebar-duo #vibe-todo-widget,
+  .vibe-sidebar-duo #vibe-graded-widget {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .vibe-sidebar-duo:not(.show-completed) #vibe-graded-widget {
+    display: none !important;
+  }
+  .vibe-sidebar-duo:not(.show-completed) #vibe-todo-widget {
+    display: block !important;
+  }
+
+  .vibe-sidebar-duo.show-completed #vibe-todo-widget {
+    display: none !important;
+  }
+  .vibe-sidebar-duo.show-completed #vibe-graded-widget {
+    display: block !important;
   }
 }
