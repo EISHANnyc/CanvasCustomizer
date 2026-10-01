@@ -6344,3 +6344,15 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
     margin: 6px 0 !important;
   }
 }
+
+/* Force sidebar to NEVER drop below the cards on desktop screens */
+@media (max-width: 1650px) and (min-width: 900px) {
+  body #right-side-wrapper:has(.vibe-sidebar-duo),
+  .vibe-dashboard-page #right-side-wrapper {
+    flex: 0 0 340px !important;
+    width: 340px !important;
+    max-width: 340px !important;
+    min-width: 340px !important;
+    margin: 0 0 0 24px !important;
+  }
+}

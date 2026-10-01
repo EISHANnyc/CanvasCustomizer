@@ -3162,8 +3162,14 @@
 
     var html =
       '<div class="vibe-sidebar-tabs" id="vibe-sidebar-tabs" role="tablist">' +
-        '<button class="vibe-tab-btn active" data-target="todo" type="button" role="tab" aria-selected="true">Tasks</button>' +
-        '<button class="vibe-tab-btn" data-target="graded" type="button" role="tab" aria-selected="false">Completed</button>' +
+        '<button class="vibe-tab-btn active" data-target="todo" type="button" role="tab" aria-selected="true">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>' +
+          '<span>Tasks</span>' +
+        '</button>' +
+        '<button class="vibe-tab-btn" data-target="graded" type="button" role="tab" aria-selected="false">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>' +
+          '<span>Completed</span>' +
+        '</button>' +
       '</div>' +
       '<div class="vibe-feed-card" id="vibe-todo-widget">' +
         '<div class="vibe-feed-header">' +
