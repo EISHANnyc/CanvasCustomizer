@@ -31,6 +31,7 @@ If you find any bugs, idk how you can tell me but just tell me somehow okay?
 
 1. **Download the file**:
    - Download and extract the ZIP from this repo.
+   - It is called "CanvasCustomizer-main" but in that there is a folder with the same name. Use the inside folder when you select it in Extensions
    - You can delete the screenshots folder it is just for this github
 
 2. **Open Extensions in Chrome**:
