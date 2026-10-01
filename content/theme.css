@@ -2496,14 +2496,19 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
+  height: 26px !important;
+  min-height: 26px !important;
+  max-height: 26px !important;
   margin-bottom: 9px !important;
   padding-bottom: 7px !important;
   border-bottom: 1px solid var(--bcborders) !important;
+  box-sizing: content-box !important;
 }
 
 .vibe-feed-title-wrap {
   display: flex !important;
   align-items: center !important;
+  height: 22px !important;
   gap: 7px !important;
 }
 
@@ -2516,12 +2521,14 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   display: inline-flex !important;
   align-items: center !important;
   gap: 5px !important;
+  line-height: 1 !important;
 }
 
 .vibe-feed-title svg {
   width: 13px !important;
   height: 13px !important;
   stroke: var(--bcaccent, #B85338) !important;
+  flex-shrink: 0 !important;
 }
 
 .vibe-feed-badge {
@@ -2534,11 +2541,16 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   border: 1px solid var(--bcborders) !important;
   font-variant-numeric: tabular-nums !important;
   line-height: 1 !important;
+  height: 15px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
 }
 
 .vibe-feed-header-actions {
   display: flex !important;
   align-items: center !important;
+  height: 22px !important;
   gap: 6px !important;
 }
 
@@ -2549,32 +2561,55 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   font-size: 11px !important;
   font-weight: 600 !important;
   color: var(--bclinks, #0A84FF) !important;
-  padding: 2px 4px !important;
+  padding: 2px 6px !important;
   border-radius: 4px !important;
   line-height: 1 !important;
+  height: 22px !important;
+  display: inline-flex !important;
+  align-items: center !important;
   opacity: 0.75 !important;
   transition: opacity 0.12s ease !important;
+  box-sizing: border-box !important;
 }
 
 .vibe-feed-action-btn:hover {
   opacity: 1 !important;
 }
 
-.vibe-feed-cal-link {
+.vibe-feed-cal-link,
+#right-side .vibe-feed-header a.vibe-feed-cal-link,
+#right-side a[href*="/grades"].vibe-feed-cal-link {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  color: var(--bctext-2) !important;
-  text-decoration: none !important;
-  padding: 2px 4px !important;
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  min-height: 22px !important;
+  max-width: 22px !important;
+  max-height: 22px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
   border-radius: 4px !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transform: none !important;
+  color: var(--bctext-2) !important;
   opacity: 0.65 !important;
   transition: all 0.12s ease !important;
+  box-sizing: border-box !important;
 }
 
-.vibe-feed-cal-link:hover {
-  opacity: 1 !important;
+.vibe-feed-cal-link:hover,
+#right-side .vibe-feed-header a.vibe-feed-cal-link:hover,
+#right-side a[href*="/grades"].vibe-feed-cal-link:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
   color: var(--bcaccent, var(--bclinks)) !important;
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 .vibe-minimal-day-section {
@@ -2588,6 +2623,8 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   margin-top: 8px !important;
   margin-bottom: 5px !important;
   padding: 0 4px !important;
+  height: 16px !important;
+  box-sizing: border-box !important;
 }
 
 .vibe-minimal-day-label {
@@ -2889,6 +2926,26 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   font-variant-numeric: tabular-nums !important;
   white-space: nowrap !important;
   flex-shrink: 0 !important;
+  line-height: 1.2 !important;
+  box-sizing: border-box !important;
+}
+
+.vibe-minimal-score-tag.score-good {
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: #10B981 !important;
+  border: 1px solid rgba(16, 185, 129, 0.25) !important;
+}
+
+.vibe-minimal-score-tag.score-ok {
+  background: rgba(245, 158, 11, 0.12) !important;
+  color: #F59E0B !important;
+  border: 1px solid rgba(245, 158, 11, 0.25) !important;
+}
+
+.vibe-minimal-score-tag.score-bad {
+  background: rgba(239, 68, 68, 0.12) !important;
+  color: #EF4444 !important;
+  border: 1px solid rgba(239, 68, 68, 0.25) !important;
 }
 
 .vibe-minimal-score-tag.vibe-score-pending {
@@ -3983,7 +4040,7 @@ body.context-course h2.page-title,
 #right-side .btn.button-sidebar-wide,
 #right-side a.button-sidebar-wide,
 #right-side #start_new_course,
-#right-side a[href*="/grades"],
+#right-side a[href*="/grades"]:not(.vibe-feed-cal-link),
 .button-sidebar-wide,
 #start_new_course,
 a[href*="/grades"].button-sidebar-wide,
@@ -4014,7 +4071,7 @@ button.Button.button-sidebar-wide,
 #right-side .btn.button-sidebar-wide:hover,
 #right-side a.button-sidebar-wide:hover,
 #right-side #start_new_course:hover,
-#right-side a[href*="/grades"]:hover,
+#right-side a[href*="/grades"]:not(.vibe-feed-cal-link):hover,
 .button-sidebar-wide:hover,
 #start_new_course:hover,
 a[href*="/grades"].button-sidebar-wide:hover,

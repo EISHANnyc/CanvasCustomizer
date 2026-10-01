@@ -2127,7 +2127,7 @@
     return null;
   }
 
-  function formatDayGroupHeader(dateObj) {
+  function formatDayGroupHeader(dateObj, isCompletedGroup) {
     var now = new Date();
     var todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
     var targetStart = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate()).getTime();
@@ -2149,6 +2149,9 @@
       return { label: 'Yesterday · ' + monthName + ' ' + dayNum, isToday: false, isTomorrow: false };
     }
     if (diffDays < -1) {
+      if (isCompletedGroup) {
+        return { label: shortDay + ', ' + monthName + ' ' + dayNum, isToday: false, isTomorrow: false };
+      }
       return { label: 'Past Due · ' + monthName + ' ' + dayNum, isToday: false, isTomorrow: false, isPast: true };
     }
     return { label: shortDay + ', ' + monthName + ' ' + dayNum, isToday: false, isTomorrow: false };
@@ -2588,7 +2591,7 @@
     var groupMap = {};
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
-      var d = item.gradedDateObj || item.dueDateObj || item.dateObj;
+      var d = item.dueDateObj || item.dateObj || item.gradedDateObj;
       if (!d || isNaN(d.getTime())) {
         d = new Date();
       }
@@ -2596,21 +2599,33 @@
       var m = ('0' + (d.getMonth() + 1)).slice(-2);
       var dayNum = ('0' + d.getDate()).slice(-2);
       var groupKey = y + '-' + m + '-' + dayNum;
-      var headerInfo = formatDayGroupHeader(d);
+      var headerInfo = formatDayGroupHeader(d, true);
 
       if (!groupMap[groupKey]) {
+        var dayMidnight = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
         var newGroup = {
           key: groupKey,
           header: headerInfo,
           items: [],
-          timestamp: d.getTime()
+          timestamp: dayMidnight
         };
         groupMap[groupKey] = newGroup;
         groups.push(newGroup);
       }
       groupMap[groupKey].items.push(item);
     }
+    // Sort groups descending: most recent due date first (Today, Yesterday, earlier...)
     groups.sort(function(a, b) { return b.timestamp - a.timestamp; });
+
+    // Sort items within each day group by due date/time descending
+    for (var g = 0; g < groups.length; g++) {
+      groups[g].items.sort(function(a, b) {
+        var tA = (a.dueDateObj || a.dateObj || a.gradedDateObj) ? (a.dueDateObj || a.dateObj || a.gradedDateObj).getTime() : 0;
+        var tB = (b.dueDateObj || b.dateObj || b.gradedDateObj) ? (b.dueDateObj || b.dateObj || b.gradedDateObj).getTime() : 0;
+        return tB - tA;
+      });
+    }
+
     return groups;
   }
 
@@ -2697,6 +2712,10 @@
       if (!item || !item.title) return;
       var entityId = getEntityIdentifier(item.href);
       var key = entityId || (normalizeTextKey(item.title) + '_' + (item.courseId || ''));
+      if (item.points !== undefined && item.points !== null) {
+        item.points_possible = item.points;
+        item.maxScore = item.points;
+      }
       if (seenKeys[key]) {
         var existing = seenKeys[key];
         if ((existing.score === null || existing.score === undefined) && item.score !== null && item.score !== undefined) {
@@ -2705,9 +2724,12 @@
         if (!existing.grade && item.grade) existing.grade = item.grade;
         if ((existing.points === null || existing.points === undefined || existing.points === 0) && item.points !== null && item.points !== undefined && item.points > 0) {
           existing.points = item.points;
+          existing.points_possible = item.points;
+          existing.maxScore = item.points;
         }
         if (!existing.course && item.course) existing.course = item.course;
         if (!existing.courseId && item.courseId) existing.courseId = item.courseId;
+        if (!existing.dueDateObj && item.dueDateObj) existing.dueDateObj = item.dueDateObj;
         return;
       }
       seenKeys[key] = item;
@@ -2734,7 +2756,7 @@
 
             var title = (a.name || a.title || 'Assignment').trim();
             var href = a.html_url || ('/courses/' + activeCid + '/assignments/' + a.id);
-            var dueISO = a.due_at || sub.submitted_at || null;
+            var dueISO = a.due_at || null;
             var subISO = sub.graded_at || sub.submitted_at || null;
 
             addParsedItem({
@@ -2742,7 +2764,7 @@
               course: '',
               courseId: String(activeCid),
               href: href,
-              dateObj: parseItemDate(subISO || dueISO),
+              dateObj: parseItemDate(dueISO || subISO),
               dueDateObj: parseItemDate(dueISO),
               gradedDateObj: parseItemDate(subISO),
               isGraded: parsedSG.isGraded,
@@ -2777,6 +2799,7 @@
           var actScore = (act.score !== undefined && act.score !== null) ? act.score : (act.entered_score !== undefined ? act.entered_score : null);
           var actGrade = (act.grade !== undefined && act.grade !== null) ? String(act.grade) : null;
           var actPoints = act.points_possible !== undefined ? act.points_possible : (act.assignment ? act.assignment.points_possible : null);
+          var actDue = (act.assignment && act.assignment.due_at) || act.due_at || null;
           var actDate = act.graded_at || act.created_at || act.updated_at;
 
           addParsedItem({
@@ -2784,8 +2807,8 @@
             course: aCourse,
             courseId: actCid ? String(actCid) : null,
             href: aHref,
-            dateObj: parseItemDate(actDate),
-            dueDateObj: parseItemDate(actDate),
+            dateObj: parseItemDate(actDue || actDate),
+            dueDateObj: parseItemDate(actDue),
             gradedDateObj: parseItemDate(actDate),
             isGraded: act.workflow_state === 'graded' || actScore !== null || actGrade !== null,
             isSubmitted: true,
@@ -2830,7 +2853,7 @@
           var href = item.html_url || plannable.html_url || '#';
           var dueISO = plannable.due_at || item.plannable_date || null;
           var subISO = sub && (sub.graded_at || sub.submitted_at);
-          var dateISO = subISO || dueISO || null;
+          var dateISO = dueISO || subISO || null;
 
           var gCm = (href || '').match(/\/courses\/(\d+)/);
           var gCid = item.course_id || (item.context_type === 'Course' ? item.context_id : null) || (plannable ? plannable.course_id : null) || (gCm ? gCm[1] : null);
@@ -2908,8 +2931,8 @@
       }
 
       parsedList.sort(function(a, b) {
-        var timeA = (a.gradedDateObj || a.dueDateObj || a.dateObj) ? (a.gradedDateObj || a.dueDateObj || a.dateObj).getTime() : 0;
-        var timeB = (b.gradedDateObj || b.dueDateObj || b.dateObj) ? (b.gradedDateObj || b.dueDateObj || b.dateObj).getTime() : 0;
+        var timeA = (a.dueDateObj || a.dateObj || a.gradedDateObj) ? (a.dueDateObj || a.dateObj || a.gradedDateObj).getTime() : 0;
+        var timeB = (b.dueDateObj || b.dateObj || b.gradedDateObj) ? (b.dueDateObj || b.dateObj || b.gradedDateObj).getTime() : 0;
         return timeB - timeA;
       });
 
@@ -2917,15 +2940,15 @@
       lastGradedFetchTime = Date.now();
       if (callback) callback(parsedList);
 
-      // Background enrich any items where score or points is missing
+      // Background enrich any items where score or points is missing (assignments & quizzes)
       var enrichTasks = parsedList
         .filter(function(x) {
-          return (x.score === null || x.points === null || x.points === undefined) && x.href && x.href.indexOf('/assignments/') !== -1;
+          return (x.score === null || x.points === null || x.points === undefined) && x.href && (x.href.indexOf('/assignments/') !== -1 || x.href.indexOf('/quizzes/') !== -1);
         })
         .map(function(item) {
-          var m = item.href.match(/\/courses\/(\d+)\/assignments\/(\d+)/);
-          if (m) {
-            return fetch('/api/v1/courses/' + m[1] + '/assignments/' + m[2] + '/submissions/self?include[]=assignment', { credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+          var assignMatch = item.href.match(/\/courses\/(\d+)\/assignments\/(\d+)/);
+          if (assignMatch) {
+            return fetch('/api/v1/courses/' + assignMatch[1] + '/assignments/' + assignMatch[2] + '/submissions/self?include[]=assignment', { credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
               .then(function(r) { return r.ok ? r.json() : null; })
               .then(function(subData) {
                 if (subData) {
@@ -2935,6 +2958,8 @@
                   else if (subData.entered_grade !== undefined && subData.entered_grade !== null) item.grade = String(subData.entered_grade);
                   if (subData.assignment && subData.assignment.points_possible !== undefined && subData.assignment.points_possible !== null) {
                     item.points = subData.assignment.points_possible;
+                    item.points_possible = item.points;
+                    item.maxScore = item.points;
                   }
                   if (subData.workflow_state === 'graded' || item.score !== null || item.grade !== null) {
                     item.isGraded = true;
@@ -2942,6 +2967,19 @@
                   if (subData.submitted_at || subData.workflow_state === 'submitted') {
                     item.isSubmitted = true;
                   }
+                }
+              })
+              .catch(function() {});
+          }
+          var quizMatch = item.href.match(/\/courses\/(\d+)\/quizzes\/(\d+)/);
+          if (quizMatch) {
+            return fetch('/api/v1/courses/' + quizMatch[1] + '/quizzes/' + quizMatch[2], { credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+              .then(function(r) { return r.ok ? r.json() : null; })
+              .then(function(quizData) {
+                if (quizData && quizData.points_possible !== undefined && quizData.points_possible !== null) {
+                  item.points = quizData.points_possible;
+                  item.points_possible = item.points;
+                  item.maxScore = item.points;
                 }
               })
               .catch(function() {});
@@ -3145,26 +3183,56 @@
           row.setAttribute('data-key', item.key);
           cardIndex++;
 
-          var hasNumericalScore = (item.score !== null && item.score !== undefined);
-          var hasGradeStr = !!item.grade;
+          var hasNumericalScore = (item.score !== null && item.score !== undefined && !isNaN(parseFloat(item.score)));
+          var hasGradeStr = (item.grade !== null && item.grade !== undefined && String(item.grade).trim() !== '');
           var isCompleted = !hasNumericalScore && !hasGradeStr && !item.isSubmitted;
+
+          // Resolve total/max points possible across all data fields
+          var maxPoints = null;
+          if (item.points !== undefined && item.points !== null && !isNaN(parseFloat(item.points))) {
+            maxPoints = parseFloat(item.points);
+          } else if (item.points_possible !== undefined && item.points_possible !== null && !isNaN(parseFloat(item.points_possible))) {
+            maxPoints = parseFloat(item.points_possible);
+          } else if (item.maxScore !== undefined && item.maxScore !== null && !isNaN(parseFloat(item.maxScore))) {
+            maxPoints = parseFloat(item.maxScore);
+          } else if (item.assignment && item.assignment.points_possible !== undefined && item.assignment.points_possible !== null && !isNaN(parseFloat(item.assignment.points_possible))) {
+            maxPoints = parseFloat(item.assignment.points_possible);
+          }
+
+          if (hasGradeStr && typeof item.grade === 'string') {
+            var slashMatch = item.grade.match(/^(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)$/);
+            if (slashMatch) {
+              if (!hasNumericalScore) {
+                item.score = parseFloat(slashMatch[1]);
+                hasNumericalScore = true;
+              }
+              if (maxPoints === null) {
+                maxPoints = parseFloat(slashMatch[2]);
+              }
+            }
+          }
 
           var scoreClass = 'vibe-minimal-score-tag';
           var scoreText = '';
           if (hasNumericalScore) {
             var raw = parseFloat(item.score);
-            var max = parseFloat(item.points_possible || item.maxScore);
-            var displayScore = (raw % 1 === 0) ? raw : raw.toFixed(2);
-            var displayMax = (max % 1 === 0) ? max : max.toFixed(2);
-            scoreText = !isNaN(max) ? (displayScore + '/' + displayMax) : displayScore;
-            
-            if (!isNaN(max) && max > 0) {
-              var pct = raw / max;
-              if (pct >= 0.9) scoreClass += ' score-good';
-              else if (pct >= 0.7) scoreClass += ' score-ok';
-              else scoreClass += ' score-bad';
-            } else if (raw > 0) {
-              scoreClass += ' score-good';
+            var displayScore = (raw % 1 === 0) ? raw : raw.toFixed(1);
+
+            if (maxPoints !== null && !isNaN(maxPoints)) {
+              var displayMax = (maxPoints % 1 === 0) ? maxPoints : maxPoints.toFixed(1);
+              scoreText = displayScore + '/' + displayMax;
+
+              if (maxPoints > 0) {
+                var pct = raw / maxPoints;
+                if (pct >= 0.9) scoreClass += ' score-good';
+                else if (pct >= 0.7) scoreClass += ' score-ok';
+                else scoreClass += ' score-bad';
+              } else {
+                scoreClass += ' score-good';
+              }
+            } else {
+              scoreText = String(displayScore);
+              if (raw > 0) scoreClass += ' score-good';
             }
           } else if (hasGradeStr) {
             scoreText = String(item.grade);
@@ -3182,19 +3250,36 @@
             scoreText = 'Graded';
           }
 
+          var subject = detectCourseSubject((item.course || '') + ' ' + (item.title || ''));
+          var courseColor = getCourseColor(presetId, subject, idx);
+          row.style.setProperty('--item-course-color', courseColor);
+
           var courseTitle = formatCourseCodeDisplay(item.course, item.href, item.courseId, nicknames);
           var cleanTitle = sanitizeTitle(item.title || 'Assignment');
 
+          var targetDate = item.dueDateObj || item.dateObj || item.gradedDateObj;
+          var timeDisplay = '';
+          if (targetDate && !isNaN(targetDate.getTime())) {
+            var urgency = getUrgencyDetails(targetDate, item);
+            if (urgency.label === 'Due Now' || urgency.label === 'Overdue') {
+              timeDisplay = formatCardTime(targetDate, item);
+            } else {
+              timeDisplay = urgency.label || formatCardTime(targetDate, item);
+            }
+          } else {
+            timeDisplay = 'Completed';
+          }
+
           row.innerHTML =
-            '<div class="vibe-minimal-check checked" style="cursor:default;" title="Completed">' +
+            '<button class="vibe-minimal-check checked" type="button" style="cursor:default;" title="Completed" aria-label="Completed">' +
               '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' +
-            '</div>' +
+            '</button>' +
             '<div class="vibe-minimal-body">' +
-              '<a href="' + (item.href || '#') + '" class="vibe-minimal-title vibe-minimal-title-link" style="text-decoration: none;" title="' + cleanTitle + '">' + cleanTitle + '</a>' +
+              '<span class="vibe-minimal-title" title="' + cleanTitle + '">' + cleanTitle + '</span>' +
               '<div class="vibe-minimal-meta">' +
-                '<span class="vibe-minimal-course">' + courseTitle + '</span>' +
+                '<span class="vibe-minimal-course" style="color: ' + courseColor + ' !important;">' + (escapeHtml(courseTitle || (subject ? subject.toUpperCase() : 'COURSE'))) + '</span>' +
                 '<span class="vibe-minimal-sep">&#183;</span>' +
-                '<span class="vibe-minimal-time">' + (getUrgencyDetails(item.gradedDateObj || item.dueDateObj || item.dateObj, item).label || 'Today') + '</span>' +
+                '<span class="vibe-minimal-time">' + timeDisplay + '</span>' +
               '</div>' +
             '</div>' +
             '<div class="vibe-minimal-actions" style="opacity: 1; display: flex; align-items: center; gap: 8px;">' +
@@ -3203,6 +3288,13 @@
                 '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>' +
               '</button>' +
             '</div>';
+
+          row.addEventListener('click', function(e) {
+            if (e.target.closest('.vibe-minimal-check') || e.target.closest('.vibe-minimal-dismiss')) return;
+            if (item.href && item.href !== '#') {
+              window.location.href = item.href;
+            }
+          });
 
           var dismissBtn = row.querySelector('.vibe-minimal-dismiss');
           if (dismissBtn) {
