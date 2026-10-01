@@ -3150,7 +3150,7 @@
           '<div class="vibe-minimal-body">' +
             '<span class="vibe-minimal-title" title="' + cleanTitle + '">' + cleanTitle + '</span>' +
             '<div class="vibe-minimal-meta">' +
-              '<span class="vibe-minimal-course" style="color: ' + courseColor + ' !important;">' + (escapeHtml(courseDisplay || (subject ? subject.toUpperCase()) : 'COURSE')) + '</span>' +
+              '<span class="vibe-minimal-course" style="color: ' + courseColor + ' !important;">' + (escapeHtml(courseDisplay || (subject ? subject.toUpperCase() : 'COURSE'))) + '</span>' +
               '<span class="vibe-minimal-sep">·</span>' +
               '<span class="vibe-minimal-time">' + relativeDateStr + '</span>' +
             '</div>' +
@@ -3236,7 +3236,7 @@
       '<div class="vibe-minimal-body">' +
         '<span class="vibe-minimal-title" title="' + cleanTitle + '">' + cleanTitle + '</span>' +
         '<div class="vibe-minimal-meta">' +
-          '<span class="vibe-minimal-course" style="color: ' + courseColor + ' !important;">' + (escapeHtml(courseDisplay || (subject ? subject.toUpperCase()) : 'COURSE')) + '</span>' +
+          '<span class="vibe-minimal-course" style="color: ' + courseColor + ' !important;">' + (escapeHtml(courseDisplay || (subject ? subject.toUpperCase() : 'COURSE'))) + '</span>' +
           '<span class="vibe-minimal-sep">·</span>' +
           '<span class="vibe-minimal-time">Today</span>' +
         '</div>' +
@@ -3386,7 +3386,7 @@
             '<div class="vibe-minimal-body">' +
               '<span class="vibe-minimal-title" title="' + cleanTitle + '">' + cleanTitle + '</span>' +
               '<div class="vibe-minimal-meta">' +
-                '<span class="vibe-minimal-course" style="color: ' + courseColor + ' !important;">' + (escapeHtml(courseDisplay || (subject ? subject.toUpperCase()) : 'COURSE')) + '</span>' +
+                '<span class="vibe-minimal-course" style="color: ' + courseColor + ' !important;">' + (escapeHtml(courseDisplay || (subject ? subject.toUpperCase() : 'COURSE'))) + '</span>' +
                 '<span class="vibe-minimal-sep">·</span>' +
                 '<span class="vibe-minimal-time ' + timeUrgencyClass + '">' + timeStr + '</span>' +
               '</div>' +
