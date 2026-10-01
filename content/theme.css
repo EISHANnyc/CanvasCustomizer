@@ -6192,3 +6192,155 @@ html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-
     min-width: 0 !important;
 }
 
+
+
+/* =========================================================
+   RESPONSIVE SIDEBAR TAB & POSITIONING ENGINE
+   Wide screen: Side-by-side duo (no tabs)
+   MacBook / narrower screen (< 1520px): Clean segmented toggle
+   Course cards always pinned to the left!
+   ========================================================= */
+
+/* Pinned to left: Never center course cards awkwardly */
+.vibe-dashboard-page #main,
+body.vibe-has-sidebar-duo #main,
+.vibe-dashboard-page .ic-Layout-columns,
+body.vibe-has-sidebar-duo .ic-Layout-columns {
+  justify-content: flex-start !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+.vibe-dashboard-page #not_right_side,
+#not_right_side:has(.vibe-sidebar-duo) {
+  justify-content: flex-start !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+/* Default / Wide Screens (> 1520px): Side-by-side duo, hide tabs */
+.vibe-sidebar-tabs {
+  display: none !important;
+}
+
+/* Polished Segmented Control Styling */
+.vibe-sidebar-tabs {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  display: none;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.06)) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: 12px !important;
+  padding: 4px !important;
+  margin: 0 0 14px 0 !important;
+  gap: 6px !important;
+}
+
+.vibe-tab-btn {
+  flex: 1 1 50% !important;
+  padding: 7px 14px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--bctext-1, rgba(255, 255, 255, 0.65)) !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 9px !important;
+  cursor: pointer !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  outline: none !important;
+  text-align: center !important;
+  user-select: none !important;
+}
+
+.vibe-tab-btn:hover {
+  color: var(--bctext-0, #ffffff) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.vibe-tab-btn.active {
+  color: #ffffff !important;
+  background: var(--bcaccent, #3b82f6) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* When in Light Mode / Light Presets */
+html.vibe-theme-light .vibe-sidebar-tabs,
+body.vibe-preset-blossom .vibe-sidebar-tabs {
+  background: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.vibe-theme-light .vibe-tab-btn,
+body.vibe-preset-blossom .vibe-tab-btn {
+  color: var(--bctext-1, rgba(0, 0, 0, 0.6)) !important;
+}
+
+html.vibe-theme-light .vibe-tab-btn.active,
+body.vibe-preset-blossom .vibe-tab-btn.active {
+  color: #ffffff !important;
+  background: var(--bcaccent, #d946ef) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* MacBook / Smaller Screen Breakpoint (< 1520px) where duo cards would overlap or squeeze */
+@media (max-width: 1520px) {
+  .vibe-sidebar-tabs {
+    display: flex !important;
+  }
+
+  /* Single-column sidebar locked on the right */
+  .vibe-dashboard-page #right-side-wrapper,
+  #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper,
+  body #right-side-wrapper:has(.vibe-sidebar-duo) {
+    flex: 0 0 340px !important;
+    width: 340px !important;
+    max-width: 340px !important;
+    min-width: 340px !important;
+    margin: 0 !important;
+  }
+
+  .vibe-sidebar-duo {
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 340px !important;
+    gap: 0 !important;
+  }
+
+  /* When tabbed: active card expands to 100% of the 340px sidebar width (zero squishing) */
+  .vibe-sidebar-duo > .vibe-feed-card,
+  .vibe-sidebar-duo #vibe-todo-widget,
+  .vibe-sidebar-duo #vibe-graded-widget {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Toggle display based on selected tab */
+  .vibe-sidebar-duo:not(.show-completed) #vibe-graded-widget {
+    display: none !important;
+  }
+  .vibe-sidebar-duo:not(.show-completed) #vibe-todo-widget {
+    display: block !important;
+  }
+
+  .vibe-sidebar-duo.show-completed #vibe-todo-widget {
+    display: none !important;
+  }
+  .vibe-sidebar-duo.show-completed #vibe-graded-widget {
+    display: block !important;
+  }
+
+  /* Right-side action buttons stretch cleanly across the 340px column */
+  #right-side .button-sidebar-wide,
+  body #right-side-wrapper:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    margin: 6px 0 !important;
+  }
+}

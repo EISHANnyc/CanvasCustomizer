@@ -3161,6 +3161,10 @@
     if (!duoContainer) return;
 
     var html =
+      '<div class="vibe-sidebar-tabs" id="vibe-sidebar-tabs" role="tablist">' +
+        '<button class="vibe-tab-btn active" data-target="todo" type="button" role="tab" aria-selected="true">Tasks</button>' +
+        '<button class="vibe-tab-btn" data-target="graded" type="button" role="tab" aria-selected="false">Completed</button>' +
+      '</div>' +
       '<div class="vibe-feed-card" id="vibe-todo-widget">' +
         '<div class="vibe-feed-header">' +
           '<div class="vibe-feed-title-wrap">' +
@@ -3198,6 +3202,25 @@
       '</div>';
 
     duoContainer.innerHTML = html;
+
+    // Responsive tab switcher for single-column screen sizes
+    var tabBtns = duoContainer.querySelectorAll('.vibe-tab-btn');
+    for (var t = 0; t < tabBtns.length; t++) {
+      tabBtns[t].addEventListener('click', function(e) {
+        var btn = e.currentTarget;
+        for (var k = 0; k < tabBtns.length; k++) {
+          tabBtns[k].classList.remove('active');
+          tabBtns[k].setAttribute('aria-selected', 'false');
+        }
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        if (btn.getAttribute('data-target') === 'graded') {
+          duoContainer.classList.add('show-completed');
+        } else {
+          duoContainer.classList.remove('show-completed');
+        }
+      });
+    }
 
     // Wire restore button on Tasks header
     var todoRestoreBtn = duoContainer.querySelector('#vibe-todo-restore-btn');
