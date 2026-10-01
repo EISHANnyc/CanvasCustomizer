@@ -2588,7 +2588,7 @@
     var groupMap = {};
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
-      var d = item.dateObj;
+      var d = item.gradedDateObj || item.dueDateObj || item.dateObj;
       if (!d || isNaN(d.getTime())) {
         d = new Date();
       }
@@ -2622,7 +2622,7 @@
 
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
-      var d = item.dateObj;
+      var d = item.gradedDateObj || item.dueDateObj || item.dateObj;
 
       // Filter out items without dates, invalid dates, or dates in the past
       if (!d || isNaN(d.getTime()) || d.getTime() < todayMidnight) {
@@ -3192,7 +3192,7 @@
               '<div class="vibe-minimal-meta">' +
                 '<span class="vibe-minimal-course">' + courseTitle + '</span>' +
                 '<span class="vibe-minimal-dot">&middot;</span>' +
-                '<span class="vibe-minimal-date">' + (item.timeStr || 'Today') + '</span>' +
+                '<span class="vibe-minimal-date">' + (getUrgencyDetails(item.gradedDateObj || item.dueDateObj || item.dateObj, item).label || 'Today') + '</span>' +
               '</div>' +
             '</div>' +
             '<div class="vibe-minimal-right">' +
