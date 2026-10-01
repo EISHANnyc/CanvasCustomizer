@@ -1225,135 +1225,16 @@
     return { semGpa: semGpa, cumGpa: cumGpa, breakdown: breakdown, count: count };
   }
 
-  function getSavedGpaPosition(callback) {
-    safeStorageGet(['vibe_gpa_card_pos'], function(res) {
-      var pos = (res && res.vibe_gpa_card_pos !== undefined) ? parseInt(res.vibe_gpa_card_pos, 10) : null;
-      callback(isNaN(pos) ? null : pos);
-    });
-  }
-
-  function insertGpaCardAtPosition(card, container, targetPos) {
-    if (!container || !card) return;
-    var children = Array.from(container.children);
-    var withoutCard = children.filter(function(c) { return c !== card; });
-    if (targetPos === null || targetPos === undefined || targetPos >= withoutCard.length) {
-      container.appendChild(card);
-    } else if (targetPos <= 0) {
-      container.insertBefore(card, container.firstChild);
-    } else {
-      container.insertBefore(card, withoutCard[targetPos]);
-    }
-  }
-
   function attachGpaCardGuard(card, container) {
     if (gpaCardGuardObserver) gpaCardGuardObserver.disconnect();
     gpaCardGuardObserver = new MutationObserver(function() {
-      getSavedGpaPosition(function(savedPos) {
-        if (!container.contains(card)) {
-          insertGpaCardAtPosition(card, container, savedPos);
-        } else if (savedPos !== null) {
-          var children = Array.from(container.children);
-          var curIndex = children.indexOf(card);
-          if (curIndex !== savedPos && curIndex !== -1) {
-            insertGpaCardAtPosition(card, container, savedPos);
-          }
-        }
-      });
+      if (!container.contains(card)) {
+        try { container.appendChild(card); } catch(e) {}
+      } else if (container.lastElementChild !== card) {
+        try { container.appendChild(card); } catch(e) {}
+      }
     });
     gpaCardGuardObserver.observe(container, { childList: true });
-  }
-
-  function setupGpaCardDragAndDrop(card, container) {
-    card.setAttribute('draggable', 'true');
-
-    card.addEventListener('dragstart', function(e) {
-      if (e.target && e.target.closest('#vibe-gpa-settings-panel, .vibe-gpa-settings-btn')) {
-        e.preventDefault();
-        return;
-      }
-      card.classList.add('vibe-gpa-dragging');
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', 'vibe-gpa-card');
-    });
-
-    card.addEventListener('dragend', function() {
-      card.classList.remove('vibe-gpa-dragging');
-      document.querySelectorAll('.ic-DashboardCard').forEach(function(c) {
-        c.classList.remove('vibe-gpa-drag-over');
-      });
-    });
-
-    // Make GPA card accept drops from other cards
-    card.addEventListener('dragover', function(e) {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      card.classList.add('vibe-gpa-drag-over');
-    });
-
-    card.addEventListener('dragleave', function() {
-      card.classList.remove('vibe-gpa-drag-over');
-    });
-
-    card.addEventListener('drop', function(e) {
-      e.preventDefault();
-      card.classList.remove('vibe-gpa-drag-over');
-      var draggingCard = document.querySelector('.ic-DashboardCard[style*="opacity: 0"], .ic-DashboardCard.vibe-gpa-dragging');
-      if (draggingCard && draggingCard !== card) {
-        container.insertBefore(draggingCard, card);
-        saveCurrentGpaPosition(card, container);
-      }
-    });
-
-    // Also listen on other cards in the container to handle dropping GPA card onto them
-    function bindTarget(otherCard) {
-      if (otherCard._vibeGpaDndBound || otherCard === card) return;
-      otherCard._vibeGpaDndBound = true;
-
-      otherCard.addEventListener('dragover', function(e) {
-        var draggingGpa = document.querySelector('#vibe-gpa-school-card.vibe-gpa-dragging');
-        if (draggingGpa) {
-          e.preventDefault();
-          e.dataTransfer.dropEffect = 'move';
-          otherCard.classList.add('vibe-gpa-drag-over');
-        }
-      });
-
-      otherCard.addEventListener('dragleave', function() {
-        otherCard.classList.remove('vibe-gpa-drag-over');
-      });
-
-      otherCard.addEventListener('drop', function(e) {
-        var draggingGpa = document.querySelector('#vibe-gpa-school-card.vibe-gpa-dragging');
-        otherCard.classList.remove('vibe-gpa-drag-over');
-        if (draggingGpa) {
-          e.preventDefault();
-          var rect = otherCard.getBoundingClientRect();
-          var isAfter = (e.clientX - rect.left) > (rect.width / 2);
-          if (isAfter) {
-            container.insertBefore(draggingGpa, otherCard.nextSibling);
-          } else {
-            container.insertBefore(draggingGpa, otherCard);
-          }
-          saveCurrentGpaPosition(draggingGpa, container);
-        }
-      });
-    }
-
-    Array.from(container.children).forEach(bindTarget);
-
-    var bindObserver = new MutationObserver(function() {
-      Array.from(container.children).forEach(bindTarget);
-    });
-    bindObserver.observe(container, { childList: true });
-  }
-
-  function saveCurrentGpaPosition(card, container) {
-    if (!card || !container) return;
-    var children = Array.from(container.children);
-    var idx = children.indexOf(card);
-    if (idx !== -1) {
-      safeStorageSet({ vibe_gpa_card_pos: idx });
-    }
   }
 
   function renderGpaSchoolCard(presetId) {
@@ -1466,14 +1347,13 @@
 
         if (isNew) {
           isApplyingTheme = true;
-          getSavedGpaPosition(function(savedPos) {
-            insertGpaCardAtPosition(card, container, savedPos);
-            setTimeout(function() { isApplyingTheme = false; }, 120);
-            attachGpaCardGuard(card, container);
-            setupGpaCardDragAndDrop(card, container);
-          });
+          container.appendChild(card);
+          setTimeout(function() { isApplyingTheme = false; }, 120);
+          attachGpaCardGuard(card, container);
         } else {
-          setupGpaCardDragAndDrop(card, container);
+          if (container.lastElementChild !== card) {
+            container.appendChild(card);
+          }
         }
 
         // Wire settings button
@@ -2339,8 +2219,8 @@
       seenKeys[key] = true;
 
       var isAnnouncement = node.querySelector('.icon-announcement, [class*="announcement"]') || /announcement|welcome|crowdmark/i.test(title);
-      var isInbox = url.indexOf('/conversations') !== -1;
-    var isQuiz = /quiz|exam|test/i.test(title);
+      var isInbox = window.location.href.indexOf('/conversations') !== -1;
+      var isQuiz = /quiz|exam|test/i.test(title);
       var type = isAnnouncement ? 'announcement' : (isQuiz ? 'quiz' : 'assignment');
 
       var todoCm = (href || '').match(/\/courses\/(\d+)/);
