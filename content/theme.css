@@ -6207,3 +6207,141 @@ html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-
     max-width: calc(50% - 7px) !important;
     min-width: 0 !important;
 }
+
+/* Announcements Expanded/Compact View */
+body.vibe-announcements-expanded .ic-announcement-row,
+body.vibe-announcements-expanded [data-testid="announcement-row"],
+body.vibe-announcements-expanded .ic-discussion-row {
+  height: auto !important;
+  min-height: 100px !important;
+  max-height: none !important;
+}
+
+body.vibe-announcements-expanded .ic-announcement-row .ic-discussion-row__content,
+body.vibe-announcements-expanded .ic-announcement-row .discussion-summary,
+body.vibe-announcements-expanded [data-testid="announcement-row"] [class*="summary"],
+body.vibe-announcements-expanded [data-testid="announcement-row"] [class*="content"] {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  white-space: normal !important;
+  text-overflow: clip !important;
+  -webkit-line-clamp: unset !important;
+}
+
+/* =========================================================
+   Responsive Sidebar Duo Fix (< 1650px)
+   ========================================================= */
+
+/* Default: Hide tabs on large screens */
+.vibe-sidebar-tabs {
+  display: none !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.05));
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 16px;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.15));
+  gap: 4px;
+}
+.vibe-tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--bctext-1);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.vibe-tab-btn:hover {
+  background: var(--bcbackground-2);
+  color: var(--bctext-0);
+}
+.vibe-tab-btn.active {
+  background: var(--bcaccent);
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 1650px) and (min-width: 768px) {
+  /* Prevent sidebar from dropping to the bottom */
+  body #right-side-wrapper:has(.vibe-sidebar-duo),
+  body.responsive_student_grades_page #right-side-wrapper:has(.vibe-sidebar-duo),
+  .vibe-dashboard-page #right-side-wrapper,
+  #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper {
+    flex: 0 0 280px !important;
+    width: 280px !important;
+    max-width: 280px !important;
+    min-width: 280px !important;
+    margin: 0 !important;
+  }
+  
+  /* Show Tabs */
+  .vibe-sidebar-tabs {
+    display: flex !important;
+  }
+  
+  /* Make duo cards stack on top of each other (but one is hidden) */
+  .vibe-sidebar-duo {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0 !important;
+  }
+  
+  .vibe-sidebar-duo > .vibe-feed-card {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    margin: 0 !important;
+  }
+
+  /* Toggle visibility based on active tab */
+  .vibe-sidebar-duo:not(.show-completed) #vibe-graded-widget {
+    display: none !important;
+  }
+  .vibe-sidebar-duo.show-completed #vibe-todo-widget {
+    display: none !important;
+  }
+
+  /* Reset buttons to stack vertically in the narrow sidebar */
+  html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, 
+  html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide,
+  body #right-side-wrapper:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
+    width: 100% !important;
+    display: flex !important;
+    margin: 8px 0 !important;
+  }
+}
+
+/* On Mobile (< 768px), we still use tabs */
+@media (max-width: 767px) {
+  .vibe-sidebar-tabs {
+    display: flex !important;
+  }
+  .vibe-sidebar-duo {
+    gap: 0 !important;
+  }
+  .vibe-sidebar-duo:not(.show-completed) #vibe-graded-widget {
+    display: none !important;
+  }
+  .vibe-sidebar-duo.show-completed #vibe-todo-widget {
+    display: none !important;
+  }
+}
+
+/* Sticky Grades Summary Sidebar */
+body.grades #right-side-wrapper,
+.ic-app-main-content__secondary {
+    position: sticky !important;
+    top: 80px !important;
+    align-self: flex-start !important;
+    max-height: calc(100vh - 100px) !important;
+    overflow-y: auto !important;
+}
+
+body.grades #right-side,
+.grades-page #right-side {
+    position: sticky !important;
+    top: 80px !important;
+}
