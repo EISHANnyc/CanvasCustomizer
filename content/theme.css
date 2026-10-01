@@ -5656,7 +5656,7 @@ span[class*="checkboxFacade__facade"] {
   grid-template-columns: 1fr 52px 44px;
   gap: 4px;
   align-items: center;
-  padding: 3px 0;
+  padding: 4px 0 6px 0;
   border-bottom: 1px solid rgba(128,128,128,0.08);
 }
 .vibe-gpa-row:last-child { border-bottom: none; }
