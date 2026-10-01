@@ -8,7 +8,7 @@ If you find any bugs, idk how you can tell me but just tell me somehow okay?
 ## Features
 
 - Three preset themes and one custom theme (light & dark modes)
-- GPA calculator (SFU & 4.0 scale)
+- GPA calculator with universal preset scales (4.0 & 4.33) and fully customizable percentage-to-letter/GPA breakdown editor
 - Ability to set a custom wallpaper and sidebar background image with blur/opacity controls
 - Ability to put custom photos on course cards with crop and zoom
 - Task list and Completed list for upcoming & recently finished assignments, quizzes, and tests

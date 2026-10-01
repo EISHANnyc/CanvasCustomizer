@@ -414,7 +414,7 @@
       if (defSvg) defSvg.style.display = '';
     }
 
-    // 1. Top SFU / School Logomark Container - blend seamlessly with sidebar
+    // 1. Top School / Institution Logomark Container - blend seamlessly with sidebar
     var logomarkContainers = document.querySelectorAll('.ic-app-header__logomark-container, .ic-brand-global-nav__logo-container');
     for (var i = 0; i < logomarkContainers.length; i++) {
       logomarkContainers[i].style.setProperty('background-color', 'transparent', 'important');
@@ -1159,16 +1159,60 @@
   var gpaCardGuardObserver = null;
 
   var GPA_SCALES = {
-    sfu:  { label: 'SFU (4.33)', breaks: [[90,4.33],[85,4.0],[80,3.67],[77,3.33],[73,3.0],[70,2.67],[65,2.33],[60,2.0],[55,1.67],[50,1.0],[0,0]] },
-    gpa4: { label: 'Standard 4.0', breaks: [[93,4.0],[90,3.7],[87,3.3],[83,3.0],[80,2.7],[77,2.3],[73,2.0],[70,1.7],[67,1.3],[63,1.0],[60,0.7],[0,0]] }
+    standard4: {
+      label: 'Standard 4.0 Scale',
+      breaks: [
+        { min: 93, gpa: 4.0, letter: 'A' },
+        { min: 90, gpa: 3.7, letter: 'A-' },
+        { min: 87, gpa: 3.3, letter: 'B+' },
+        { min: 83, gpa: 3.0, letter: 'B' },
+        { min: 80, gpa: 2.7, letter: 'B-' },
+        { min: 77, gpa: 2.3, letter: 'C+' },
+        { min: 73, gpa: 2.0, letter: 'C' },
+        { min: 70, gpa: 1.7, letter: 'C-' },
+        { min: 67, gpa: 1.3, letter: 'D+' },
+        { min: 63, gpa: 1.0, letter: 'D' },
+        { min: 60, gpa: 0.7, letter: 'D-' },
+        { min: 0,  gpa: 0.0, letter: 'F' }
+      ]
+    },
+    scale433: {
+      label: '4.33 Scale',
+      breaks: [
+        { min: 90, gpa: 4.33, letter: 'A+' },
+        { min: 85, gpa: 4.0,  letter: 'A' },
+        { min: 80, gpa: 3.67, letter: 'A-' },
+        { min: 77, gpa: 3.33, letter: 'B+' },
+        { min: 73, gpa: 3.0,  letter: 'B' },
+        { min: 70, gpa: 2.67, letter: 'B-' },
+        { min: 65, gpa: 2.33, letter: 'C+' },
+        { min: 60, gpa: 2.0,  letter: 'C' },
+        { min: 55, gpa: 1.67, letter: 'C-' },
+        { min: 50, gpa: 1.0,  letter: 'D' },
+        { min: 0,  gpa: 0.0,  letter: 'F' }
+      ]
+    }
   };
 
-  function pctToGpa(pct, scaleKey) {
-    var scale = GPA_SCALES[scaleKey] || GPA_SCALES['sfu'];
-    for (var i = 0; i < scale.breaks.length; i++) {
-      if (pct >= scale.breaks[i][0]) return scale.breaks[i][1];
+  function getActiveGpaScale(scaleKey, customScaleData) {
+    if (scaleKey === 'custom' && Array.isArray(customScaleData) && customScaleData.length > 0) {
+      return {
+        label: 'Custom Scale',
+        breaks: customScaleData.slice().sort(function(a, b) { return b.min - a.min; })
+      };
     }
-    return 0;
+    return GPA_SCALES[scaleKey] || GPA_SCALES.standard4;
+  }
+
+  function pctToGpa(pct, scaleKey, customScaleData) {
+    var scale = getActiveGpaScale(scaleKey, customScaleData);
+    for (var i = 0; i < scale.breaks.length; i++) {
+      var b = scale.breaks[i];
+      if (pct >= b.min) {
+        return { gpa: b.gpa, letter: b.letter || '' };
+      }
+    }
+    return { gpa: 0, letter: 'F' };
   }
 
   function fetchCourseGrades(callback) {
@@ -1206,16 +1250,16 @@
       .catch(function() { callback(cachedCourseScores || []); });
   }
 
-  function calculateGPA(courses, scaleKey, pastGpa, pastCredits) {
+  function calculateGPA(courses, scaleKey, pastGpa, pastCredits, customScaleData) {
     var total = 0, count = 0;
     var breakdown = [];
     for (var i = 0; i < courses.length; i++) {
       var c = courses[i];
       if (c.score === null || c.score === undefined || c.score === 0) continue;
-      var gp = pctToGpa(c.score, scaleKey);
-      total += gp;
+      var info = pctToGpa(c.score, scaleKey, customScaleData);
+      total += info.gpa;
       count++;
-      breakdown.push({ name: c.name, code: c.code, score: c.score, gpa: gp, id: c.id });
+      breakdown.push({ name: c.name, code: c.code, score: c.score, gpa: info.gpa, letter: info.letter, id: c.id });
     }
     var semGpa = count > 0 ? (total / count) : null;
     var cumGpa = semGpa;
@@ -1244,7 +1288,7 @@
     var container = document.querySelector('.ic-DashboardCard__box__container');
     if (!container) return;
 
-    safeStorageGet(['vibe_show_gpa', 'vibe_gpa_bg_color', 'vibe_gpa_scale', 'vibe_gpa_past_gpa', 'vibe_gpa_past_credits', 'vibe_gpa_mode'], function(res) {
+    safeStorageGet(['vibe_show_gpa', 'vibe_gpa_bg_color', 'vibe_gpa_scale', 'vibe_gpa_custom_scale', 'vibe_gpa_past_gpa', 'vibe_gpa_past_credits', 'vibe_gpa_mode'], function(res) {
       var showGpa = (res && res.vibe_show_gpa !== undefined) ? !!res.vibe_show_gpa : true;
       var existing = document.getElementById('vibe-gpa-school-card');
 
@@ -1257,8 +1301,22 @@
         return;
       }
 
-      var scaleKey    = (res && res.vibe_gpa_scale)    || 'sfu';
-      var pastGpa     = (res && res.vibe_gpa_past_gpa  !== undefined) ? parseFloat(res.vibe_gpa_past_gpa)     : null;
+      var scaleKey        = (res && res.vibe_gpa_scale) || 'standard4';
+      if (scaleKey === 'sfu') scaleKey = 'scale433';
+      else if (scaleKey === 'gpa4') scaleKey = 'standard4';
+
+      var customScaleData = (res && res.vibe_gpa_custom_scale) || null;
+      if (!Array.isArray(customScaleData) || customScaleData.length === 0) {
+        customScaleData = [
+          { min: 90, gpa: 4.0, letter: 'A' },
+          { min: 80, gpa: 3.0, letter: 'B' },
+          { min: 70, gpa: 2.0, letter: 'C' },
+          { min: 60, gpa: 1.0, letter: 'D' },
+          { min: 0,  gpa: 0.0, letter: 'F' }
+        ];
+      }
+
+      var pastGpa     = (res && res.vibe_gpa_past_gpa !== undefined) ? parseFloat(res.vibe_gpa_past_gpa) : null;
       var pastCredits = (res && res.vibe_gpa_past_credits !== undefined) ? parseFloat(res.vibe_gpa_past_credits) : 0;
       var mode        = (res && res.vibe_gpa_mode) || 'semester';
       var customBg    = (res && res.vibe_gpa_bg_color) || '';
@@ -1269,17 +1327,20 @@
       var colorInputVal = customBg && customBg.startsWith('#') ? customBg : accentColor;
 
       fetchCourseGrades(function(courses) {
-        var result = calculateGPA(courses, scaleKey, pastGpa, pastCredits);
+        var result = calculateGPA(courses, scaleKey, pastGpa, pastCredits, customScaleData);
         var displayGpa = (mode === 'cumulative' && result.cumGpa !== null) ? result.cumGpa : result.semGpa;
         var gpaStr = displayGpa !== null ? displayGpa.toFixed(2) : '—';
         var modeLabel = mode === 'cumulative' ? 'Cumulative' : 'Semester';
+
+        var activeScale = getActiveGpaScale(scaleKey, customScaleData);
+        var scaleBadgeLabel = activeScale ? activeScale.label : scaleKey;
 
         var isNew = !existing;
         var card = existing || document.createElement('div');
         card.id = 'vibe-gpa-school-card';
         card.className = 'ic-DashboardCard vibe-gpa-card';
 
-        // Build breakdown rows
+        // Build breakdown rows: Course | Score | Letter | GPA
         var rowsHtml = '';
         var sorted = result.breakdown.slice().sort(function(a, b) { return b.score - a.score; });
         for (var i = 0; i < sorted.length; i++) {
@@ -1289,11 +1350,26 @@
           rowsHtml += '<div class="vibe-gpa-row">' +
             '<a class="vibe-gpa-row-name" href="/courses/' + encodeURIComponent(cr.id) + '/grades" title="' + escapeHtml(cr.name) + '">' + escapeHtml(shortName) + '</a>' +
             '<span class="vibe-gpa-row-score">' + cr.score.toFixed(1) + '%</span>' +
+            '<span class="vibe-gpa-row-letter">' + escapeHtml(cr.letter || '') + '</span>' +
             '<span class="vibe-gpa-row-gp" style="color:' + gpaColor + '">' + cr.gpa.toFixed(2) + '</span>' +
           '</div>';
         }
         if (!rowsHtml) {
           rowsHtml = '<div class="vibe-gpa-empty">No graded courses yet</div>';
+        }
+
+        // Build Custom Scale Editor HTML
+        var customRowsHtml = '';
+        var editScaleList = customScaleData.slice().sort(function(a, b) { return b.min - a.min; });
+        for (var s = 0; s < editScaleList.length; s++) {
+          var rowItem = editScaleList[s];
+          customRowsHtml +=
+            '<div class="vibe-gpa-custom-row">' +
+              '<input type="number" class="vibe-scale-min" min="0" max="100" step="0.5" value="' + rowItem.min + '" title="Min %">' +
+              '<input type="text" class="vibe-scale-letter" maxlength="3" value="' + escapeHtml(rowItem.letter || '') + '" title="Letter">' +
+              '<input type="number" class="vibe-scale-gpa" min="0" max="10" step="0.01" value="' + rowItem.gpa + '" title="GPA points">' +
+              '<button type="button" class="vibe-gpa-del-btn" title="Remove threshold">×</button>' +
+            '</div>';
         }
 
         card.innerHTML =
@@ -1303,15 +1379,23 @@
             '</button>' +
             '<div class="vibe-gpa-big">' + gpaStr + '</div>' +
             '<div class="vibe-gpa-label">' + modeLabel + ' GPA</div>' +
-            '<div class="vibe-gpa-scale-badge">' + (GPA_SCALES[scaleKey] ? GPA_SCALES[scaleKey].label : scaleKey) + '</div>' +
+            '<div class="vibe-gpa-scale-badge">' + scaleBadgeLabel + '</div>' +
             // Settings panel (hidden by default)
             '<div class="vibe-gpa-settings-panel" id="vibe-gpa-settings-panel">' +
               '<div class="vibe-gpa-settings-row">' +
                 '<label>Scale</label>' +
                 '<select id="vibe-gpa-scale-sel">' +
-                  '<option value="sfu"' + (scaleKey === 'sfu' ? ' selected' : '') + '>SFU (4.33)</option>' +
-                  '<option value="gpa4"' + (scaleKey === 'gpa4' ? ' selected' : '') + '>Standard 4.0</option>' +
+                  '<option value="standard4"' + (scaleKey === 'standard4' ? ' selected' : '') + '>Standard 4.0</option>' +
+                  '<option value="scale433"' + (scaleKey === 'scale433' ? ' selected' : '') + '>4.33 Scale</option>' +
+                  '<option value="custom"' + (scaleKey === 'custom' ? ' selected' : '') + '>Custom Scale...</option>' +
                 '</select>' +
+              '</div>' +
+              '<div id="vibe-gpa-custom-editor-wrap" style="' + (scaleKey === 'custom' ? '' : 'display:none;') + '">' +
+                '<div style="font-size:0.62rem;color:var(--bctext-2);display:grid;grid-template-columns:52px 36px 42px 18px;gap:4px;text-align:center;font-weight:600;margin-bottom:2px;">' +
+                  '<span>Min %</span><span>Letter</span><span>GPA</span><span></span>' +
+                '</div>' +
+                '<div class="vibe-gpa-custom-editor" id="vibe-gpa-custom-rows-container">' + customRowsHtml + '</div>' +
+                '<button type="button" class="vibe-gpa-add-row-btn" id="vibe-gpa-add-custom-row">+ Add Grade Threshold</button>' +
               '</div>' +
               '<div class="vibe-gpa-settings-row">' +
                 '<label>Mode</label>' +
@@ -1329,18 +1413,20 @@
               '</div>' +
               '<div class="vibe-gpa-settings-row" id="vibe-gpa-cumulative-row" style="' + (mode === 'cumulative' ? '' : 'display:none') + '">' +
                 '<label>Past GPA</label>' +
-                '<input id="vibe-gpa-past-gpa-input" type="number" step="0.01" min="0" max="4.33" placeholder="e.g. 3.45" value="' + (pastGpa !== null ? pastGpa : '') + '">' +
+                '<input id="vibe-gpa-past-gpa-input" type="number" step="0.01" min="0" max="10" placeholder="e.g. 3.50" value="' + (pastGpa !== null ? pastGpa : '') + '">' +
               '</div>' +
               '<div class="vibe-gpa-settings-row" id="vibe-gpa-credits-row" style="' + (mode === 'cumulative' ? '' : 'display:none') + '">' +
                 '<label>Past Credits</label>' +
                 '<input id="vibe-gpa-past-credits-input" type="number" step="1" min="0" placeholder="e.g. 60" value="' + (pastCredits || '') + '">' +
               '</div>' +
-              '<button class="vibe-gpa-settings-save" id="vibe-gpa-settings-save">Save</button>' +
+              '<div class="vibe-gpa-settings-actions">' +
+                '<button class="vibe-gpa-settings-save" id="vibe-gpa-settings-save">Save Scale</button>' +
+              '</div>' +
             '</div>' +
           '</div>' +
           '<div class="vibe-gpa-body">' +
             '<div class="vibe-gpa-breakdown-header">' +
-              '<span>Course</span><span>Score</span><span>GPA</span>' +
+              '<span>Course</span><span>Score</span><span style="text-align:center;">Grade</span><span>GPA</span>' +
             '</div>' +
             '<div class="vibe-gpa-breakdown">' + rowsHtml + '</div>' +
           '</div>';
@@ -1356,9 +1442,13 @@
           }
         }
 
-        // Wire settings button
+        // Wire settings button & panel
         var settingsBtn = card.querySelector('.vibe-gpa-settings-btn');
         var settingsPanel = card.querySelector('#vibe-gpa-settings-panel');
+        var scaleSel = card.querySelector('#vibe-gpa-scale-sel');
+        var customWrap = card.querySelector('#vibe-gpa-custom-editor-wrap');
+        var customRowsContainer = card.querySelector('#vibe-gpa-custom-rows-container');
+        var addRowBtn = card.querySelector('#vibe-gpa-add-custom-row');
         var modeSel = card.querySelector('#vibe-gpa-mode-sel');
         var cumRow = card.querySelector('#vibe-gpa-cumulative-row');
         var credsRow = card.querySelector('#vibe-gpa-credits-row');
@@ -1366,6 +1456,40 @@
         var colorResetBtn = card.querySelector('#vibe-gpa-color-reset-btn');
         var saveBtn = card.querySelector('#vibe-gpa-settings-save');
         var colorWasReset = false;
+
+        if (scaleSel && customWrap) {
+          scaleSel.onchange = function() {
+            customWrap.style.display = scaleSel.value === 'custom' ? '' : 'none';
+          };
+        }
+
+        if (addRowBtn && customRowsContainer) {
+          addRowBtn.onclick = function(e) {
+            e.preventDefault(); e.stopPropagation();
+            var newRow = document.createElement('div');
+            newRow.className = 'vibe-gpa-custom-row';
+            newRow.innerHTML =
+              '<input type="number" class="vibe-scale-min" min="0" max="100" step="0.5" value="50" title="Min %">' +
+              '<input type="text" class="vibe-scale-letter" maxlength="3" value="C" title="Letter">' +
+              '<input type="number" class="vibe-scale-gpa" min="0" max="10" step="0.01" value="2.00" title="GPA points">' +
+              '<button type="button" class="vibe-gpa-del-btn" title="Remove threshold">×</button>';
+            customRowsContainer.appendChild(newRow);
+            wireDelBtns();
+          };
+        }
+
+        function wireDelBtns() {
+          if (!customRowsContainer) return;
+          var delBtns = customRowsContainer.querySelectorAll('.vibe-gpa-del-btn');
+          delBtns.forEach(function(btn) {
+            btn.onclick = function(e) {
+              e.preventDefault(); e.stopPropagation();
+              var r = btn.closest('.vibe-gpa-custom-row');
+              if (r) r.remove();
+            };
+          });
+        }
+        wireDelBtns();
 
         if (colorResetBtn && colorInput) {
           colorResetBtn.onclick = function(e) {
@@ -1381,6 +1505,7 @@
             settingsPanel.classList.toggle('vibe-gpa-settings-open');
           };
         }
+
         if (modeSel && cumRow && credsRow) {
           modeSel.onchange = function() {
             var isCum = modeSel.value === 'cumulative';
@@ -1388,22 +1513,44 @@
             credsRow.style.display = isCum ? '' : 'none';
           };
         }
+
         if (saveBtn) {
           saveBtn.onclick = function(e) {
             e.preventDefault(); e.stopPropagation();
-            var newScale = card.querySelector('#vibe-gpa-scale-sel').value;
-            var newMode  = card.querySelector('#vibe-gpa-mode-sel').value;
+            var newScale = scaleSel ? scaleSel.value : 'standard4';
+            var newMode  = modeSel ? modeSel.value : 'semester';
             var pgInput  = card.querySelector('#vibe-gpa-past-gpa-input');
             var pcInput  = card.querySelector('#vibe-gpa-past-credits-input');
             var newPg    = pgInput && pgInput.value !== '' ? parseFloat(pgInput.value) : null;
             var newPc    = pcInput && pcInput.value !== '' ? parseFloat(pcInput.value) : 0;
-            var toSave   = { vibe_gpa_scale: newScale, vibe_gpa_mode: newMode, vibe_gpa_past_credits: newPc };
+
+            var toSave = { vibe_gpa_scale: newScale, vibe_gpa_mode: newMode, vibe_gpa_past_credits: newPc };
             if (newPg !== null) toSave.vibe_gpa_past_gpa = newPg;
+
+            // Parse custom scale rows if user edited custom scale
+            if (customRowsContainer) {
+              var rows = customRowsContainer.querySelectorAll('.vibe-gpa-custom-row');
+              var customArr = [];
+              rows.forEach(function(r) {
+                var minVal = parseFloat((r.querySelector('.vibe-scale-min') || {}).value);
+                var letVal = ((r.querySelector('.vibe-scale-letter') || {}).value || '').trim();
+                var gpaVal = parseFloat((r.querySelector('.vibe-scale-gpa') || {}).value);
+                if (!isNaN(minVal) && !isNaN(gpaVal)) {
+                  customArr.push({ min: minVal, letter: letVal, gpa: gpaVal });
+                }
+              });
+              if (customArr.length > 0) {
+                customArr.sort(function(a, b) { return b.min - a.min; });
+                toSave.vibe_gpa_custom_scale = customArr;
+              }
+            }
+
             if (colorWasReset) {
               toSave.vibe_gpa_bg_color = '';
             } else if (colorInput && colorInput.value) {
               toSave.vibe_gpa_bg_color = colorInput.value;
             }
+
             safeStorageSet(toSave, function() {
               if (settingsPanel) settingsPanel.classList.remove('vibe-gpa-settings-open');
               cachedCourseScores = null; // force refresh

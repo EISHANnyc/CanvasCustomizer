@@ -5379,10 +5379,10 @@ span[class*="checkboxFacade__facade"] {
   inset: 0;
   background: var(--bcbackground-1, #1e1e1e);
   border-radius: var(--bc-card-radius, 12px) var(--bc-card-radius, 12px) 0 0;
-  padding: 10px 12px 8px;
+  padding: 8px 10px 8px;
   display: none;
   flex-direction: column;
-  gap: 7px;
+  gap: 6px;
   z-index: 20;
   overflow-y: auto;
 }
@@ -5392,24 +5392,25 @@ span[class*="checkboxFacade__facade"] {
 .vibe-gpa-settings-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 .vibe-gpa-settings-row label {
-  font-size: 0.70rem;
+  font-size: 0.68rem;
   font-weight: 600;
   color: var(--bctext-1);
-  width: 72px;
+  width: 68px;
   flex-shrink: 0;
 }
 .vibe-gpa-settings-row select,
-.vibe-gpa-settings-row input[type="number"] {
+.vibe-gpa-settings-row input[type="number"],
+.vibe-gpa-settings-row input[type="text"] {
   flex: 1;
   background: var(--bcbackground-2, #2a2a2a);
   border: 1px solid var(--bcborders);
   border-radius: 6px;
   color: var(--bctext-0);
-  font-size: 0.72rem;
-  padding: 4px 7px;
+  font-size: 0.70rem;
+  padding: 3px 6px;
   outline: none;
 }
 .vibe-gpa-settings-row input[type="color"] {
@@ -5425,17 +5426,75 @@ span[class*="checkboxFacade__facade"] {
 .vibe-gpa-settings-row input:focus {
   border-color: var(--bcaccent);
 }
-.vibe-gpa-settings-save {
+.vibe-gpa-custom-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 3px 0 2px;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.20);
+  border-radius: 6px;
+  border: 1px solid var(--bcborders);
+  max-height: 120px;
+  overflow-y: auto;
+}
+.vibe-gpa-custom-row {
+  display: grid;
+  grid-template-columns: 52px 36px 42px 18px;
+  gap: 4px;
+  align-items: center;
+}
+.vibe-gpa-custom-row input {
+  background: var(--bcbackground-2, #2a2a2a);
+  border: 1px solid var(--bcborders);
+  border-radius: 4px;
+  color: var(--bctext-0);
+  font-size: 0.65rem;
+  padding: 2px 4px;
+  text-align: center;
+}
+.vibe-gpa-del-btn {
+  background: none;
+  border: none;
+  color: #ff5555;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vibe-gpa-add-row-btn {
+  background: none;
+  border: 1px dashed var(--bcborders);
+  border-radius: 4px;
+  color: var(--bctext-1);
+  font-size: 0.62rem;
+  padding: 3px 6px;
+  cursor: pointer;
   margin-top: 2px;
-  padding: 5px 12px;
+  text-align: center;
+}
+.vibe-gpa-add-row-btn:hover {
+  border-color: var(--bclinks, #457354);
+  color: var(--bctext-0);
+}
+.vibe-gpa-settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 2px;
+}
+.vibe-gpa-settings-save {
+  padding: 4px 10px;
   background: var(--bcaccent);
   color: #fff;
   border: none;
   border-radius: 6px;
-  font-size: 0.72rem;
+  font-size: 0.70rem;
   font-weight: 600;
   cursor: pointer;
-  align-self: flex-end;
   transition: filter 100ms;
 }
 .vibe-gpa-settings-save:hover { filter: brightness(1.12); }
@@ -5789,8 +5848,19 @@ html.vibe-theme-dark .ic-announcement-row *,
   border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.08)) !important;
 }
 
-/* -- GPA row: tighten score column --------------------------- */
-.vibe-gpa-row { grid-template-columns: 1fr 42px 40px !important; }
+/* -- GPA breakdown row: course, score, letter, GPA points -- */
+.vibe-gpa-breakdown-header {
+  grid-template-columns: 1fr 40px 24px 38px !important;
+}
+.vibe-gpa-row {
+  grid-template-columns: 1fr 40px 24px 38px !important;
+}
+.vibe-gpa-row-letter {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--bctext-1);
+  text-align: center;
+}
 
 /* ── Instructure UI Text Input & Select Facades (Eliminate nested pill border) ── */
 html.vibe-has-wallpaper [class*="textInput__facade"] input,
