@@ -1,3 +1,5 @@
+@layer canvas-base, vibe-extension;
+@layer canvas-base {
 /* CanvasCustomizer Apple Design Standard Stylesheet (Anti-Slop, Pure Human Craft) */
 :root {
   --bcbackground-0: #F5F0E8;
@@ -79,8 +81,8 @@ header#header.ic-app-header,
   width: 84px !important;
   background-color: color-mix(in srgb, var(--bcsidebar) 82%, transparent) !important;
   background: color-mix(in srgb, var(--bcsidebar) 82%, transparent) !important;
-  backdrop-filter: blur(28px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  /* backdrop removed for perf */
+  -webkit-/* backdrop removed for perf */
   border-right: 1px solid var(--bcborders, rgba(0, 0, 0, 0.12)) !important;
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.1) !important;
   overflow: hidden !important;
@@ -119,8 +121,8 @@ header#header.ic-app-header,
   inset: 0 !important;
   background-color: var(--bcsidebar) !important;
   opacity: 0.85 !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  /* backdrop removed for perf */
+  -webkit-/* backdrop removed for perf */
   transition: background-color 0.2s ease !important;
 }
 
@@ -357,8 +359,8 @@ div[data-testid="dashboard-cards"] {
   box-sizing: border-box !important;
   background-color: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 90%, transparent) !important;
   background: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 90%, transparent) !important;
-  backdrop-filter: blur(28px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  /* backdrop removed for perf */
+  -webkit-/* backdrop removed for perf */
   border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.1)) !important;
   border-radius: var(--bc-card-radius, 14px) !important;
   overflow: hidden !important;
@@ -793,8 +795,8 @@ button.ic-DashboardCard__header-button {
   z-index: 10 !important;
   background: rgba(255, 255, 255, 0.92) !important;
   color: #18181b !important;
-  backdrop-filter: blur(12px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  /* backdrop removed for perf */
+  -webkit-/* backdrop removed for perf */
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
   border-radius: 999px !important;
   padding: 3px 9px !important;
@@ -1018,7 +1020,7 @@ body[class*="quizzes"] #wrapper,
 }
 
 /* Full-width tool pages padding: ZERO only on standalone external tool iframes */
-body:has(iframe#tool_content):not(:has(.quiz-header)):not(:has(#quiz_instructions)):not(:has(#content)) #wrapper,
+body.vibe-has-tool-content:not(:has(.quiz-header)):not(:has(#quiz_instructions)):not(:has(#content)) #wrapper,
 body:has(iframe[src*="external_tools"]):not(:has(#content)) #wrapper {
   padding: 0 !important;
   overflow: visible !important;
@@ -1070,7 +1072,7 @@ body.ic-dashboard-app #content-wrapper,
 body.dashboard #content-wrapper,
 #dashboard #content-wrapper,
 .vibe-dashboard-page #content-wrapper,
-body:not([class*="context-course"]):not(.context-course) #main:has(.vibe-sidebar-duo) #content-wrapper {
+body:not([class*="context-course"]):not(.context-course) body.vibe-has-sidebar-duo #main #content-wrapper {
   flex: 0 0 880px !important;
   width: 880px !important;
   min-width: 0 !important;
@@ -1084,8 +1086,8 @@ body:not([class*="context-course"]):not(.context-course) #main:has(.vibe-sidebar
 /* Course pages: fluid flexible layout aligned with sidebar */
 body[class*="context-course"] #content-wrapper,
 body.context-course #content-wrapper,
-body[class*="context-course"] #main:has(.vibe-sidebar-duo) #content-wrapper,
-body.context-course #main:has(.vibe-sidebar-duo) #content-wrapper,
+body[class*="context-course"] body.vibe-has-sidebar-duo #main #content-wrapper,
+body.context-course body.vibe-has-sidebar-duo #main #content-wrapper,
 .with-left-side #content-wrapper {
   flex: 1 1 auto !important;
   width: auto !important;
@@ -1093,8 +1095,8 @@ body.context-course #main:has(.vibe-sidebar-duo) #content-wrapper,
   min-width: 0 !important;
 }
 
-body[class*="context-course"] #right-side-wrapper:has(.vibe-sidebar-duo),
-body.context-course #right-side-wrapper:has(.vibe-sidebar-duo) {
+body[class*="context-course"] body.vibe-has-sidebar-duo #right-side-wrapper,
+body.context-course body.vibe-has-sidebar-duo #right-side-wrapper {
   padding-top: 0 !important;
   margin-top: 0 !important;
 }
@@ -1104,12 +1106,12 @@ body.context-course #right-side-wrapper:has(.vibe-sidebar-duo) {
 body.quizzes #content-wrapper,
 body[class*="quizzes"] #content-wrapper,
 body.full-width #content-wrapper,
-body:has(#questions) #content-wrapper,
-body:has(#question_list) #content-wrapper,
-body:has(.quiz-submission) #content-wrapper,
+body.vibe-is-quiz-page #content-wrapper,
+body.vibe-is-quiz-page #content-wrapper,
+body.vibe-is-quiz-page #content-wrapper,
 body:has(#assessment_questions) #content-wrapper,
 body:has(.take_quiz_wrapper) #content-wrapper,
-body:has(iframe#tool_content) #content-wrapper,
+body.vibe-has-tool-content #content-wrapper,
 body:has(iframe[src*="quiz"]) #content-wrapper,
 body:has([data-testid*="quiz"]) #content-wrapper {
   flex: 1 1 100% !important;
@@ -1133,7 +1135,7 @@ body:has([data-testid*="quiz"]) #content-wrapper {
 }
 
 /* Right-side wrapper: 560px ONLY when it contains the vibe-sidebar-duo */
-#right-side-wrapper:has(.vibe-sidebar-duo) {
+body.vibe-has-sidebar-duo #right-side-wrapper {
   width: 560px !important;
   min-width: 0 !important;
   max-width: 560px !important;
@@ -1162,9 +1164,9 @@ body:has([data-testid*="quiz"]) #content-wrapper {
 .vibe-quiz-page #right-side-wrapper .vibe-sidebar-duo,
 body.quizzes #right-side-wrapper .vibe-sidebar-duo,
 body[class*="quizzes"] #right-side-wrapper .vibe-sidebar-duo,
-body:has(#questions) #right-side-wrapper .vibe-sidebar-duo,
-body:has(.quiz-submission) #right-side-wrapper .vibe-sidebar-duo,
-body:has(iframe#tool_content) #right-side-wrapper .vibe-sidebar-duo {
+body.vibe-is-quiz-page #right-side-wrapper .vibe-sidebar-duo,
+body.vibe-is-quiz-page #right-side-wrapper .vibe-sidebar-duo,
+body.vibe-has-tool-content #right-side-wrapper .vibe-sidebar-duo {
   display: none !important;
 }
 
@@ -1219,8 +1221,8 @@ body[class*="quizzes"] #right-side-wrapper {
   min-width: 0 !important;
   background-color: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 90%, transparent) !important;
   background: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 90%, transparent) !important;
-  backdrop-filter: blur(28px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  /* backdrop removed for perf */
+  -webkit-/* backdrop removed for perf */
   border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
   border-radius: 18px !important;
   padding: 14px 14px 10px !important;
@@ -1236,12 +1238,12 @@ body.quizzes,
 body[class*="quizzes"],
 body.full-width,
 body.ic-Layout--fluid,
-body:has(#questions),
-body:has(#question_list),
-body:has(.quiz-submission),
+body.vibe-is-quiz-page,
+body.vibe-is-quiz-page,
+body.vibe-is-quiz-page,
 body:has(#assessment_questions),
 body:has(.take_quiz_wrapper),
-body:has(iframe#tool_content),
+body.vibe-has-tool-content,
 body:has(iframe[src*="quiz"]),
 body:has([data-testid*="quiz"]) {
   overflow-y: auto !important;
@@ -1698,8 +1700,8 @@ div.muted-notice,
 #quiz_show .muted-notice {
   background-color: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
   background: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  /* backdrop removed for perf */
+  -webkit-/* backdrop removed for perf */
   border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
   border-radius: var(--bc-card-radius, 14px) !important;
   padding: 20px 24px !important;
@@ -1737,8 +1739,8 @@ body.quizzes #right-side,
   box-sizing: border-box !important;
   background-color: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
   background: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  /* backdrop removed for perf */
+  -webkit-/* backdrop removed for perf */
   border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
   border-radius: var(--bc-card-radius, 14px) !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06) !important;
@@ -1862,14 +1864,14 @@ iframe[src*="external_tools"] {
 
 /* Monitor view (> 1650px): Duo cards side-by-side (560px) */
 @media (min-width: 1650px) {
-  #main:has(.vibe-sidebar-duo),
+  body.vibe-has-sidebar-duo #main,
   body.ic-dashboard-app #main,
   body.dashboard #main,
   #dashboard #main,
   .vibe-dashboard-page #main {
     gap: 28px !important;
   }
-  #right-side-wrapper:has(.vibe-sidebar-duo) {
+  body.vibe-has-sidebar-duo #right-side-wrapper {
     width: 560px !important;
     min-width: 560px !important;
     max-width: 560px !important;
@@ -1942,7 +1944,7 @@ iframe[src*="external_tools"] {
     max-width: 280px !important;
     min-width: 280px !important;
   }
-  #right-side-wrapper:has(.vibe-sidebar-duo) {
+  body.vibe-has-sidebar-duo #right-side-wrapper {
     width: 290px !important;
     min-width: 290px !important;
     max-width: 290px !important;
@@ -2012,7 +2014,7 @@ iframe[src*="external_tools"] {
     max-width: 100% !important;
     min-width: 0 !important;
   }
-  #right-side-wrapper:has(.vibe-sidebar-duo) {
+  body.vibe-has-sidebar-duo #right-side-wrapper {
     width: 100% !important;
     max-width: 880px !important;
     min-width: 0 !important;
@@ -2038,13 +2040,13 @@ iframe[src*="external_tools"] {
     max-width: 100% !important;
     padding: 12px !important;
   }
-  #main:has(.vibe-sidebar-duo),
+  body.vibe-has-sidebar-duo #main,
   body.ic-dashboard-app #main {
     flex-direction: column !important;
     gap: 20px !important;
   }
   #content-wrapper,
-  #right-side-wrapper:has(.vibe-sidebar-duo) {
+  body.vibe-has-sidebar-duo #right-side-wrapper {
     width: 100% !important;
     max-width: 100% !important;
   }
@@ -3193,8 +3195,8 @@ html.vibe-has-wallpaper .ic-Dashboard-header h2 {
 
 html.vibe-has-wallpaper .ic-DashboardCard {
   background-color: color-mix(in srgb, var(--bccards, #ffffff) 88%, transparent) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  /* backdrop removed for perf */
+  -webkit-/* backdrop removed for perf */
   border: 1px solid var(--bcborders, rgba(0, 0, 0, 0.08)) !important;
   box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.18) !important;
   border-radius: var(--bc-card-radius, 14px) !important;
@@ -3210,8 +3212,8 @@ html.vibe-has-wallpaper #vibe-todo-widget,
 html.vibe-has-wallpaper #vibe-graded-widget,
 html.vibe-has-wallpaper #right-side .card {
   background-color: color-mix(in srgb, var(--bccards, #ffffff) 88%, transparent) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  /* backdrop removed for perf */
+  -webkit-/* backdrop removed for perf */
   border: 1px solid var(--bcborders, rgba(0, 0, 0, 0.08)) !important;
   box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.16) !important;
   border-radius: var(--bc-card-radius, 14px) !important;
@@ -3223,8 +3225,8 @@ html.vibe-has-wallpaper .ic-app-header,
 body.vibe-has-wallpaper .ic-app-header {
   background-color: color-mix(in srgb, var(--bcsidebar) 85%, transparent) !important;
   background: color-mix(in srgb, var(--bcsidebar) 85%, transparent) !important;
-  backdrop-filter: blur(32px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(32px) saturate(190%) !important;
+  /* backdrop removed for perf */
+  -webkit-/* backdrop removed for perf */
   border-right: 1px solid var(--bcborders, rgba(0, 0, 0, 0.12)) !important;
   box-shadow: 6px 0 28px rgba(0, 0, 0, 0.14) !important;
 }
@@ -3266,8 +3268,8 @@ html.vibe-has-wallpaper #quiz_instructions_holder,
 html.vibe-has-wallpaper .module-sequence-footer .module-sequence-footer-content {
   background-color: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
   background: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  /* backdrop removed for perf */
+  -webkit-/* backdrop removed for perf */
   border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
   border-radius: var(--bc-card-radius, 14px) !important;
   padding: 24px 28px !important;
@@ -3333,8 +3335,8 @@ html.vibe-has-wallpaper .item-group-expandable,
 html.vibe-has-wallpaper .course-list-table {
   background-color: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
   background: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  /* backdrop removed for perf */
+  -webkit-/* backdrop removed for perf */
   border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
   border-radius: var(--bc-card-radius, 16px) !important;
   padding: 16px 20px !important;
@@ -3367,8 +3369,8 @@ html.vibe-has-wallpaper .ig-list .ig-row,
 html.vibe-has-wallpaper .item-group-condensed .ig-row {
   background-color: color-mix(in srgb, var(--bcbackground-1) 84%, transparent) !important;
   background: color-mix(in srgb, var(--bcbackground-1) 84%, transparent) !important;
-  backdrop-filter: blur(16px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+  /* backdrop removed for perf */
+  -webkit-/* backdrop removed for perf */
   border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.1)) !important;
   border-radius: 8px !important;
   padding: 10px 14px !important;
@@ -3427,8 +3429,8 @@ html.vibe-has-wallpaper #no_topics_message,
 html.vibe-has-wallpaper .no_content,
 html.vibe-has-wallpaper .item-group-expandable .emptyMessage {
   background: color-mix(in srgb, var(--bccards, #ffffff) 82%, transparent) !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  /* backdrop removed for perf */
+  -webkit-/* backdrop removed for perf */
   border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.14)) !important;
   border-radius: var(--bc-card-radius, 12px) !important;
   padding: 16px 22px !important;
@@ -3857,8 +3859,8 @@ div[data-testid="assignments-2-student-view"],
 [data-testid="assignment-details"] {
   background-color: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
   background: color-mix(in srgb, var(--bccards, var(--bcbackground-1)) 86%, transparent) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  /* backdrop removed for perf */
+  -webkit-/* backdrop removed for perf */
   border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
   border-radius: var(--bc-card-radius, 16px) !important;
   padding: 24px 28px !important;
@@ -5871,17 +5873,17 @@ html.vibe-has-wallpaper .profile_table th { border-radius: 0 !important; }
 html.vibe-has-wallpaper .profile_table { border-radius: var(--bc-card-radius, 14px) !important; overflow: hidden; }
 
 /* -- Course Grades page: side-by-side layout with sticky weight sidebar -- */
-body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #not_right_side.ic-app-main-content {
+body.grades.vibe-has-grades-summary:not(:has(.vibe-sidebar-duo)) #not_right_side.ic-app-main-content {
   display: flex !important;
   align-items: flex-start !important;
   gap: 0 !important;
 }
-body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #content-wrapper.ic-Layout-contentWrapper {
+body.grades.vibe-has-grades-summary:not(:has(.vibe-sidebar-duo)) #content-wrapper.ic-Layout-contentWrapper {
   flex: 1 1 auto !important;
   min-width: 0 !important;
   width: auto !important;
 }
-body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #right-side-wrapper.ic-app-main-content__secondary {
+body.grades.vibe-has-grades-summary:not(:has(.vibe-sidebar-duo)) #right-side-wrapper.ic-app-main-content__secondary {
   flex: 0 0 280px !important;
   width: 280px !important;
   min-width: 280px !important;
@@ -5890,7 +5892,7 @@ body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #right-side-wrappe
   display: block !important;
   padding: 0 0 0 16px !important;
 }
-body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #right-side-wrapper #right-side {
+body.grades.vibe-has-grades-summary:not(:has(.vibe-sidebar-duo)) #right-side-wrapper #right-side {
   position: sticky !important;
   top: 16px !important;
   max-height: calc(100vh - 80px) !important;
@@ -5898,9 +5900,9 @@ body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #right-side-wrappe
 }
 
 /* -- Sidebar Duo must ALWAYS preserve full 560px on any page -- */
-#right-side-wrapper:has(.vibe-sidebar-duo),
-body #right-side-wrapper:has(.vibe-sidebar-duo),
-body.responsive_student_grades_page #right-side-wrapper:has(.vibe-sidebar-duo) {
+body.vibe-has-sidebar-duo #right-side-wrapper,
+body body.vibe-has-sidebar-duo #right-side-wrapper,
+body.responsive_student_grades_page body.vibe-has-sidebar-duo #right-side-wrapper {
   width: 560px !important;
   max-width: 560px !important;
   min-width: 560px !important;
@@ -6111,7 +6113,7 @@ body[class*="grades"] #content-wrapper {
   flex: 0 1 1050px !important;
 }
 
-body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #not_right_side,
+body.grades.vibe-has-grades-summary:not(:has(.vibe-sidebar-duo)) #not_right_side,
 body[class*="grades"]:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #not_right_side {
   gap: 32px !important;
 }
@@ -6148,3 +6150,5 @@ html.vibe-theme-dark #right-side .mini_month td, html.vibe-theme-dark #right-sid
 html.vibe-theme-dark #right-side .mini_month .mini-month-header, html.vibe-theme-dark #right-side .mini_month .month_title { padding: 4px 0 !important; font-size: 14px !important; border: none !important; }
 html.vibe-theme-dark #right-side .mini_month .next_month_link, html.vibe-theme-dark #right-side .mini_month .prev_month_link, html.vibe-theme-dark #right-side .mini_month a.Button, html.vibe-theme-dark #right-side .mini_month button.Button, html.vibe-theme-dark #right-side .mini_month .Button--icon-action { width: 28px !important; height: 28px !important; min-width: 28px !important; border-radius: 50% !important; padding: 0 !important; background: transparent !important; border: none !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; box-shadow: none !important; margin: 0 !important; }
 html.vibe-theme-dark #right-side .mini_month .next_month_link:hover, html.vibe-theme-dark #right-side .mini_month .prev_month_link:hover, html.vibe-theme-dark #right-side .mini_month a.Button:hover, html.vibe-theme-dark #right-side .mini_month button.Button:hover { background: rgba(255,255,255,0.1) !important; border: none !important; }
+
+}
