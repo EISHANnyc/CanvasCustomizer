@@ -2661,6 +2661,7 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   position: relative !important;
   display: flex !important;
   align-items: center !important;
+  justify-content: space-between !important;
   gap: 11px !important;
   padding: 7px 10px !important;
   border-radius: 7px !important;
