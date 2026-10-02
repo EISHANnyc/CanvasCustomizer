@@ -1,10 +1,10 @@
-# CanvasCustomizer (CC) 🎨
+# CanvasCustomizer (CC)
 
 A free, clean, and aesthetic way to customize Canvas.
 
 <div align="center">
 
-[![Download Extension ZIP](https://img.shields.io/badge/⬇️%20Download%20Extension-ZIP-10B981?style=for-the-badge&logo=googlechrome&logoColor=white)](https://github.com/EISHANnyc/CanvasCustomizer/raw/main/CanvasCustomizer.zip)
+[![Download Extension ZIP](https://img.shields.io/badge/Download%20Extension-ZIP-10B981?style=for-the-badge&logo=googlechrome&logoColor=white)](https://github.com/EISHANnyc/CanvasCustomizer/raw/main/CanvasCustomizer.zip)
 
 </div>
 
@@ -13,11 +13,11 @@ If you find any bugs, idk how you can tell me but just tell me somehow okay?
 
 ## Features
 
-- 🎨 **Palettes**: Dark and light presets, or pick your own colors
-- 🖼️ **Wallpapers**: Custom background photos and card covers
-- 📈 **GPA Tracker**: Live GPA with university grading scales (SFU, UBC, etc.)
-- ✅ **Tasks & Grades**: Upcoming assignments and finished scores side-by-side
-- 🧹 **Clean Layout**: Rounded cards, sleek fonts, zero clutter
+- **Palettes**: Dark and light presets, or pick your own colors
+- **Wallpapers**: Custom background photos and card covers
+- **GPA Tracker**: Live GPA with university grading scales (SFU, UBC, etc.)
+- **Tasks & Grades**: Upcoming assignments and finished scores side-by-side
+- **Clean Layout**: Rounded cards, sleek fonts, zero clutter
 
 ---
 
