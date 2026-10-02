@@ -26,6 +26,10 @@
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a7 7 0 0 0 7 7c0 2-2 3-2 3s.5 1 .5 2a2.5 2.5 0 0 1-2.5 2.5H12"/></svg>
           Themes
         </button>
+        <button type="button" class="popup-nav-tab" data-tab="palettes" role="tab" aria-selected="false">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          Palettes
+        </button>
         <button type="button" class="popup-nav-tab" data-tab="dashboard" role="tab" aria-selected="false">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
           Dashboard
@@ -43,6 +47,137 @@
       <section class="popup-tab-pane active" data-pane="themes" role="tabpanel">
         <div class="pane-inner">
           <div class="theme-group-list" id="theme-group-list"></div>
+        </div>
+      </section>
+
+      <!-- PANE 2: CUSTOM PALETTES STUDIO -->
+      <section class="popup-tab-pane" data-pane="palettes" role="tabpanel">
+        <div class="pane-inner">
+          <div class="feature-card palette-studio-card">
+            <div class="feature-card-header">
+              <div class="feature-title-wrap">
+                <span class="feature-title">Palette Studio</span>
+                <span class="feature-desc">Visual custom palette builder with real preview</span>
+              </div>
+              <span class="value-pill" id="palette-mode-pill">Live Mode</span>
+            </div>
+
+            <!-- Mini Live Interactive Preview Mockup -->
+            <div class="palette-live-preview" id="palette-live-preview">
+              <div class="mock-sidebar" id="mock-sidebar" title="Sidebar rail preview">
+                <div class="mock-logo"></div>
+                <div class="mock-nav-item active" id="mock-nav-active"></div>
+                <div class="mock-nav-item"></div>
+              </div>
+              <div class="mock-main" id="mock-main">
+                <div class="mock-header-row">
+                  <div class="mock-title-text" id="mock-title-text">Dashboard</div>
+                  <div class="mock-accent-badge" id="mock-badge">Active Accent</div>
+                </div>
+                <div class="mock-cards-row">
+                  <div class="mock-card" id="mock-card-1">
+                    <div class="mock-card-banner" id="mock-banner-1"></div>
+                    <div class="mock-card-body">
+                      <div class="mock-line-title" id="mock-line-title-1">MATH 251</div>
+                      <div class="mock-line-sub" id="mock-accent-text">Assignment · 11:59 PM</div>
+                    </div>
+                  </div>
+                  <div class="mock-card" id="mock-card-2">
+                    <div class="mock-card-banner" id="mock-banner-2"></div>
+                    <div class="mock-card-body">
+                      <div class="mock-line-title" id="mock-line-title-2">DATA 260</div>
+                      <div class="mock-line-sub" id="mock-line-sub-2">Due Tomorrow</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Descriptive Accessible Color Pickers -->
+            <div class="palette-color-rows-list">
+              <div class="palette-role-row">
+                <div class="role-info-wrap">
+                  <span class="role-title">Page Canvas</span>
+                  <span class="role-desc">Canvas page background & outer margins</span>
+                </div>
+                <div class="role-input-wrap">
+                  <input type="color" class="role-color-input" id="color-bg-0" value="#181512" title="Pick Page Canvas Color">
+                  <span class="role-hex-label" id="hex-bg-0">#181512</span>
+                </div>
+              </div>
+
+              <div class="palette-role-row">
+                <div class="role-info-wrap">
+                  <span class="role-title">Cards & Boxes</span>
+                  <span class="role-desc">Course tiles, task cards & grade tables</span>
+                </div>
+                <div class="role-input-wrap">
+                  <input type="color" class="role-color-input" id="color-cards" value="#26201B" title="Pick Cards & Boxes Color">
+                  <span class="role-hex-label" id="hex-cards">#26201B</span>
+                </div>
+              </div>
+
+              <div class="palette-role-row">
+                <div class="role-info-wrap">
+                  <span class="role-title">Sidebar Rail</span>
+                  <span class="role-desc">Left Canvas navigation menu rail</span>
+                </div>
+                <div class="role-input-wrap">
+                  <input type="color" class="role-color-input" id="color-sidebar" value="#1C1713" title="Pick Sidebar Rail Color">
+                  <span class="role-hex-label" id="hex-sidebar">#1C1713</span>
+                </div>
+              </div>
+
+              <div class="palette-role-row">
+                <div class="role-info-wrap">
+                  <span class="role-title">Brand Accent</span>
+                  <span class="role-desc">Buttons, links, tabs & active highlights</span>
+                </div>
+                <div class="role-input-wrap">
+                  <input type="color" class="role-color-input" id="color-accent" value="#E57B60" title="Pick Brand Accent Color">
+                  <span class="role-hex-label" id="hex-accent">#E57B60</span>
+                </div>
+              </div>
+
+              <div class="palette-role-row">
+                <div class="role-info-wrap">
+                  <span class="role-title">Primary Text</span>
+                  <span class="role-desc">Headings, titles & text readability</span>
+                </div>
+                <div class="role-input-wrap">
+                  <input type="color" class="role-color-input" id="color-text" value="#F7F2EA" title="Pick Primary Text Color">
+                  <span class="role-hex-label" id="hex-text">#F7F2EA</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Save as New Palette Action -->
+            <div class="palette-save-action-wrap">
+              <div class="palette-name-input-row">
+                <input type="text" id="custom-palette-name-input" placeholder="Palette name (e.g. Matcha, Cyber)..." maxlength="24">
+                <button type="button" class="tactile-btn primary mini" id="save-custom-palette-btn">
+                  Save Palette
+                </button>
+              </div>
+              <span class="palette-limit-caption" id="palette-limit-caption">Saved Palettes (0/10)</span>
+            </div>
+          </div>
+
+          <!-- Saved Library Shelf -->
+          <div class="feature-card">
+            <div class="card-headline-row">
+              <div class="feature-title-wrap">
+                <span class="feature-title">Saved Library (Max 10)</span>
+                <span class="feature-desc">Preserved across extension updates & reload</span>
+              </div>
+              <button type="button" class="mini-text-btn" id="export-palettes-btn" title="Backup Palettes JSON">Backup</button>
+            </div>
+            <div class="saved-palettes-shelf" id="saved-palettes-shelf">
+              <div class="saved-palettes-empty" id="saved-palettes-empty">
+                No custom palettes saved yet. Pick colors above and click Save Palette!
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

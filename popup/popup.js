@@ -46,6 +46,14 @@ document.addEventListener('DOMContentLoaded', function() {
   var discoveredCourses = [];
   var customThemeColors = null;
   var openCustomDotIndex = null;
+  var savedUserPalettes = [];
+  var currentStudioColors = {
+    'background-0': '#181512',
+    'cards': '#26201B',
+    'sidebar': '#1C1713',
+    'accent': '#E57B60',
+    'text-0': '#F7F2EA'
+  };
 
   var GROUPS = [
     { id: 'linen',   label: 'Linen',   day: 'linen-day',   night: 'linen-night' },
@@ -1006,6 +1014,303 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // ── PALETTES STUDIO & PERSISTENCE ENGINE (UP TO 10 PALETTES) ────
+  var colorBg0Input = document.getElementById('color-bg-0');
+  var hexBg0Label = document.getElementById('hex-bg-0');
+  var colorCardsInput = document.getElementById('color-cards');
+  var hexCardsLabel = document.getElementById('hex-cards');
+  var colorSidebarInput = document.getElementById('color-sidebar');
+  var hexSidebarLabel = document.getElementById('hex-sidebar');
+  var colorAccentInput = document.getElementById('color-accent');
+  var hexAccentLabel = document.getElementById('hex-accent');
+  var colorTextInput = document.getElementById('color-text');
+  var hexTextLabel = document.getElementById('hex-text');
+
+  var savePaletteBtn = document.getElementById('save-custom-palette-btn');
+  var paletteNameInput = document.getElementById('custom-palette-name-input');
+  var paletteLimitCaption = document.getElementById('palette-limit-caption');
+  var savedPalettesShelf = document.getElementById('saved-palettes-shelf');
+  var exportPalettesBtn = document.getElementById('export-palettes-btn');
+  var paletteModePill = document.getElementById('palette-mode-pill');
+
+  function updateStudioLiveMockup() {
+    var bg0 = currentStudioColors['background-0'];
+    var cards = currentStudioColors['cards'];
+    var sb = currentStudioColors['sidebar'];
+    var acc = currentStudioColors['accent'];
+    var txt = currentStudioColors['text-0'];
+
+    var liveBox = document.getElementById('palette-live-preview');
+    if (liveBox) liveBox.style.background = bg0;
+
+    var mockSb = document.getElementById('mock-sidebar');
+    if (mockSb) mockSb.style.background = sb;
+
+    var mockNavActive = document.getElementById('mock-nav-active');
+    if (mockNavActive) mockNavActive.style.background = acc;
+
+    var mockBadge = document.getElementById('mock-badge');
+    if (mockBadge) {
+      mockBadge.style.background = acc;
+      mockBadge.style.color = '#ffffff';
+    }
+
+    var mockTitleText = document.getElementById('mock-title-text');
+    if (mockTitleText) mockTitleText.style.color = txt;
+
+    var card1 = document.getElementById('mock-card-1');
+    if (card1) card1.style.background = cards;
+
+    var card2 = document.getElementById('mock-card-2');
+    if (card2) card2.style.background = cards;
+
+    var banner1 = document.getElementById('mock-banner-1');
+    if (banner1) banner1.style.background = 'linear-gradient(135deg, ' + acc + ' 0%, ' + acc + '99 100%)';
+
+    var banner2 = document.getElementById('mock-banner-2');
+    if (banner2) banner2.style.background = 'linear-gradient(135deg, ' + acc + 'bb 0%, ' + acc + '55 100%)';
+
+    var lineTitle1 = document.getElementById('mock-line-title-1');
+    if (lineTitle1) lineTitle1.style.color = txt;
+
+    var lineTitle2 = document.getElementById('mock-line-title-2');
+    if (lineTitle2) lineTitle2.style.color = txt;
+
+    var mockAccText = document.getElementById('mock-accent-text');
+    if (mockAccText) mockAccText.style.color = acc;
+
+    var bgHsl = hexToHsl(bg0);
+    var isDark = bgHsl.l < 50;
+    if (paletteModePill) {
+      paletteModePill.textContent = isDark ? 'Dark Mode' : 'Light Mode';
+    }
+  }
+
+  function syncStudioInputsWithColors() {
+    if (colorBg0Input) { colorBg0Input.value = currentStudioColors['background-0']; hexBg0Label.textContent = currentStudioColors['background-0'].toUpperCase(); }
+    if (colorCardsInput) { colorCardsInput.value = currentStudioColors['cards']; hexCardsLabel.textContent = currentStudioColors['cards'].toUpperCase(); }
+    if (colorSidebarInput) { colorSidebarInput.value = currentStudioColors['sidebar']; hexSidebarLabel.textContent = currentStudioColors['sidebar'].toUpperCase(); }
+    if (colorAccentInput) { colorAccentInput.value = currentStudioColors['accent']; hexAccentLabel.textContent = currentStudioColors['accent'].toUpperCase(); }
+    if (colorTextInput) { colorTextInput.value = currentStudioColors['text-0']; hexTextLabel.textContent = currentStudioColors['text-0'].toUpperCase(); }
+    updateStudioLiveMockup();
+  }
+
+  function wireStudioColorInput(inputEl, labelEl, key) {
+    if (!inputEl) return;
+    inputEl.addEventListener('input', function(e) {
+      var val = e.target.value.toUpperCase();
+      currentStudioColors[key] = val;
+      if (labelEl) labelEl.textContent = val;
+      updateStudioLiveMockup();
+    });
+  }
+
+  wireStudioColorInput(colorBg0Input, hexBg0Label, 'background-0');
+  wireStudioColorInput(colorCardsInput, hexCardsLabel, 'cards');
+  wireStudioColorInput(colorSidebarInput, hexSidebarLabel, 'sidebar');
+  wireStudioColorInput(colorAccentInput, hexAccentLabel, 'accent');
+  wireStudioColorInput(colorTextInput, hexTextLabel, 'text-0');
+
+  function registerSavedPalettesIntoPresets() {
+    if (!Array.isArray(savedUserPalettes)) return;
+    savedUserPalettes.forEach(function(p) {
+      if (p && p.id && p.colors) {
+        presets[p.id] = {
+          id: p.id,
+          name: p.name || 'Custom Palette',
+          mode: p.mode || (hexToHsl(p.colors['background-0']).l < 50 ? 'dark' : 'light'),
+          vibe: 'User Crafted Palette: ' + (p.name || 'Custom'),
+          colors: p.colors,
+          courseColors: p.courseColors || {
+            math: p.colors.accent,
+            stat: p.colors.accent,
+            fallback: [p.colors.accent, '#457354', '#B85338', '#CFA33C', '#486A8C']
+          }
+        };
+      }
+    });
+  }
+
+  function persistSavedPalettes() {
+    try {
+      localStorage.setItem('vibe_saved_user_palettes_backup', JSON.stringify(savedUserPalettes));
+    } catch(e) {}
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+      chrome.storage.local.set({ saved_user_palettes: savedUserPalettes });
+    }
+  }
+
+  function renderSavedPalettesShelf() {
+    if (!savedPalettesShelf) return;
+    savedPalettesShelf.innerHTML = '';
+
+    if (paletteLimitCaption) {
+      paletteLimitCaption.textContent = 'Saved Palettes (' + (savedUserPalettes ? savedUserPalettes.length : 0) + '/10)';
+    }
+
+    if (!savedUserPalettes || savedUserPalettes.length === 0) {
+      var emptyEl = document.createElement('div');
+      emptyEl.className = 'saved-palettes-empty';
+      emptyEl.textContent = 'No custom palettes saved yet. Pick colors above and click Save Palette!';
+      savedPalettesShelf.appendChild(emptyEl);
+      return;
+    }
+
+    savedUserPalettes.forEach(function(item, idx) {
+      var card = document.createElement('div');
+      var isActive = activePresetId === item.id;
+      card.className = 'saved-palette-card' + (isActive ? ' active' : '');
+
+      var info = document.createElement('div');
+      info.className = 'saved-palette-info';
+      info.title = 'Click to preview & apply ' + item.name;
+
+      var nameEl = document.createElement('div');
+      nameEl.className = 'saved-palette-name';
+      nameEl.textContent = item.name;
+
+      var swRow = document.createElement('div');
+      swRow.className = 'saved-palette-swatches';
+      var c = item.colors || {};
+      [c['background-0'], c['cards'], c['sidebar'], c['accent'], c['text-0']].forEach(function(col) {
+        if (!col) return;
+        var dot = document.createElement('div');
+        dot.className = 'saved-mini-dot';
+        dot.style.background = col;
+        swRow.appendChild(dot);
+      });
+
+      info.appendChild(nameEl);
+      info.appendChild(swRow);
+
+      info.addEventListener('click', function() {
+        currentStudioColors = Object.assign({}, item.colors);
+        syncStudioInputsWithColors();
+        selectPreset(item.id);
+        renderSavedPalettesShelf();
+      });
+
+      var actions = document.createElement('div');
+      actions.className = 'saved-palette-actions';
+
+      var applyBtn = document.createElement('button');
+      applyBtn.type = 'button';
+      applyBtn.className = 'saved-apply-btn';
+      applyBtn.textContent = isActive ? 'Active' : 'Apply';
+      applyBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        currentStudioColors = Object.assign({}, item.colors);
+        syncStudioInputsWithColors();
+        selectPreset(item.id);
+        renderSavedPalettesShelf();
+      });
+
+      var delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.className = 'saved-delete-btn';
+      delBtn.title = 'Delete palette';
+      delBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+      delBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        savedUserPalettes.splice(idx, 1);
+        persistSavedPalettes();
+        delete presets[item.id];
+        if (activePresetId === item.id) {
+          selectPreset('linen-day');
+        }
+        renderSavedPalettesShelf();
+      });
+
+      actions.appendChild(applyBtn);
+      actions.appendChild(delBtn);
+
+      card.appendChild(info);
+      card.appendChild(actions);
+      savedPalettesShelf.appendChild(card);
+    });
+  }
+
+  if (savePaletteBtn) {
+    savePaletteBtn.addEventListener('click', function() {
+      if (!savedUserPalettes) savedUserPalettes = [];
+      if (savedUserPalettes.length >= 10) {
+        alert('You have reached the maximum limit of 10 saved custom palettes. Please delete one to save a new one.');
+        return;
+      }
+
+      var rawName = (paletteNameInput && paletteNameInput.value ? paletteNameInput.value.trim() : '');
+      var palName = rawName || ('Custom Palette ' + (savedUserPalettes.length + 1));
+
+      var bgHsl = hexToHsl(currentStudioColors['background-0']);
+      var isDark = bgHsl.l < 50;
+      var palId = 'user-pal-' + Date.now();
+
+      var bg0 = currentStudioColors['background-0'];
+      var cards = currentStudioColors['cards'];
+      var sb = currentStudioColors['sidebar'];
+      var acc = currentStudioColors['accent'];
+      var txt = currentStudioColors['text-0'];
+
+      var bg1 = cards;
+      var bg2 = isDark ? hslToHex(bgHsl.h, Math.min(bgHsl.s, 20), Math.min(bgHsl.l + 10, 40)) : hslToHex(bgHsl.h, Math.min(bgHsl.s, 20), Math.max(bgHsl.l - 8, 70));
+      var borderCol = isDark ? hslToHex(bgHsl.h, Math.min(bgHsl.s, 15), Math.min(bgHsl.l + 16, 50)) : hslToHex(bgHsl.h, Math.min(bgHsl.s, 15), Math.max(bgHsl.l - 16, 55));
+      var txtHsl = hexToHsl(txt);
+      var txt1 = hslToHex(txtHsl.h, Math.min(txtHsl.s, 30), isDark ? Math.max(txtHsl.l - 15, 60) : Math.min(txtHsl.l + 20, 45));
+      var txt2 = hslToHex(txtHsl.h, Math.min(txtHsl.s, 20), isDark ? Math.max(txtHsl.l - 30, 45) : Math.min(txtHsl.l + 35, 60));
+
+      var fullColors = {
+        'background-0': bg0,
+        'background-1': bg1,
+        'background-2': bg2,
+        'borders': borderCol,
+        'buttons': bg2,
+        'links': acc,
+        'sidebar': sb,
+        'sidebar-text': isDark ? '#F7F2EA' : '#29221C',
+        'text-0': txt,
+        'text-1': txt1,
+        'text-2': txt2,
+        'cards': cards,
+        'accent': acc,
+        'accent-secondary': acc
+      };
+
+      var newPalette = {
+        id: palId,
+        name: palName,
+        mode: isDark ? 'dark' : 'light',
+        colors: fullColors,
+        courseColors: {
+          math: acc,
+          stat: acc,
+          fallback: [acc, '#457354', '#B85338', '#CFA33C', '#486A8C', '#9E77B0']
+        }
+      };
+
+      savedUserPalettes.unshift(newPalette);
+      persistSavedPalettes();
+      registerSavedPalettesIntoPresets();
+      selectPreset(palId);
+      renderSavedPalettesShelf();
+
+      if (paletteNameInput) paletteNameInput.value = '';
+      savePaletteBtn.textContent = 'Saved ✓';
+      setTimeout(function() {
+        if (savePaletteBtn) savePaletteBtn.textContent = 'Save Palette';
+      }, 1500);
+    });
+  }
+
+  if (exportPalettesBtn) {
+    exportPalettesBtn.addEventListener('click', function() {
+      var dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(savedUserPalettes, null, 2));
+      var dlAnchor = document.createElement('a');
+      dlAnchor.setAttribute('href', dataStr);
+      dlAnchor.setAttribute('download', 'CanvasCustomizer_Palettes_Backup.json');
+      dlAnchor.click();
+    });
+  }
+
   // ── Load State ─────────────────────────────────────────────
   if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
     chrome.storage.local.get([
@@ -1013,8 +1318,26 @@ document.addEventListener('DOMContentLoaded', function() {
       'course_images', 'discovered_courses', 'custom_theme_colors',
       'vibe_wallpaper_url', 'vibe_wallpaper_opacity', 'vibe_wallpaper_blur',
       'vibe_sidebar_bg_url', 'vibe_sidebar_bg_opacity', 'vibe_sidebar_bg_blur',
-      'vibe_show_gpa', 'vibe_gpa_bg_color'
+      'vibe_show_gpa', 'vibe_gpa_bg_color', 'saved_user_palettes'
     ], function(res) {
+      if (res && res.saved_user_palettes && Array.isArray(res.saved_user_palettes)) {
+        savedUserPalettes = res.saved_user_palettes;
+        try { localStorage.setItem('vibe_saved_user_palettes_backup', JSON.stringify(savedUserPalettes)); } catch(e) {}
+      } else {
+        try {
+          var bk = localStorage.getItem('vibe_saved_user_palettes_backup');
+          if (bk) {
+            savedUserPalettes = JSON.parse(bk);
+            if (Array.isArray(savedUserPalettes) && savedUserPalettes.length > 0) {
+              chrome.storage.local.set({ saved_user_palettes: savedUserPalettes });
+            }
+          }
+        } catch(e) {}
+      }
+      registerSavedPalettesIntoPresets();
+      renderSavedPalettesShelf();
+      syncStudioInputsWithColors();
+
       if (res && res.custom_theme_colors) {
         customThemeColors = res.custom_theme_colors;
       }

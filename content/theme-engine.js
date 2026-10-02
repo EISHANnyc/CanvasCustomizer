@@ -4594,7 +4594,7 @@
       'active_preset', 'card_radius', 'vibe_soft_night',
       'vibe_wallpaper_url', 'vibe_wallpaper_opacity', 'vibe_wallpaper_blur',
       'vibe_sidebar_bg_url', 'vibe_sidebar_bg_opacity', 'vibe_sidebar_bg_blur',
-      'custom_theme_colors'
+      'custom_theme_colors', 'saved_user_palettes'
     ], function(res) {
       if (res && res.vibe_soft_night !== undefined) {
         document.documentElement.classList.toggle('vibe-soft-night', !!res.vibe_soft_night);
@@ -4611,7 +4611,24 @@
       }
       var presetId = (res && res.active_preset) || DEFAULT_PRESET_ID;
       try { localStorage.setItem('vibe_cached_preset', presetId); } catch (e) {}
-      var catalog = (typeof PRESETS !== 'undefined') ? PRESETS : {};
+      var catalog = (typeof PRESETS !== 'undefined') ? Object.assign({}, PRESETS) : {};
+
+      // Register any saved user palettes from chrome.storage or localStorage backup
+      var userPals = (res && res.saved_user_palettes && Array.isArray(res.saved_user_palettes)) ? res.saved_user_palettes : null;
+      if (!userPals) {
+        try {
+          var bkStr = localStorage.getItem('vibe_saved_user_palettes_backup');
+          if (bkStr) userPals = JSON.parse(bkStr);
+        } catch(e) {}
+      }
+      if (Array.isArray(userPals)) {
+        userPals.forEach(function(up) {
+          if (up && up.id && up.colors) {
+            catalog[up.id] = up;
+          }
+        });
+      }
+
       var preset = catalog[presetId] || catalog[DEFAULT_PRESET_ID];
       if (preset) {
         if (presetId.indexOf('custom') !== -1 && res && res.custom_theme_colors) {
@@ -4726,18 +4743,32 @@
             if (changes.active_preset && changes.active_preset.newValue) {
               var newId = changes.active_preset.newValue;
               try { localStorage.setItem('vibe_cached_preset', newId); } catch (e) {}
-              var catalog = (typeof PRESETS !== 'undefined') ? PRESETS : {};
-              var p = catalog[newId];
-              playInkTransition(p, function() {
-                if (p) applyPresetTheme(p);
-                applyCardHeroColors(newId);
-                applySidebarTheme(newId);
-                enhanceCalendarEvents(newId);
-                initTodoReformatter(newId);
-                var oldNav = document.getElementById('vibe-course-nav');
-                if (oldNav) oldNav.remove();
-                injectCourseNavBar(newId);
-                applyCourseRedirectsAndRenaming();
+              safeStorageGet(['saved_user_palettes'], function(spRes) {
+                var catalog = (typeof PRESETS !== 'undefined') ? Object.assign({}, PRESETS) : {};
+                var userPals = (spRes && spRes.saved_user_palettes) || null;
+                if (!userPals) {
+                  try {
+                    var bkStr = localStorage.getItem('vibe_saved_user_palettes_backup');
+                    if (bkStr) userPals = JSON.parse(bkStr);
+                  } catch(e) {}
+                }
+                if (Array.isArray(userPals)) {
+                  userPals.forEach(function(up) {
+                    if (up && up.id && up.colors) catalog[up.id] = up;
+                  });
+                }
+                var p = catalog[newId] || catalog[DEFAULT_PRESET_ID];
+                playInkTransition(p, function() {
+                  if (p) applyPresetTheme(p);
+                  applyCardHeroColors(newId);
+                  applySidebarTheme(newId);
+                  enhanceCalendarEvents(newId);
+                  initTodoReformatter(newId);
+                  var oldNav = document.getElementById('vibe-course-nav');
+                  if (oldNav) oldNav.remove();
+                  injectCourseNavBar(newId);
+                  applyCourseRedirectsAndRenaming();
+                });
               });
             }
             if (changes.course_nicknames) {
