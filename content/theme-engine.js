@@ -1385,6 +1385,143 @@
     }
 
     renderUrgentCourseBadges(cards, cachedPlannerItems || []);
+    initCourseSearch();
+  }
+
+  // ── Course & Class Search Engines ───────────────────────────────────────
+  function initCourseSearch() {
+    var isDashboard = window.location.pathname === '/' || window.location.pathname === '' ||
+                      window.location.pathname.startsWith('/?') ||
+                      window.location.pathname.match(/^\/?(dashboard|courses\/?$)/i);
+    if (!isDashboard) return;
+
+    var container = document.getElementById('DashboardCard_Container');
+    if (!container) return;
+
+    if (document.getElementById('vibe-course-search-container')) return;
+
+    var searchWrap = document.createElement('div');
+    searchWrap.id = 'vibe-course-search-container';
+    searchWrap.className = 'vibe-course-search-container';
+    searchWrap.innerHTML =
+      '<div class="vibe-course-search-wrap">' +
+        '<svg class="vibe-course-search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+          '<circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>' +
+        '</svg>' +
+        '<input type="text" id="vibe-course-search-input" placeholder="Search classes (e.g. MATH 251, DATA 260)..." autocomplete="off">' +
+        '<button type="button" id="vibe-course-search-clear" style="display:none;" title="Clear search">×</button>' +
+      '</div>';
+
+    container.parentNode.insertBefore(searchWrap, container);
+
+    var input = searchWrap.querySelector('#vibe-course-search-input');
+    var clearBtn = searchWrap.querySelector('#vibe-course-search-clear');
+
+    function filterCourses() {
+      var query = (input.value || '').trim().toLowerCase();
+      clearBtn.style.display = query ? 'block' : 'none';
+
+      var cards = container.querySelectorAll('.ic-DashboardCard, [data-testid="draggable-card"]');
+      var matchedCount = 0;
+
+      cards.forEach(function(card) {
+        if (card.id === 'vibe-gpa-school-card') return;
+        var text = (card.innerText || '').toLowerCase();
+        var links = Array.from(card.querySelectorAll('a')).map(function(a) { return (a.title || a.getAttribute('aria-label') || '').toLowerCase(); }).join(' ');
+        var matches = !query || text.includes(query) || links.includes(query);
+        if (matches) {
+          card.style.removeProperty('display');
+          matchedCount++;
+        } else {
+          card.style.setProperty('display', 'none', 'important');
+        }
+      });
+
+      // Also filter course rows in GPA card if present
+      var gpaCard = document.getElementById('vibe-gpa-school-card');
+      if (gpaCard) {
+        var gpaRows = gpaCard.querySelectorAll('.vibe-gpa-row');
+        gpaRows.forEach(function(row) {
+          var rowText = (row.innerText || '').toLowerCase();
+          if (!query || rowText.includes(query)) {
+            row.style.removeProperty('display');
+          } else {
+            row.style.setProperty('display', 'none', 'important');
+          }
+        });
+      }
+
+      var noResults = document.getElementById('vibe-course-search-no-results');
+      if (query && matchedCount === 0) {
+        if (!noResults) {
+          noResults = document.createElement('div');
+          noResults.id = 'vibe-course-search-no-results';
+          noResults.className = 'vibe-no-courses-found';
+          container.appendChild(noResults);
+        }
+        noResults.textContent = 'No classes matching "' + input.value.trim() + '"';
+        noResults.style.display = 'block';
+      } else if (noResults) {
+        noResults.style.display = 'none';
+      }
+    }
+
+    input.addEventListener('input', filterCourses);
+    clearBtn.addEventListener('click', function() {
+      input.value = '';
+      filterCourses();
+      input.focus();
+    });
+  }
+
+  function initModuleSearch() {
+    if (!window.location.pathname.includes('/modules')) return;
+    var modulesContainer = document.getElementById('context_modules');
+    if (!modulesContainer || document.getElementById('vibe-module-search-wrap')) return;
+
+    var wrap = document.createElement('div');
+    wrap.id = 'vibe-module-search-wrap';
+    wrap.className = 'vibe-module-search-wrap';
+    wrap.innerHTML =
+      '<svg class="vibe-course-search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+        '<circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>' +
+      '</svg>' +
+      '<input type="text" id="vibe-module-search-input" placeholder="Search items in this class..." autocomplete="off">' +
+      '<button type="button" id="vibe-module-search-clear" style="display:none;background:none;border:none;color:var(--bctext-2);font-size:16px;cursor:pointer;">×</button>';
+
+    modulesContainer.parentNode.insertBefore(wrap, modulesContainer);
+
+    var input = wrap.querySelector('#vibe-module-search-input');
+    var clearBtn = wrap.querySelector('#vibe-module-search-clear');
+
+    input.addEventListener('input', function() {
+      var q = (input.value || '').trim().toLowerCase();
+      clearBtn.style.display = q ? 'block' : 'none';
+
+      var modules = modulesContainer.querySelectorAll('.context_module');
+      modules.forEach(function(mod) {
+        var items = mod.querySelectorAll('.context_module_item');
+        var anyItemMatch = false;
+        items.forEach(function(item) {
+          var itemText = (item.innerText || '').toLowerCase();
+          var match = !q || itemText.includes(q);
+          item.style.display = match ? '' : 'none';
+          if (match) anyItemMatch = true;
+        });
+        var headerText = ((mod.querySelector('.header') || {}).innerText || '').toLowerCase();
+        if (!q || anyItemMatch || headerText.includes(q)) {
+          mod.style.display = '';
+        } else {
+          mod.style.display = 'none';
+        }
+      });
+    });
+
+    clearBtn.addEventListener('click', function() {
+      input.value = '';
+      input.dispatchEvent(new Event('input'));
+      input.focus();
+    });
   }
 
   // ── GPA School Card ─────────────────────────────────────────────────────
@@ -1397,15 +1534,15 @@
       name: 'Simon Fraser University',
       abbr: 'SFU',
       label: 'SFU · Simon Fraser University (4.33)',
-      aliases: ['sfu', 'simon fraser', 'simon fraser university'],
+      aliases: ['sfu', 'simon fraser', 'simon fraser university', 'siat'],
       breaks: [
-        { min: 90, gpa: 4.33, letter: 'A+' },
-        { min: 85, gpa: 4.00, letter: 'A' },
-        { min: 80, gpa: 3.67, letter: 'A-' },
-        { min: 76, gpa: 3.33, letter: 'B+' },
-        { min: 72, gpa: 3.00, letter: 'B' },
-        { min: 68, gpa: 2.67, letter: 'B-' },
-        { min: 64, gpa: 2.33, letter: 'C+' },
+        { min: 95, gpa: 4.33, letter: 'A+' },
+        { min: 90, gpa: 4.00, letter: 'A' },
+        { min: 85, gpa: 3.67, letter: 'A-' },
+        { min: 80, gpa: 3.33, letter: 'B+' },
+        { min: 75, gpa: 3.00, letter: 'B' },
+        { min: 70, gpa: 2.67, letter: 'B-' },
+        { min: 65, gpa: 2.33, letter: 'C+' },
         { min: 60, gpa: 2.00, letter: 'C' },
         { min: 55, gpa: 1.67, letter: 'C-' },
         { min: 50, gpa: 1.00, letter: 'D' },
@@ -1801,7 +1938,7 @@
       if (scaleKey === 'gpa4') scaleKey = 'standard4';
 
       var customScaleData = (res && res.vibe_gpa_custom_scale) || null;
-      if (!Array.isArray(customScaleData) || customScaleData.length === 0) {
+      if (!Array.isArray(customScaleData) || customScaleData.length === 0 || scaleKey !== 'custom') {
         var baseScale = GPA_SCALES[scaleKey] || GPA_SCALES.sfu || GPA_SCALES.standard4;
         customScaleData = baseScale.breaks.map(function(b) {
           return { min: b.min, gpa: b.gpa, letter: b.letter };
@@ -5497,7 +5634,9 @@ function attachObserver() {
           el.closest('.vibe-grade-spark-tooltip') ||
           el.closest('#vibe-wallpaper-layer') ||
           el.closest('#vibe-sidebar-bg-layer') ||
-          el.closest('#vibe-gpa-school-card')
+          el.closest('#vibe-gpa-school-card') ||
+          el.closest('#vibe-course-search-container') ||
+          el.closest('#vibe-module-search-wrap')
         ) {
           continue;
         }
@@ -5511,6 +5650,8 @@ function attachObserver() {
         if (!isExtensionContextValid()) return;
         hideNativeTodoList();
         applyCourseRedirectsAndRenaming();
+        initCourseSearch();
+        initModuleSearch();
         safeStorageGet([
           'active_preset', 'custom_theme_colors',
           'vibe_sidebar_bg_url', 'vibe_sidebar_bg_opacity', 'vibe_sidebar_bg_blur', 'vibe_wallpaper_url'

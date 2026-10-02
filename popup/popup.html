@@ -213,6 +213,30 @@
             </div>
           </div>
 
+          <!-- Community Palette Stats Card -->
+          <div class="feature-card">
+            <div class="feature-header-row">
+              <div class="feature-text">
+                <span class="feature-title">Community Palette Stats</span>
+                <span class="feature-desc">Share anonymous theme picks to rank top palettes</span>
+              </div>
+              <label class="apple-switch" title="Share anonymous palette preferences">
+                <input type="checkbox" id="share-stats-toggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div id="stats-summary-row" class="feature-sub-row" style="flex-direction:column;align-items:flex-start;gap:6px;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;margin-top:8px;">
+              <div style="display:flex;justify-content:space-between;width:100%;font-size:12px;">
+                <span style="color:var(--text-secondary,#888);">Your Top Palette:</span>
+                <span id="stats-top-palette" style="font-weight:600;color:var(--text-primary,#fff);">Coastline</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;width:100%;font-size:12px;">
+                <span style="color:var(--text-secondary,#888);">Total Applied:</span>
+                <span id="stats-total-applied" style="font-weight:600;color:var(--text-primary,#fff);">0</span>
+              </div>
+            </div>
+          </div>
+
           <!-- Visual Styling Card -->
           <div class="feature-card">
             <div class="feature-card-header">
@@ -351,6 +375,7 @@
   </div>
 
   <script src="../shared/presets.js"></script>
+  <script src="../shared/telemetry.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

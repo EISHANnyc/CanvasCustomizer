@@ -1,0 +1,10 @@
+name = "canvas-customizer-stats"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# To enable persistent storage across edge locations, run:
+#   npx wrangler kv:namespace create PALETTE_KV
+# Then paste the id below:
+# [[kv_namespaces]]
+# binding = "PALETTE_KV"
+# id = "YOUR_KV_NAMESPACE_ID"
