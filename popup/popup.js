@@ -1043,14 +1043,14 @@ document.addEventListener('DOMContentLoaded', function() {
       isPremade: true,
       mode: 'dark',
       colors: {
-        'background-0': '#264653',
-        'background-1': '#1F3843',
-        'background-2': '#2A4A57',
-        'cards': '#1E3742',
-        'sidebar': '#172B34',
+        'background-0': '#1F3843',
+        'background-1': '#192E37',
+        'background-2': '#264653',
+        'cards': '#223D49',
+        'sidebar': '#14252D',
         'sidebar-text': '#F8F9FA',
-        'borders': '#355B6C',
-        'buttons': '#2A4D5C',
+        'borders': '#325868',
+        'buttons': '#264653',
         'accent': '#F4A261',
         'links': '#E76F51',
         'text-0': '#F8F9FA',
@@ -1063,65 +1063,123 @@ document.addEventListener('DOMContentLoaded', function() {
         data: '#F4A261',
         music: '#E9C46A',
         history: '#2A9D8F',
-        fallback: ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#3D7486', '#264653']
+        fallback: ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#3D7486', '#457B9D']
       }
     },
     {
-      id: 'pal-olive-grove',
-      name: 'Olive Grove',
+      id: 'pal-terracotta',
+      name: 'Terracotta Sun',
       isPremade: true,
       mode: 'dark',
       colors: {
-        'background-0': '#283618',
-        'background-1': '#314220',
-        'background-2': '#3D5227',
-        'cards': '#354620',
-        'sidebar': '#1F2B13',
-        'sidebar-text': '#FEFAE0',
-        'borders': '#4A6230',
-        'buttons': '#3C4F26',
-        'accent': '#DDA15E',
-        'links': '#BC6C25',
-        'text-0': '#FEFAE0',
-        'text-1': '#E5E1C3',
-        'text-2': '#B5B194'
+        'background-0': '#211714',
+        'background-1': '#1A1210',
+        'background-2': '#2D1F1B',
+        'cards': '#281C18',
+        'sidebar': '#160E0D',
+        'sidebar-text': '#FAF0E6',
+        'borders': '#443029',
+        'buttons': '#382520',
+        'accent': '#E27D60',
+        'links': '#E8A87C',
+        'text-0': '#FAF0E6',
+        'text-1': '#E0D2C7',
+        'text-2': '#A8998E'
       },
       courseColors: {
-        math: '#606C38',
-        stat: '#BC6C25',
-        data: '#DDA15E',
-        music: '#8A9A5B',
-        history: '#606C38',
-        fallback: ['#606C38', '#DDA15E', '#BC6C25', '#8A9A5B', '#485F2C', '#FEFAE0']
+        math: '#E27D60',
+        stat: '#E8A87C',
+        data: '#C38D9E',
+        music: '#41B3A3',
+        history: '#85DCB0',
+        fallback: ['#E27D60', '#E8A87C', '#C38D9E', '#41B3A3', '#85DCB0', '#DDA15E']
       }
     },
     {
-      id: 'pal-deep-pacific',
-      name: 'Deep Pacific',
+      id: 'pal-midnight-plum',
+      name: 'Midnight Plum',
       isPremade: true,
       mode: 'dark',
       colors: {
-        'background-0': '#1D3557',
-        'background-1': '#223F66',
-        'background-2': '#2C4F7F',
-        'cards': '#25446E',
-        'sidebar': '#152843',
-        'sidebar-text': '#F1FAEE',
-        'borders': '#3A6399',
-        'buttons': '#2B4E7C',
-        'accent': '#E63946',
-        'links': '#E63946',
-        'text-0': '#F1FAEE',
-        'text-1': '#D3E0EA',
-        'text-2': '#9FB7C9'
+        'background-0': '#1A1423',
+        'background-1': '#140F1B',
+        'background-2': '#261C33',
+        'cards': '#22192E',
+        'sidebar': '#100B16',
+        'sidebar-text': '#FBF5F8',
+        'borders': '#3E2E52',
+        'buttons': '#2C203B',
+        'accent': '#B5838D',
+        'links': '#E5989B',
+        'text-0': '#FBF5F8',
+        'text-1': '#DFD3DD',
+        'text-2': '#A394A1'
       },
       courseColors: {
-        math: '#457B9D',
-        stat: '#E63946',
-        data: '#A8DADC',
-        music: '#457B9D',
-        history: '#2A9D8F',
-        fallback: ['#457B9D', '#A8DADC', '#E63946', '#2A9D8F', '#24527A', '#F1FAEE']
+        math: '#B5838D',
+        stat: '#E5989B',
+        data: '#6D597A',
+        music: '#FFB4A2',
+        history: '#355070',
+        fallback: ['#B5838D', '#E5989B', '#6D597A', '#FFB4A2', '#355070', '#9A8C98']
+      }
+    },
+    {
+      id: 'pal-nordic-slate',
+      name: 'Nordic Slate',
+      isPremade: true,
+      mode: 'dark',
+      colors: {
+        'background-0': '#151922',
+        'background-1': '#10141B',
+        'background-2': '#1D2330',
+        'cards': '#19202B',
+        'sidebar': '#0C0E14',
+        'sidebar-text': '#F0F6FC',
+        'borders': '#2B3547',
+        'buttons': '#222B3A',
+        'accent': '#38BDF8',
+        'links': '#818CF8',
+        'text-0': '#F0F6FC',
+        'text-1': '#C9D1D9',
+        'text-2': '#8B949E'
+      },
+      courseColors: {
+        math: '#38BDF8',
+        stat: '#818CF8',
+        data: '#34D399',
+        music: '#F472B6',
+        history: '#FBBF24',
+        fallback: ['#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24', '#A78BFA']
+      }
+    },
+    {
+      id: 'pal-matcha-latte',
+      name: 'Matcha Latte',
+      isPremade: true,
+      mode: 'dark',
+      colors: {
+        'background-0': '#19221B',
+        'background-1': '#131A15',
+        'background-2': '#233026',
+        'cards': '#1E2920',
+        'sidebar': '#0E140F',
+        'sidebar-text': '#F4F7F4',
+        'borders': '#334437',
+        'buttons': '#28362B',
+        'accent': '#A3C9A8',
+        'links': '#84B59F',
+        'text-0': '#F4F7F4',
+        'text-1': '#D5E0D6',
+        'text-2': '#96A898'
+      },
+      courseColors: {
+        math: '#A3C9A8',
+        stat: '#84B59F',
+        data: '#69B578',
+        music: '#DDB771',
+        history: '#C27BA0',
+        fallback: ['#A3C9A8', '#84B59F', '#69B578', '#DDB771', '#C27BA0', '#5B8E7D']
       }
     }
   ];
@@ -1356,7 +1414,7 @@ document.addEventListener('DOMContentLoaded', function() {
         registerSavedPalettesIntoPresets();
         renderSavedPalettesShelf();
       } else {
-        alert(savedUserPalettes.length >= 10 ? 'Maximum 10 palettes limit reached. Delete one to add.' : 'All 3 Coolors premade palettes are already in your library!');
+        alert(savedUserPalettes.length >= 10 ? 'Maximum 10 palettes limit reached. Delete one to add.' : 'All 5 diverse premade palettes are already in your library!');
       }
     });
   }
@@ -1531,8 +1589,14 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch(e) {}
       }
 
-      if (!Array.isArray(savedUserPalettes) || savedUserPalettes.length === 0) {
-        savedUserPalettes = DEFAULT_PREMADE_PALETTES.slice();
+      // Auto-migrate legacy AI-named duplicates and ensure the 5 diverse premades are populated
+      var legacyIds = ['pal-sunny-beach', 'pal-olive-garden', 'pal-ocean-breeze', 'pal-olive-grove', 'pal-deep-pacific'];
+      var hasLegacy = savedUserPalettes && savedUserPalettes.some(function(p) { return p && legacyIds.indexOf(p.id) !== -1; });
+      if (hasLegacy || !Array.isArray(savedUserPalettes) || savedUserPalettes.length === 0) {
+        var userCustomOnly = (savedUserPalettes || []).filter(function(p) {
+          return p && !p.isPremade && legacyIds.indexOf(p.id) === -1 && !p.id.startsWith('pal-');
+        });
+        savedUserPalettes = DEFAULT_PREMADE_PALETTES.concat(userCustomOnly).slice(0, 10);
         persistSavedPalettes();
       }
       registerSavedPalettesIntoPresets();
