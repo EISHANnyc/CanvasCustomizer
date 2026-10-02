@@ -13,12 +13,11 @@ If you find any bugs, idk how you can tell me but just tell me somehow okay?
 
 ## Features
 
-- **Curated Palettes & Custom Studio**: Switch between premade palettes (Coastline, Matcha Latte, Terracotta Sun, etc.) or mix your own colors with automatic contrast adjustment.
-- **Custom Backgrounds & Photos**: Put custom wallpapers, sidebar tints with blur/opacity sliders, and photos on course cards (with crop & zoom).
-- **Class Search**: Search and filter your courses on the dashboard or inside course modules.
-- **Live GPA Calculator**: School grading scale lookup (SFU, UBC, UofT, etc.) and custom grade threshold editor.
-- **Side-by-Side Tasks & Grades**: Track upcoming assignments alongside recently graded quizzes and tests with point totals.
-- **De-cluttered Layout**: Clean grades view, rounded cards, and distraction-free styling.
+- 🎨 **Palettes**: Dark and light presets, or pick your own colors
+- 🖼️ **Wallpapers**: Custom background photos and card covers
+- 📈 **GPA Tracker**: Live GPA with university grading scales (SFU, UBC, etc.)
+- ✅ **Tasks & Grades**: Upcoming assignments and finished scores side-by-side
+- 🧹 **Clean Layout**: Rounded cards, sleek fonts, zero clutter
 
 ---
 

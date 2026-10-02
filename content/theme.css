@@ -2612,7 +2612,7 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   gap: 8px !important;
   margin-top: 8px !important;
   margin-bottom: 5px !important;
-  padding: 0 4px !important;
+  padding: 0 10px !important;
   height: 16px !important;
   box-sizing: border-box !important;
 }
@@ -2921,9 +2921,9 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   padding: 0 4px !important;
   height: 20px !important;
   min-height: 20px !important;
-  width: 56px !important;
-  min-width: 56px !important;
-  max-width: 56px !important;
+  width: 64px !important;
+  min-width: 64px !important;
+  max-width: 64px !important;
   line-height: 1 !important;
   border-radius: 4px !important;
   background: rgba(16, 185, 129, 0.12) !important;
@@ -2939,6 +2939,18 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   align-self: center !important;
   text-align: center !important;
   letter-spacing: -0.02em !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
+#vibe-graded-widget .vibe-minimal-actions {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 0 !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  flex-shrink: 0 !important;
 }
 
 .vibe-minimal-score-tag.score-text-long {
@@ -5707,101 +5719,6 @@ html.vibe-theme-dark .discussion-topic {
 }
 html.vibe-theme-dark .ic-item-row__meta-col {
   padding-right: 16px !important;
-}
-
-/* ── Course / Class Search Bar ── */
-.vibe-course-search-container {
-  display: flex !important;
-  align-items: center !important;
-  margin: 0 0 16px 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-}
-.vibe-course-search-wrap {
-  display: flex !important;
-  align-items: center !important;
-  position: relative !important;
-  width: 100% !important;
-  max-width: 380px !important;
-  background: var(--bcbackground-1, #1e1e1e) !important;
-  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
-  border-radius: 10px !important;
-  padding: 0 12px !important;
-  box-sizing: border-box !important;
-  transition: border-color 160ms, box-shadow 160ms !important;
-}
-.vibe-course-search-wrap:focus-within {
-  border-color: var(--bcaccent, #b85338) !important;
-  box-shadow: 0 0 0 3px rgba(184, 83, 56, 0.18) !important;
-}
-.vibe-course-search-icon {
-  color: var(--bctext-2, #888) !important;
-  margin-right: 8px !important;
-  flex-shrink: 0 !important;
-}
-#vibe-course-search-input {
-  flex: 1 !important;
-  background: transparent !important;
-  border: none !important;
-  outline: none !important;
-  color: var(--bctext-0, #fff) !important;
-  font-size: 13px !important;
-  height: 36px !important;
-  padding: 0 !important;
-}
-#vibe-course-search-input::placeholder {
-  color: var(--bctext-2, #777) !important;
-}
-#vibe-course-search-clear {
-  background: none !important;
-  border: none !important;
-  color: var(--bctext-2, #888) !important;
-  font-size: 16px !important;
-  cursor: pointer !important;
-  padding: 0 4px !important;
-  line-height: 1 !important;
-}
-#vibe-course-search-clear:hover {
-  color: var(--bctext-0, #fff) !important;
-}
-.vibe-no-courses-found {
-  grid-column: 1 / -1 !important;
-  text-align: center !important;
-  padding: 32px 16px !important;
-  color: var(--bctext-2, #888) !important;
-  font-size: 14px !important;
-}
-
-/* ── In-Course Module Search Bar ── */
-.vibe-module-search-wrap {
-  display: flex !important;
-  align-items: center !important;
-  position: relative !important;
-  width: 100% !important;
-  max-width: 480px !important;
-  margin: 0 0 16px 0 !important;
-  background: var(--bcbackground-1, #1e1e1e) !important;
-  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
-  border-radius: 10px !important;
-  padding: 0 12px !important;
-  box-sizing: border-box !important;
-  transition: border-color 160ms !important;
-}
-.vibe-module-search-wrap:focus-within {
-  border-color: var(--bcaccent, #b85338) !important;
-}
-#vibe-module-search-input {
-  flex: 1 !important;
-  background: transparent !important;
-  border: none !important;
-  outline: none !important;
-  color: var(--bctext-0, #fff) !important;
-  font-size: 13px !important;
-  height: 36px !important;
-  padding: 0 8px !important;
-}
-#vibe-module-search-input::placeholder {
-  color: var(--bctext-2, #777) !important;
 }
 
 /* Discussion List Wrapper Styling Fixes */
