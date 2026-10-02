@@ -8,9 +8,6 @@
         "storage",
         "activeTab"
     ],
-    "host_permissions": [
-        "https://*/*"
-    ],
     "action": {
         "default_popup": "popup/popup.html",
         "default_title": "CanvasCustomizer"
@@ -33,7 +30,6 @@
             "js": [
                 "shared/presets.js",
                 "shared/canvas-styles.js",
-                "shared/telemetry.js",
                 "content/theme-engine.js"
             ],
             "run_at": "document_start",

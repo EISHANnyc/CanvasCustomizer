@@ -18,7 +18,9 @@ xcopy /e /i /y "%SRC%shared" "%DIST%\shared" >nul
 powershell -NoProfile -Command "Compress-Archive -Path '%DIST%\*' -DestinationPath '%ZIP%' -Force"
 copy /y "%ZIP%" "%SRC%CanvasCustomizer.zip" >nul
 
-powershell -NoProfile -Command "foreach ($f in @('CanvasCustomizer (1)1', 'CanvasCustomizer1')) { $d = Join-Path (Split-Path '%SRC%' -Parent) $f; if (Test-Path $d) { robocopy '%SRC%.' $d /E /XD .git screenshots /XF CanvasCustomizer.zip *>$null; Write-Host ('[SYNC] Updated unpacked folder at ' + $d) } }"
+robocopy "%SRC%." "%SRC%..\CanvasCustomizer (1)1" /E /XD .git screenshots server /XF CanvasCustomizer.zip >nul
+robocopy "%SRC%." "%SRC%..\CanvasCustomizer1" /E /XD .git screenshots server /XF CanvasCustomizer.zip >nul
+echo [SYNC] Updated unpacked extension folders ready to reload in Chrome
 
 rd /s /q "%DIST%"
 echo.

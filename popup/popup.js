@@ -9,9 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
   var gpaColorInput = document.getElementById('gpa-color-input');
   var gpaColorResetBtn = document.getElementById('gpa-color-reset-btn');
   var gpaColorRow = document.getElementById('gpa-color-row');
-  var shareStatsToggle = document.getElementById('share-stats-toggle');
-  var statsTopPalette = document.getElementById('stats-top-palette');
-  var statsTotalApplied = document.getElementById('stats-total-applied');
   var nicknameList = document.getElementById('nickname-list');
   var addNicknameBtn = document.getElementById('add-nickname-btn');
 
@@ -700,12 +697,6 @@ document.addEventListener('DOMContentLoaded', function() {
     renderGroups();
     if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
       chrome.storage.local.set({ active_preset: presetId });
-    }
-    if (window.PaletteTelemetry && presets && presets[presetId]) {
-      var p = presets[presetId];
-      var cols = p.colors ? [p.colors.background, p.colors.sidebar, p.colors.accent, p.colors.card, p.colors.text] : [];
-      window.PaletteTelemetry.recordPaletteChoice(p.name || presetId, cols);
-      updateTelemetryUI();
     }
   }
 
@@ -1658,7 +1649,6 @@ document.addEventListener('DOMContentLoaded', function() {
         res && res.vibe_sidebar_bg_opacity,
         res && res.vibe_sidebar_bg_blur
       );
-      updateTelemetryUI();
     });
   } else {
     if(customThemeColors && customThemeColors[activePresetId]) { presets[activePresetId] = customThemeColors[activePresetId]; } applyPopupTheme(activePresetId);
@@ -1721,42 +1711,6 @@ document.addEventListener('DOMContentLoaded', function() {
       sendLiveParam('vibe_gpa_bg_color', '');
       if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
         chrome.storage.local.set({ vibe_gpa_bg_color: '' });
-      }
-    });
-  }
-
-  function updateTelemetryUI() {
-    if (window.PaletteTelemetry) {
-      window.PaletteTelemetry.getStats(function(data) {
-        if (shareStatsToggle) {
-          shareStatsToggle.checked = data.shareEnabled;
-        }
-        var stats = data.stats || {};
-        if (statsTotalApplied) {
-          statsTotalApplied.textContent = String(stats.total || 0);
-        }
-        if (statsTopPalette) {
-          var topName = 'Coastline';
-          var maxCount = 0;
-          if (stats.palettes) {
-            Object.keys(stats.palettes).forEach(function(k) {
-              if (stats.palettes[k] > maxCount) {
-                maxCount = stats.palettes[k];
-                topName = k;
-              }
-            });
-          }
-          statsTopPalette.textContent = topName + (maxCount > 0 ? ' (' + maxCount + 'x)' : '');
-        }
-      });
-    }
-  }
-
-  if (shareStatsToggle) {
-    shareStatsToggle.addEventListener('change', function() {
-      var isEnabled = shareStatsToggle.checked;
-      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-        chrome.storage.local.set({ vibe_share_stats: isEnabled });
       }
     });
   }
