@@ -16,8 +16,8 @@ xcopy /e /i /y "%SRC%popup" "%DIST%\popup" >nul
 xcopy /e /i /y "%SRC%shared" "%DIST%\shared" >nul
 
 powershell -NoProfile -Command "Compress-Archive -Path '%DIST%\*' -DestinationPath '%ZIP%' -Force"
+copy /y "%ZIP%" "%SRC%CanvasCustomizer.zip" >nul
 
 rd /s /q "%DIST%"
 echo.
-echo [DONE] Clean package ready at: %ZIP%
-pause
+echo [DONE] Clean package ready at: %ZIP% and %SRC%CanvasCustomizer.zip
