@@ -2376,7 +2376,7 @@
               safeStorageGet(['course_nicknames'], function(res) {
                 var nicknames = (res && res.course_nicknames) || {};
                 var domItems = harvestNativeTodoAndEvents();
-                var merged = mergeUpcomingItems(finalItems, domItems);
+                var merged = mergeUpcomingItems(finalItems, domItems, cachedGradedItems || []);
                 populateGroupedCards(upList, merged, DEFAULT_PRESET_ID, nicknames);
               });
             }
@@ -2509,17 +2509,33 @@
     return m ? m[1] + '_' + m[2] : null;
   }
 
-  function mergeUpcomingItems(plannerItems, domItems) {
+  function mergeUpcomingItems(plannerItems, domItems, gradedItems) {
     var merged = [];
     var seenEntities = {};
     var seenNormTitles = {};
 
+    var completedEntities = {};
+    var completedNormTitles = {};
+    if (Array.isArray(gradedItems)) {
+      for (var g = 0; g < gradedItems.length; g++) {
+        var gItem = gradedItems[g];
+        var gEnt = getEntityIdentifier(gItem.href);
+        if (gEnt) completedEntities[gEnt] = true;
+        var gNorm = normalizeTextKey(gItem.title);
+        if (gNorm) completedNormTitles[gNorm] = true;
+      }
+    }
+
     for (var i = 0; i < plannerItems.length; i++) {
       var item = plannerItems[i];
       var entityId = getEntityIdentifier(item.href);
-      if (entityId) seenEntities[entityId] = true;
-
       var normT = normalizeTextKey(item.title);
+
+      // Exclude if already in completed/graded items
+      if (entityId && completedEntities[entityId]) continue;
+      if (normT && completedNormTitles[normT]) continue;
+
+      if (entityId) seenEntities[entityId] = true;
       if (normT) seenNormTitles[normT] = true;
 
       merged.push(item);
@@ -2528,13 +2544,13 @@
     for (var j = 0; j < domItems.length; j++) {
       var dItem = domItems[j];
       var dEntityId = getEntityIdentifier(dItem.href);
-      if (dEntityId && seenEntities[dEntityId]) {
+      if (dEntityId && (seenEntities[dEntityId] || completedEntities[dEntityId])) {
         continue;
       }
 
       var dNormT = normalizeTextKey(dItem.title);
-      // If a task with the identical normalized title already exists from Planner API, don't duplicate
-      if (dNormT && seenNormTitles[dNormT]) {
+      // If a task with identical normalized title already exists or is completed, don't duplicate
+      if (dNormT && (seenNormTitles[dNormT] || completedNormTitles[dNormT])) {
         continue;
       }
 
@@ -3136,12 +3152,11 @@
     fetchPlannerItems(15, function(plannerItems) {
       try {
         var domItems = harvestNativeTodoAndEvents();
-        var upcomingItems = mergeUpcomingItems(plannerItems, domItems);
-
-        renderUrgentCourseBadges(document.querySelectorAll('.ic-DashboardCard, [data-testid="draggable-card"]'), upcomingItems);
 
         fetchGradedAndSubmittedItems(presetId, function(gradedItems) {
           try {
+            var upcomingItems = mergeUpcomingItems(plannerItems, domItems, gradedItems);
+            renderUrgentCourseBadges(document.querySelectorAll('.ic-DashboardCard, [data-testid="draggable-card"]'), upcomingItems);
             hideNativeTodoList(rightSide);
             renderReformattedWidget(duoContainer, upcomingItems, gradedItems, presetId);
           } catch(e) {

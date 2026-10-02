@@ -896,8 +896,8 @@ button.ic-DashboardCard__header-button {
 }
 
 .vibe-card-due-title {
-  color: var(--bctext-1) !important;
-  font-weight: 500 !important;
+  color: var(--bctext-0) !important;
+  font-weight: 550 !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
@@ -909,31 +909,31 @@ button.ic-DashboardCard__header-button {
 .vibe-card-due-row:hover .vibe-card-due-title {
   text-decoration: underline !important;
   text-decoration-color: currentColor !important;
-  color: var(--bctext-0) !important;
+  color: var(--bcaccent, var(--bclinks)) !important;
 }
 
 .vibe-card-due-row.strike .vibe-card-due-title,
 .vibe-card-due-title.strike {
   text-decoration: line-through !important;
-  color: var(--bctext-2) !important;
-  opacity: 0.75 !important;
+  color: var(--bctext-1) !important;
+  opacity: 0.65 !important;
 }
 
 .vibe-card-due-row.strike:hover .vibe-card-due-title {
   text-decoration: line-through underline !important;
-  color: var(--bctext-1) !important;
+  color: var(--bctext-0) !important;
   opacity: 0.9 !important;
 }
 
 .vibe-card-due-row.strike .vibe-card-due-date {
   text-decoration: line-through !important;
-  color: var(--bctext-2) !important;
-  opacity: 0.75 !important;
+  color: var(--bctext-1) !important;
+  opacity: 0.65 !important;
 }
 
 .vibe-card-due-date {
-  color: var(--bctext-2) !important;
-  font-weight: 600 !important;
+  color: var(--bctext-1) !important;
+  font-weight: 650 !important;
   font-variant-numeric: tabular-nums !important;
   font-size: 11px !important;
   flex-shrink: 0 !important;
@@ -941,7 +941,7 @@ button.ic-DashboardCard__header-button {
 }
 
 .vibe-card-due-row:hover .vibe-card-due-date {
-  color: var(--bctext-1) !important;
+  color: var(--bctext-0) !important;
 }
 
 /* Guard against native or stray dimming, shading, and focus outlines on course cards */
@@ -2618,11 +2618,11 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
 }
 
 .vibe-minimal-day-label {
-  font-size: 9.5px !important;
-  font-weight: 700 !important;
+  font-size: 10px !important;
+  font-weight: 750 !important;
   letter-spacing: 0.05em !important;
   text-transform: uppercase !important;
-  color: var(--bctext-2) !important;
+  color: var(--bctext-1) !important;
   white-space: nowrap !important;
 }
 
@@ -2634,20 +2634,20 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
 .vibe-minimal-day-line {
   flex: 1 1 auto !important;
   height: 1px !important;
-  background: var(--bcborders, rgba(0, 0, 0, 0.18)) !important;
-  opacity: 0.6 !important;
+  background: var(--bcborders, rgba(255, 255, 255, 0.2)) !important;
+  opacity: 0.8 !important;
 }
 
 [data-theme-mode="dark"] .vibe-minimal-day-line,
 .dark-theme .vibe-minimal-day-line {
-  background: rgba(255, 255, 255, 0.12) !important;
-  opacity: 0.45 !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  opacity: 0.7 !important;
 }
 
 .vibe-minimal-day-count {
-  font-size: 9px !important;
-  font-weight: 600 !important;
-  color: var(--bctext-2) !important;
+  font-size: 9.5px !important;
+  font-weight: 700 !important;
+  color: var(--bctext-1) !important;
   font-variant-numeric: tabular-nums !important;
 }
 
@@ -2794,28 +2794,35 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   display: flex !important;
   align-items: center !important;
   gap: 6px !important;
-  font-size: 10.5px !important;
+  font-size: 11px !important;
   line-height: 1.25 !important;
   white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
 }
 
 .vibe-minimal-course {
   font-weight: 750 !important;
   letter-spacing: 0.025em !important;
   text-transform: uppercase !important;
+  flex-shrink: 0 !important;
+  max-width: 140px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
 }
 
 .vibe-minimal-sep {
   color: var(--bctext-2) !important;
-  opacity: 0.5 !important;
+  opacity: 0.65 !important;
+  flex-shrink: 0 !important;
 }
 
 .vibe-minimal-time {
-  color: var(--bctext-1) !important;
-  font-weight: 500 !important;
+  color: var(--bctext-0) !important;
+  font-weight: 600 !important;
   font-variant-numeric: tabular-nums !important;
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
 }
 
 .vibe-minimal-time.is-urgent {
@@ -6345,19 +6352,6 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   }
 }
 
-/* Force sidebar to NEVER drop below the cards on desktop screens */
-@media (max-width: 1650px) and (min-width: 900px) {
-  body #right-side-wrapper:has(.vibe-sidebar-duo),
-  .vibe-dashboard-page #right-side-wrapper {
-    flex: 0 0 340px !important;
-    width: 340px !important;
-    max-width: 340px !important;
-    min-width: 340px !important;
-    margin: 0 0 0 24px !important;
-  }
-}
-
-
 /* =========================================================
    STRICT NO-WRAP DESKTOP RULE & RESPONSIVE TOGGLE
    ========================================================= */
@@ -6384,16 +6378,16 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   }
 }
 
-/* On screens < 1650px (e.g. 13-16in MacBooks ~1280px-1440px):
-   880px cards + 340px sidebar + 24px gap = 1244px -> FITS PERFECTLY SIDE-BY-SIDE! */
+/* On screens < 1650px (e.g. 13-16in laptops ~1280px-1500px):
+   Provide a comfortable 380px sidebar width with crystal clear typography */
 @media (max-width: 1650px) and (min-width: 900px) {
   .vibe-dashboard-page #right-side-wrapper,
   #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper,
   body #right-side-wrapper:has(.vibe-sidebar-duo) {
-    flex: 0 0 340px !important;
-    width: 340px !important;
-    min-width: 340px !important;
-    max-width: 340px !important;
+    flex: 0 0 380px !important;
+    width: 380px !important;
+    min-width: 380px !important;
+    max-width: 380px !important;
     margin: 0 0 0 24px !important;
     display: block !important;
   }
@@ -6406,8 +6400,8 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   /* Force single column */
   .vibe-sidebar-duo {
     flex-direction: column !important;
-    width: 340px !important;
-    max-width: 340px !important;
+    width: 380px !important;
+    max-width: 380px !important;
     gap: 0 !important;
   }
 
@@ -6503,4 +6497,79 @@ body[class*="context-course"] #not_right_side:has(iframe) #right-side-wrapper,
   max-width: 100% !important;
   margin: 28px 0 0 0 !important;
 }
+
+/* ==========================================================================
+   AUTOMATIC TEXT ADAPTATION & HIGH-CONTRAST LEGIBILITY ENGINE
+   Auto-adapts hardcoded, low-contrast, or unchangeable Canvas text elements
+   ========================================================================== */
+.vibe-theme-dark,
+[data-theme-mode="dark"] {
+  --bctext-0: #FFFFFF;
+  --bctext-1: rgba(255, 255, 255, 0.88);
+  --bctext-2: rgba(255, 255, 255, 0.65);
+}
+
+/* Auto-adapt native low-contrast text across courses, dashboard, and widgets */
+.vibe-theme-dark .ic-DashboardCard__header-title,
+.vibe-theme-dark .ic-DashboardCard__header-title h3,
+.vibe-theme-dark .vibe-card-due-header,
+.vibe-theme-dark .vibe-card-due-title,
+.vibe-theme-dark .vibe-feed-title,
+.vibe-theme-dark .vibe-minimal-title {
+  color: var(--bctext-0, #FFFFFF) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+}
+
+.vibe-theme-dark .vibe-card-due-date,
+.vibe-theme-dark .vibe-minimal-time:not(.is-urgent):not(.is-soon),
+.vibe-theme-dark .vibe-minimal-day-label,
+.vibe-theme-dark .vibe-minimal-day-count {
+  color: var(--bctext-1, rgba(255, 255, 255, 0.88)) !important;
+}
+
+/* Clean accessible score badges on any background */
+.vibe-theme-dark .vibe-minimal-score-tag {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #34D399 !important;
+  border-color: rgba(52, 211, 153, 0.4) !important;
+}
+
+.vibe-theme-dark .vibe-minimal-score-tag.score-good {
+  color: #34D399 !important;
+  border-color: rgba(52, 211, 153, 0.45) !important;
+  background: rgba(16, 185, 129, 0.16) !important;
+}
+
+.vibe-theme-dark .vibe-minimal-score-tag.score-ok {
+  color: #FBBF24 !important;
+  border-color: rgba(251, 191, 36, 0.45) !important;
+  background: rgba(245, 158, 11, 0.16) !important;
+}
+
+.vibe-theme-dark .vibe-minimal-score-tag.score-bad {
+  color: #F87171 !important;
+  border-color: rgba(248, 113, 113, 0.45) !important;
+  background: rgba(239, 68, 68, 0.16) !important;
+}
+
+/* Light Mode crisp text contrast */
+.vibe-theme-light,
+[data-theme-mode="light"] {
+  --bctext-0: #1C1917;
+  --bctext-1: #44403C;
+  --bctext-2: #78716C;
+}
+
+.vibe-theme-light .vibe-card-due-title,
+.vibe-theme-light .vibe-minimal-title {
+  color: #1C1917 !important;
+  font-weight: 600 !important;
+}
+
+.vibe-theme-light .vibe-card-due-date,
+.vibe-theme-light .vibe-minimal-time:not(.is-urgent):not(.is-soon) {
+  color: #44403C !important;
+  font-weight: 600 !important;
+}
+
 
