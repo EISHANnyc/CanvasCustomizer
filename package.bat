@@ -18,6 +18,11 @@ xcopy /e /i /y "%SRC%shared" "%DIST%\shared" >nul
 powershell -NoProfile -Command "Compress-Archive -Path '%DIST%\*' -DestinationPath '%ZIP%' -Force"
 copy /y "%ZIP%" "%SRC%CanvasCustomizer.zip" >nul
 
+if exist "%SRC%..\CanvasCustomizer1" (
+  robocopy "%SRC%." "%SRC%..\CanvasCustomizer1" /E /XD .git screenshots /XF CanvasCustomizer.zip >nul
+  echo [SYNC] Updated unpacked folder at %SRC%..\CanvasCustomizer1
+)
+
 rd /s /q "%DIST%"
 echo.
 echo [DONE] Clean package ready at: %ZIP% and %SRC%CanvasCustomizer.zip

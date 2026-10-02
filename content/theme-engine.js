@@ -5232,6 +5232,7 @@ function attachObserver() {
       }
 
       sanitizeFilesAndTables();
+      autoAdaptContentContrast();
 
       var rightSide = document.getElementById('right-side') || document.getElementById('right-side-wrapper');
       var duo = document.getElementById('vibe-side-duo');
@@ -5346,12 +5347,19 @@ function attachObserver() {
     document.addEventListener('DOMContentLoaded', function() {
       init();
       sanitizeFilesAndTables();
+      autoAdaptContentContrast();
       startMountRetentionGuard();
     });
   } else {
     init();
     sanitizeFilesAndTables();
+    autoAdaptContentContrast();
     startMountRetentionGuard();
   }
+  window.addEventListener('load', function() {
+    autoAdaptContentContrast();
+    setTimeout(autoAdaptContentContrast, 500);
+    setTimeout(autoAdaptContentContrast, 1500);
+  });
 })();
 
