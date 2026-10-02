@@ -2922,9 +2922,9 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   height: 22px !important;
   min-height: 22px !important;
   max-height: 22px !important;
-  width: 80px !important;
-  min-width: 80px !important;
-  max-width: 80px !important;
+  width: 84px !important;
+  min-width: 84px !important;
+  max-width: 84px !important;
   line-height: 1 !important;
   border-radius: 5px !important;
   background: rgba(16, 185, 129, 0.12) !important;
@@ -2951,16 +2951,16 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   align-items: center !important;
   justify-content: flex-end !important;
   gap: 0 !important;
-  width: 80px !important;
-  min-width: 80px !important;
-  max-width: 80px !important;
+  width: 84px !important;
+  min-width: 84px !important;
+  max-width: 84px !important;
   margin-left: auto !important;
   margin-right: 0 !important;
   flex-shrink: 0 !important;
 }
 
 .vibe-minimal-score-tag.score-text-long {
-  font-size: 9px !important;
+  font-size: 8.5px !important;
   letter-spacing: -0.02em !important;
 }
 

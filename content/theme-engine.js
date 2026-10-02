@@ -3982,8 +3982,8 @@
                 '<span class="vibe-minimal-time">' + timeDisplay + '</span>' +
               '</div>' +
             '</div>' +
-            '<div class="vibe-minimal-actions" style="opacity: 1; display: flex; align-items: center; margin-left: auto;">' +
-              '<div class="' + scoreClass + '">' + scoreText + '</div>' +
+            '<div class="vibe-minimal-actions" style="opacity: 1; display: inline-flex !important; align-items: center !important; justify-content: flex-end !important; width: 84px !important; min-width: 84px !important; max-width: 84px !important; margin-left: auto !important; margin-right: 0 !important; flex-shrink: 0 !important;">' +
+              '<div class="' + scoreClass + '" style="width: 84px !important; min-width: 84px !important; max-width: 84px !important; text-align: center !important; justify-content: center !important; box-sizing: border-box !important; flex-shrink: 0 !important; margin-left: auto !important; margin-right: 0 !important;">' + scoreText + '</div>' +
             '</div>';
 
           row.addEventListener('click', function(e) {
@@ -4038,8 +4038,8 @@
           '<span class="vibe-minimal-time">Today</span>' +
         '</div>' +
       '</div>' +
-      '<div class="vibe-minimal-actions" style="opacity: 1; display: flex; align-items: center; gap: 4px; margin-left: auto;">' +
-        '<span class="vibe-minimal-score-tag vibe-score-pending score-text-long">Ungraded</span>' +
+      '<div class="vibe-minimal-actions" style="opacity: 1; display: inline-flex !important; align-items: center !important; justify-content: flex-end !important; width: 84px !important; min-width: 84px !important; max-width: 84px !important; margin-left: auto !important; margin-right: 0 !important; flex-shrink: 0 !important;">' +
+        '<span class="vibe-minimal-score-tag vibe-score-pending score-text-long" style="width: 84px !important; min-width: 84px !important; max-width: 84px !important; text-align: center !important; justify-content: center !important; box-sizing: border-box !important; flex-shrink: 0 !important; margin-left: auto !important; margin-right: 0 !important;">Ungraded</span>' +
       '</div>';
 
     row.addEventListener('click', function(e) {
