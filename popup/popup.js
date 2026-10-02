@@ -1031,6 +1031,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var paletteLimitCaption = document.getElementById('palette-limit-caption');
   var savedPalettesShelf = document.getElementById('saved-palettes-shelf');
   var exportPalettesBtn = document.getElementById('export-palettes-btn');
+  var importPalettesBtn = document.getElementById('import-palettes-btn');
+  var importPalettesInput = document.getElementById('import-palettes-input');
   var paletteModePill = document.getElementById('palette-mode-pill');
 
   function updateStudioLiveMockup() {
@@ -1308,6 +1310,74 @@ document.addEventListener('DOMContentLoaded', function() {
       dlAnchor.setAttribute('href', dataStr);
       dlAnchor.setAttribute('download', 'CanvasCustomizer_Palettes_Backup.json');
       dlAnchor.click();
+    });
+  }
+
+  if (importPalettesBtn && importPalettesInput) {
+    importPalettesBtn.addEventListener('click', function() {
+      importPalettesInput.value = '';
+      importPalettesInput.click();
+    });
+
+    importPalettesInput.addEventListener('change', function(e) {
+      var file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      var reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          var parsed = JSON.parse(evt.target.result);
+          if (!Array.isArray(parsed)) {
+            alert('Invalid backup file. Expected an array of saved palettes.');
+            return;
+          }
+
+          var validPalettes = [];
+          for (var p = 0; p < parsed.length; p++) {
+            var item = parsed[p];
+            if (item && item.colors && item.name) {
+              if (!item.id) item.id = 'user-pal-' + Date.now() + '-' + p;
+              validPalettes.push(item);
+            }
+          }
+
+          if (validPalettes.length === 0) {
+            alert('No valid palettes found in this JSON file.');
+            return;
+          }
+
+          // Combine with existing or replace up to max 10
+          if (!savedUserPalettes) savedUserPalettes = [];
+          for (var v = 0; v < validPalettes.length; v++) {
+            var pal = validPalettes[v];
+            var exists = false;
+            for (var ex = 0; ex < savedUserPalettes.length; ex++) {
+              if (savedUserPalettes[ex].name === pal.name) {
+                savedUserPalettes[ex] = pal;
+                exists = true;
+                break;
+              }
+            }
+            if (!exists) {
+              if (savedUserPalettes.length >= 10) {
+                savedUserPalettes.pop(); // keep within 10 limit
+              }
+              savedUserPalettes.unshift(pal);
+            }
+          }
+
+          persistSavedPalettes();
+          registerSavedPalettesIntoPresets();
+          renderSavedPalettesShelf();
+          importPalettesBtn.textContent = 'Imported ✓';
+          setTimeout(function() {
+            if (importPalettesBtn) importPalettesBtn.textContent = 'Import';
+          }, 1500);
+        } catch (err) {
+          alert('Could not read JSON file: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
     });
   }
 

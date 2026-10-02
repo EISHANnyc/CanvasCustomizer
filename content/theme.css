@@ -1164,12 +1164,12 @@ body:has([data-testid*="quiz"]) #content-wrapper {
   overflow: visible !important;
 }
 
-/* Right-side wrapper: 560px ONLY when it contains the vibe-sidebar-duo */
+/* Right-side wrapper: 620px ONLY when it contains the vibe-sidebar-duo */
 #right-side-wrapper:has(.vibe-sidebar-duo) {
-  width: 560px !important;
+  width: 620px !important;
   min-width: 0 !important;
-  max-width: 560px !important;
-  flex: 0 0 560px !important;
+  max-width: 620px !important;
+  flex: 0 0 620px !important;
   flex-shrink: 0 !important;
   margin: 0 !important;
   padding: 36px 0 0 0 !important;
@@ -6291,66 +6291,7 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
 }
 
-/* MacBook / Smaller Screen Breakpoint (< 1520px) where duo cards would overlap or squeeze */
-@media (max-width: 1520px) {
-  .vibe-sidebar-tabs {
-    display: flex !important;
-  }
 
-  /* Single-column sidebar locked on the right */
-  .vibe-dashboard-page #right-side-wrapper,
-  #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper,
-  body #right-side-wrapper:has(.vibe-sidebar-duo) {
-    flex: 0 0 340px !important;
-    width: 340px !important;
-    max-width: 340px !important;
-    min-width: 340px !important;
-    margin: 0 !important;
-  }
-
-  .vibe-sidebar-duo {
-    flex-direction: column !important;
-    width: 100% !important;
-    max-width: 340px !important;
-    gap: 0 !important;
-  }
-
-  /* When tabbed: active card expands to 100% of the 340px sidebar width (zero squishing) */
-  .vibe-sidebar-duo > .vibe-feed-card,
-  .vibe-sidebar-duo #vibe-todo-widget,
-  .vibe-sidebar-duo #vibe-graded-widget {
-    flex: 1 1 100% !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 100% !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Toggle display based on selected tab */
-  .vibe-sidebar-duo:not(.show-completed) #vibe-graded-widget {
-    display: none !important;
-  }
-  .vibe-sidebar-duo:not(.show-completed) #vibe-todo-widget {
-    display: block !important;
-  }
-
-  .vibe-sidebar-duo.show-completed #vibe-todo-widget {
-    display: none !important;
-  }
-  .vibe-sidebar-duo.show-completed #vibe-graded-widget {
-    display: block !important;
-  }
-
-  /* Right-side action buttons stretch cleanly across the 340px column */
-  #right-side .button-sidebar-wide,
-  body #right-side-wrapper:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
-    width: 100% !important;
-    max-width: 100% !important;
-    display: flex !important;
-    margin: 6px 0 !important;
-  }
-}
 
 /* =========================================================
    STRICT NO-WRAP DESKTOP RULE & RESPONSIVE TOGGLE
