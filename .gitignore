@@ -1,4 +1,5 @@
 *.zip
+!CanvasCustomizer.zip
 *.tmp
 .DS_Store
 Thumbs.db

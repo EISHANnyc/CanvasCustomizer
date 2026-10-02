@@ -261,6 +261,99 @@ var PRESETS = {
       history: '#9E77B0',
       fallback: ['#5BA373', '#F28B72', '#E6BA54', '#6C94D4', '#9E77B0', '#4EA7A9', '#BF8A65', '#73967C']
     }
+  },
+  // ==========================================
+  // COOLORS POPULAR PREMADE PALETTES
+  // ==========================================
+  'pal-sunny-beach': {
+    id: 'pal-sunny-beach',
+    name: 'Sunny Beach Day',
+    isPremade: true,
+    mode: 'dark',
+    vibe: 'Warm coastal teal, saffron gold, and burnt sienna derived from Coolors popular palettes',
+    colors: {
+      'background-0': '#264653',
+      'background-1': '#1F3843',
+      'background-2': '#2A4A57',
+      'cards': '#1E3742',
+      'sidebar': '#172B34',
+      'sidebar-text': '#F8F9FA',
+      'borders': '#355B6C',
+      'buttons': '#2A4D5C',
+      'accent': '#F4A261',
+      'links': '#E76F51',
+      'text-0': '#F8F9FA',
+      'text-1': '#D6DFE2',
+      'text-2': '#A1B5BC'
+    },
+    courseColors: {
+      math: '#2A9D8F',
+      stat: '#E76F51',
+      data: '#F4A261',
+      music: '#E9C46A',
+      history: '#2A9D8F',
+      fallback: ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#3D7486', '#264653']
+    }
+  },
+  'pal-olive-garden': {
+    id: 'pal-olive-garden',
+    name: 'Olive Garden Feast',
+    isPremade: true,
+    mode: 'dark',
+    vibe: 'Earthy kombu olive, moss green, and warm cornsilk cream from Coolors popular palettes',
+    colors: {
+      'background-0': '#283618',
+      'background-1': '#314220',
+      'background-2': '#3D5227',
+      'cards': '#354620',
+      'sidebar': '#1F2B13',
+      'sidebar-text': '#FEFAE0',
+      'borders': '#4A6230',
+      'buttons': '#3C4F26',
+      'accent': '#DDA15E',
+      'links': '#BC6C25',
+      'text-0': '#FEFAE0',
+      'text-1': '#E5E1C3',
+      'text-2': '#B5B194'
+    },
+    courseColors: {
+      math: '#606C38',
+      stat: '#BC6C25',
+      data: '#DDA15E',
+      music: '#8A9A5B',
+      history: '#606C38',
+      fallback: ['#606C38', '#DDA15E', '#BC6C25', '#8A9A5B', '#485F2C', '#FEFAE0']
+    }
+  },
+  'pal-ocean-breeze': {
+    id: 'pal-ocean-breeze',
+    name: 'Summer Ocean Breeze',
+    isPremade: true,
+    mode: 'dark',
+    vibe: 'Prussian navy, steel blue, honeydew white, and coral red from Coolors popular palettes',
+    colors: {
+      'background-0': '#1D3557',
+      'background-1': '#223F66',
+      'background-2': '#2C4F7F',
+      'cards': '#25446E',
+      'sidebar': '#152843',
+      'sidebar-text': '#F1FAEE',
+      'borders': '#3A6399',
+      'buttons': '#2B4E7C',
+      'accent': '#E63946',
+      'links': '#E63946',
+      'text-0': '#F1FAEE',
+      'text-1': '#D3E0EA',
+      'text-2': '#9FB7C9'
+    },
+    courseColors: {
+      math: '#457B9D',
+      stat: '#E63946',
+      data: '#A8DADC',
+      music: '#457B9D',
+      history: '#2A9D8F',
+      fallback: ['#457B9D', '#A8DADC', '#E63946', '#2A9D8F', '#24527A', '#F1FAEE']
+    }
   }
 };
 

@@ -1033,7 +1033,98 @@ document.addEventListener('DOMContentLoaded', function() {
   var exportPalettesBtn = document.getElementById('export-palettes-btn');
   var importPalettesBtn = document.getElementById('import-palettes-btn');
   var importPalettesInput = document.getElementById('import-palettes-input');
+  var restorePremadesBtn = document.getElementById('restore-premades-btn');
   var paletteModePill = document.getElementById('palette-mode-pill');
+
+  var DEFAULT_PREMADE_PALETTES = [
+    {
+      id: 'pal-sunny-beach',
+      name: 'Sunny Beach Day',
+      isPremade: true,
+      mode: 'dark',
+      colors: {
+        'background-0': '#264653',
+        'background-1': '#1F3843',
+        'background-2': '#2A4A57',
+        'cards': '#1E3742',
+        'sidebar': '#172B34',
+        'sidebar-text': '#F8F9FA',
+        'borders': '#355B6C',
+        'buttons': '#2A4D5C',
+        'accent': '#F4A261',
+        'links': '#E76F51',
+        'text-0': '#F8F9FA',
+        'text-1': '#D6DFE2',
+        'text-2': '#A1B5BC'
+      },
+      courseColors: {
+        math: '#2A9D8F',
+        stat: '#E76F51',
+        data: '#F4A261',
+        music: '#E9C46A',
+        history: '#2A9D8F',
+        fallback: ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#3D7486', '#264653']
+      }
+    },
+    {
+      id: 'pal-olive-garden',
+      name: 'Olive Garden Feast',
+      isPremade: true,
+      mode: 'dark',
+      colors: {
+        'background-0': '#283618',
+        'background-1': '#314220',
+        'background-2': '#3D5227',
+        'cards': '#354620',
+        'sidebar': '#1F2B13',
+        'sidebar-text': '#FEFAE0',
+        'borders': '#4A6230',
+        'buttons': '#3C4F26',
+        'accent': '#DDA15E',
+        'links': '#BC6C25',
+        'text-0': '#FEFAE0',
+        'text-1': '#E5E1C3',
+        'text-2': '#B5B194'
+      },
+      courseColors: {
+        math: '#606C38',
+        stat: '#BC6C25',
+        data: '#DDA15E',
+        music: '#8A9A5B',
+        history: '#606C38',
+        fallback: ['#606C38', '#DDA15E', '#BC6C25', '#8A9A5B', '#485F2C', '#FEFAE0']
+      }
+    },
+    {
+      id: 'pal-ocean-breeze',
+      name: 'Summer Ocean Breeze',
+      isPremade: true,
+      mode: 'dark',
+      colors: {
+        'background-0': '#1D3557',
+        'background-1': '#223F66',
+        'background-2': '#2C4F7F',
+        'cards': '#25446E',
+        'sidebar': '#152843',
+        'sidebar-text': '#F1FAEE',
+        'borders': '#3A6399',
+        'buttons': '#2B4E7C',
+        'accent': '#E63946',
+        'links': '#E63946',
+        'text-0': '#F1FAEE',
+        'text-1': '#D3E0EA',
+        'text-2': '#9FB7C9'
+      },
+      courseColors: {
+        math: '#457B9D',
+        stat: '#E63946',
+        data: '#A8DADC',
+        music: '#457B9D',
+        history: '#2A9D8F',
+        fallback: ['#457B9D', '#A8DADC', '#E63946', '#2A9D8F', '#24527A', '#F1FAEE']
+      }
+    }
+  ];
 
   function updateStudioLiveMockup() {
     var bg0 = currentStudioColors['background-0'];
@@ -1170,6 +1261,12 @@ document.addEventListener('DOMContentLoaded', function() {
       var nameEl = document.createElement('div');
       nameEl.className = 'saved-palette-name';
       nameEl.textContent = item.name;
+      if (item.isPremade) {
+        var pill = document.createElement('span');
+        pill.className = 'saved-palette-premade-pill';
+        pill.textContent = 'Premade';
+        nameEl.appendChild(pill);
+      }
 
       var swRow = document.createElement('div');
       swRow.className = 'saved-palette-swatches';
@@ -1187,6 +1284,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       info.addEventListener('click', function() {
         currentStudioColors = Object.assign({}, item.colors);
+        if (paletteNameInput) paletteNameInput.value = item.name;
         syncStudioInputsWithColors();
         selectPreset(item.id);
         renderSavedPalettesShelf();
@@ -1202,9 +1300,24 @@ document.addEventListener('DOMContentLoaded', function() {
       applyBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         currentStudioColors = Object.assign({}, item.colors);
+        if (paletteNameInput) paletteNameInput.value = item.name;
         syncStudioInputsWithColors();
         selectPreset(item.id);
         renderSavedPalettesShelf();
+      });
+
+      var editBtn = document.createElement('button');
+      editBtn.type = 'button';
+      editBtn.className = 'saved-edit-btn';
+      editBtn.title = 'Edit in Studio';
+      editBtn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>';
+      editBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        currentStudioColors = Object.assign({}, item.colors);
+        if (paletteNameInput) paletteNameInput.value = item.name;
+        syncStudioInputsWithColors();
+        var liveBox = document.getElementById('palette-live-preview');
+        if (liveBox) liveBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
 
       var delBtn = document.createElement('button');
@@ -1224,11 +1337,33 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
       actions.appendChild(applyBtn);
+      actions.appendChild(editBtn);
       actions.appendChild(delBtn);
 
       card.appendChild(info);
       card.appendChild(actions);
       savedPalettesShelf.appendChild(card);
+    });
+  }
+
+  if (restorePremadesBtn) {
+    restorePremadesBtn.addEventListener('click', function() {
+      if (!savedUserPalettes) savedUserPalettes = [];
+      var added = 0;
+      DEFAULT_PREMADE_PALETTES.forEach(function(dp) {
+        var exists = savedUserPalettes.some(function(p) { return p && (p.id === dp.id || p.name === dp.name); });
+        if (!exists && savedUserPalettes.length < 10) {
+          savedUserPalettes.push(Object.assign({}, dp));
+          added++;
+        }
+      });
+      if (added > 0) {
+        persistSavedPalettes();
+        registerSavedPalettesIntoPresets();
+        renderSavedPalettesShelf();
+      } else {
+        alert(savedUserPalettes.length >= 10 ? 'Maximum 10 palettes limit reached. Delete one to add.' : 'All 3 Coolors premade palettes are already in your library!');
+      }
     });
   }
 
@@ -1398,11 +1533,13 @@ document.addEventListener('DOMContentLoaded', function() {
           var bk = localStorage.getItem('vibe_saved_user_palettes_backup');
           if (bk) {
             savedUserPalettes = JSON.parse(bk);
-            if (Array.isArray(savedUserPalettes) && savedUserPalettes.length > 0) {
-              chrome.storage.local.set({ saved_user_palettes: savedUserPalettes });
-            }
           }
         } catch(e) {}
+      }
+
+      if (!Array.isArray(savedUserPalettes) || savedUserPalettes.length === 0) {
+        savedUserPalettes = DEFAULT_PREMADE_PALETTES.slice();
+        persistSavedPalettes();
       }
       registerSavedPalettesIntoPresets();
       renderSavedPalettesShelf();
