@@ -3631,6 +3631,10 @@
             scoreText = 'Graded';
           }
 
+          if (scoreText.length >= 8) {
+            scoreClass += ' score-text-long';
+          }
+
           var subject = detectCourseSubject((item.course || '') + ' ' + (item.title || ''));
           var courseColor = getCourseColor(presetId, subject, idx, item.course, item.courseId);
           row.style.setProperty('--item-course-color', courseColor);
@@ -3658,7 +3662,7 @@
                 '<span class="vibe-minimal-time">' + timeDisplay + '</span>' +
               '</div>' +
             '</div>' +
-            '<div class="vibe-minimal-actions" style="opacity: 1; display: flex; align-items: center; gap: 8px; margin-left: auto;">' +
+            '<div class="vibe-minimal-actions" style="opacity: 1; display: flex; align-items: center; gap: 4px; margin-left: auto;">' +
               '<div class="' + scoreClass + '">' + scoreText + '</div>' +
               '<button class="vibe-minimal-dismiss" type="button" title="Dismiss task" aria-label="Dismiss task">' +
                 '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>' +
@@ -3750,8 +3754,8 @@
           '<span class="vibe-minimal-time">Today</span>' +
         '</div>' +
       '</div>' +
-      '<div class="vibe-minimal-actions" style="opacity: 1; display: flex; align-items: center; gap: 8px; margin-left: auto;">' +
-        '<span class="vibe-minimal-score-tag vibe-score-pending">Ungraded</span>' +
+      '<div class="vibe-minimal-actions" style="opacity: 1; display: flex; align-items: center; gap: 4px; margin-left: auto;">' +
+        '<span class="vibe-minimal-score-tag vibe-score-pending score-text-long">Ungraded</span>' +
       '</div>';
 
     row.addEventListener('click', function(e) {
