@@ -182,7 +182,68 @@
     return null;
   }
 
-  function getCourseColor(presetId, subject, index, key) {
+  var canvasUserCourseColors = {};
+  var canvasCourseIdMap = {};
+  try {
+    var savedColors = localStorage.getItem('vibe_canvas_user_colors');
+    if (savedColors) canvasUserCourseColors = JSON.parse(savedColors) || {};
+  } catch (e) {}
+  try {
+    var savedIdMap = localStorage.getItem('vibe_canvas_course_id_map');
+    if (savedIdMap) canvasCourseIdMap = JSON.parse(savedIdMap) || {};
+  } catch (e) {}
+
+  function fetchCanvasUserColors(callback) {
+    try {
+      fetch('/api/v1/users/self/colors', { credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+        .then(function(res) {
+          if (!res.ok) throw new Error('status ' + res.status);
+          return res.json();
+        })
+        .then(function(data) {
+          if (data && data.custom_colors) {
+            canvasUserCourseColors = Object.assign({}, canvasUserCourseColors, data.custom_colors);
+            try {
+              localStorage.setItem('vibe_canvas_user_colors', JSON.stringify(canvasUserCourseColors));
+            } catch (e) {}
+            if (callback) callback(canvasUserCourseColors);
+          }
+        })
+        .catch(function(err) {});
+    } catch (e) {}
+  }
+
+  function reapplyCourseColors() {
+    safeStorageGet(['active_preset'], function(res) {
+      var pId = (res && res.active_preset) || localStorage.getItem('vibe_cached_preset') || DEFAULT_PRESET_ID;
+      applyCardHeroColors(pId);
+      initTodoReformatter(pId);
+    });
+  }
+
+  function getCourseColor(presetId, subject, index, key, courseId) {
+    // 1. Direct Canvas user course custom color (highest priority!)
+    if (courseId) {
+      var cKey = String(courseId).replace(/^course_/, '').trim();
+      if (canvasUserCourseColors && canvasUserCourseColors['course_' + cKey]) {
+        return canvasUserCourseColors['course_' + cKey];
+      }
+    }
+    // 2. Mapped Canvas course ID via key or subject
+    if (key && canvasCourseIdMap) {
+      var mappedId = canvasCourseIdMap[key] || canvasCourseIdMap[String(key).replace(/\s+/g, '').toUpperCase()];
+      if (mappedId && canvasUserCourseColors && canvasUserCourseColors['course_' + mappedId]) {
+        return canvasUserCourseColors['course_' + mappedId];
+      }
+    }
+    if (subject && canvasCourseIdMap) {
+      var mappedSubId = canvasCourseIdMap[subject] || canvasCourseIdMap[String(subject).replace(/\s+/g, '').toUpperCase()];
+      if (mappedSubId && canvasUserCourseColors && canvasUserCourseColors['course_' + mappedSubId]) {
+        return canvasUserCourseColors['course_' + mappedSubId];
+      }
+    }
+
+    // 3. Fallback to preset palette colors
     var catalog = (typeof PRESETS !== 'undefined') ? PRESETS : {};
     var p = catalog[presetId] || catalog[DEFAULT_PRESET_ID];
     var cMap = (p && p.courseColors) ? p.courseColors : {};
@@ -193,6 +254,168 @@
     var idx = (key ? hashString(String(key)) : (index !== undefined ? index : 0)) % fallbacks.length;
     return fallbacks[idx];
   }
+
+  // Parse RGB or Hex color string into {r, g, b}
+  function parseRgbColor(colorStr) {
+    if (!colorStr) return null;
+    var m = colorStr.match(/rgba?\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
+    if (m) {
+      return { r: parseInt(m[1], 10), g: parseInt(m[2], 10), b: parseInt(m[3], 10) };
+    }
+    if (colorStr.indexOf('#') !== -1) {
+      var h = colorStr.substring(colorStr.indexOf('#')).replace(/[^0-9A-Fa-f]/g, '');
+      if (h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+      if (h.length >= 6) {
+        var n = parseInt(h.substring(0, 6), 16);
+        if (!isNaN(n)) {
+          return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+        }
+      }
+    }
+    return null;
+  }
+
+  function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h = 0, s = 0, l = (max + min) / 2;
+    if (max !== min) {
+      var d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
+      }
+      h /= 6;
+    }
+    return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
+  }
+
+  function hslToRgb(h, s, l) {
+    h /= 360; s /= 100; l /= 100;
+    var r, g, b;
+    if (s === 0) {
+      r = g = b = l;
+    } else {
+      var hue2rgb = function(p, q, t) {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1/6) return p + (q - p) * 6 * t;
+        if (t < 1/2) return q;
+        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+        return p;
+      };
+      var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      var p = 2 * l - q;
+      r = hue2rgb(p, q, h + 1/3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1/3);
+    }
+    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+  }
+
+  // Dynamic contrast auto-adaptor: lifts dark unreadable text in dark mode and darkens pale text in light mode
+  function autoAdaptContentContrast(scope) {
+    var isDark = document.documentElement.getAttribute('data-theme-mode') === 'dark' ||
+                 (document.body && document.body.classList.contains('vibe-theme-dark'));
+
+    var container = scope || document.getElementById('content') || document.getElementById('main') || document.body;
+    if (!container) return;
+
+    var candidates = container.querySelectorAll(
+      '.user_content [style*="color"], .user_content font[color], ' +
+      '#course_syllabus [style*="color"], #course_syllabus font[color], ' +
+      '.wiki_page [style*="color"], .wiki_page font[color], ' +
+      '.assignment-description [style*="color"], .assignment-description font[color], ' +
+      '#content [style*="color"]:not([data-vibe-exempt]), #content font[color]'
+    );
+
+    for (var i = 0; i < candidates.length; i++) {
+      var el = candidates[i];
+      if (el.closest('.vibe-feed-card') || el.closest('#vibe-side-duo') || el.closest('#vibe-gpa-school-card')) continue;
+
+      var origColor = el.getAttribute('data-vibe-orig-color');
+      if (!origColor) {
+        origColor = el.style.color || el.getAttribute('color') || '';
+        el.setAttribute('data-vibe-orig-color', origColor);
+      }
+
+      var currentModeApplied = el.getAttribute('data-vibe-contrast-mode');
+      if (currentModeApplied === (isDark ? 'dark' : 'light')) continue;
+
+      var parsed = parseRgbColor(origColor || window.getComputedStyle(el).color);
+      if (!parsed) continue;
+
+      var lum = 0.299 * parsed.r + 0.587 * parsed.g + 0.114 * parsed.b;
+      var hsl = rgbToHsl(parsed.r, parsed.g, parsed.b);
+      var h = hsl[0], s = hsl[1], l = hsl[2];
+
+      if (isDark) {
+        if (lum < 155 || l < 55) {
+          if (s < 12) {
+            el.style.setProperty('color', '#e2e8f0', 'important');
+          } else {
+            var boostedL = Math.max(l, 72);
+            var boostedS = Math.max(s, 55);
+            var rgb = hslToRgb(h, boostedS, boostedL);
+            el.style.setProperty('color', 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')', 'important');
+          }
+          el.setAttribute('data-vibe-contrast-mode', 'dark');
+        }
+      } else {
+        if (lum > 185 || l > 75) {
+          if (s < 12) {
+            el.style.setProperty('color', '#1e293b', 'important');
+          } else {
+            var loweredL = Math.min(l, 32);
+            var rgbLight = hslToRgb(h, s, loweredL);
+            el.style.setProperty('color', 'rgb(' + rgbLight[0] + ', ' + rgbLight[1] + ', ' + rgbLight[2] + ')', 'important');
+          }
+          el.setAttribute('data-vibe-contrast-mode', 'light');
+        }
+      }
+    }
+  }
+
+  // Global listener for Canvas 3-dot color popover interactions
+  var lastInteractedCourseId = null;
+  document.addEventListener('click', function(e) {
+    var card = e.target.closest('.ic-DashboardCard');
+    if (card) {
+      var link = card.querySelector('a.ic-DashboardCard__link, a[href*="/courses/"]');
+      if (link) {
+        var m = (link.getAttribute('href') || '').match(/\/courses\/(\d+)/);
+        if (m) lastInteractedCourseId = m[1];
+      }
+    }
+
+    var targetBtn = e.target.closest('button, [role="button"], input[type="submit"]');
+    if (targetBtn) {
+      var text = (targetBtn.textContent || targetBtn.value || '').trim();
+      var isApply = /apply/i.test(text) || targetBtn.classList.contains('ColorPicker__apply');
+      if (isApply) {
+        var dialog = targetBtn.closest('[role="dialog"], [class*="ColorPicker"], [class*="Popover"], [data-tray], form');
+        if (dialog) {
+          var hexInput = dialog.querySelector('input[type="text"], input[name="hex"], input[value^="#"]');
+          var chosenHex = hexInput ? hexInput.value.trim() : null;
+          if (chosenHex && /^#[0-9A-Fa-f]{3,8}$/.test(chosenHex) && lastInteractedCourseId) {
+            canvasUserCourseColors['course_' + lastInteractedCourseId] = chosenHex;
+            try {
+              localStorage.setItem('vibe_canvas_user_colors', JSON.stringify(canvasUserCourseColors));
+            } catch (err) {}
+            reapplyCourseColors();
+          }
+        }
+        setTimeout(function() {
+          fetchCanvasUserColors(function() {
+            reapplyCourseColors();
+          });
+        }, 400);
+      }
+    }
+  }, true);
+
 
   function hexToRgba(hex, alpha) {
     if (!hex) return 'transparent';
@@ -906,7 +1129,26 @@
 
       var subject = detectCourseSubject(text);
       var courseKey = getCardCourseKey(card, text);
-      var heroColor = getCourseColor(presetId, subject, i, courseKey);
+
+      var link = card.querySelector('a.ic-DashboardCard__link, a[href*="/courses/"]');
+      var cid = null;
+      if (link) {
+        var m = (link.getAttribute('href') || '').match(/\/courses\/(\d+)/);
+        if (m) cid = m[1];
+      }
+      var codeM = text.match(/\b([A-Z]{2,6}\s*\d{2,4}[A-Z]?)\b/i);
+      var codeClean = codeM ? codeM[1].replace(/\s+/g, '').toUpperCase() : null;
+
+      if (cid) {
+        if (courseKey) canvasCourseIdMap[courseKey] = cid;
+        if (codeClean) canvasCourseIdMap[codeClean] = cid;
+        if (subject) canvasCourseIdMap[subject] = cid;
+        try {
+          localStorage.setItem('vibe_canvas_course_id_map', JSON.stringify(canvasCourseIdMap));
+        } catch (e) {}
+      }
+
+      var heroColor = getCourseColor(presetId, subject, i, courseKey, cid);
 
       card.setAttribute('data-vibe-subject', subject || ('general-' + i));
       card.setAttribute('data-vibe-color', heroColor);
@@ -920,14 +1162,6 @@
       var actionContainer = card.querySelector('.ic-DashboardCard__action-container');
 
       // Check if custom photo exists for this course
-      var link = card.querySelector('a.ic-DashboardCard__link, a[href*="/courses/"]');
-      var cid = null;
-      if (link) {
-        var m = (link.getAttribute('href') || '').match(/\/courses\/(\d+)/);
-        if (m) cid = m[1];
-      }
-      var codeM = text.match(/\b([A-Z]{2,6}\s*\d{2,4}[A-Z]?)\b/i);
-      var codeClean = codeM ? codeM[1].replace(/\s+/g, '').toUpperCase() : null;
       var customPhoto = (courseKey && courseImages[courseKey]) ||
                         (codeClean && courseImages['code_' + codeClean]) ||
                         (cid && courseImages['c_' + cid]) || null;
@@ -1347,8 +1581,9 @@
           var cr = sorted[i];
           var shortName = cr.code || cr.name.replace(/\s*\d{4}\s*.*$/, '').trim().substring(0, 18);
           var gpaColor = cr.gpa >= 3.0 ? '#4caf50' : cr.gpa >= 2.0 ? '#ff9800' : '#f44336';
+          var crColor = getCourseColor(presetId, null, i, cr.name, cr.id);
           rowsHtml += '<div class="vibe-gpa-row">' +
-            '<a class="vibe-gpa-row-name" href="/courses/' + encodeURIComponent(cr.id) + '/grades" title="' + escapeHtml(cr.name) + '">' + escapeHtml(shortName) + '</a>' +
+            '<a class="vibe-gpa-row-name" href="/courses/' + encodeURIComponent(cr.id) + '/grades" title="' + escapeHtml(cr.name) + '" style="color:' + crColor + '; font-weight:600;">' + escapeHtml(shortName) + '</a>' +
             '<span class="vibe-gpa-row-score">' + cr.score.toFixed(1) + '%</span>' +
             '<span class="vibe-gpa-row-letter">' + escapeHtml(cr.letter || '') + '</span>' +
             '<span class="vibe-gpa-row-gp" style="color:' + gpaColor + '">' + cr.gpa.toFixed(2) + '</span>' +
@@ -3397,7 +3632,7 @@
           }
 
           var subject = detectCourseSubject((item.course || '') + ' ' + (item.title || ''));
-          var courseColor = getCourseColor(presetId, subject, idx);
+          var courseColor = getCourseColor(presetId, subject, idx, item.course, item.courseId);
           row.style.setProperty('--item-course-color', courseColor);
 
           var courseTitle = formatCourseCodeDisplay(item.course, item.href, item.courseId, nicknames);
@@ -3497,7 +3732,7 @@
     row.className = 'vibe-minimal-row';
 
     var subject = detectCourseSubject((item.course || '') + ' ' + (item.title || ''));
-    var courseColor = getCourseColor(presetId, subject, 0);
+    var courseColor = getCourseColor(presetId, subject, 0, item.course, item.courseId);
     row.style.setProperty('--item-course-color', courseColor);
 
     var courseDisplay = formatCourseCodeDisplay(item.course, item.href, item.courseId, nicknames);
@@ -3639,7 +3874,7 @@
 
           var urgency = getUrgencyDetails(item.dateObj, item);
           var subject = detectCourseSubject(item.course + ' ' + item.title);
-          var courseColor = getCourseColor(presetId, subject, idx);
+          var courseColor = getCourseColor(presetId, subject, idx, item.course, item.courseId);
           row.style.setProperty('--item-course-color', courseColor);
 
           var courseDisplay = formatCourseCodeDisplay(item.course, item.href, item.courseId, nicknames);
@@ -4577,6 +4812,8 @@
       });
     }, { passive: true });
     var cachedId = localStorage.getItem('vibe_cached_preset') || DEFAULT_PRESET_ID;
+    fetchCanvasUserColors();
+    autoAdaptContentContrast();
     applyCardHeroColors(cachedId);
     applySidebarTheme(cachedId);
     enhanceCalendarEvents(cachedId);
@@ -4969,6 +5206,7 @@ function attachObserver() {
             initTodoReformatter(activeId);
             syncCanvasLayout();
             sanitizeFilesAndTables();
+            autoAdaptContentContrast();
             if (window.location.pathname.match(/^\/courses\/\d+/) && !document.getElementById('vibe-course-nav')) {
               injectCourseNavBar(activeId);
             }
@@ -5062,6 +5300,7 @@ function attachObserver() {
           res && res.vibe_wallpaper_url
         );
         sanitizeFilesAndTables();
+        autoAdaptContentContrast();
         if (window.location.pathname.match(/^\/courses\/\d+/)) {
           if (!document.getElementById('vibe-course-nav')) {
             injectCourseNavBar(activeId);

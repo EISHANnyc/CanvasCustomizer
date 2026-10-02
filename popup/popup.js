@@ -1038,8 +1038,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var DEFAULT_PREMADE_PALETTES = [
     {
-      id: 'pal-sunny-beach',
-      name: 'Sunny Beach Day',
+      id: 'pal-coastline',
+      name: 'Coastline',
       isPremade: true,
       mode: 'dark',
       colors: {
@@ -1067,8 +1067,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     },
     {
-      id: 'pal-olive-garden',
-      name: 'Olive Garden Feast',
+      id: 'pal-olive-grove',
+      name: 'Olive Grove',
       isPremade: true,
       mode: 'dark',
       colors: {
@@ -1096,8 +1096,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     },
     {
-      id: 'pal-ocean-breeze',
-      name: 'Summer Ocean Breeze',
+      id: 'pal-deep-pacific',
+      name: 'Deep Pacific',
       isPremade: true,
       mode: 'dark',
       colors: {
@@ -1261,12 +1261,6 @@ document.addEventListener('DOMContentLoaded', function() {
       var nameEl = document.createElement('div');
       nameEl.className = 'saved-palette-name';
       nameEl.textContent = item.name;
-      if (item.isPremade) {
-        var pill = document.createElement('span');
-        pill.className = 'saved-palette-premade-pill';
-        pill.textContent = 'Premade';
-        nameEl.appendChild(pill);
-      }
 
       var swRow = document.createElement('div');
       swRow.className = 'saved-palette-swatches';

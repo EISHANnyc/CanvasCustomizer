@@ -4931,6 +4931,22 @@ html.vibe-theme-dark .user_content h3 {
   font-weight: 600 !important;
 }
 
+/* Contrast protection for syllabus, wiki, and user-submitted formatted content */
+html.vibe-theme-dark #course_syllabus,
+html.vibe-theme-dark #course_syllabus_content,
+html.vibe-theme-dark .user_content,
+html.vibe-theme-dark .show-content,
+html.vibe-theme-dark .wiki_page,
+html.vibe-theme-dark .description.user_content {
+  color: var(--bctext-0) !important;
+}
+
+html.vibe-theme-dark #course_syllabus a:not(.btn):not([class*="Button"]),
+html.vibe-theme-dark .user_content a:not(.btn):not([class*="Button"]),
+html.vibe-theme-dark .show-content a:not(.btn):not([class*="Button"]) {
+  color: var(--bcaccent, var(--bclinks, #60a5fa)) !important;
+}
+
 /* 3. Native select dropdowns white bg in dark mode */
 html.vibe-theme-dark select,
 html.vibe-theme-dark select option {

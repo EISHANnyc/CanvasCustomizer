@@ -265,9 +265,9 @@ var PRESETS = {
   // ==========================================
   // COOLORS POPULAR PREMADE PALETTES
   // ==========================================
-  'pal-sunny-beach': {
-    id: 'pal-sunny-beach',
-    name: 'Sunny Beach Day',
+  'pal-coastline': {
+    id: 'pal-coastline',
+    name: 'Coastline',
     isPremade: true,
     mode: 'dark',
     vibe: 'Warm coastal teal, saffron gold, and burnt sienna derived from Coolors popular palettes',
@@ -295,9 +295,9 @@ var PRESETS = {
       fallback: ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#3D7486', '#264653']
     }
   },
-  'pal-olive-garden': {
-    id: 'pal-olive-garden',
-    name: 'Olive Garden Feast',
+  'pal-olive-grove': {
+    id: 'pal-olive-grove',
+    name: 'Olive Grove',
     isPremade: true,
     mode: 'dark',
     vibe: 'Earthy kombu olive, moss green, and warm cornsilk cream from Coolors popular palettes',
@@ -325,9 +325,9 @@ var PRESETS = {
       fallback: ['#606C38', '#DDA15E', '#BC6C25', '#8A9A5B', '#485F2C', '#FEFAE0']
     }
   },
-  'pal-ocean-breeze': {
-    id: 'pal-ocean-breeze',
-    name: 'Summer Ocean Breeze',
+  'pal-deep-pacific': {
+    id: 'pal-deep-pacific',
+    name: 'Deep Pacific',
     isPremade: true,
     mode: 'dark',
     vibe: 'Prussian navy, steel blue, honeydew white, and coral red from Coolors popular palettes',
