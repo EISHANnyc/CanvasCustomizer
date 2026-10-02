@@ -6435,3 +6435,72 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
     display: block !important;
   }
 }
+
+/* =========================================================
+   ADAPTIVE PDF / DOCUMENT & NARROW-SPACE WRAP
+   When side-panel (Gemini) is open or space is constrained (<1220px),
+   or on course document / PDF / file preview pages, dynamically
+   drop the Tasks / Completed sidebar to the bottom so PDFs have full width.
+   ========================================================= */
+@media (max-width: 1220px) {
+  #not_right_side:has(.vibe-sidebar-duo),
+  .vibe-dashboard-page #not_right_side {
+    flex-wrap: wrap !important;
+  }
+
+  #not_right_side:has(.vibe-sidebar-duo) #content-wrapper,
+  .vibe-dashboard-page #content-wrapper {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper,
+  .vibe-dashboard-page #right-side-wrapper,
+  body #right-side-wrapper:has(.vibe-sidebar-duo) {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 24px 0 0 0 !important;
+  }
+
+  .vibe-sidebar-duo {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Explicit document / PDF preview container adaptive wrap */
+body:has(#doc_preview) #not_right_side,
+body:has(.file-upload-submission) #not_right_side,
+body:has(iframe[src*="files"]) #not_right_side,
+body[class*="context-course"] #not_right_side:has(iframe),
+#not_right_side:has(.ef-file-preview-frame),
+#not_right_side:has(.pdf-preview) {
+  flex-wrap: wrap !important;
+}
+
+body:has(#doc_preview) #content-wrapper,
+body:has(.file-upload-submission) #content-wrapper,
+body:has(iframe[src*="files"]) #content-wrapper,
+body[class*="context-course"] #not_right_side:has(iframe) #content-wrapper,
+#not_right_side:has(.ef-file-preview-frame) #content-wrapper {
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+body:has(#doc_preview) #right-side-wrapper,
+body:has(.file-upload-submission) #right-side-wrapper,
+body:has(iframe[src*="files"]) #right-side-wrapper,
+body[class*="context-course"] #not_right_side:has(iframe) #right-side-wrapper,
+#not_right_side:has(.ef-file-preview-frame) #right-side-wrapper {
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 28px 0 0 0 !important;
+}
+
