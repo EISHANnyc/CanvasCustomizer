@@ -1393,8 +1393,240 @@
   var gpaCardGuardObserver = null;
 
   var GPA_SCALES = {
+    sfu: {
+      name: 'Simon Fraser University',
+      abbr: 'SFU',
+      label: 'SFU · Simon Fraser University (4.33)',
+      aliases: ['sfu', 'simon fraser', 'simon fraser university'],
+      breaks: [
+        { min: 90, gpa: 4.33, letter: 'A+' },
+        { min: 85, gpa: 4.00, letter: 'A' },
+        { min: 80, gpa: 3.67, letter: 'A-' },
+        { min: 76, gpa: 3.33, letter: 'B+' },
+        { min: 72, gpa: 3.00, letter: 'B' },
+        { min: 68, gpa: 2.67, letter: 'B-' },
+        { min: 64, gpa: 2.33, letter: 'C+' },
+        { min: 60, gpa: 2.00, letter: 'C' },
+        { min: 55, gpa: 1.67, letter: 'C-' },
+        { min: 50, gpa: 1.00, letter: 'D' },
+        { min: 0,  gpa: 0.00, letter: 'F' }
+      ]
+    },
+    ubc: {
+      name: 'University of British Columbia',
+      abbr: 'UBC',
+      label: 'UBC · Univ. of British Columbia (4.33)',
+      aliases: ['ubc', 'british columbia', 'university of british columbia'],
+      breaks: [
+        { min: 90, gpa: 4.33, letter: 'A+' },
+        { min: 85, gpa: 4.00, letter: 'A' },
+        { min: 80, gpa: 3.70, letter: 'A-' },
+        { min: 76, gpa: 3.30, letter: 'B+' },
+        { min: 72, gpa: 3.00, letter: 'B' },
+        { min: 68, gpa: 2.70, letter: 'B-' },
+        { min: 64, gpa: 2.30, letter: 'C+' },
+        { min: 60, gpa: 2.00, letter: 'C' },
+        { min: 55, gpa: 1.70, letter: 'C-' },
+        { min: 50, gpa: 1.00, letter: 'D' },
+        { min: 0,  gpa: 0.00, letter: 'F' }
+      ]
+    },
+    uoft: {
+      name: 'University of Toronto',
+      abbr: 'UofT',
+      label: 'UofT · University of Toronto (4.0)',
+      aliases: ['uoft', 'toronto', 'university of toronto', 'u of t'],
+      breaks: [
+        { min: 90, gpa: 4.0, letter: 'A+' },
+        { min: 85, gpa: 4.0, letter: 'A' },
+        { min: 80, gpa: 3.7, letter: 'A-' },
+        { min: 77, gpa: 3.3, letter: 'B+' },
+        { min: 73, gpa: 3.0, letter: 'B' },
+        { min: 70, gpa: 2.7, letter: 'B-' },
+        { min: 67, gpa: 2.3, letter: 'C+' },
+        { min: 63, gpa: 2.0, letter: 'C' },
+        { min: 60, gpa: 1.7, letter: 'C-' },
+        { min: 57, gpa: 1.3, letter: 'D+' },
+        { min: 53, gpa: 1.0, letter: 'D' },
+        { min: 50, gpa: 0.7, letter: 'D-' },
+        { min: 0,  gpa: 0.0, letter: 'F' }
+      ]
+    },
+    mcgill: {
+      name: 'McGill University',
+      abbr: 'McGill',
+      label: 'McGill University (4.0)',
+      aliases: ['mcgill', 'mcgill university'],
+      breaks: [
+        { min: 85, gpa: 4.0, letter: 'A' },
+        { min: 80, gpa: 3.7, letter: 'A-' },
+        { min: 75, gpa: 3.3, letter: 'B+' },
+        { min: 70, gpa: 3.0, letter: 'B' },
+        { min: 65, gpa: 2.7, letter: 'B-' },
+        { min: 60, gpa: 2.3, letter: 'C+' },
+        { min: 55, gpa: 2.0, letter: 'C' },
+        { min: 50, gpa: 1.0, letter: 'D' },
+        { min: 0,  gpa: 0.0, letter: 'F' }
+      ]
+    },
+    waterloo: {
+      name: 'University of Waterloo',
+      abbr: 'Waterloo',
+      label: 'Waterloo · University of Waterloo (4.0)',
+      aliases: ['waterloo', 'uw waterloo', 'university of waterloo'],
+      breaks: [
+        { min: 90, gpa: 4.0, letter: 'A+' },
+        { min: 85, gpa: 3.9, letter: 'A' },
+        { min: 80, gpa: 3.7, letter: 'A-' },
+        { min: 77, gpa: 3.3, letter: 'B+' },
+        { min: 73, gpa: 3.0, letter: 'B' },
+        { min: 70, gpa: 2.7, letter: 'B-' },
+        { min: 67, gpa: 2.3, letter: 'C+' },
+        { min: 63, gpa: 2.0, letter: 'C' },
+        { min: 60, gpa: 1.7, letter: 'C-' },
+        { min: 57, gpa: 1.3, letter: 'D+' },
+        { min: 53, gpa: 1.0, letter: 'D' },
+        { min: 50, gpa: 0.7, letter: 'D-' },
+        { min: 0,  gpa: 0.0, letter: 'F' }
+      ]
+    },
+    uw: {
+      name: 'University of Washington',
+      abbr: 'UW',
+      label: 'UW · University of Washington (4.0)',
+      aliases: ['uw', 'washington', 'university of washington', 'udub'],
+      breaks: [
+        { min: 95, gpa: 4.0, letter: 'A' },
+        { min: 90, gpa: 3.7, letter: 'A-' },
+        { min: 85, gpa: 3.3, letter: 'B+' },
+        { min: 80, gpa: 3.0, letter: 'B' },
+        { min: 75, gpa: 2.7, letter: 'B-' },
+        { min: 70, gpa: 2.3, letter: 'C+' },
+        { min: 65, gpa: 2.0, letter: 'C' },
+        { min: 60, gpa: 1.7, letter: 'C-' },
+        { min: 55, gpa: 1.0, letter: 'D' },
+        { min: 0,  gpa: 0.0, letter: 'F' }
+      ]
+    },
+    ucb: {
+      name: 'UC Berkeley / UCLA / UC System',
+      abbr: 'UC',
+      label: 'UC System · Berkeley / UCLA (4.0)',
+      aliases: ['ucb', 'berkeley', 'uc berkeley', 'ucla', 'uc', 'cal', 'uc davis', 'ucsd', 'ucsb', 'uci'],
+      breaks: [
+        { min: 93, gpa: 4.0, letter: 'A' },
+        { min: 90, gpa: 3.7, letter: 'A-' },
+        { min: 87, gpa: 3.3, letter: 'B+' },
+        { min: 83, gpa: 3.0, letter: 'B' },
+        { min: 80, gpa: 2.7, letter: 'B-' },
+        { min: 77, gpa: 2.3, letter: 'C+' },
+        { min: 73, gpa: 2.0, letter: 'C' },
+        { min: 70, gpa: 1.7, letter: 'C-' },
+        { min: 67, gpa: 1.3, letter: 'D+' },
+        { min: 63, gpa: 1.0, letter: 'D' },
+        { min: 60, gpa: 0.7, letter: 'D-' },
+        { min: 0,  gpa: 0.0, letter: 'F' }
+      ]
+    },
+    harvard: {
+      name: 'Harvard / Ivy League',
+      abbr: 'Harvard',
+      label: 'Harvard / Ivy League (4.0)',
+      aliases: ['harvard', 'harvard university', 'ivy', 'yale', 'princeton', 'columbia', 'brown', 'dartmouth', 'penn', 'cornell'],
+      breaks: [
+        { min: 93, gpa: 4.0, letter: 'A' },
+        { min: 90, gpa: 3.7, letter: 'A-' },
+        { min: 87, gpa: 3.3, letter: 'B+' },
+        { min: 83, gpa: 3.0, letter: 'B' },
+        { min: 80, gpa: 2.7, letter: 'B-' },
+        { min: 77, gpa: 2.3, letter: 'C+' },
+        { min: 73, gpa: 2.0, letter: 'C' },
+        { min: 70, gpa: 1.7, letter: 'C-' },
+        { min: 60, gpa: 1.0, letter: 'D' },
+        { min: 0,  gpa: 0.0, letter: 'F' }
+      ]
+    },
+    nyu: {
+      name: 'New York University',
+      abbr: 'NYU',
+      label: 'NYU · New York University (4.0)',
+      aliases: ['nyu', 'new york university'],
+      breaks: [
+        { min: 93, gpa: 4.0, letter: 'A' },
+        { min: 90, gpa: 3.7, letter: 'A-' },
+        { min: 87, gpa: 3.3, letter: 'B+' },
+        { min: 83, gpa: 3.0, letter: 'B' },
+        { min: 80, gpa: 2.7, letter: 'B-' },
+        { min: 77, gpa: 2.3, letter: 'C+' },
+        { min: 73, gpa: 2.0, letter: 'C' },
+        { min: 70, gpa: 1.7, letter: 'C-' },
+        { min: 65, gpa: 1.3, letter: 'D+' },
+        { min: 60, gpa: 1.0, letter: 'D' },
+        { min: 0,  gpa: 0.0, letter: 'F' }
+      ]
+    },
+    ualberta: {
+      name: 'University of Alberta',
+      abbr: 'UAlberta',
+      label: 'UAlberta · University of Alberta (4.0)',
+      aliases: ['ualberta', 'alberta', 'university of alberta', 'u of a'],
+      breaks: [
+        { min: 90, gpa: 4.0, letter: 'A+' },
+        { min: 85, gpa: 4.0, letter: 'A' },
+        { min: 80, gpa: 3.7, letter: 'A-' },
+        { min: 77, gpa: 3.3, letter: 'B+' },
+        { min: 73, gpa: 3.0, letter: 'B' },
+        { min: 70, gpa: 2.7, letter: 'B-' },
+        { min: 67, gpa: 2.3, letter: 'C+' },
+        { min: 63, gpa: 2.0, letter: 'C' },
+        { min: 60, gpa: 1.7, letter: 'C-' },
+        { min: 55, gpa: 1.3, letter: 'D+' },
+        { min: 50, gpa: 1.0, letter: 'D' },
+        { min: 0,  gpa: 0.0, letter: 'F' }
+      ]
+    },
+    ucalgary: {
+      name: 'University of Calgary',
+      abbr: 'UCalgary',
+      label: 'UCalgary · University of Calgary (4.0)',
+      aliases: ['ucalgary', 'calgary', 'university of calgary', 'u of c'],
+      breaks: [
+        { min: 95, gpa: 4.0, letter: 'A+' },
+        { min: 90, gpa: 4.0, letter: 'A' },
+        { min: 85, gpa: 3.7, letter: 'A-' },
+        { min: 80, gpa: 3.3, letter: 'B+' },
+        { min: 75, gpa: 3.0, letter: 'B' },
+        { min: 70, gpa: 2.7, letter: 'B-' },
+        { min: 65, gpa: 2.3, letter: 'C+' },
+        { min: 60, gpa: 2.0, letter: 'C' },
+        { min: 55, gpa: 1.7, letter: 'C-' },
+        { min: 50, gpa: 1.0, letter: 'D' },
+        { min: 0,  gpa: 0.0, letter: 'F' }
+      ]
+    },
+    uvic: {
+      name: 'University of Victoria',
+      abbr: 'UVic',
+      label: 'UVic · University of Victoria (4.33)',
+      aliases: ['uvic', 'victoria', 'university of victoria'],
+      breaks: [
+        { min: 90, gpa: 4.33, letter: 'A+' },
+        { min: 85, gpa: 4.00, letter: 'A' },
+        { min: 80, gpa: 3.67, letter: 'A-' },
+        { min: 77, gpa: 3.33, letter: 'B+' },
+        { min: 73, gpa: 3.00, letter: 'B' },
+        { min: 70, gpa: 2.67, letter: 'B-' },
+        { min: 65, gpa: 2.33, letter: 'C+' },
+        { min: 60, gpa: 2.00, letter: 'C' },
+        { min: 50, gpa: 1.00, letter: 'D' },
+        { min: 0,  gpa: 0.00, letter: 'F' }
+      ]
+    },
     standard4: {
-      label: 'Standard 4.0 Scale',
+      name: 'Standard US 4.0 Scale',
+      abbr: '4.0',
+      label: 'Standard US 4.0 Scale',
+      aliases: ['standard', 'standard4', '4.0', 'us', 'default'],
       breaks: [
         { min: 93, gpa: 4.0, letter: 'A' },
         { min: 90, gpa: 3.7, letter: 'A-' },
@@ -1411,7 +1643,10 @@
       ]
     },
     scale433: {
-      label: '4.33 Scale',
+      name: 'General 4.33 Scale',
+      abbr: '4.33',
+      label: 'General 4.33 Scale',
+      aliases: ['4.33', 'scale433'],
       breaks: [
         { min: 90, gpa: 4.33, letter: 'A+' },
         { min: 85, gpa: 4.0,  letter: 'A' },
@@ -1428,6 +1663,24 @@
     }
   };
 
+  function matchGpaScale(query) {
+    if (!query) return null;
+    var q = String(query).trim().toLowerCase();
+    if (!q) return null;
+    if (GPA_SCALES[q]) return q;
+    var keys = Object.keys(GPA_SCALES);
+    for (var i = 0; i < keys.length; i++) {
+      var k = keys[i];
+      var s = GPA_SCALES[k];
+      if (k === q) return k;
+      if (s.abbr && s.abbr.toLowerCase() === q) return k;
+      if (s.aliases && s.aliases.some(function(a) { return a === q || q.includes(a) || a.includes(q); })) return k;
+      if (s.label && s.label.toLowerCase().includes(q)) return k;
+      if (s.name && s.name.toLowerCase().includes(q)) return k;
+    }
+    return null;
+  }
+
   function getActiveGpaScale(scaleKey, customScaleData) {
     if (scaleKey === 'custom' && Array.isArray(customScaleData) && customScaleData.length > 0) {
       return {
@@ -1435,7 +1688,7 @@
         breaks: customScaleData.slice().sort(function(a, b) { return b.min - a.min; })
       };
     }
-    return GPA_SCALES[scaleKey] || GPA_SCALES.standard4;
+    return GPA_SCALES[scaleKey] || GPA_SCALES.sfu || GPA_SCALES.standard4;
   }
 
   function pctToGpa(pct, scaleKey, customScaleData) {
@@ -1535,19 +1788,24 @@
         return;
       }
 
-      var scaleKey        = (res && res.vibe_gpa_scale) || 'standard4';
-      if (scaleKey === 'sfu') scaleKey = 'scale433';
-      else if (scaleKey === 'gpa4') scaleKey = 'standard4';
+      var scaleKey        = (res && res.vibe_gpa_scale) || '';
+      if (!scaleKey) {
+        if (location.hostname.includes('sfu.ca')) scaleKey = 'sfu';
+        else if (location.hostname.includes('ubc.ca')) scaleKey = 'ubc';
+        else if (location.hostname.includes('utoronto.ca')) scaleKey = 'uoft';
+        else if (location.hostname.includes('mcgill.ca')) scaleKey = 'mcgill';
+        else if (location.hostname.includes('washington.edu')) scaleKey = 'uw';
+        else if (location.hostname.includes('berkeley.edu')) scaleKey = 'ucb';
+        else scaleKey = 'standard4';
+      }
+      if (scaleKey === 'gpa4') scaleKey = 'standard4';
 
       var customScaleData = (res && res.vibe_gpa_custom_scale) || null;
       if (!Array.isArray(customScaleData) || customScaleData.length === 0) {
-        customScaleData = [
-          { min: 90, gpa: 4.0, letter: 'A' },
-          { min: 80, gpa: 3.0, letter: 'B' },
-          { min: 70, gpa: 2.0, letter: 'C' },
-          { min: 60, gpa: 1.0, letter: 'D' },
-          { min: 0,  gpa: 0.0, letter: 'F' }
-        ];
+        var baseScale = GPA_SCALES[scaleKey] || GPA_SCALES.sfu || GPA_SCALES.standard4;
+        customScaleData = baseScale.breaks.map(function(b) {
+          return { min: b.min, gpa: b.gpa, letter: b.letter };
+        });
       }
 
       var pastGpa     = (res && res.vibe_gpa_past_gpa !== undefined) ? parseFloat(res.vibe_gpa_past_gpa) : null;
@@ -1649,6 +1907,25 @@
         if (oldBackdrop) oldBackdrop.remove();
 
         // Settings Modal Popup (Rendered directly on document.body so it is never clipped)
+        var activeScaleObj = GPA_SCALES[scaleKey];
+        var schoolSearchVal = activeScaleObj ? (activeScaleObj.name || activeScaleObj.label) : '';
+
+        var scaleOptionsHtml = '';
+        Object.keys(GPA_SCALES).forEach(function(k) {
+          var s = GPA_SCALES[k];
+          scaleOptionsHtml += '<option value="' + k + '"' + (scaleKey === k ? ' selected' : '') + '>' + escapeHtml(s.label) + '</option>';
+        });
+        scaleOptionsHtml += '<option value="custom"' + (scaleKey === 'custom' ? ' selected' : '') + '>Custom Scale...</option>';
+
+        var schoolDatalistHtml = '';
+        Object.keys(GPA_SCALES).forEach(function(k) {
+          var s = GPA_SCALES[k];
+          schoolDatalistHtml += '<option value="' + escapeHtml(s.name || s.label) + '">';
+          if (s.abbr && s.abbr !== s.name) {
+            schoolDatalistHtml += '<option value="' + escapeHtml(s.abbr) + '">';
+          }
+        });
+
         var modalBackdrop = document.createElement('div');
         modalBackdrop.id = 'vibe-gpa-modal-backdrop';
         modalBackdrop.className = 'vibe-gpa-modal-backdrop';
@@ -1663,11 +1940,16 @@
             '</div>' +
             '<div class="vibe-gpa-modal-body">' +
               '<div class="vibe-gpa-settings-row">' +
+                '<label>School Lookup</label>' +
+                '<div style="flex:1;position:relative;">' +
+                  '<input type="text" id="vibe-gpa-school-input" list="vibe-gpa-school-list" placeholder="Search school (e.g. SFU, UBC, UofT, Harvard)..." autocomplete="off" value="' + escapeHtml(schoolSearchVal) + '">' +
+                  '<datalist id="vibe-gpa-school-list">' + schoolDatalistHtml + '</datalist>' +
+                '</div>' +
+              '</div>' +
+              '<div class="vibe-gpa-settings-row">' +
                 '<label>Scale Preset</label>' +
                 '<select id="vibe-gpa-scale-sel">' +
-                  '<option value="standard4"' + (scaleKey === 'standard4' ? ' selected' : '') + '>Standard 4.0 Scale</option>' +
-                  '<option value="scale433"' + (scaleKey === 'scale433' ? ' selected' : '') + '>4.33 Scale</option>' +
-                  '<option value="custom"' + (scaleKey === 'custom' ? ' selected' : '') + '>Custom Scale...</option>' +
+                  scaleOptionsHtml +
                 '</select>' +
               '</div>' +
               '<div id="vibe-gpa-custom-editor-wrap" class="vibe-gpa-custom-editor-card" style="' + (scaleKey === 'custom' ? '' : 'display:none;') + '">' +
@@ -1715,6 +1997,7 @@
         var settingsBtn = card.querySelector('.vibe-gpa-settings-btn');
         var modalClose = modalBackdrop.querySelector('#vibe-gpa-modal-close');
         var modalCancel = modalBackdrop.querySelector('#vibe-gpa-modal-cancel');
+        var schoolInput = modalBackdrop.querySelector('#vibe-gpa-school-input');
         var scaleSel = modalBackdrop.querySelector('#vibe-gpa-scale-sel');
         var customWrap = modalBackdrop.querySelector('#vibe-gpa-custom-editor-wrap');
         var customRowsContainer = modalBackdrop.querySelector('#vibe-gpa-custom-rows-container');
@@ -1760,9 +2043,46 @@
           };
         }
 
+        function populateCustomEditorFromScale(targetScaleKey) {
+          if (!customRowsContainer) return;
+          var s = GPA_SCALES[targetScaleKey] || GPA_SCALES.sfu;
+          if (!s || !Array.isArray(s.breaks)) return;
+          var html = '';
+          s.breaks.slice().sort(function(a, b) { return b.min - a.min; }).forEach(function(b) {
+            html += '<div class="vibe-gpa-custom-row">' +
+              '<input type="number" class="vibe-scale-min" min="0" max="100" step="0.5" value="' + b.min + '" title="Min %">' +
+              '<input type="text" class="vibe-scale-letter" maxlength="3" value="' + escapeHtml(b.letter || '') + '" title="Letter">' +
+              '<input type="number" class="vibe-scale-gpa" min="0" max="10" step="0.01" value="' + b.gpa.toFixed(2) + '" title="GPA points">' +
+              '<button type="button" class="vibe-gpa-del-btn" title="Remove threshold">×</button>' +
+            '</div>';
+          });
+          customRowsContainer.innerHTML = html;
+          wireDelBtns();
+        }
+
+        if (schoolInput && scaleSel) {
+          function onSchoolSearch() {
+            var matchedKey = matchGpaScale(schoolInput.value);
+            if (matchedKey) {
+              scaleSel.value = matchedKey;
+              if (customWrap) customWrap.style.display = 'none';
+              populateCustomEditorFromScale(matchedKey);
+            }
+          }
+          schoolInput.addEventListener('input', onSchoolSearch);
+          schoolInput.addEventListener('change', onSchoolSearch);
+        }
+
         if (scaleSel && customWrap) {
           scaleSel.onchange = function() {
-            customWrap.style.display = scaleSel.value === 'custom' ? '' : 'none';
+            if (scaleSel.value === 'custom') {
+              customWrap.style.display = '';
+            } else {
+              customWrap.style.display = 'none';
+              var s = GPA_SCALES[scaleSel.value];
+              if (s && schoolInput) schoolInput.value = s.name || s.label;
+              if (s) populateCustomEditorFromScale(scaleSel.value);
+            }
           };
         }
 
