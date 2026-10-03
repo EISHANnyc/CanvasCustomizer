@@ -6025,18 +6025,12 @@ html.vibe-theme-dark .ic-announcement-row *,
   border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.08)) !important;
 }
 
-/* -- GPA breakdown row: course, score, letter, GPA points -- */
+/* -- GPA breakdown row: course, score %, GPA points (clean 3-column layout) -- */
 .vibe-gpa-breakdown-header {
-  grid-template-columns: 1fr 40px 24px 38px !important;
+  grid-template-columns: 1fr 58px 46px !important;
 }
 .vibe-gpa-row {
-  grid-template-columns: 1fr 40px 24px 38px !important;
-}
-.vibe-gpa-row-letter {
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: var(--bctext-1);
-  text-align: center;
+  grid-template-columns: 1fr 58px 46px !important;
 }
 
 /* ── Instructure UI Text Input & Select Facades (Eliminate nested pill border) ── */

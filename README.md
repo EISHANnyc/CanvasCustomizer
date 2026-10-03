@@ -15,7 +15,7 @@ If you find any bugs, idk how you can tell me but just tell me somehow okay?
 
 - **Palettes**: Dark and light presets, or pick your own colors
 - **Wallpapers**: Custom background photos and card covers
-- **GPA Tracker**: Live GPA with university grading scales (SFU, UBC, etc.)
+- **GPA Tracker**: Live GPA with university grading scales (NYU, UBC, UofT, etc.)
 - **Tasks & Grades**: Upcoming assignments and finished scores side-by-side
 - **Clean Layout**: Rounded cards, sleek fonts, zero clutter
 

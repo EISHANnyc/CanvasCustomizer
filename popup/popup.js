@@ -1096,61 +1096,61 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     },
     {
-      id: 'pal-midnight-plum',
-      name: 'Midnight Plum',
+      id: 'pal-rose-milk',
+      name: 'Rose Milk',
       isPremade: true,
-      mode: 'dark',
+      mode: 'light',
       colors: {
-        'background-0': '#1A1423',
-        'background-1': '#140F1B',
-        'background-2': '#261C33',
-        'cards': '#22192E',
-        'sidebar': '#100B16',
-        'sidebar-text': '#FBF5F8',
-        'borders': '#3E2E52',
-        'buttons': '#2C203B',
-        'accent': '#B5838D',
-        'links': '#E5989B',
-        'text-0': '#FBF5F8',
-        'text-1': '#DFD3DD',
-        'text-2': '#A394A1'
+        'background-0': '#FAF2F5',
+        'background-1': '#F4E6EB',
+        'background-2': '#EBD6DF',
+        'cards': '#FFFFFF',
+        'sidebar': '#F6E8EE',
+        'sidebar-text': '#2E1825',
+        'borders': '#E3CDD7',
+        'buttons': '#EDDAE3',
+        'accent': '#E11D48',
+        'links': '#BE185D',
+        'text-0': '#281421',
+        'text-1': '#59364C',
+        'text-2': '#8A6178'
       },
       courseColors: {
-        math: '#B5838D',
-        stat: '#E5989B',
-        data: '#6D597A',
-        music: '#FFB4A2',
-        history: '#355070',
-        fallback: ['#B5838D', '#E5989B', '#6D597A', '#FFB4A2', '#355070', '#9A8C98']
+        math: '#E11D48',
+        stat: '#10B981',
+        data: '#6366F1',
+        music: '#F59E0B',
+        history: '#8B5CF6',
+        fallback: ['#E11D48', '#10B981', '#6366F1', '#F59E0B', '#8B5CF6', '#EC4899']
       }
     },
     {
-      id: 'pal-nordic-slate',
-      name: 'Nordic Slate',
+      id: 'pal-sunlit-cream',
+      name: 'Sunlit Cream',
       isPremade: true,
-      mode: 'dark',
+      mode: 'light',
       colors: {
-        'background-0': '#151922',
-        'background-1': '#10141B',
-        'background-2': '#1D2330',
-        'cards': '#19202B',
-        'sidebar': '#0C0E14',
-        'sidebar-text': '#F0F6FC',
-        'borders': '#2B3547',
-        'buttons': '#222B3A',
-        'accent': '#38BDF8',
-        'links': '#818CF8',
-        'text-0': '#F0F6FC',
-        'text-1': '#C9D1D9',
-        'text-2': '#8B949E'
+        'background-0': '#FAF6F0',
+        'background-1': '#F3ECE0',
+        'background-2': '#E8DEC8',
+        'cards': '#FFFFFF',
+        'sidebar': '#F5EFE6',
+        'sidebar-text': '#2B231C',
+        'borders': '#E0D4C3',
+        'buttons': '#EADECF',
+        'accent': '#D97706',
+        'links': '#B45309',
+        'text-0': '#241E19',
+        'text-1': '#574A3E',
+        'text-2': '#8C7B6D'
       },
       courseColors: {
-        math: '#38BDF8',
-        stat: '#818CF8',
-        data: '#34D399',
-        music: '#F472B6',
-        history: '#FBBF24',
-        fallback: ['#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24', '#A78BFA']
+        math: '#D97706',
+        stat: '#059669',
+        data: '#2563EB',
+        music: '#DB2777',
+        history: '#7C3AED',
+        fallback: ['#D97706', '#059669', '#2563EB', '#DB2777', '#7C3AED', '#EA580C']
       }
     },
     {
@@ -1413,8 +1413,8 @@ document.addEventListener('DOMContentLoaded', function() {
         persistSavedPalettes();
         registerSavedPalettesIntoPresets();
         renderSavedPalettesShelf();
-      } else {
-        alert(savedUserPalettes.length >= 10 ? 'Maximum 10 palettes limit reached. Delete one to add.' : 'All 5 diverse premade palettes are already in your library!');
+      } else if (savedUserPalettes.length >= 10) {
+        alert('Palette limit reached (10 max). Delete one to add.');
       }
     });
   }
@@ -1590,7 +1590,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       // Auto-migrate legacy AI-named duplicates and ensure the 5 diverse premades are populated
-      var legacyIds = ['pal-sunny-beach', 'pal-olive-garden', 'pal-ocean-breeze', 'pal-olive-grove', 'pal-deep-pacific'];
+      var legacyIds = ['pal-sunny-beach', 'pal-olive-garden', 'pal-ocean-breeze', 'pal-olive-grove', 'pal-deep-pacific', 'pal-midnight-plum', 'pal-nordic-slate'];
       var hasLegacy = savedUserPalettes && savedUserPalettes.some(function(p) { return p && legacyIds.indexOf(p.id) !== -1; });
       if (hasLegacy || !Array.isArray(savedUserPalettes) || savedUserPalettes.length === 0) {
         var userCustomOnly = (savedUserPalettes || []).filter(function(p) {

@@ -18,7 +18,7 @@ xcopy /e /i /y "%SRC%shared" "%DIST%\shared" >nul
 powershell -NoProfile -Command "Compress-Archive -Path '%DIST%\*' -DestinationPath '%ZIP%' -Force"
 copy /y "%ZIP%" "%SRC%CanvasCustomizer.zip" >nul
 
-powershell -NoProfile -Command "Get-ChildItem -Path '%SRC%..\' -Directory -Filter 'CanvasCustomizer*' | ForEach-Object { if ($_.FullName -ne '%SRC%'.TrimEnd('\')) { robocopy '%SRC%.' $_.FullName /E /XD .git screenshots server /XF CanvasCustomizer.zip * | Out-Null } }"
+powershell -NoProfile -Command "$src = '%SRC%'.TrimEnd('\'); Get-ChildItem -Path '%SRC%..\' -Directory -Filter 'CanvasCustomizer*' | ForEach-Object { if ($_.FullName -ne $src) { robocopy $src $_.FullName /E /XD .git screenshots server /XF CanvasCustomizer.zip | Out-Null } }"
 echo [SYNC] Updated all unpacked extension folders ready to reload in Chrome
 
 rd /s /q "%DIST%"

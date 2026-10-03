@@ -1775,7 +1775,8 @@
     var container = document.querySelector('.ic-DashboardCard__box__container');
     if (!container) return;
 
-    safeStorageGet(['vibe_show_gpa', 'vibe_gpa_bg_color', 'vibe_gpa_scale', 'vibe_gpa_custom_scale', 'vibe_gpa_past_gpa', 'vibe_gpa_past_credits', 'vibe_gpa_mode'], function(res) {
+    safeStorageGet(['vibe_show_gpa', 'vibe_gpa_bg_color', 'vibe_gpa_scale', 'vibe_gpa_custom_scale', 'vibe_gpa_past_gpa', 'vibe_gpa_past_credits', 'vibe_gpa_mode', 'course_nicknames'], function(res) {
+      var nicknames = (res && res.course_nicknames) || {};
       var showGpa = (res && res.vibe_show_gpa !== undefined) ? !!res.vibe_show_gpa : true;
       var existing = document.getElementById('vibe-gpa-school-card');
 
@@ -1832,18 +1833,19 @@
         card.id = 'vibe-gpa-school-card';
         card.className = 'ic-DashboardCard vibe-gpa-card';
 
-        // Build breakdown rows: Course | Score | Letter | GPA
+        // Build breakdown rows: Course | Score | GPA (Grade letter removed to eliminate header overlap)
         var rowsHtml = '';
         var sorted = result.breakdown.slice().sort(function(a, b) { return b.score - a.score; });
         for (var i = 0; i < sorted.length; i++) {
           var cr = sorted[i];
-          var shortName = cr.code || cr.name.replace(/\s*\d{4}\s*.*$/, '').trim().substring(0, 18);
+          var crClean = cr.code ? cr.code.replace(/\s+/g, '').toUpperCase() : '';
+          var nick = (nicknames && (nicknames['c_' + cr.id] || nicknames[cr.id] || nicknames[crClean] || nicknames[cr.code])) || null;
+          var shortName = nick || cr.code || cr.name.replace(/\s*\d{4}\s*.*$/, '').trim().substring(0, 18);
           var gpaColor = cr.gpa >= 3.0 ? '#4caf50' : cr.gpa >= 2.0 ? '#ff9800' : '#f44336';
           var crColor = getCourseColor(presetId, null, i, cr.name, cr.id);
           rowsHtml += '<div class="vibe-gpa-row">' +
             '<a class="vibe-gpa-row-name" href="/courses/' + encodeURIComponent(cr.id) + '/grades" title="' + escapeHtml(cr.name) + '" style="color:' + crColor + '; font-weight:600;">' + escapeHtml(shortName) + '</a>' +
             '<span class="vibe-gpa-row-score">' + cr.score.toFixed(1) + '%</span>' +
-            '<span class="vibe-gpa-row-letter">' + escapeHtml(cr.letter || '') + '</span>' +
             '<span class="vibe-gpa-row-gp" style="color:' + gpaColor + '">' + cr.gpa.toFixed(2) + '</span>' +
           '</div>';
         }
@@ -1876,7 +1878,7 @@
           '</div>' +
           '<div class="vibe-gpa-body">' +
             '<div class="vibe-gpa-breakdown-header">' +
-              '<span>Course</span><span>Score</span><span style="text-align:center;">Grade</span><span>GPA</span>' +
+              '<span>Course</span><span style="text-align:right;">Score</span><span style="text-align:right;">GPA</span>' +
             '</div>' +
             '<div class="vibe-gpa-breakdown">' + rowsHtml + '</div>' +
           '</div>';
@@ -5435,6 +5437,17 @@
         });
       } catch (e) {}
     }
+
+    window.addEventListener('message', function(ev) {
+      if (!ev || !ev.data) return;
+      if (ev.data.type === 'VIBE_SET_STORAGE') {
+        safeStorageSet(ev.data.payload, function() {
+          var pId = (ev.data.payload && ev.data.payload.active_preset) || DEFAULT_PRESET_ID;
+          applyTheme(pId);
+          applyCardHeroColors(pId);
+        });
+      }
+    });
   }
 
   var observerTimeout = null;

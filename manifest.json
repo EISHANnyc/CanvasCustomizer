@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "CanvasCustomizer",
-    "version": "1.1.6",
-    "version_name": "1.1.6",
+    "version": "1.1.7",
+    "version_name": "1.1.7",
     "description": "A free way to customize Canvas.",
     "permissions": [
         "storage",
