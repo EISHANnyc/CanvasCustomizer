@@ -25,6 +25,10 @@ If you find any bugs, idk how you can tell me but just tell me somehow okay?
 
 ![Dashboard](screenshots/dashboard.png)
 
+![Grades View](screenshots/GradesView.png)
+
+![Page View](screenshots/PageView.png)
+
 ![GPA Settings Modal](screenshots/gpa_settings_modal.png)
 
 ---
