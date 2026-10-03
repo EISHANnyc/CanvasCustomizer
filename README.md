@@ -27,8 +27,6 @@ If you find any bugs, idk how you can tell me but just tell me somehow okay?
 
 ![GPA Settings Modal](screenshots/gpa_settings_modal.png)
 
-![Grades View](screenshots/grades_view.png)
-
 ---
 
 ## Installation
