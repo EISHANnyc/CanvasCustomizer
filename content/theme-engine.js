@@ -3974,16 +3974,16 @@
             '<button class="vibe-minimal-check checked" type="button" style="cursor:default;" title="Completed" aria-label="Completed">' +
               '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' +
             '</button>' +
-            '<div class="vibe-minimal-body">' +
-              '<span class="vibe-minimal-title" title="' + cleanTitle + '">' + cleanTitle + '</span>' +
-              '<div class="vibe-minimal-meta">' +
-                '<span class="vibe-minimal-course" style="color: ' + courseColor + ' !important;">' + (escapeHtml(courseTitle || (subject ? subject.toUpperCase() : 'COURSE'))) + '</span>' +
-                '<span class="vibe-minimal-sep">&#183;</span>' +
-                '<span class="vibe-minimal-time">' + timeDisplay + '</span>' +
+            '<div class="vibe-minimal-body" style="min-width: 0 !important; flex: 1 1 0 !important; overflow: hidden !important;">' +
+              '<span class="vibe-minimal-title" title="' + cleanTitle + '" style="white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; display: block !important;">' + cleanTitle + '</span>' +
+              '<div class="vibe-minimal-meta" style="min-width: 0 !important; max-width: 100% !important; overflow: hidden !important; text-overflow: ellipsis !important; white-space: nowrap !important; display: flex !important; align-items: center !important;">' +
+                '<span class="vibe-minimal-course" style="color: ' + courseColor + ' !important; flex-shrink: 0 !important;">' + (escapeHtml(courseTitle || (subject ? subject.toUpperCase() : 'COURSE'))) + '</span>' +
+                '<span class="vibe-minimal-sep" style="flex-shrink: 0 !important;">&#183;</span>' +
+                '<span class="vibe-minimal-time" style="overflow: hidden !important; text-overflow: ellipsis !important; white-space: nowrap !important; min-width: 0 !important; flex-shrink: 1 !important;">' + timeDisplay + '</span>' +
               '</div>' +
             '</div>' +
-            '<div class="vibe-minimal-actions" style="opacity: 1; display: inline-flex !important; align-items: center !important; justify-content: flex-end !important; width: 84px !important; min-width: 84px !important; max-width: 84px !important; margin-left: auto !important; margin-right: 0 !important; flex-shrink: 0 !important;">' +
-              '<div class="' + scoreClass + '" style="width: 84px !important; min-width: 84px !important; max-width: 84px !important; text-align: center !important; justify-content: center !important; box-sizing: border-box !important; flex-shrink: 0 !important; margin-left: auto !important; margin-right: 0 !important;">' + scoreText + '</div>' +
+            '<div class="vibe-minimal-actions" style="opacity: 1; display: inline-flex !important; align-items: center !important; justify-content: flex-end !important; width: 72px !important; min-width: 72px !important; max-width: 72px !important; margin-left: auto !important; margin-right: 0 !important; flex-shrink: 0 !important;">' +
+              '<div class="' + scoreClass + '" style="width: 72px !important; min-width: 72px !important; max-width: 72px !important; text-align: center !important; justify-content: center !important; box-sizing: border-box !important; flex-shrink: 0 !important; margin-left: auto !important; margin-right: 0 !important;">' + scoreText + '</div>' +
             '</div>';
 
           row.addEventListener('click', function(e) {
@@ -4038,8 +4038,8 @@
           '<span class="vibe-minimal-time">Today</span>' +
         '</div>' +
       '</div>' +
-      '<div class="vibe-minimal-actions" style="opacity: 1; display: inline-flex !important; align-items: center !important; justify-content: flex-end !important; width: 84px !important; min-width: 84px !important; max-width: 84px !important; margin-left: auto !important; margin-right: 0 !important; flex-shrink: 0 !important;">' +
-        '<span class="vibe-minimal-score-tag vibe-score-pending score-text-long" style="width: 84px !important; min-width: 84px !important; max-width: 84px !important; text-align: center !important; justify-content: center !important; box-sizing: border-box !important; flex-shrink: 0 !important; margin-left: auto !important; margin-right: 0 !important;">Ungraded</span>' +
+      '<div class="vibe-minimal-actions" style="opacity: 1; display: inline-flex !important; align-items: center !important; justify-content: flex-end !important; width: 72px !important; min-width: 72px !important; max-width: 72px !important; margin-left: auto !important; margin-right: 0 !important; flex-shrink: 0 !important;">' +
+        '<span class="vibe-minimal-score-tag vibe-score-pending score-text-long" style="width: 72px !important; min-width: 72px !important; max-width: 72px !important; text-align: center !important; justify-content: center !important; box-sizing: border-box !important; flex-shrink: 0 !important; margin-left: auto !important; margin-right: 0 !important;">Ungraded</span>' +
       '</div>';
 
     row.addEventListener('click', function(e) {

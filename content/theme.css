@@ -1918,8 +1918,8 @@ iframe[src*="external_tools"] {
 
 .vibe-dashboard-page #right-side-wrapper,
 #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper {
-  flex: 0 0 560px !important; /* Fixed width when there's room */
-  width: 560px !important;
+  flex: 0 0 640px !important; /* Fixed width when there's room */
+  width: 640px !important;
   max-width: 100% !important;
   margin: 0 !important;
 }
@@ -1972,8 +1972,8 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
 
 .vibe-dashboard-page #right-side-wrapper,
 #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper {
-  flex: 0 0 560px !important; /* Fixed width when there's room */
-  width: 560px !important;
+  flex: 0 0 640px !important; /* Fixed width when there's room */
+  width: 640px !important;
   max-width: 100% !important;
   margin: 0 !important;
 }
@@ -2767,15 +2767,16 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
 }
 
 .vibe-minimal-body {
-  flex: 1 1 auto !important;
+  flex: 1 1 0 !important;
   min-width: 0 !important;
+  overflow: hidden !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 2px !important;
 }
 
 .vibe-minimal-title {
-  font-size: 12.5px !important;
+  font-size: 12px !important;
   font-weight: 600 !important;
   color: var(--bctext-0) !important;
   text-decoration: none !important;
@@ -2784,6 +2785,8 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   letter-spacing: -0.012em !important;
+  max-width: 100% !important;
+  display: block !important;
 }
 
 .vibe-minimal-title:hover {
@@ -2794,10 +2797,31 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
 .vibe-minimal-meta {
   display: flex !important;
   align-items: center !important;
-  gap: 6px !important;
-  font-size: 11px !important;
+  gap: 5px !important;
+  font-size: 10.5px !important;
   line-height: 1.25 !important;
   white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.vibe-minimal-course {
+  font-weight: 750 !important;
+  flex-shrink: 0 !important;
+}
+
+.vibe-minimal-sep {
+  flex-shrink: 0 !important;
+}
+
+.vibe-minimal-time {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  min-width: 0 !important;
+  flex-shrink: 1 !important;
 }
 
 .vibe-minimal-course {
@@ -2922,9 +2946,9 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   height: 22px !important;
   min-height: 22px !important;
   max-height: 22px !important;
-  width: 84px !important;
-  min-width: 84px !important;
-  max-width: 84px !important;
+  width: 72px !important;
+  min-width: 72px !important;
+  max-width: 72px !important;
   line-height: 1 !important;
   border-radius: 5px !important;
   background: rgba(16, 185, 129, 0.12) !important;
@@ -2951,16 +2975,16 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   align-items: center !important;
   justify-content: flex-end !important;
   gap: 0 !important;
-  width: 84px !important;
-  min-width: 84px !important;
-  max-width: 84px !important;
+  width: 72px !important;
+  min-width: 72px !important;
+  max-width: 72px !important;
   margin-left: auto !important;
   margin-right: 0 !important;
   flex-shrink: 0 !important;
 }
 
 .vibe-minimal-score-tag.score-text-long {
-  font-size: 8.5px !important;
+  font-size: 8px !important;
   letter-spacing: -0.02em !important;
 }
 
@@ -5924,14 +5948,14 @@ body.grades:has(#grades_summary):not(:has(.vibe-sidebar-duo)) #right-side-wrappe
   overflow-y: auto !important;
 }
 
-/* -- Sidebar Duo must ALWAYS preserve full 560px on any page -- */
+/* -- Sidebar Duo must ALWAYS preserve full 640px on any page -- */
 #right-side-wrapper:has(.vibe-sidebar-duo),
 body #right-side-wrapper:has(.vibe-sidebar-duo),
 body.responsive_student_grades_page #right-side-wrapper:has(.vibe-sidebar-duo) {
-  width: 560px !important;
-  max-width: 560px !important;
-  min-width: 560px !important;
-  flex: 0 0 560px !important;
+  width: 640px !important;
+  max-width: 640px !important;
+  min-width: 640px !important;
+  flex: 0 0 640px !important;
   display: block !important;
 }
 
