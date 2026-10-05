@@ -6510,6 +6510,21 @@ body[class*="context-course"] #not_right_side:has(iframe) #right-side-wrapper,
   margin: 28px 0 0 0 !important;
 }
 
+/* PDF preview: portrait-friendly size, centered */
+#doc_preview,
+#doc_preview iframe,
+iframe.ef-file-preview-frame,
+iframe#preview_frame {
+  width: 100% !important;
+  max-width: 920px !important;
+  height: 82vh !important;
+  min-height: 560px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+  border-radius: 10px;
+}
+
 /* ==========================================================================
    AUTOMATIC TEXT ADAPTATION & HIGH-CONTRAST LEGIBILITY ENGINE
    Auto-adapts hardcoded, low-contrast, or unchangeable Canvas text elements
