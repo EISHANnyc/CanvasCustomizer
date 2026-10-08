@@ -1097,20 +1097,27 @@ body.dashboard #not_right_side,
   overflow: visible;
 }
 
-/* On Dashboard: Cards column is 880px */
+/* On Dashboard: Cards column sizing */
 .vibe-dashboard-page #content-wrapper,
 body.dashboard #content-wrapper,
 #dashboard #content-wrapper,
-.vibe-dashboard-page #content-wrapper,
 body:not([class*="context-course"]):not(.context-course) #main:has(.vibe-sidebar-duo) #content-wrapper {
-  flex: 0 0 880px !important;
-  width: 880px !important;
-  min-width: 0 !important;
-  max-width: 880px !important;
   margin: 0 !important;
   padding: 0 !important;
   box-sizing: border-box !important;
   float: none !important;
+}
+
+@media (min-width: 1451px) {
+  .vibe-dashboard-page #content-wrapper,
+  body.dashboard #content-wrapper,
+  #dashboard #content-wrapper,
+  body:not([class*="context-course"]):not(.context-course) #main:has(.vibe-sidebar-duo) #content-wrapper {
+    flex: 0 0 880px !important;
+    width: 880px !important;
+    min-width: 0 !important;
+    max-width: 880px !important;
+  }
 }
 
 /* Course pages: fluid flexible layout aligned with sidebar */
@@ -6552,6 +6559,9 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   }
 
   .vibe-dashboard-page #content-wrapper,
+  body.dashboard #content-wrapper,
+  #dashboard #content-wrapper,
+  body:not([class*="context-course"]):not(.context-course) #main:has(.vibe-sidebar-duo) #content-wrapper,
   #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
     flex: 0 0 720px !important;
     width: 720px !important;
@@ -6612,6 +6622,9 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   }
 
   .vibe-dashboard-page #content-wrapper,
+  body.dashboard #content-wrapper,
+  #dashboard #content-wrapper,
+  body:not([class*="context-course"]):not(.context-course) #main:has(.vibe-sidebar-duo) #content-wrapper,
   #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
     flex: 0 0 468px !important;
     width: 468px !important;
