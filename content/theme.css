@@ -6763,7 +6763,7 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   .vibe-sidebar-duo > .vibe-feed-card {
     display: flex !important;
     flex-direction: column !important;
-    max-height: calc(100vh - 120px) !important;
+    max-height: calc(100vh - 180px) !important;
     border-radius: 18px !important;
     overflow: hidden !important;
     box-sizing: border-box !important;
@@ -6776,11 +6776,11 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   .vibe-graded-list {
     flex: 1 1 auto !important;
     min-height: 0 !important;
-    max-height: calc(100vh - 175px) !important;
+    max-height: calc(100vh - 240px) !important;
     overflow-y: auto !important;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
-    padding-bottom: 18px !important;
+    padding-bottom: 24px !important;
     box-sizing: border-box !important;
     border-bottom-left-radius: 16px !important;
     border-bottom-right-radius: 16px !important;
