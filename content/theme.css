@@ -6754,15 +6754,30 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
     margin: 20px 0 !important;
   }
 }
-  /* Let the cards show their full content without artificial cutoff */
-  .vibe-feed-card {
-    max-height: none !important;
+  /* Feed card: rounded bottom locked into view with smooth internal scroll */
+  .vibe-feed-card,
+  #vibe-todo-widget,
+  #vibe-graded-widget {
+    display: flex !important;
+    flex-direction: column !important;
+    max-height: calc(100vh - 120px) !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
     box-sizing: border-box !important;
   }
 
+  .vibe-todo-content,
   .vibe-sidebar-duo .vibe-todo-list,
-  .vibe-sidebar-duo .vibe-graded-list {
+  .vibe-sidebar-duo .vibe-graded-list,
+  .vibe-todo-list,
+  .vibe-graded-list {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
     max-height: none !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    padding-bottom: 14px !important;
     box-sizing: border-box !important;
   }
 
