@@ -6571,19 +6571,56 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
     display: block !important;
   }
 
-  /* Sizing & Scrollbars: Fit card on laptop screens and hide scrollbars completely */
+  /* Sizing: Fit card on laptop screens and prevent vertical overflow */
+  .vibe-feed-card {
+    max-height: calc(100vh - 180px) !important;
+    box-sizing: border-box !important;
+  }
+
   .vibe-sidebar-duo .vibe-todo-list,
   .vibe-sidebar-duo .vibe-graded-list {
-    max-height: calc(100vh - 270px) !important;
+    max-height: calc(100vh - 250px) !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Compact side-by-side action buttons so they never push past the screen */
+  #right-side-wrapper:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
+    width: calc(50% - 6px) !important;
+    display: inline-flex !important;
+    margin: 4px 3px !important;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+    min-height: 32px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Completely remove all scrollbars from Tasks, Completed, and sidebar containers */
+  .vibe-sidebar-duo,
+  .vibe-sidebar-duo *,
+  #vibe-todo-widget,
+  #vibe-graded-widget,
+  .vibe-todo-list,
+  .vibe-graded-list,
+  .vibe-feed-card,
+  #right-side,
+  #right-side-wrapper {
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
   }
 
-  .vibe-sidebar-duo .vibe-todo-list::-webkit-scrollbar,
-  .vibe-sidebar-duo .vibe-graded-list::-webkit-scrollbar {
+  .vibe-sidebar-duo::-webkit-scrollbar,
+  .vibe-sidebar-duo *::-webkit-scrollbar,
+  #vibe-todo-widget::-webkit-scrollbar,
+  #vibe-graded-widget::-webkit-scrollbar,
+  .vibe-todo-list::-webkit-scrollbar,
+  .vibe-graded-list::-webkit-scrollbar,
+  .vibe-feed-card::-webkit-scrollbar,
+  #right-side::-webkit-scrollbar,
+  #right-side-wrapper::-webkit-scrollbar {
     display: none !important;
     width: 0 !important;
     height: 0 !important;
+    background: transparent !important;
   }
 }
 
