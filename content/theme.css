@@ -1686,6 +1686,76 @@ a#take_quiz_link.btn:hover,
   border-color: var(--bcaccent, #0A84FF) !important;
 }
 
+/* Quiz text entry, essay, numerical inputs, and dropdowns */
+.vibe-theme-dark .question input[type="text"],
+.vibe-theme-dark .question input[type="number"],
+.vibe-theme-dark .question input.question_input,
+.vibe-theme-dark .question input.text_entry,
+.vibe-theme-dark .question input.numerical_question_input,
+.vibe-theme-dark .question textarea,
+.vibe-theme-dark .question textarea.question_input,
+.vibe-theme-dark .question select,
+.vibe-theme-dark .take_quiz_wrapper input[type="text"],
+.vibe-theme-dark .take_quiz_wrapper textarea,
+.vibe-theme-dark .take_quiz_wrapper select,
+.question input[type="text"],
+.question input[type="number"],
+.question input.question_input,
+.question input.text_entry,
+.question textarea,
+.question select {
+  background: var(--bcsurface, rgba(30, 30, 32, 0.85)) !important;
+  color: var(--bctext-0, #FFFFFF) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.18)) !important;
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+  font-size: 14px !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+}
+
+.vibe-theme-dark .question input[type="text"]::placeholder,
+.vibe-theme-dark .question textarea::placeholder {
+  color: var(--bctext-2, rgba(255, 255, 255, 0.45)) !important;
+}
+
+.vibe-theme-dark .question input:focus,
+.vibe-theme-dark .question textarea:focus,
+.vibe-theme-dark .question select:focus,
+.question input:focus,
+.question textarea:focus,
+.question select:focus {
+  border-color: var(--bcaccent, #0A84FF) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(10, 132, 255, 0.25) !important;
+}
+
+/* Quiz rich editor / TinyMCE / Canvas RCE iframe & toolbar */
+.vibe-theme-dark .question .mce-tinymce,
+.vibe-theme-dark .question .tox-tinymce,
+.vibe-theme-dark .question .mce-panel,
+.vibe-theme-dark .question .tox {
+  background: var(--bcsurface, #1C1C1E) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.18)) !important;
+  border-radius: 8px !important;
+  color: var(--bctext-0, #FFFFFF) !important;
+}
+
+.vibe-theme-dark .question .mce-toolbar-grp,
+.vibe-theme-dark .question .tox-toolbar,
+.vibe-theme-dark .question .tox-toolbar__group {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.05)) !important;
+  border-bottom: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  color: var(--bctext-0, #FFFFFF) !important;
+}
+
+.vibe-theme-dark .question .mce-edit-area,
+.vibe-theme-dark .question .tox-edit-area,
+.vibe-theme-dark .question .tox-edit-area__iframe {
+  background: var(--bcsurface, #141416) !important;
+  color: var(--bctext-0, #FFFFFF) !important;
+}
+
 /* Flag / bookmark question icon aligned inside header */
 .question .flag_question {
   position: absolute !important;
