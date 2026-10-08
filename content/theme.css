@@ -6510,57 +6510,64 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
     max-width: 100% !important;
   }
 
-  .vibe-dashboard-page #content-wrapper,
-  #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
-    flex: 0 0 880px !important;
-    width: 880px !important;
-    max-width: 880px !important;
-    min-width: 880px !important;
-    margin: 0 !important;
+  @media (min-width: 1451px) {
+    .vibe-dashboard-page #content-wrapper,
+    #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
+      flex: 0 0 880px !important;
+      width: 880px !important;
+      max-width: 880px !important;
+      min-width: 880px !important;
+      margin: 0 !important;
+    }
   }
 }
 
-/* On screens < 1650px (e.g. 13-16in laptops ~1280px-1500px):
+/* On screens < 1450px (e.g. 13-16in laptops ~1280px-1440px):
    Scale dashboard horizontally so everything fits with zero cut off and zero horizontal scroll */
-@media (max-width: 1650px) and (min-width: 900px) {
+@media (max-width: 1450px) and (min-width: 900px) {
   html, body, #main, .vibe-dashboard-page #not_right_side {
     overflow-x: hidden !important;
   }
 
-  /* Make course cards 240px wide on laptop (752px total grid) */
+  /* Make course cards 226px wide on laptop (720px total grid) */
   .vibe-dashboard-page .ic-DashboardCard,
   .vibe-dashboard-page [data-testid="draggable-card"] {
-    width: 240px !important;
-    min-width: 240px !important;
-    max-width: 240px !important;
+    width: 226px !important;
+    min-width: 0 !important;
+    max-width: 226px !important;
   }
 
+  .vibe-dashboard-page #content,
+  .vibe-dashboard-page #dashboard,
+  .vibe-dashboard-page #DashboardCard_Container,
+  .vibe-dashboard-page #DashboardCard_Container > div,
   .vibe-dashboard-page .ic-DashboardCard__box,
   .vibe-dashboard-page .ic-DashboardCard__box__container,
   .vibe-dashboard-page #DashboardCard_Container > div > div,
   .vibe-dashboard-page .ic-DashboardCard__box > div,
   .vibe-dashboard-page div[data-testid="dashboard-cards"] {
-    width: 752px !important;
-    max-width: 752px !important;
-    grid-template-columns: repeat(3, 240px) !important;
+    width: 720px !important;
+    max-width: 720px !important;
+    min-width: 0 !important;
+    grid-template-columns: repeat(3, 226px) !important;
     gap: 16px !important;
   }
 
   .vibe-dashboard-page #content-wrapper,
   #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
-    flex: 0 0 752px !important;
-    width: 752px !important;
-    max-width: 752px !important;
+    flex: 0 0 720px !important;
+    width: 720px !important;
+    max-width: 720px !important;
     min-width: 0 !important;
   }
 
   .vibe-dashboard-page #right-side-wrapper,
   #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper,
   body #right-side-wrapper:has(.vibe-sidebar-duo) {
-    flex: 0 0 280px !important;
-    width: 280px !important;
-    min-width: 280px !important;
-    max-width: 280px !important;
+    flex: 0 0 270px !important;
+    width: 270px !important;
+    min-width: 0 !important;
+    max-width: 270px !important;
     margin: 0 0 0 16px !important;
     display: block !important;
   }
