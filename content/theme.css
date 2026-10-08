@@ -6529,17 +6529,17 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   }
 }
 
-/* On standard laptops (approx 1141px to 1650px): 3 columns of cards + sidebar */
-@media (max-width: 1650px) and (min-width: 1141px) {
+/* On standard laptops (approx 1301px to 1650px): full 280px class cards + 350px sidebar */
+@media (max-width: 1650px) and (min-width: 1301px) {
   html, body, #main, .vibe-dashboard-page #not_right_side {
     overflow-x: hidden !important;
   }
 
   .vibe-dashboard-page .ic-DashboardCard,
   .vibe-dashboard-page [data-testid="draggable-card"] {
-    width: 226px !important;
-    min-width: 0 !important;
-    max-width: 226px !important;
+    width: 280px !important;
+    min-width: 280px !important;
+    max-width: 280px !important;
   }
 
   .vibe-dashboard-page #content,
@@ -6551,10 +6551,62 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   .vibe-dashboard-page #DashboardCard_Container > div > div,
   .vibe-dashboard-page .ic-DashboardCard__box > div,
   .vibe-dashboard-page div[data-testid="dashboard-cards"] {
-    width: 720px !important;
-    max-width: 720px !important;
+    width: 880px !important;
+    max-width: 880px !important;
+    min-width: 880px !important;
+    grid-template-columns: repeat(3, 280px) !important;
+    gap: 20px !important;
+  }
+
+  .vibe-dashboard-page #content-wrapper,
+  body.dashboard #content-wrapper,
+  #dashboard #content-wrapper,
+  body:not([class*="context-course"]):not(.context-course) #main:has(.vibe-sidebar-duo) #content-wrapper,
+  #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
+    flex: 0 0 880px !important;
+    width: 880px !important;
+    max-width: 880px !important;
+    min-width: 880px !important;
+  }
+
+  .vibe-dashboard-page #right-side-wrapper,
+  #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper,
+  body #right-side-wrapper:has(.vibe-sidebar-duo) {
+    flex: 0 0 350px !important;
+    width: 350px !important;
+    min-width: 350px !important;
+    max-width: 350px !important;
+    margin: 0 0 0 20px !important;
+    display: block !important;
+  }
+}
+
+/* On smaller laptops / snapped windows (1101px to 1300px): compact 240px cards */
+@media (max-width: 1300px) and (min-width: 1101px) {
+  html, body, #main, .vibe-dashboard-page #not_right_side {
+    overflow-x: hidden !important;
+  }
+
+  .vibe-dashboard-page .ic-DashboardCard,
+  .vibe-dashboard-page [data-testid="draggable-card"] {
+    width: 240px !important;
     min-width: 0 !important;
-    grid-template-columns: repeat(3, 226px) !important;
+    max-width: 240px !important;
+  }
+
+  .vibe-dashboard-page #content,
+  .vibe-dashboard-page #dashboard,
+  .vibe-dashboard-page #DashboardCard_Container,
+  .vibe-dashboard-page #DashboardCard_Container > div,
+  .vibe-dashboard-page .ic-DashboardCard__box,
+  .vibe-dashboard-page .ic-DashboardCard__box__container,
+  .vibe-dashboard-page #DashboardCard_Container > div > div,
+  .vibe-dashboard-page .ic-DashboardCard__box > div,
+  .vibe-dashboard-page div[data-testid="dashboard-cards"] {
+    width: 752px !important;
+    max-width: 752px !important;
+    min-width: 0 !important;
+    grid-template-columns: repeat(3, 240px) !important;
     gap: 16px !important;
   }
 
@@ -6563,27 +6615,27 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   #dashboard #content-wrapper,
   body:not([class*="context-course"]):not(.context-course) #main:has(.vibe-sidebar-duo) #content-wrapper,
   #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
-    flex: 0 0 720px !important;
-    width: 720px !important;
-    max-width: 720px !important;
+    flex: 0 0 752px !important;
+    width: 752px !important;
+    max-width: 752px !important;
     min-width: 0 !important;
   }
 
   .vibe-dashboard-page #right-side-wrapper,
   #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper,
   body #right-side-wrapper:has(.vibe-sidebar-duo) {
-    flex: 0 0 270px !important;
-    width: 270px !important;
+    flex: 0 0 320px !important;
+    width: 320px !important;
     min-width: 0 !important;
-    max-width: 270px !important;
+    max-width: 320px !important;
     margin: 0 0 0 16px !important;
     display: block !important;
   }
 }
 
-/* When resized smaller than regular laptop screen (800px to 1140px):
+/* When resized smaller than regular laptop screen (800px to 1100px):
    Adapt cards to 2 columns so sidebar stays on the right side-by-side with zero cut off */
-@media (max-width: 1140px) and (min-width: 800px) {
+@media (max-width: 1100px) and (min-width: 800px) {
   html, body, #main, .vibe-dashboard-page #not_right_side {
     overflow-x: hidden !important;
   }
@@ -6600,9 +6652,9 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
 
   .vibe-dashboard-page .ic-DashboardCard,
   .vibe-dashboard-page [data-testid="draggable-card"] {
-    width: 226px !important;
+    width: 240px !important;
     min-width: 0 !important;
-    max-width: 226px !important;
+    max-width: 240px !important;
   }
 
   .vibe-dashboard-page #content,
@@ -6614,10 +6666,10 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   .vibe-dashboard-page #DashboardCard_Container > div > div,
   .vibe-dashboard-page .ic-DashboardCard__box > div,
   .vibe-dashboard-page div[data-testid="dashboard-cards"] {
-    width: 468px !important;
-    max-width: 468px !important;
+    width: 496px !important;
+    max-width: 496px !important;
     min-width: 0 !important;
-    grid-template-columns: repeat(2, 226px) !important;
+    grid-template-columns: repeat(2, 240px) !important;
     gap: 16px !important;
   }
 
@@ -6626,19 +6678,19 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   #dashboard #content-wrapper,
   body:not([class*="context-course"]):not(.context-course) #main:has(.vibe-sidebar-duo) #content-wrapper,
   #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
-    flex: 0 0 468px !important;
-    width: 468px !important;
-    max-width: 468px !important;
+    flex: 0 0 496px !important;
+    width: 496px !important;
+    max-width: 496px !important;
     min-width: 0 !important;
   }
 
   .vibe-dashboard-page #right-side-wrapper,
   #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper,
   body #right-side-wrapper:has(.vibe-sidebar-duo) {
-    flex: 0 0 270px !important;
-    width: 270px !important;
+    flex: 0 0 300px !important;
+    width: 300px !important;
     min-width: 0 !important;
-    max-width: 270px !important;
+    max-width: 300px !important;
     margin: 0 0 0 16px !important;
     display: block !important;
   }
@@ -6651,13 +6703,15 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   /* Show the switcher toggle */
   .vibe-sidebar-tabs {
     display: flex !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
-  /* Force single column inside the 270px sidebar */
+  /* Force single column inside sidebar */
   .vibe-sidebar-duo {
     flex-direction: column !important;
-    width: 270px !important;
-    max-width: 270px !important;
+    width: 100% !important;
+    max-width: 100% !important;
     gap: 0 !important;
   }
 
@@ -6668,7 +6722,6 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 100% !important;
-    margin: 0 !important;
   }
 
   .vibe-sidebar-duo:not(.show-completed) #vibe-graded-widget {
@@ -6701,15 +6754,15 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
     margin: 20px 0 !important;
   }
 }
-  /* Sizing: Fit card on laptop screens and prevent vertical overflow */
+  /* Let the cards show their full content without artificial cutoff */
   .vibe-feed-card {
-    max-height: calc(100vh - 180px) !important;
+    max-height: none !important;
     box-sizing: border-box !important;
   }
 
   .vibe-sidebar-duo .vibe-todo-list,
   .vibe-sidebar-duo .vibe-graded-list {
-    max-height: calc(100vh - 250px) !important;
+    max-height: none !important;
     box-sizing: border-box !important;
   }
 
