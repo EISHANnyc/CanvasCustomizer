@@ -5120,12 +5120,36 @@ div[class*="-tray"],
 .submission-feedback,
 .submission_details,
 #submission_details,
+.submission-details-comments,
+.submission-details-header,
+#sidebar_content,
+body:has(#submission_details) #right-side-wrapper,
+body:has(#submission_details) #right-side,
+body:has(#add_comment_form) #right-side-wrapper,
+body:has(#add_comment_form) #right-side,
+body:has(#add_comment_form) #sidebar_content,
+body[class*="assignments"] #right-side-wrapper:not(:has(.vibe-sidebar-duo)),
+body[class*="assignments"] #right-side:not(:has(.vibe-sidebar-duo)),
+body[class*="submissions"] #right-side-wrapper,
+body[class*="submissions"] #right-side,
+.vibe-theme-dark #sidebar_content,
+.vibe-theme-dark aside#right-side,
+.vibe-theme-dark #right-side-wrapper:not(:has(.vibe-sidebar-duo)),
+.vibe-theme-dark #add_comment_form,
 #rubric_holder,
 #rubric_summary_holder {
-  background-color: var(--bcbackground-0) !important;
-  background: var(--bcbackground-0) !important;
-  color: var(--bctext-0) !important;
-  border-color: var(--bcborders) !important;
+  background-color: var(--bcsurface, var(--bcbackground-1, #1C1C1E)) !important;
+  background: var(--bcsurface, var(--bcbackground-1, #1C1C1E)) !important;
+  color: var(--bctext-0, #FFFFFF) !important;
+  border-color: var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+}
+
+/* Ensure dashboard right-side remains transparent for wallpaper */
+.vibe-dashboard-page #right-side,
+#not_right_side:has(.vibe-sidebar-duo) #right-side,
+#right-side:has(.vibe-sidebar-duo) {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 [class*="-tray"] h2,
@@ -5134,8 +5158,18 @@ div[class*="-tray"],
 #comments-tray h3,
 [class*="tray"] [class*="-view-heading"],
 .submission-feedback h2,
-.submission-feedback h3 {
-  color: var(--bctext-0) !important;
+.submission-feedback h3,
+#sidebar_content h2,
+#sidebar_content h3,
+#sidebar_content label,
+#right-side h2,
+#right-side h3,
+#right-side label,
+#submission_details h2,
+.submission_details h2,
+#add_comment_form h2,
+#add_comment_form label {
+  color: var(--bctext-0, #FFFFFF) !important;
 }
 
 /* Comment rows & feedback bubble containers */
