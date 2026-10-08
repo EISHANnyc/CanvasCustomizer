@@ -6728,14 +6728,16 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
     display: none !important;
   }
   .vibe-sidebar-duo:not(.show-completed) #vibe-todo-widget {
-    display: block !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
 
   .vibe-sidebar-duo.show-completed #vibe-todo-widget {
     display: none !important;
   }
   .vibe-sidebar-duo.show-completed #vibe-graded-widget {
-    display: block !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
 }
 
@@ -6757,7 +6759,8 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   /* Feed card: rounded bottom locked into view with smooth internal scroll */
   .vibe-feed-card,
   #vibe-todo-widget,
-  #vibe-graded-widget {
+  #vibe-graded-widget,
+  .vibe-sidebar-duo > .vibe-feed-card {
     display: flex !important;
     flex-direction: column !important;
     max-height: calc(100vh - 120px) !important;
@@ -6773,12 +6776,14 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   .vibe-graded-list {
     flex: 1 1 auto !important;
     min-height: 0 !important;
+    max-height: calc(100vh - 175px) !important;
     overflow-y: auto !important;
-    max-height: none !important;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
-    padding-bottom: 14px !important;
+    padding-bottom: 18px !important;
     box-sizing: border-box !important;
+    border-bottom-left-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
   }
 
   /* Compact side-by-side action buttons so they never push past the screen */
