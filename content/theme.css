@@ -6563,6 +6563,64 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   .vibe-sidebar-duo.show-completed #vibe-graded-widget {
     display: block !important;
   }
+
+  /* Adaptive viewport-based height so Tasks & Completed fit laptop screens without overflowing */
+  .vibe-sidebar-duo .vibe-todo-list,
+  .vibe-sidebar-duo .vibe-graded-list {
+    max-height: calc(100vh - 240px) !important;
+    gap: 4px !important;
+    padding: 1px 2px 2px 1px !important;
+  }
+
+  /* Compact task items & headers to maximize visible items on laptop */
+  .vibe-sidebar-duo .vibe-todo-card,
+  .vibe-sidebar-duo .vibe-graded-card {
+    padding: 6px 9px !important;
+    border-radius: 7px !important;
+  }
+
+  .vibe-sidebar-duo .vibe-todo-card-heading,
+  .vibe-sidebar-duo .vibe-graded-card-heading {
+    font-size: 13px !important;
+    line-height: 1.3 !important;
+  }
+
+  .vibe-sidebar-duo .vibe-todo-day-header {
+    margin-bottom: 3px !important;
+    padding: 2px 0 !important;
+  }
+
+  .vibe-sidebar-duo .vibe-todo-day-group {
+    gap: 3px !important;
+    margin-bottom: 5px !important;
+  }
+
+  /* Compact action buttons so View Grades is never cut off */
+  #right-side-wrapper:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
+    padding: 7px 12px !important;
+    margin: 3px 0 !important;
+    font-size: 13px !important;
+    min-height: 34px !important;
+  }
+}
+
+/* Shorter laptop screens (<= 800px vertical): Tighten spacing so full right sidebar fits in one screen */
+@media (max-height: 800px) and (min-width: 900px) {
+  .vibe-sidebar-duo .vibe-todo-list,
+  .vibe-sidebar-duo .vibe-graded-list {
+    max-height: calc(100vh - 215px) !important;
+  }
+  .vibe-sidebar-tabs {
+    margin: 0 0 8px 0 !important;
+    padding: 3px !important;
+  }
+  .vibe-tab-btn {
+    padding: 5px 10px !important;
+    font-size: 12px !important;
+  }
+  .vibe-feed-card {
+    padding: 10px 12px 8px !important;
+  }
 }
 
 /* =========================================================
