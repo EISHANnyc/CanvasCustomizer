@@ -1108,7 +1108,7 @@ body:not([class*="context-course"]):not(.context-course) #main:has(.vibe-sidebar
   float: none !important;
 }
 
-@media (min-width: 1451px) {
+@media (min-width: 1651px) {
   .vibe-dashboard-page #content-wrapper,
   body.dashboard #content-wrapper,
   #dashboard #content-wrapper,
@@ -6517,7 +6517,7 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
     max-width: 100% !important;
   }
 
-  @media (min-width: 1451px) {
+  @media (min-width: 1651px) {
     .vibe-dashboard-page #content-wrapper,
     #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
       flex: 0 0 880px !important;
@@ -6529,8 +6529,8 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   }
 }
 
-/* On standard laptops (approx 1141px to 1450px): 3 columns of cards + sidebar */
-@media (max-width: 1450px) and (min-width: 1141px) {
+/* On standard laptops (approx 1141px to 1650px): 3 columns of cards + sidebar */
+@media (max-width: 1650px) and (min-width: 1141px) {
   html, body, #main, .vibe-dashboard-page #not_right_side {
     overflow-x: hidden !important;
   }
@@ -6645,9 +6645,9 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
 }
 
 /* =========================================================
-   SIDEBAR TABS & TOGGLE FOR ALL SCREENS <= 1450px
+   SIDEBAR TABS & TOGGLE FOR ALL SCREENS <= 1650px
    ========================================================= */
-@media (max-width: 1450px) {
+@media (max-width: 1650px) {
   /* Show the switcher toggle */
   .vibe-sidebar-tabs {
     display: flex !important;
