@@ -2134,9 +2134,16 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   max-height: 560px !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  scrollbar-width: thin !important;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
   box-sizing: border-box !important;
+}
+
+.vibe-todo-list::-webkit-scrollbar,
+.vibe-graded-list::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 
@@ -6564,101 +6571,19 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
     display: block !important;
   }
 
-  /* Adaptive height on laptop: expand up to full available viewport space */
+  /* Sizing & Scrollbars: Fit card on laptop screens and hide scrollbars completely */
   .vibe-sidebar-duo .vibe-todo-list,
   .vibe-sidebar-duo .vibe-graded-list {
-    max-height: calc(100vh - 140px) !important;
-    gap: 1px !important;
-    padding: 1px 2px 2px 1px !important;
+    max-height: calc(100vh - 270px) !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
   }
 
-  /* Compact minimal rows: single-line layout so all tasks fit without scrolling */
-  .vibe-sidebar-duo .vibe-minimal-row {
-    padding: 4px 8px !important;
-    gap: 8px !important;
-    min-height: 24px !important;
-    max-height: 30px !important;
-    border-radius: 6px !important;
-  }
-
-  .vibe-sidebar-duo .vibe-minimal-body {
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 8px !important;
-  }
-
-  .vibe-sidebar-duo .vibe-minimal-title {
-    font-size: 12px !important;
-    line-height: 1.25 !important;
-    max-width: 58% !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-  }
-
-  .vibe-sidebar-duo .vibe-minimal-meta {
-    font-size: 10px !important;
-    line-height: 1.2 !important;
-    gap: 3px !important;
-    flex-shrink: 0 !important;
-    margin-left: auto !important;
-  }
-
-  .vibe-sidebar-duo .vibe-minimal-check {
-    width: 14px !important;
-    height: 14px !important;
-    flex-shrink: 0 !important;
-  }
-
-  .vibe-sidebar-duo .vibe-minimal-day-section {
-    margin-bottom: 4px !important;
-  }
-
-  .vibe-sidebar-duo .vibe-minimal-day-header {
-    margin-top: 4px !important;
-    margin-bottom: 2px !important;
-    height: 14px !important;
-    padding: 0 6px !important;
-  }
-
-  .vibe-sidebar-duo .vibe-minimal-day-label {
-    font-size: 9px !important;
-  }
-
-  .vibe-sidebar-duo .vibe-minimal-day-count {
-    font-size: 8.5px !important;
-  }
-
-  .vibe-sidebar-duo .vibe-minimal-list {
-    gap: 1px !important;
-  }
-
-  /* Compact action buttons beneath the card */
-  #right-side-wrapper:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
-    padding: 6px 12px !important;
-    margin: 3px 0 !important;
-    font-size: 12.5px !important;
-    min-height: 32px !important;
-  }
-}
-
-/* Shorter laptop screens (<= 800px vertical): Tighten container spacing so all items fit effortlessly */
-@media (max-height: 800px) and (min-width: 900px) {
-  .vibe-sidebar-duo .vibe-todo-list,
-  .vibe-sidebar-duo .vibe-graded-list {
-    max-height: calc(100vh - 120px) !important;
-  }
-  .vibe-sidebar-tabs {
-    margin: 0 0 6px 0 !important;
-    padding: 3px !important;
-  }
-  .vibe-tab-btn {
-    padding: 4px 8px !important;
-    font-size: 11.5px !important;
-  }
-  .vibe-feed-card {
-    padding: 8px 10px 6px !important;
+  .vibe-sidebar-duo .vibe-todo-list::-webkit-scrollbar,
+  .vibe-sidebar-duo .vibe-graded-list::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
   }
 }
 
