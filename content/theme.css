@@ -1267,6 +1267,12 @@ body[class*="quizzes"] #right-side-wrapper {
   box-sizing: border-box !important;
 }
 
+.vibe-theme-light .vibe-feed-card,
+html.vibe-theme-light .vibe-feed-card,
+body.vibe-theme-light .vibe-feed-card {
+  box-shadow: none !important;
+}
+
 /* ==========================================================================
    Quizzes & Assessments: Global Navigation Clearance & Unlocked Flow
    ========================================================================== */
