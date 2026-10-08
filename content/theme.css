@@ -6521,16 +6521,24 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
 }
 
 /* On screens < 1650px (e.g. 13-16in laptops ~1280px-1500px):
-   Provide a comfortable 380px sidebar width with crystal clear typography */
+   Slim 295px sidebar width that fits laptop screens perfectly without horizontal or page scrolling */
 @media (max-width: 1650px) and (min-width: 900px) {
+  .vibe-dashboard-page #content-wrapper,
+  #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
+    flex: 0 1 880px !important;
+    width: auto !important;
+    max-width: 880px !important;
+    min-width: 0 !important;
+  }
+
   .vibe-dashboard-page #right-side-wrapper,
   #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper,
   body #right-side-wrapper:has(.vibe-sidebar-duo) {
-    flex: 0 0 380px !important;
-    width: 380px !important;
-    min-width: 380px !important;
-    max-width: 380px !important;
-    margin: 0 0 0 24px !important;
+    flex: 0 0 295px !important;
+    width: 295px !important;
+    min-width: 295px !important;
+    max-width: 295px !important;
+    margin: 0 0 0 16px !important;
     display: block !important;
   }
 
@@ -6542,8 +6550,8 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   /* Force single column */
   .vibe-sidebar-duo {
     flex-direction: column !important;
-    width: 380px !important;
-    max-width: 380px !important;
+    width: 295px !important;
+    max-width: 295px !important;
     gap: 0 !important;
   }
 
