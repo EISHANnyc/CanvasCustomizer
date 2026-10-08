@@ -6644,31 +6644,20 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   }
 }
 
-/* Small mobile screens (< 800px): left-aligned column */
-@media (max-width: 799px) {
-  .vibe-dashboard-page #not_right_side,
-  #not_right_side:has(.vibe-sidebar-duo) {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: flex-start !important;
-    align-items: flex-start !important;
-    margin: 0 !important;
-  }
-  .vibe-dashboard-page #right-side-wrapper,
-  #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper {
-    margin: 20px 0 !important;
-  }
-
-  /* Show the toggle */
+/* =========================================================
+   SIDEBAR TABS & TOGGLE FOR ALL SCREENS <= 1450px
+   ========================================================= */
+@media (max-width: 1450px) {
+  /* Show the switcher toggle */
   .vibe-sidebar-tabs {
     display: flex !important;
   }
 
-  /* Force single column */
+  /* Force single column inside the 270px sidebar */
   .vibe-sidebar-duo {
     flex-direction: column !important;
-    width: 280px !important;
-    max-width: 280px !important;
+    width: 270px !important;
+    max-width: 270px !important;
     gap: 0 !important;
   }
 
@@ -6695,7 +6684,23 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   .vibe-sidebar-duo.show-completed #vibe-graded-widget {
     display: block !important;
   }
+}
 
+/* Small mobile screens (< 800px): left-aligned column */
+@media (max-width: 799px) {
+  .vibe-dashboard-page #not_right_side,
+  #not_right_side:has(.vibe-sidebar-duo) {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    margin: 0 !important;
+  }
+  .vibe-dashboard-page #right-side-wrapper,
+  #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper {
+    margin: 20px 0 !important;
+  }
+}
   /* Sizing: Fit card on laptop screens and prevent vertical overflow */
   .vibe-feed-card {
     max-height: calc(100vh - 180px) !important;
