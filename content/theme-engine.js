@@ -492,6 +492,17 @@
     var dayName = shortDays[dateObj.getDay()];
     var mName = monthNames[dateObj.getMonth()];
 
+    // Overdue by more than 3 hours
+    if (diffMinutes < -180) {
+      return {
+        label: 'Overdue · ' + timeStr,
+        countdownShort: 'Overdue',
+        urgencyTier: 'critical',
+        modifier: 'vibe-urgency-critical',
+        timeStr: timeStr
+      };
+    }
+
     // Overdue or due now (within -3 hours to 0)
     if (diffMinutes <= 0 && diffMinutes >= -180) {
       return {
@@ -527,9 +538,12 @@
 
     // Due Today: same day
     if (dayDiff === 0) {
+      var dueHour = dateObj.getHours();
+      var todayPrefix = dueHour >= 17 ? 'Tonight · ' : 'Today · ';
+      var todayShort = dueHour >= 17 ? 'Tonight ' : 'Today ';
       return {
-        label: 'Tonight · ' + timeStr,
-        countdownShort: 'Tonight ' + timeStr,
+        label: todayPrefix + timeStr,
+        countdownShort: todayShort + timeStr,
         urgencyTier: 'high',
         modifier: 'vibe-urgency-high',
         timeStr: timeStr
