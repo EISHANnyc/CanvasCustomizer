@@ -610,7 +610,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 var adaptBtn = document.createElement('button');
                 adaptBtn.type = 'button';
                 adaptBtn.className = 'adapt-wallpaper-btn';
-                adaptBtn.textContent = '✨ Match Current Wallpaper';
+                adaptBtn.textContent = 'Match Wallpaper Colors';
                 adaptBtn.title = 'Tune custom colors to match current wallpaper';
                 adaptBtn.addEventListener('click', function(e) {
                   e.stopPropagation();
