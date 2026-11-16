@@ -1,6 +1,43 @@
 (function() {
+
+  // ── Auto-Restore Recovered Wallpaper & Presets if fresh extension ID ──
+  try {
+    chrome.storage.local.get(['vibe_wallpaper_url', 'active_preset', 'saved_user_palettes'], function(seed) {
+      if (!seed || !seed.saved_user_palettes) {
+        chrome.storage.local.set({
+          card_radius: 16,
+          saved_user_palettes: (typeof DEFAULT_SAVED_PALETTES !== 'undefined' ? DEFAULT_SAVED_PALETTES : [])
+        });
+        try {
+          localStorage.setItem('vibe_cached_radius', "16");
+        } catch(e) {}
+      }
+    });
+  } catch(e) {}
+
   'use strict';
   var DEFAULT_PRESET_ID = 'linen-day';
+  var defaultOpenNewTab = false;
+  try {
+    defaultOpenNewTab = localStorage.getItem('vibe_open_new_tab') === 'true';
+  } catch(e) {}
+
+  function openLinkSmart(href, e) {
+    if (!href || href === '#') return;
+    var isMiddle = (e && (e.button === 1 || e.type === 'auxclick'));
+    var isTriple = (e && e.detail >= 3);
+    var isModifier = (e && (e.ctrlKey || e.metaKey || e.shiftKey));
+    var shouldOpenNew = isMiddle || isTriple || isModifier || defaultOpenNewTab;
+
+    if (shouldOpenNew) {
+      if (e) {
+        try { e.preventDefault(); e.stopPropagation(); } catch(err) {}
+      }
+      window.open(href, '_blank', 'noopener,noreferrer');
+    } else {
+      window.location.href = href;
+    }
+  }
 
   function applyPresetTheme(preset) {
     if (!preset || !preset.colors) return;
@@ -71,6 +108,8 @@
     try {
       localStorage.setItem('vibe_cached_preset', preset.id);
     } catch (e) {}
+
+    autoAdaptContentContrast();
   }
 
   // ── 0ms Instant Pre-Paint Theme Injection ──
@@ -315,6 +354,96 @@
     return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
   }
 
+  function isLightNeutralColor(colorStr, minAlpha, minLum) {
+    if (!colorStr || colorStr === 'transparent' || colorStr === 'rgba(0, 0, 0, 0)') return false;
+    var alphaMatch = colorStr.match(/rgba\([^,]+,[^,]+,[^,]+,\s*([\d.]+)\)/i);
+    var alpha = alphaMatch ? parseFloat(alphaMatch[1]) : 1;
+    if (alpha < minAlpha) return false;
+    var parsed = parseRgbColor(colorStr);
+    if (!parsed) return false;
+    var lum = 0.299 * parsed.r + 0.587 * parsed.g + 0.114 * parsed.b;
+    var hsl = rgbToHsl(parsed.r, parsed.g, parsed.b);
+    return lum > minLum && hsl[1] < 22;
+  }
+
+  function adaptDarkSurfaces(isDark, scope, isLti) {
+    var root = scope || document.getElementById('content') || document.getElementById('main') || (isLti ? document.body : null);
+    if (!root) return;
+
+    if (!isDark) {
+      var revertRoot = isLti && document.body ? document.body : root;
+      var prev = revertRoot.querySelectorAll('[data-vibe-dark-surface], [data-vibe-lti-bg], [data-vibe-lti-border]');
+      for (var r = 0; r < prev.length; r++) {
+        var pe = prev[r];
+        if (pe.hasAttribute('data-vibe-dark-surface') || pe.hasAttribute('data-vibe-lti-bg')) {
+          pe.style.removeProperty('background-color');
+          pe.style.removeProperty('background');
+          pe.removeAttribute('data-vibe-dark-surface');
+          pe.removeAttribute('data-vibe-lti-bg');
+        }
+        if (pe.hasAttribute('data-vibe-lti-border')) {
+          pe.style.removeProperty('border-color');
+          pe.removeAttribute('data-vibe-lti-border');
+        }
+      }
+      return;
+    }
+
+    var uiSelector =
+      'caption, thead, th, tr, [role="row"], [role="columnheader"], [role="rowheader"], ' +
+      '[data-testid] div, [data-testid] span, [class*="-view"], [class*="rubric" i] div, [class*="rubric" i] td';
+    var ltiSelector = 'div, main, aside, nav, section, header, ul, li, form, fieldset, article';
+    var scanRoot = isLti && document.body ? document.body : root;
+    var candidates = scanRoot.querySelectorAll(isLti ? (uiSelector + ', ' + ltiSelector) : uiSelector);
+
+    for (var i = 0; i < candidates.length; i++) {
+      var el = candidates[i];
+      if (el.closest('svg') || el.closest('.vibe-exempt') || el.closest('button') || el.tagName === 'BUTTON' || el.tagName === 'INPUT') continue;
+      if (!isLti && (el.closest('.user_content') || el.closest('.vibe-feed-card') || el.closest('#vibe-side-duo') ||
+          el.closest('#vibe-gpa-school-card') || el.closest('.ic-DashboardCard') || el.closest('#header') ||
+          el.closest('#vibe-course-nav') || el.closest('a.btn'))) continue;
+
+      var role = el.getAttribute('role') || '';
+      if (isLti && (role === 'radio' || role === 'checkbox' || role === 'switch')) continue;
+
+      var cs = window.getComputedStyle(el);
+      if (!el.hasAttribute('data-vibe-dark-surface') && !el.hasAttribute('data-vibe-lti-bg') &&
+          isLightNeutralColor(cs.backgroundColor, isLti ? 0.2 : 0.35, isLti ? 195 : 185)) {
+        if (isLti) {
+          el.setAttribute('data-vibe-lti-bg', '1');
+          var isNav = el.tagName === 'ASIDE' || el.tagName === 'NAV' || role === 'navigation';
+          var isRoot = el.id === 'root' || el.id === 'app' || el.tagName === 'MAIN';
+          if (isNav) {
+            el.style.setProperty('background-color', 'var(--bccards, var(--bcbackground-1, #1C1C1E))', 'important');
+          } else if (isRoot || el.clientHeight > 360) {
+            el.style.setProperty('background-color', 'var(--bcbackground-0, #121212)', 'important');
+          } else if (parseFloat(cs.borderTopWidth) > 0 || el.hasAttribute('data-testid')) {
+            el.style.setProperty('background-color', 'var(--bccards, var(--bcbackground-1, #1C1C1E))', 'important');
+          } else {
+            el.style.setProperty('background-color', 'transparent', 'important');
+          }
+        } else {
+          el.setAttribute('data-vibe-dark-surface', '1');
+          var isHeaderLike = el.tagName === 'TH' || el.tagName === 'CAPTION' || el.tagName === 'THEAD' ||
+                             role === 'columnheader' || el.clientHeight < 64;
+          var targetBg = isHeaderLike
+            ? 'var(--bcbackground-2, var(--bcbackground-1, #262629))'
+            : 'var(--bccards, var(--bcbackground-1, #1C1C1E))';
+          el.style.setProperty('background-color', targetBg, 'important');
+          el.style.setProperty('background', targetBg, 'important');
+        }
+      }
+
+      if (isLti && (parseFloat(cs.borderTopWidth) > 0 || parseFloat(cs.borderRightWidth) > 0)) {
+        var bdStr = cs.borderTopColor || cs.borderRightColor;
+        if (isLightNeutralColor(bdStr, 0.2, 175)) {
+          el.setAttribute('data-vibe-lti-border', '1');
+          el.style.setProperty('border-color', 'var(--bcborders, rgba(255, 255, 255, 0.12))', 'important');
+        }
+      }
+    }
+  }
+
   // Dynamic contrast auto-adaptor: lifts dark unreadable text in dark mode and darkens pale text in light mode
   function autoAdaptContentContrast(scope) {
     var isDark = document.documentElement.getAttribute('data-theme-mode') === 'dark' ||
@@ -323,35 +452,43 @@
     var container = scope || document.getElementById('content') || document.getElementById('main') || document.body;
     if (!container) return;
 
-    var candidates = container.querySelectorAll(
+    // 0. Unified Dark-Mode Surface Guard (UI bars, Rubric headers, New Quizzes / LTI iframes)
+    var isLti = window.self !== window.top || location.hostname.indexOf('quiz') !== -1;
+    if (isLti) {
+      document.documentElement.classList.add('vibe-lti-frame');
+    }
+    adaptDarkSurfaces(isDark, container, isLti);
+
+    // 1. Text color contrast adjustment strictly for user course content
+    var colorCandidates = container.querySelectorAll(
       '.user_content [style*="color"], .user_content font[color], ' +
       '#course_syllabus [style*="color"], #course_syllabus font[color], ' +
       '.wiki_page [style*="color"], .wiki_page font[color], ' +
       '.assignment-description [style*="color"], .assignment-description font[color], ' +
-      '#content [style*="color"]:not([data-vibe-exempt]), #content font[color]'
+      '.description.user_content [style*="color"], .description.user_content font[color]'
     );
 
-    for (var i = 0; i < candidates.length; i++) {
-      var el = candidates[i];
-      if (el.closest('.vibe-feed-card') || el.closest('#vibe-side-duo') || el.closest('#vibe-gpa-school-card')) continue;
+    for (var i = 0; i < colorCandidates.length; i++) {
+      var el = colorCandidates[i];
+      if (el.closest('.vibe-feed-card') || el.closest('#vibe-side-duo') || el.closest('#vibe-gpa-school-card') ||
+          el.closest('.ic-DashboardCard') || el.closest('#header') || el.closest('#vibe-course-nav') ||
+          el.closest('button') || el.closest('a.btn')) continue;
 
       var origColor = el.getAttribute('data-vibe-orig-color');
-      if (!origColor) {
-        origColor = el.style.color || el.getAttribute('color') || '';
+      if (origColor === null) {
+        origColor = el.style.color || el.getAttribute('color') || '__none__';
         el.setAttribute('data-vibe-orig-color', origColor);
       }
 
-      var currentModeApplied = el.getAttribute('data-vibe-contrast-mode');
-      if (currentModeApplied === (isDark ? 'dark' : 'light')) continue;
-
-      var parsed = parseRgbColor(origColor || window.getComputedStyle(el).color);
-      if (!parsed) continue;
-
-      var lum = 0.299 * parsed.r + 0.587 * parsed.g + 0.114 * parsed.b;
-      var hsl = rgbToHsl(parsed.r, parsed.g, parsed.b);
-      var h = hsl[0], s = hsl[1], l = hsl[2];
-
       if (isDark) {
+        var testColor = (origColor === '__none__') ? '' : origColor;
+        var parsed = parseRgbColor(testColor || window.getComputedStyle(el).color);
+        if (!parsed) continue;
+
+        var lum = 0.299 * parsed.r + 0.587 * parsed.g + 0.114 * parsed.b;
+        var hsl = rgbToHsl(parsed.r, parsed.g, parsed.b);
+        var h = hsl[0], s = hsl[1], l = hsl[2];
+
         if (lum < 155 || l < 55) {
           if (s < 12) {
             el.style.setProperty('color', '#e2e8f0', 'important');
@@ -361,18 +498,161 @@
             var rgb = hslToRgb(h, boostedS, boostedL);
             el.style.setProperty('color', 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')', 'important');
           }
-          el.setAttribute('data-vibe-contrast-mode', 'dark');
         }
       } else {
-        if (lum > 185 || l > 75) {
-          if (s < 12) {
-            el.style.setProperty('color', '#1e293b', 'important');
-          } else {
-            var loweredL = Math.min(l, 32);
-            var rgbLight = hslToRgb(h, s, loweredL);
-            el.style.setProperty('color', 'rgb(' + rgbLight[0] + ', ' + rgbLight[1] + ', ' + rgbLight[2] + ')', 'important');
+        // In light mode: restore original color or clear dark-mode override completely
+        if (origColor === '__none__') {
+          el.style.removeProperty('color');
+        } else {
+          var parsedLight = parseRgbColor(origColor);
+          if (parsedLight) {
+            var lumLight = 0.299 * parsedLight.r + 0.587 * parsedLight.g + 0.114 * parsedLight.b;
+            if (lumLight > 195) {
+              el.style.setProperty('color', '#29221C', 'important');
+            } else {
+              el.style.setProperty('color', origColor);
+            }
           }
-          el.setAttribute('data-vibe-contrast-mode', 'light');
+        }
+      }
+    }
+
+    // 2. Text highlights: ONLY target inline text elements inside rich user content!
+    // NEVER target layout containers, #content, trays, dropzones, modals, or dividers.
+    var highlightCandidates = container.querySelectorAll(
+      '.user_content mark, .user_content span[style*="background"], .user_content font[style*="background"], .user_content a[style*="background"], ' +
+      '#course_syllabus mark, #course_syllabus span[style*="background"], #course_syllabus a[style*="background"], ' +
+      '.wiki_page mark, .wiki_page span[style*="background"], .wiki_page a[style*="background"], ' +
+      '.assignment-description mark, .assignment-description span[style*="background"], .assignment-description a[style*="background"], ' +
+      '.description.user_content mark, .description.user_content span[style*="background"], .description.user_content a[style*="background"]'
+    );
+
+    for (var j = 0; j < highlightCandidates.length; j++) {
+      var hlEl = highlightCandidates[j];
+      if (hlEl.closest('.vibe-feed-card') || hlEl.closest('#vibe-side-duo') || hlEl.closest('#vibe-gpa-school-card') ||
+          hlEl.closest('.ic-DashboardCard') || hlEl.closest('#header') || hlEl.closest('#vibe-course-nav') ||
+          hlEl.closest('button') || hlEl.closest('a.btn')) continue;
+
+      var origHlBg = hlEl.getAttribute('data-vibe-orig-bg');
+      if (origHlBg === null) {
+        origHlBg = hlEl.style.backgroundColor || hlEl.style.background || (hlEl.tagName === 'MARK' ? 'yellow' : '__none__');
+        hlEl.setAttribute('data-vibe-orig-bg', origHlBg);
+      }
+
+      // If element has no inline background and is not a mark, do NOT treat as highlight!
+      if (origHlBg === '__none__' && hlEl.tagName !== 'MARK') continue;
+
+      // Prevent double-stacking / double-borders on nested highlight spans or links inside highlights
+      if (hlEl.parentElement && hlEl.parentElement.closest('[data-vibe-orig-bg]')) {
+        hlEl.style.setProperty('background-color', 'transparent', 'important');
+        hlEl.style.setProperty('background', 'transparent', 'important');
+        hlEl.style.removeProperty('border');
+        hlEl.style.removeProperty('padding');
+        hlEl.style.setProperty('color', 'inherit', 'important');
+        if (hlEl.tagName === 'A') {
+          hlEl.style.setProperty('text-decoration', 'underline', 'important');
+        }
+        continue;
+      }
+
+      var parsedHl = parseRgbColor(origHlBg === '__none__' ? 'rgb(254, 240, 138)' : origHlBg);
+      if (!parsedHl) continue;
+
+      var hlHsl = rgbToHsl(parsedHl.r, parsedHl.g, parsedHl.b);
+      var hlH = hlHsl[0], hlS = hlHsl[1], hlL = hlHsl[2];
+
+      // Pure white or off-white Word/Google Docs paste artifacts (s <= 10 && l >= 88)
+      var isWhitePaste = (hlS <= 10 && hlL >= 88);
+
+      if (isDark) {
+        if (isWhitePaste) {
+          hlEl.style.setProperty('background-color', 'transparent', 'important');
+          hlEl.style.setProperty('background', 'transparent', 'important');
+          hlEl.style.removeProperty('border');
+          hlEl.style.removeProperty('padding');
+          hlEl.style.setProperty('color', '#e2e8f0', 'important');
+        } else {
+          var darkText = '#ffffff';
+          if (hlH >= 35 && hlH <= 80 || hlEl.tagName === 'MARK') {
+            hlEl.style.setProperty('background-color', 'rgba(245, 158, 11, 0.22)', 'important');
+            darkText = '#fef08a';
+          } else if (hlH >= 300 || hlH <= 20) {
+            hlEl.style.setProperty('background-color', 'rgba(244, 63, 94, 0.22)', 'important');
+            darkText = '#fecdd3';
+          } else if (hlH >= 85 && hlH <= 170) {
+            hlEl.style.setProperty('background-color', 'rgba(16, 185, 129, 0.22)', 'important');
+            darkText = '#a7f3d0';
+          } else if (hlH >= 175 && hlH <= 260) {
+            hlEl.style.setProperty('background-color', 'rgba(14, 165, 233, 0.22)', 'important');
+            darkText = '#bae6fd';
+          } else {
+            hlEl.style.setProperty('background-color', 'rgba(168, 85, 247, 0.22)', 'important');
+            darkText = '#e9d5ff';
+          }
+
+          hlEl.style.removeProperty('border');
+          hlEl.style.setProperty('color', darkText, 'important');
+          hlEl.style.setProperty('padding', '1px 4px', 'important');
+          hlEl.style.setProperty('border-radius', '3px', 'important');
+          hlEl.style.setProperty('box-decoration-break', 'clone');
+          hlEl.style.setProperty('-webkit-box-decoration-break', 'clone');
+
+          var subKidsD = hlEl.querySelectorAll('*');
+          for (var skd = 0; skd < subKidsD.length; skd++) {
+            subKidsD[skd].style.setProperty('color', 'inherit', 'important');
+            if (subKidsD[skd].tagName === 'A') {
+              subKidsD[skd].style.setProperty('background-color', 'transparent', 'important');
+              subKidsD[skd].style.setProperty('background', 'transparent', 'important');
+              subKidsD[skd].style.setProperty('text-decoration', 'underline', 'important');
+            }
+          }
+        }
+      } else {
+        if (isWhitePaste) {
+          hlEl.style.setProperty('background-color', 'transparent', 'important');
+          hlEl.style.setProperty('background', 'transparent', 'important');
+          hlEl.style.removeProperty('border');
+          hlEl.style.removeProperty('padding');
+          hlEl.style.removeProperty('color');
+          var subKidsL1 = hlEl.querySelectorAll('*');
+          for (var skl1 = 0; skl1 < subKidsL1.length; skl1++) {
+            subKidsL1[skl1].style.removeProperty('color');
+          }
+        } else {
+          var lightText = '#29221C';
+          if (hlH >= 35 && hlH <= 80 || hlEl.tagName === 'MARK') {
+            hlEl.style.setProperty('background-color', 'rgba(245, 158, 11, 0.22)', 'important');
+            lightText = '#78350f';
+          } else if (hlH >= 300 || hlH <= 20) {
+            hlEl.style.setProperty('background-color', 'rgba(244, 63, 94, 0.16)', 'important');
+            lightText = '#9f1239';
+          } else if (hlH >= 85 && hlH <= 170) {
+            hlEl.style.setProperty('background-color', 'rgba(16, 185, 129, 0.18)', 'important');
+            lightText = '#065f46';
+          } else if (hlH >= 175 && hlH <= 260) {
+            hlEl.style.setProperty('background-color', 'rgba(14, 165, 233, 0.18)', 'important');
+            lightText = '#075985';
+          } else {
+            hlEl.style.setProperty('background-color', 'rgba(168, 85, 247, 0.18)', 'important');
+            lightText = '#581c87';
+          }
+
+          hlEl.style.removeProperty('border');
+          hlEl.style.setProperty('color', lightText, 'important');
+          hlEl.style.setProperty('padding', '1px 4px', 'important');
+          hlEl.style.setProperty('border-radius', '3px', 'important');
+          hlEl.style.setProperty('box-decoration-break', 'clone');
+          hlEl.style.setProperty('-webkit-box-decoration-break', 'clone');
+
+          var subKidsL2 = hlEl.querySelectorAll('*');
+          for (var skl2 = 0; skl2 < subKidsL2.length; skl2++) {
+            subKidsL2[skl2].style.setProperty('color', 'inherit', 'important');
+            if (subKidsL2[skl2].tagName === 'A') {
+              subKidsL2[skl2].style.setProperty('background-color', 'transparent', 'important');
+              subKidsL2[skl2].style.setProperty('background', 'transparent', 'important');
+              subKidsL2[skl2].style.setProperty('text-decoration', 'underline', 'important');
+            }
+          }
         }
       }
     }
@@ -1772,11 +2052,19 @@
 
   function attachGpaCardGuard(card, container) {
     if (gpaCardGuardObserver) gpaCardGuardObserver.disconnect();
+    var isGuarding = false;
     gpaCardGuardObserver = new MutationObserver(function() {
-      if (!container.contains(card)) {
-        try { container.appendChild(card); } catch(e) {}
-      } else if (container.lastElementChild !== card) {
-        try { container.appendChild(card); } catch(e) {}
+      if (isGuarding) return;
+      isGuarding = true;
+      try {
+        if (!container.contains(card)) {
+          container.appendChild(card);
+        } else if (container.lastElementChild !== card) {
+          container.appendChild(card);
+        }
+      } catch(e) {
+      } finally {
+        isGuarding = false;
       }
     });
     gpaCardGuardObserver.observe(container, { childList: true });
@@ -3691,8 +3979,14 @@
   }
 
   function initTodoReformatter(presetId) {
-    // Never inject tasks/completed sidebar duo on quiz pages
-    if (document.body && (document.body.classList.contains('quizzes') || document.body.classList.contains('vibe-quiz-page') || window.location.href.indexOf('/quizzes') !== -1 || window.location.href.indexOf('/grades') !== -1)) {
+    // Only mount tasks/completed sidebar duo on Dashboard and Course Home pages
+    // Never inject on quizzes, submissions, assignments, grades, speedgrader, or modules
+    var path = window.location.pathname;
+    var isDashboard = path === '/' || path === '/dashboard' || (document.body && document.body.classList.contains('ic-dashboard-app'));
+    var isCourseHome = /^\/courses\/\d+\/?$/.test(path);
+    if (!isDashboard && !isCourseHome) {
+      var strayDuo = document.getElementById('vibe-side-duo');
+      if (strayDuo) strayDuo.remove();
       return;
     }
     var rightSide = document.getElementById('right-side') || document.getElementById('right-side-wrapper');
@@ -4002,12 +4296,12 @@
               '<div class="' + scoreClass + '" style="width: 72px !important; min-width: 72px !important; max-width: 72px !important; text-align: center !important; justify-content: center !important; box-sizing: border-box !important; flex-shrink: 0 !important; margin-left: auto !important; margin-right: 0 !important;">' + scoreText + '</div>' +
             '</div>';
 
-          row.addEventListener('click', function(e) {
+          function handleGradedRowNav(e) {
             if (e.target.closest('.vibe-minimal-check')) return;
-            if (item.href && item.href !== '#') {
-              window.location.href = item.href;
-            }
-          });
+            openLinkSmart(item.href, e);
+          }
+          row.addEventListener('click', handleGradedRowNav);
+          row.addEventListener('auxclick', handleGradedRowNav);
 
           groupList.appendChild(row);
         })(group.items[i], i);
@@ -4210,12 +4504,12 @@
               '</button>' +
             '</div>';
 
-          row.addEventListener('click', function(e) {
+          function handleTodoRowNav(e) {
             if (e.target.closest('.vibe-minimal-check') || e.target.closest('.vibe-minimal-dismiss')) return;
-            if (item.href && item.href !== '#') {
-              window.location.href = item.href;
-            }
-          });
+            openLinkSmart(item.href, e);
+          }
+          row.addEventListener('click', handleTodoRowNav);
+          row.addEventListener('auxclick', handleTodoRowNav);
 
           var checkBtn = row.querySelector('.vibe-minimal-check');
           if (checkBtn) {
@@ -4592,6 +4886,13 @@
   }
 
   function injectCourseNavBar(presetId) {
+    // Hide course nav pills ONLY during active quiz taking, keep on quizzes list page
+    if (window.location.pathname.indexOf('/taking') !== -1 ||
+        /\/quizzes\/\d+\/take/.test(window.location.pathname)) {
+      var existing = document.getElementById('vibe-course-nav');
+      if (existing) existing.remove();
+      return;
+    }
     var courseMatch = window.location.pathname.match(/^\/courses\/(\d+)/);
     if (!courseMatch) return;
     if (document.getElementById('vibe-course-nav')) {
@@ -5150,8 +5451,12 @@
       'active_preset', 'card_radius', 'vibe_soft_night',
       'vibe_wallpaper_url', 'vibe_wallpaper_opacity', 'vibe_wallpaper_blur',
       'vibe_sidebar_bg_url', 'vibe_sidebar_bg_opacity', 'vibe_sidebar_bg_blur',
-      'custom_theme_colors', 'saved_user_palettes'
+      'custom_theme_colors', 'saved_user_palettes', 'vibe_open_new_tab'
     ], function(res) {
+      if (res && res.vibe_open_new_tab !== undefined) {
+        defaultOpenNewTab = !!res.vibe_open_new_tab;
+        try { localStorage.setItem('vibe_open_new_tab', defaultOpenNewTab ? 'true' : 'false'); } catch(e) {}
+      }
       if (res && res.vibe_soft_night !== undefined) {
         document.documentElement.classList.toggle('vibe-soft-night', !!res.vibe_soft_night);
         try { localStorage.setItem('vibe_cached_soft_night', res.vibe_soft_night ? 'true' : 'false'); } catch (e) {}
@@ -5216,6 +5521,10 @@
       try {
         chrome.storage.onChanged.addListener(function(changes, area) {
           if (area === 'local' && isExtensionContextValid()) {
+            if (changes.vibe_open_new_tab !== undefined) {
+              defaultOpenNewTab = !!changes.vibe_open_new_tab.newValue;
+              try { localStorage.setItem('vibe_open_new_tab', defaultOpenNewTab ? 'true' : 'false'); } catch(e) {}
+            }
             if (changes.vibe_soft_night !== undefined) {
               document.documentElement.classList.toggle('vibe-soft-night', !!changes.vibe_soft_night.newValue);
               try { localStorage.setItem('vibe_cached_soft_night', changes.vibe_soft_night.newValue ? 'true' : 'false'); } catch (e) {}
@@ -5676,5 +5985,51 @@ function attachObserver() {
     setTimeout(autoAdaptContentContrast, 500);
     setTimeout(autoAdaptContentContrast, 1500);
   });
-})();
 
+  // Universal Middle Click, Triple Click & New Tab delegator for Course Cards & Due Rows with 400ms debounce
+  var lastOpenTabTime = 0;
+  function openLinkSmartNewTab(url, e) {
+    var now = Date.now();
+    if (now - lastOpenTabTime < 400) return;
+    lastOpenTabTime = now;
+    if (e) {
+      try { e.preventDefault(); e.stopPropagation(); } catch(err) {}
+    }
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
+
+  document.addEventListener('auxclick', function(e) {
+    if (e.button === 1) { // Middle click
+      var dueRow = e.target.closest('.vibe-card-due-row');
+      if (dueRow && dueRow.href) {
+        openLinkSmartNewTab(dueRow.href, e);
+        return;
+      }
+      var card = e.target.closest('.ic-DashboardCard, [data-testid="draggable-card"]');
+      if (card && !e.target.closest('.ic-DashboardCard__header-button, .vibe-edit-nick-btn, a')) {
+        var link = card.querySelector('a.ic-DashboardCard__link, a[href*="/courses/"]');
+        if (link && link.href) {
+          openLinkSmartNewTab(link.href, e);
+        }
+      }
+    }
+  }, true);
+
+  document.addEventListener('click', function(e) {
+    var isTriple = (e.detail >= 3);
+    var dueRow = e.target.closest('.vibe-card-due-row');
+    if (dueRow && dueRow.href && (isTriple || defaultOpenNewTab)) {
+      openLinkSmartNewTab(dueRow.href, e);
+      return;
+    }
+    var card = e.target.closest('.ic-DashboardCard, [data-testid="draggable-card"]');
+    if (card && (isTriple || defaultOpenNewTab)) {
+      if (!e.target.closest('.ic-DashboardCard__header-button, .vibe-edit-nick-btn, .vibe-card-due-row, .vibe-card-grade-badge')) {
+        var cardLink = card.querySelector('a.ic-DashboardCard__link, a[href*="/courses/"]');
+        if (cardLink && cardLink.href) {
+          openLinkSmartNewTab(cardLink.href, e);
+        }
+      }
+    }
+  }, true);
+})();

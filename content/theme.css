@@ -1187,7 +1187,7 @@ body:has([data-testid*="quiz"]) #content-wrapper {
 }
 
 /* On pages WITHOUT the duo (like modules, grades): Collapse right-side-wrapper completely */
-#right-side-wrapper:not(:has(.vibe-sidebar-duo)):not(:has(#quiz-timer-wrapper)):not(:has(.time_running)):not(:has(.countdown_timer)):not(:has(#student-grades-right-content)) {
+#right-side-wrapper:not(:has(.vibe-sidebar-duo)):not(:has(#quiz-timer-wrapper)):not(:has(.time_running)):not(:has(.countdown_timer)):not(:has(#student-grades-right-content)):not(:has(#submission_details)):not(:has(#add_comment_form)):not(:has(#sidebar_content)):not(:has(.submission-details-comments)):not(:has(#submission_comment_list)) {
   display: none !important;
   width: 0 !important;
   min-width: 0 !important;
@@ -1556,29 +1556,58 @@ a#take_quiz_link.btn:hover,
   margin-left: auto !important;
   margin-right: auto !important;
   box-sizing: border-box !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
-.question,
+/* Question Holder Reset: Never render an outer duplicate container */
 .question_holder,
+.quiz_sortable .question_holder,
+#questions .question_holder {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 auto 24px auto !important;
+  max-width: 860px !important;
+  outline: none !important;
+}
+
+/* Single Crisp Question Card in Classic Quizzes */
+.question,
 .quiz_sortable .question,
-#questions .question {
-  background: var(--bcsurface, var(--bcbackground, #FFFFFF)) !important;
-  border: 1px solid var(--bcborders, rgba(0, 0, 0, 0.1)) !important;
+#questions .question,
+.display_question.question {
+  background: var(--bccards, #1E1724) !important;
+  background-color: var(--bccards, #1E1724) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
   border-radius: var(--bc-card-radius, 12px) !important;
   padding: 24px 28px !important;
-  margin: 24px auto !important;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+  margin: 0 auto 24px auto !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
   max-width: 860px !important;
-  color: var(--bctext-0, inherit) !important;
+  color: var(--bctext-0, #ffffff) !important;
   box-sizing: border-box !important;
   position: relative !important;
+}
+
+html.vibe-theme-light .question,
+html.vibe-theme-light .quiz_sortable .question,
+html.vibe-theme-light #questions .question {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+  color: #1a1a1a !important;
 }
 
 .question .header {
   background: transparent !important;
   border: none !important;
   border-bottom: 1px solid var(--bcborders, rgba(0, 0, 0, 0.08)) !important;
-  padding: 0 0 14px 30px !important;
+  padding: 0 0 14px 0 !important;
   margin-bottom: 18px !important;
   display: flex !important;
   align-items: center !important;
@@ -1596,12 +1625,11 @@ a#take_quiz_link.btn:hover,
 .question .question_points,
 .question .points {
   font-size: 13px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   color: var(--bctext-1, rgba(255, 255, 255, 0.75)) !important;
-  background: var(--bcbuttons, rgba(0, 0, 0, 0.04)) !important;
-  padding: 4px 10px !important;
-  border-radius: 6px !important;
-  border: 1px solid var(--bcborders, rgba(0, 0, 0, 0.06)) !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
 }
 
 .question .text,
@@ -1627,13 +1655,14 @@ a#take_quiz_link.btn:hover,
 
 .question .text code,
 .question code {
-  background: var(--bcbuttons, rgba(0, 0, 0, 0.06)) !important;
-  border: 1px solid var(--bcborders, rgba(0, 0, 0, 0.08)) !important;
-  border-radius: 4px !important;
-  padding: 2px 6px !important;
-  font-size: 13px !important;
+  background: rgba(125, 125, 125, 0.12) !important;
+  border: none !important;
+  border-radius: 3px !important;
+  padding: 1px 5px !important;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
-  color: var(--bctext-0, inherit) !important;
+  font-size: 0.9em !important;
+  box-shadow: none !important;
+  color: inherit !important;
 }
 
 .question .answers {
@@ -1644,15 +1673,15 @@ a#take_quiz_link.btn:hover,
 }
 
 .question .answer {
-  background: var(--bcbuttons, rgba(0, 0, 0, 0.02)) !important;
-  border: 1px solid var(--bcborders, rgba(0, 0, 0, 0.08)) !important;
-  border-radius: 8px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 6px !important;
   padding: 0 !important;
   margin: 0 !important;
-  transition: background 0.12s ease, border-color 0.12s ease !important;
+  transition: background 0.12s ease !important;
   color: var(--bctext-0, inherit) !important;
   cursor: pointer !important;
-  overflow: hidden !important;
 }
 
 .question .answer:hover {
@@ -1717,7 +1746,7 @@ a#take_quiz_link.btn:hover,
 .question input.text_entry,
 .question textarea,
 .question select {
-  background: var(--bcsurface, rgba(30, 30, 32, 0.85)) !important;
+  background: var(--bccards, rgba(30, 30, 32, 0.85)) !important;
   color: var(--bctext-0, #FFFFFF) !important;
   border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.18)) !important;
   border-radius: 8px !important;
@@ -1748,7 +1777,7 @@ a#take_quiz_link.btn:hover,
 .vibe-theme-dark .question .tox-tinymce,
 .vibe-theme-dark .question .mce-panel,
 .vibe-theme-dark .question .tox {
-  background: var(--bcsurface, #1C1C1E) !important;
+  background: var(--bccards, #1C1C1E) !important;
   border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.18)) !important;
   border-radius: 8px !important;
   color: var(--bctext-0, #FFFFFF) !important;
@@ -1765,7 +1794,7 @@ a#take_quiz_link.btn:hover,
 .vibe-theme-dark .question .mce-edit-area,
 .vibe-theme-dark .question .tox-edit-area,
 .vibe-theme-dark .question .tox-edit-area__iframe {
-  background: var(--bcsurface, #141416) !important;
+  background: var(--bccards, #141416) !important;
   color: var(--bctext-0, #FFFFFF) !important;
 }
 
@@ -1797,14 +1826,89 @@ a#take_quiz_link.btn:hover,
   display: none !important;
 }
 
-/* Quiz submission summary page unhindered scrolling */
+/* Quiz submission summary page unhindered scrolling & transparent container */
 .quiz-submission,
+#quiz_show .quiz-submission,
+div.quiz-submission,
+#questions.assessment_results,
 #quiz-submission-version-switcher,
 #quiz_student_details,
 .quiz_response_feedback {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   overflow-y: visible !important;
   height: auto !important;
   max-height: none !important;
+  max-width: 860px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Alert banners in quiz results (e.g., 'Correct answers are hidden') */
+.quiz-submission .alert,
+#quiz_show .alert,
+.assessment_results .alert {
+  background: rgba(239, 68, 68, 0.12) !important;
+  border: 1px solid rgba(239, 68, 68, 0.28) !important;
+  color: #fca5a5 !important;
+  border-radius: 8px !important;
+  padding: 12px 18px !important;
+  margin: 16px auto !important;
+  max-width: 860px !important;
+  box-sizing: border-box !important;
+}
+
+html.vibe-theme-light .quiz-submission .alert,
+html.vibe-theme-light #quiz_show .alert,
+html.vibe-theme-light .assessment_results .alert {
+  background: #fef2f2 !important;
+  border: 1px solid #fecaca !important;
+  color: #991b1b !important;
+}
+
+/* Quiz Score text & value in attempt results */
+.quiz-submission .quiz_score,
+.quiz_score {
+  color: var(--bctext-1, rgba(255, 255, 255, 0.85)) !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  text-align: center !important;
+  margin: 16px 0 !important;
+}
+
+.quiz-submission .quiz_score .score_value,
+.quiz_score .score_value {
+  color: var(--bctext-0, #ffffff) !important;
+  font-weight: 700 !important;
+  font-size: 17px !important;
+}
+
+.quiz-submission .question-not-graded-text,
+.question-not-graded-text {
+  color: var(--bctext-2, rgba(255, 255, 255, 0.6)) !important;
+  font-size: 13px !important;
+  text-align: center !important;
+  margin-top: 4px !important;
+}
+
+/* Points holder in question header: Never split into separate badge boxes */
+.question .header .question_points_holder,
+.question .header .user_points,
+.question .header .user_points .points,
+.question .header .question_points,
+.question .header .points {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: inline !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: var(--bctext-1, rgba(255, 255, 255, 0.75)) !important;
 }
 
 /* ── Quiz Bottom Elements: Universal Frosted Cards (Muted notice, Attempt details, Summary table) ── */
@@ -1875,49 +1979,110 @@ body.quizzes #right-side > div:last-child {
   margin-bottom: 0 !important;
 }
 
+/* Submission Details & Summary Table: Generous padding, no cramped edges */
 .vibe-quiz-page #right-side div[style*="border-bottom"],
 body.quizzes #right-side div[style*="border-bottom"] {
-  border-bottom: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
-  color: var(--bctext-0) !important;
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 8px !important;
+}
+
+.vibe-quiz-page #right-side h2,
+body.quizzes #right-side h2,
+#right-side h2 {
   font-size: 16px !important;
-  font-weight: 600 !important;
-  letter-spacing: -0.015em !important;
-  padding-bottom: 12px !important;
-  margin-bottom: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+  color: var(--bctext-0) !important;
+  margin: 0 0 14px 0 !important;
+  padding: 0 !important;
+  border: none !important;
 }
 
 .vibe-quiz-page #right-side table.summary,
-body.quizzes #right-side table.summary {
+body.quizzes #right-side table.summary,
+table.summary {
   width: 100% !important;
-  border-collapse: collapse !important;
-  margin: 8px 0 14px 0 !important;
-  color: var(--bctext-0) !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  margin: 12px 0 16px 0 !important;
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.04)) !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.04)) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.1)) !important;
+  border-radius: var(--bc-card-radius, 12px) !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
 }
 
 .vibe-quiz-page #right-side table.summary th,
-body.quizzes #right-side table.summary th {
+body.quizzes #right-side table.summary th,
+table.summary th {
   color: var(--bctext-0) !important;
   font-weight: 600 !important;
   font-size: 14px !important;
-  padding: 8px 0 !important;
+  padding: 12px 20px !important;
   text-align: left !important;
   border: none !important;
+  border-bottom: 1px solid var(--bcborders, rgba(255, 255, 255, 0.06)) !important;
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 .vibe-quiz-page #right-side table.summary td,
-body.quizzes #right-side table.summary td {
+body.quizzes #right-side table.summary td,
+table.summary td {
   color: var(--bctext-1) !important;
   font-size: 14px !important;
-  padding: 8px 0 !important;
+  padding: 12px 20px !important;
+  text-align: right !important;
   border: none !important;
+  border-bottom: 1px solid var(--bcborders, rgba(255, 255, 255, 0.06)) !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.vibe-quiz-page #right-side table.summary tr:last-child th,
+.vibe-quiz-page #right-side table.summary tr:last-child td,
+table.summary tr:last-child th,
+table.summary tr:last-child td {
+  border-bottom: none !important;
 }
 
 .vibe-quiz-page #right-side table.summary tfoot td,
-body.quizzes #right-side table.summary tfoot td {
+body.quizzes #right-side table.summary tfoot td,
+table.summary tfoot td {
   color: var(--bctext-2, #888888) !important;
   font-size: 12.5px !important;
   font-style: italic !important;
-  padding-top: 8px !important;
+  padding: 10px 20px !important;
+  text-align: left !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Light theme overrides for quiz right-side card & table */
+html.vibe-theme-light .vibe-quiz-page #right-side,
+html.vibe-theme-light body.quizzes #right-side,
+html.vibe-theme-light #quiz_show ~ #right-side-wrapper #right-side {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+  color: #1a1a1a !important;
+}
+
+html.vibe-theme-light .vibe-quiz-page #right-side table.summary,
+html.vibe-theme-light body.quizzes #right-side table.summary,
+html.vibe-theme-light table.summary {
+  background: rgba(0, 0, 0, 0.02) !important;
+  background-color: rgba(0, 0, 0, 0.02) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+html.vibe-theme-light table.summary th,
+html.vibe-theme-light table.summary td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+  color: #1a1a1a !important;
 }
 
 .vibe-quiz-page #right-side div[style*="margin-left: 20px"],
@@ -1984,9 +2149,11 @@ iframe[src*="external_tools"] {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: nowrap !important;
+  flex: 1 1 800px !important;
   gap: 24px !important;
   justify-content: flex-start !important;
   align-items: flex-start !important;
+  min-width: 0 !important;
   max-width: 100% !important;
   margin: 0 !important;
   width: 100% !important;
@@ -2023,9 +2190,6 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   margin: 4px !important;
 }
 
-/* When the screen is too small to fit 800px + 560px + gap side-by-side (approx < 1650px) */
-/* The flex-wrap: wrap above will automatically push #right-side-wrapper to the bottom! */
-/* We just need to make sure the sidebar duo and buttons look good when it drops to the bottom. */
 @media (max-width: 1650px) {
   .vibe-dashboard-page #right-side-wrapper,
   #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper {
@@ -2038,63 +2202,6 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
 @media (max-width: 768px) {
   .vibe-sidebar-duo {
     flex-direction: column !important;
-  }
-  html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
-    /* OVERRIDDEN AT END OF FILE */
-  }
-}
-
-
-.vibe-dashboard-page #not_right_side,
-#not_right_side:has(.vibe-sidebar-duo) {
-  flex: 1 1 800px !important; /* Grow and shrink, but try to stay around 800px */
-  min-width: 0 !important;
-  width: 100% !important;
-  margin: 0 !important;
-}
-
-.vibe-dashboard-page #right-side-wrapper,
-#not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper {
-  flex: 0 0 640px !important; /* Fixed width when there's room */
-  width: 640px !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-}
-
-/* Ensure the task cards are side-by-side */
-.vibe-sidebar-duo {
-  display: flex !important;
-  flex-direction: row !important;
-  gap: 16px !important;
-  width: 100% !important;
-}
-
-/* Side-by-side buttons on right sidebar */
-html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
-  width: calc(50% - 8px) !important;
-  box-sizing: border-box !important;
-  display: inline-flex !important;
-  margin: 4px !important;
-}
-
-/* When the screen is too small to fit 800px + 560px + gap side-by-side (approx < 1450px) */
-/* The flex-wrap: wrap above will automatically push #right-side-wrapper to the bottom! */
-/* We just need to make sure the sidebar duo and buttons look good when it drops to the bottom. */
-@media (max-width: 1650px) {
-  .vibe-dashboard-page #right-side-wrapper,
-  #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper {
-    flex: 1 1 100% !important;
-    max-width: 880px !important; 
-  }
-}
-
-/* On very small mobile screens (< 768px), stack the duo cards vertically */
-@media (max-width: 768px) {
-  .vibe-sidebar-duo {
-    flex-direction: column !important;
-  }
-  html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html.vibe-theme-dark #not_right_side:has(.vibe-sidebar-duo) #right-side .button-sidebar-wide {
-    /* OVERRIDDEN AT END OF FILE */
   }
 }
 
@@ -3917,15 +4024,40 @@ a[class*="baseButton"]:hover span[class*="baseButton__content"] {
   color: var(--bctext-0) !important;
 }
 
-button[class*="baseButton"],
-button[class*="BaseButton"],
-button[data-cid*="BaseButton"],
-button[data-cid*="Button"],
-a[class*="baseButton"] {
+button[class*="baseButton"]:has(> span[class*="baseButton__content"], > span[class*="BaseButton__content"]),
+button[class*="BaseButton"]:has(> span[class*="baseButton__content"], > span[class*="BaseButton__content"]),
+button[data-cid*="BaseButton"]:has(> span[class*="baseButton__content"], > span[class*="BaseButton__content"]),
+button[data-cid*="Button"]:has(> span[class*="baseButton__content"], > span[class*="BaseButton__content"]),
+a[class*="baseButton"]:has(> span[class*="baseButton__content"], > span[class*="BaseButton__content"]) {
   background-color: transparent !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+}
+
+button[class*="baseButton"]:focus-visible,
+button[class*="BaseButton"]:focus-visible,
+button[data-cid*="Button"]:focus-visible {
+  outline: 2px solid var(--bcaccent, var(--bclinks)) !important;
+  outline-offset: 2px !important;
+}
+
+button[class*="baseButton"] svg,
+button[class*="BaseButton"] svg,
+button[data-cid*="Button"] svg {
+  color: var(--bctext-0) !important;
+}
+
+button[class*="baseButton"] svg [stroke]:not([stroke="none"]),
+button[class*="BaseButton"] svg [stroke]:not([stroke="none"]),
+button[data-cid*="Button"] svg [stroke]:not([stroke="none"]) {
+  stroke: currentColor !important;
+}
+
+button[class*="baseButton"] svg [fill="none"],
+button[class*="BaseButton"] svg [fill="none"],
+button[data-cid*="Button"] svg [fill="none"] {
+  fill: none !important;
 }
 
 /* Traditional Canvas Action Buttons */
@@ -4013,12 +4145,10 @@ div:has(> [data-testid="attempt-tab"]) {
   color: var(--bctext-0) !important;
 }
 
-/* Outer Submission Box Frame */
+/* Outer Submission Box Frame - preserve natural padding, no awkward intersecting border */
 div[data-testid="attempt-tab"] > div,
 div:has(> [data-testid="upload-pane"]) {
-  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
-  border-radius: var(--bc-card-radius, 14px) !important;
-  overflow: hidden !important;
+  border: none !important;
   box-shadow: none !important;
 }
 
@@ -4080,19 +4210,31 @@ span[data-cid="FileDrop"] button[class*="Button--link"] {
   font-weight: 600 !important;
 }
 
-/* Middle Divider & "or" badge */
-div[data-testid="upload-pane"] hr,
-div[data-testid="upload-pane"] span[class*="divider"],
-div[data-testid="upload-pane"] div[class*="divider"] {
+/* Middle Divider & "or" badge: Container-agnostic structural rules (zero JS reflows) */
+[data-testid*="upload"] hr,
+[data-testid*="attempt"] hr,
+[data-testid*="upload"] [class*="divider"],
+[data-testid*="attempt"] [class*="divider"] {
   border-color: var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
-  background-color: var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  background-color: transparent !important;
 }
 
+[data-testid*="upload"] [class*="divider"] span,
+[data-testid*="upload"] hr + span,
+[data-testid*="upload"] hr + div,
+[data-testid*="attempt"] [class*="divider"] span,
 span[style*="background-color: rgb(242, 244, 244)"],
 span[style*="background-color: #f2f4f4"],
+div[style*="background-color: rgb(242, 244, 244)"],
+div[style*="background-color: #f2f4f4"],
 div[data-testid="upload-pane"] span:not([class]) {
   background-color: var(--bcbackground-0) !important;
+  background: var(--bcbackground-0) !important;
   color: var(--bctext-1) !important;
+}
+
+div[data-testid="attempt-tab"] {
+  padding: 16px 20px !important;
 }
 
 button[class*="baseButton"] span[class*="text"],
@@ -5155,11 +5297,33 @@ body[class*="submissions"] #right-side,
 .vibe-theme-dark #sidebar_content,
 .vibe-theme-dark #add_comment_form,
 #rubric_holder,
-#rubric_summary_holder {
-  background-color: var(--bcsurface, var(--bcbackground-1, #1C1C1E)) !important;
-  background: var(--bcsurface, var(--bcbackground-1, #1C1C1E)) !important;
+#rubric_summary_holder,
+.rubric_container,
+.rubric_container .rubric_title,
+.rubric_title,
+table.rubric_table caption,
+.rubric_table thead,
+.rubric_table thead th,
+.rubric-header,
+[data-testid*="rubric"] header,
+[class*="rubric"] [class*="header"] {
+  background-color: var(--bccards, var(--bcbackground-1, #1C1C1E)) !important;
+  background: var(--bccards, var(--bcbackground-1, #1C1C1E)) !important;
   color: var(--bctext-0, #FFFFFF) !important;
   border-color: var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+}
+
+.rubric_container .rubric_title,
+.rubric_title,
+div[data-testid="assignments-2-student-view"] table caption,
+div[data-testid="assignments-2-student-view"] table thead th,
+[class*="rubric" i] thead th,
+[class*="rubric" i] caption,
+[data-testid*="rubric" i] thead th {
+  background-color: var(--bcbackground-2, var(--bcbackground-1, #262629)) !important;
+  background: var(--bcbackground-2, var(--bcbackground-1, #262629)) !important;
+  color: var(--bctext-0, #FFFFFF) !important;
+  border-bottom: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
 }
 
 /* Ensure dashboard right-side remains transparent for wallpaper */
@@ -5887,11 +6051,19 @@ html.vibe-theme-dark .ic-item-row__meta-col {
 html.vibe-theme-dark .context_module_item { border: none !important; }
 
 
-/* Fix for Module Sequence Footer */
-html.vibe-theme-dark .module-sequence-footer .module-sequence-footer-content {
-  border-radius: var(--bc-card-radius, 14px) !important;
-  padding: 16px !important;
-  background-color: var(--bccards, var(--bcbackground-1)) !important;
+/* Fix for Module Sequence Footer: transparent, clean floating buttons, no giant bottom bar */
+.module-sequence-footer,
+.module-sequence-footer-content,
+#sequence_footer,
+#sequence_footer .module-sequence-footer-content,
+html.vibe-theme-dark .module-sequence-footer,
+html.vibe-theme-dark .module-sequence-footer .module-sequence-footer-content,
+html.vibe-theme-light .module-sequence-footer,
+html.vibe-theme-light .module-sequence-footer .module-sequence-footer-content {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   margin-top: 24px !important;
   margin-bottom: 24px !important;
   display: flex !important;
@@ -6535,17 +6707,29 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   }
 }
 
-/* On standard laptops (approx 1301px to 1650px): full 280px class cards + 350px sidebar */
-@media (max-width: 1650px) and (min-width: 1301px) {
+/* Parameterized responsive dashboard grid + sidebar (800px to 1650px) */
+@media (max-width: 1650px) and (min-width: 800px) {
+  :root {
+    --vibe-card-w: 280px;
+    --vibe-card-min-w: 280px;
+    --vibe-grid-w: 880px;
+    --vibe-grid-min-w: 880px;
+    --vibe-grid-cols: repeat(3, 280px);
+    --vibe-grid-gap: 20px;
+    --vibe-sidebar-w: 350px;
+    --vibe-sidebar-min-w: 350px;
+    --vibe-sidebar-gap: 20px;
+  }
+
   html, body, #main, .vibe-dashboard-page #not_right_side {
     overflow-x: hidden !important;
   }
 
   .vibe-dashboard-page .ic-DashboardCard,
   .vibe-dashboard-page [data-testid="draggable-card"] {
-    width: 280px !important;
-    min-width: 280px !important;
-    max-width: 280px !important;
+    width: var(--vibe-card-w) !important;
+    min-width: var(--vibe-card-min-w) !important;
+    max-width: var(--vibe-card-w) !important;
   }
 
   .vibe-dashboard-page #content,
@@ -6557,11 +6741,11 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   .vibe-dashboard-page #DashboardCard_Container > div > div,
   .vibe-dashboard-page .ic-DashboardCard__box > div,
   .vibe-dashboard-page div[data-testid="dashboard-cards"] {
-    width: 880px !important;
-    max-width: 880px !important;
-    min-width: 880px !important;
-    grid-template-columns: repeat(3, 280px) !important;
-    gap: 20px !important;
+    width: var(--vibe-grid-w) !important;
+    max-width: var(--vibe-grid-w) !important;
+    min-width: var(--vibe-grid-min-w) !important;
+    grid-template-columns: var(--vibe-grid-cols) !important;
+    gap: var(--vibe-grid-gap) !important;
   }
 
   .vibe-dashboard-page #content-wrapper,
@@ -6569,81 +6753,51 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
   #dashboard #content-wrapper,
   body:not([class*="context-course"]):not(.context-course) #main:has(.vibe-sidebar-duo) #content-wrapper,
   #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
-    flex: 0 0 880px !important;
-    width: 880px !important;
-    max-width: 880px !important;
-    min-width: 880px !important;
+    flex: 0 0 var(--vibe-grid-w) !important;
+    width: var(--vibe-grid-w) !important;
+    max-width: var(--vibe-grid-w) !important;
+    min-width: var(--vibe-grid-min-w) !important;
   }
 
   .vibe-dashboard-page #right-side-wrapper,
   #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper,
   body #right-side-wrapper:has(.vibe-sidebar-duo) {
-    flex: 0 0 350px !important;
-    width: 350px !important;
-    min-width: 350px !important;
-    max-width: 350px !important;
-    margin: 0 0 0 20px !important;
+    flex: 0 0 var(--vibe-sidebar-w) !important;
+    width: var(--vibe-sidebar-w) !important;
+    min-width: var(--vibe-sidebar-min-w) !important;
+    max-width: var(--vibe-sidebar-w) !important;
+    margin: 0 0 0 var(--vibe-sidebar-gap) !important;
     display: block !important;
   }
 }
 
-/* On smaller laptops / snapped windows (1101px to 1300px): compact 240px cards */
+/* Smaller laptops / snapped windows (1101px to 1300px): compact 240px cards */
 @media (max-width: 1300px) and (min-width: 1101px) {
-  html, body, #main, .vibe-dashboard-page #not_right_side {
-    overflow-x: hidden !important;
-  }
-
-  .vibe-dashboard-page .ic-DashboardCard,
-  .vibe-dashboard-page [data-testid="draggable-card"] {
-    width: 240px !important;
-    min-width: 0 !important;
-    max-width: 240px !important;
-  }
-
-  .vibe-dashboard-page #content,
-  .vibe-dashboard-page #dashboard,
-  .vibe-dashboard-page #DashboardCard_Container,
-  .vibe-dashboard-page #DashboardCard_Container > div,
-  .vibe-dashboard-page .ic-DashboardCard__box,
-  .vibe-dashboard-page .ic-DashboardCard__box__container,
-  .vibe-dashboard-page #DashboardCard_Container > div > div,
-  .vibe-dashboard-page .ic-DashboardCard__box > div,
-  .vibe-dashboard-page div[data-testid="dashboard-cards"] {
-    width: 752px !important;
-    max-width: 752px !important;
-    min-width: 0 !important;
-    grid-template-columns: repeat(3, 240px) !important;
-    gap: 16px !important;
-  }
-
-  .vibe-dashboard-page #content-wrapper,
-  body.dashboard #content-wrapper,
-  #dashboard #content-wrapper,
-  body:not([class*="context-course"]):not(.context-course) #main:has(.vibe-sidebar-duo) #content-wrapper,
-  #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
-    flex: 0 0 752px !important;
-    width: 752px !important;
-    max-width: 752px !important;
-    min-width: 0 !important;
-  }
-
-  .vibe-dashboard-page #right-side-wrapper,
-  #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper,
-  body #right-side-wrapper:has(.vibe-sidebar-duo) {
-    flex: 0 0 320px !important;
-    width: 320px !important;
-    min-width: 0 !important;
-    max-width: 320px !important;
-    margin: 0 0 0 16px !important;
-    display: block !important;
+  :root {
+    --vibe-card-w: 240px;
+    --vibe-card-min-w: 0;
+    --vibe-grid-w: 752px;
+    --vibe-grid-min-w: 0;
+    --vibe-grid-cols: repeat(3, 240px);
+    --vibe-grid-gap: 16px;
+    --vibe-sidebar-w: 320px;
+    --vibe-sidebar-min-w: 0;
+    --vibe-sidebar-gap: 16px;
   }
 }
 
-/* When resized smaller than regular laptop screen (800px to 1100px):
-   Adapt cards to 2 columns so sidebar stays on the right side-by-side with zero cut off */
+/* Narrow windows (800px to 1100px): 2 columns so sidebar stays side-by-side */
 @media (max-width: 1100px) and (min-width: 800px) {
-  html, body, #main, .vibe-dashboard-page #not_right_side {
-    overflow-x: hidden !important;
+  :root {
+    --vibe-card-w: 240px;
+    --vibe-card-min-w: 0;
+    --vibe-grid-w: 496px;
+    --vibe-grid-min-w: 0;
+    --vibe-grid-cols: repeat(2, 240px);
+    --vibe-grid-gap: 16px;
+    --vibe-sidebar-w: 300px;
+    --vibe-sidebar-min-w: 0;
+    --vibe-sidebar-gap: 16px;
   }
 
   .vibe-dashboard-page #not_right_side,
@@ -6654,51 +6808,6 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
     justify-content: flex-start !important;
     align-items: flex-start !important;
     margin: 0 !important;
-  }
-
-  .vibe-dashboard-page .ic-DashboardCard,
-  .vibe-dashboard-page [data-testid="draggable-card"] {
-    width: 240px !important;
-    min-width: 0 !important;
-    max-width: 240px !important;
-  }
-
-  .vibe-dashboard-page #content,
-  .vibe-dashboard-page #dashboard,
-  .vibe-dashboard-page #DashboardCard_Container,
-  .vibe-dashboard-page #DashboardCard_Container > div,
-  .vibe-dashboard-page .ic-DashboardCard__box,
-  .vibe-dashboard-page .ic-DashboardCard__box__container,
-  .vibe-dashboard-page #DashboardCard_Container > div > div,
-  .vibe-dashboard-page .ic-DashboardCard__box > div,
-  .vibe-dashboard-page div[data-testid="dashboard-cards"] {
-    width: 496px !important;
-    max-width: 496px !important;
-    min-width: 0 !important;
-    grid-template-columns: repeat(2, 240px) !important;
-    gap: 16px !important;
-  }
-
-  .vibe-dashboard-page #content-wrapper,
-  body.dashboard #content-wrapper,
-  #dashboard #content-wrapper,
-  body:not([class*="context-course"]):not(.context-course) #main:has(.vibe-sidebar-duo) #content-wrapper,
-  #not_right_side:has(.vibe-sidebar-duo) #content-wrapper {
-    flex: 0 0 496px !important;
-    width: 496px !important;
-    max-width: 496px !important;
-    min-width: 0 !important;
-  }
-
-  .vibe-dashboard-page #right-side-wrapper,
-  #not_right_side:has(.vibe-sidebar-duo) #right-side-wrapper,
-  body #right-side-wrapper:has(.vibe-sidebar-duo) {
-    flex: 0 0 300px !important;
-    width: 300px !important;
-    min-width: 0 !important;
-    max-width: 300px !important;
-    margin: 0 0 0 16px !important;
-    display: block !important;
   }
 }
 
@@ -6831,7 +6940,6 @@ body.vibe-preset-blossom .vibe-tab-btn.active {
     height: 0 !important;
     background: transparent !important;
   }
-}
 
 /* =========================================================
    ADAPTIVE PDF / DOCUMENT & NARROW-SPACE WRAP
@@ -6991,3 +7099,803 @@ iframe#preview_frame {
 }
 
 
+
+
+/* ==========================================================================
+   Clean Dark Mode for Quizzes (No Pills, No Nested Concentric Outlines)
+   ========================================================================== */
+body.quizzes #vibe-course-nav,
+body.native-new-quizzes #vibe-course-nav,
+body[class*="quiz"] #vibe-course-nav,
+div:has(> iframe[src*="quiz"]) #vibe-course-nav {
+  display: none !important;
+}
+
+html.vibe-theme-dark header.header,
+html.vibe-theme-dark header.header.css-acpscp,
+html.vibe-theme-dark .page,
+html.vibe-theme-dark .pageContent,
+html.vibe-theme-dark [role="region"],
+html.vibe-theme-dark div.css-1an8y4m-view {
+  background-color: var(--bcbackground-0, #151019) !important;
+  color: var(--bctext-0, #ffffff) !important;
+}
+
+html.vibe-theme-dark header.header button,
+html.vibe-theme-dark header.header button span,
+html.vibe-theme-dark [role="region"] h1,
+html.vibe-theme-dark [role="region"] p,
+html.vibe-theme-dark [role="region"] span,
+html.vibe-theme-dark [role="region"] label {
+  color: var(--bctext-0, #ffffff) !important;
+}
+
+html.vibe-theme-dark div.css-1an8y4m-view {
+  background-color: var(--bccards, #1E1724) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: var(--bc-card-radius, 12px) !important;
+}
+
+/* Kill blinding white horizontal bars in quiz LTI iframe */
+body:has(iframe[src*="quiz"]) .header-bar,
+div:has(> iframe[src*="quiz"]) {
+  background: transparent !important;
+}
+
+
+/* ==========================================================================
+   Assignment Submissions, Comments & Sidebar Layout Fixes
+   ========================================================================== */
+
+/* 1. Dedicated Submission Sidebar Layout (Never 620px duo) */
+#right-side-wrapper:has(#submission_details),
+#right-side-wrapper:has(#add_comment_form),
+#right-side-wrapper:has(#sidebar_content),
+#right-side-wrapper:has(.submission-details-comments),
+#right-side-wrapper:has(#submission_comment_list) {
+  display: block !important;
+  width: 360px !important;
+  min-width: 320px !important;
+  max-width: 400px !important;
+  flex: 0 0 360px !important;
+  margin: 0 !important;
+  padding: 24px 16px !important;
+  box-sizing: border-box !important;
+  float: none !important;
+}
+
+#not_right_side:has(#right-side-wrapper:has(#submission_details)),
+#not_right_side:has(#right-side-wrapper:has(#add_comment_form)) {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 24px !important;
+}
+
+/* Hide any accidental duo widget on submissions */
+body:has(#submission_details) .vibe-sidebar-duo,
+body:has(#add_comment_form) .vibe-sidebar-duo,
+body[class*="submissions"] .vibe-sidebar-duo {
+  display: none !important;
+}
+
+/* 2. Strip all blinding white backgrounds from Submission Right Side */
+html.vibe-theme-dark #right-side,
+html.vibe-theme-dark #right-side-wrapper,
+html.vibe-theme-dark #sidebar_content,
+html.vibe-theme-dark #submission_details,
+html.vibe-theme-dark .submission_details,
+html.vibe-theme-dark .submission-details-comments,
+html.vibe-theme-dark #submission_comment_list,
+html.vibe-theme-dark .submission_comments,
+html.vibe-theme-dark .comment_list,
+html.vibe-theme-dark .comments,
+html.vibe-theme-dark ul.submission_details_comments,
+html.vibe-theme-dark body:has(#submission_details) #right-side,
+html.vibe-theme-dark body:has(#add_comment_form) #right-side {
+  background-color: transparent !important;
+  background: transparent !important;
+  color: var(--bctext-0, #ffffff) !important;
+}
+
+/* 3. Single Crisp Tactile Comment Card (Fix white comment bubble & washed-out text) */
+html.vibe-theme-dark .submission-details-comments .comment,
+html.vibe-theme-dark #submission_comment_list .comment,
+html.vibe-theme-dark .comment_list .comment,
+html.vibe-theme-dark .comments .comment,
+html.vibe-theme-dark ul.submission_details_comments li,
+html.vibe-theme-dark li.comment,
+html.vibe-theme-dark div.comment,
+html.vibe-theme-dark .submission-comment,
+html.vibe-theme-dark [class*="comment-text"],
+html.vibe-theme-dark div[id^="submission_comment_"] {
+  background-color: var(--bccards, #1E1724) !important;
+  background: var(--bccards, #1E1724) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: var(--bc-card-radius, 10px) !important;
+  color: var(--bctext-0, #ffffff) !important;
+  padding: 14px 16px !important;
+  margin: 0 0 14px 0 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22) !important;
+  box-sizing: border-box !important;
+}
+
+/* Comment text & metadata contrast */
+html.vibe-theme-dark .comment p,
+html.vibe-theme-dark .comment span,
+html.vibe-theme-dark .comment div,
+html.vibe-theme-dark .submission-comment p,
+html.vibe-theme-dark .submission-comment span {
+  color: var(--bctext-0, #ffffff) !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+html.vibe-theme-dark .comment .author,
+html.vibe-theme-dark .comment .time,
+html.vibe-theme-dark .comment .posted_at,
+html.vibe-theme-dark .comment time {
+  color: var(--bctext-2, rgba(255, 255, 255, 0.65)) !important;
+  font-size: 12px !important;
+}
+
+/* 4. "Add a Comment:" Form Container */
+html.vibe-theme-dark #add_comment_form {
+  background-color: var(--bccards, #1E1724) !important;
+  background: var(--bccards, #1E1724) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: var(--bc-card-radius, 10px) !important;
+  padding: 16px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22) !important;
+  margin-top: 14px !important;
+}
+
+html.vibe-theme-dark #add_comment_form textarea,
+html.vibe-theme-dark #submission_comment_textarea {
+  background-color: var(--bcbackground-1, rgba(255, 255, 255, 0.05)) !important;
+  background: var(--bcbackground-1, rgba(255, 255, 255, 0.05)) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.15)) !important;
+  border-radius: 8px !important;
+  color: var(--bctext-0, #ffffff) !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
+}
+
+html.vibe-theme-dark #add_comment_form textarea:focus,
+html.vibe-theme-dark #submission_comment_textarea:focus {
+  border-color: var(--bcaccent, #d946ef) !important;
+  outline: none !important;
+}
+
+html.vibe-theme-dark #add_comment_form a,
+html.vibe-theme-dark #add_comment_form .attach_comment_file_link,
+html.vibe-theme-dark #add_comment_form .media_comment_link {
+  color: var(--bcaccent, var(--bclinks, #d946ef)) !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+}
+
+html.vibe-theme-dark #add_comment_form button[type="submit"],
+html.vibe-theme-dark #add_comment_form .btn-primary,
+html.vibe-theme-dark #add_comment_form button.btn {
+  background-color: var(--bcaccent, #d946ef) !important;
+  background: var(--bcaccent, #d946ef) !important;
+  border: none !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  padding: 8px 18px !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* ==========================================================================
+   Canvas "Welcome to Canvas" Tour & Pendo / InstUI Dialog Dark Mode Integration
+   ========================================================================== */
+
+/* 1. Pendo Guide Container & Tooltip Wrappers */
+#pendo-base-container,
+.pendo-guide-container,
+div[id^="pendo-guide-container"],
+div[id*="pendo-guide-container"],
+._pendo-guide-container_,
+._pendo-step-container_,
+div[class*="pendo-guide-container"],
+div[class*="pendo-step-container"],
+div[id^="pendo-base-"],
+[class*="product-tour"],
+[class*="ProductTour"],
+[class*="welcome-tour"],
+[class*="WelcomeTour"],
+.joyride-tip-guide,
+.joyride-content-wrapper,
+.shepherd-element,
+.shepherd-content {
+  background-color: var(--bccards, #1E1724) !important;
+  background: var(--bccards, #1E1724) !important;
+  color: var(--bctext-0, #ffffff) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.16)) !important;
+  border-radius: var(--bc-card-radius, 12px) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6) !important;
+  z-index: 100000 !important;
+}
+
+/* 2. Tour Typography (Kill invisible white-on-white text) */
+#pendo-base-container *,
+.pendo-guide-container *,
+div[id^="pendo-guide-container"] *,
+._pendo-guide-container_ *,
+._pendo-step-container_ *,
+div[class*="pendo-"] p,
+div[class*="pendo-"] h1,
+div[class*="pendo-"] h2,
+div[class*="pendo-"] h3,
+div[class*="pendo-"] span,
+div[class*="pendo-"] div,
+[class*="product-tour"] *,
+.joyride-content-wrapper *,
+.shepherd-text * {
+  color: var(--bctext-0, #ffffff) !important;
+}
+
+/* 3. Tour Buttons & Dismiss Controls */
+button._pendo-close-button_,
+._pendo-close-button_,
+div[class*="pendo-"] button[class*="close"],
+div[class*="pendo-"] button[aria-label*="close" i],
+.shepherd-cancel-icon {
+  color: var(--bctext-1, rgba(255, 255, 255, 0.75)) !important;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+._pendo-button_,
+.pendo-guide-container button,
+div[id^="pendo-guide-container"] button,
+div[class*="pendo-"] button:not([class*="close"]):not([aria-label*="close" i]),
+.joyride-content-wrapper .joyride-next-tip,
+.shepherd-button-primary {
+  background: var(--bcaccent, #d946ef) !important;
+  background-color: var(--bcaccent, #d946ef) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 8px 18px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+  cursor: pointer !important;
+}
+
+/* Secondary "Not Now" / "Skip" Buttons */
+div[class*="pendo-"] button[aria-label*="skip" i],
+div[class*="pendo-"] button:contains("Not Now"),
+div[class*="pendo-"] button:contains("Skip") {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--bctext-1, rgba(255, 255, 255, 0.8)) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+}
+
+/* 4. Native Canvas & InstUI Popover / Dialog Modals for Tours */
+html.vibe-theme-dark div[role="dialog"]:has([class*="tour" i]),
+html.vibe-theme-dark div[role="dialog"]:has([aria-label*="tour" i]),
+html.vibe-theme-dark [class*="popover__content"]:has([class*="tour" i]),
+html.vibe-theme-dark [class*="Popover__content"]:has([class*="tour" i]) {
+  background-color: var(--bccards, #1E1724) !important;
+  background: var(--bccards, #1E1724) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.16)) !important;
+  border-radius: var(--bc-card-radius, 12px) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6) !important;
+  color: var(--bctext-0, #ffffff) !important;
+}
+
+
+/* ==========================================================================
+   Classic Quizzes Dark Mode Enhancements
+   ========================================================================== */
+html.vibe-theme-dark #questions,
+html.vibe-theme-dark #submit_quiz_form,
+html.vibe-theme-dark .take_quiz_wrapper {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+html.vibe-theme-dark .question .header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--bcborders, rgba(255, 255, 255, 0.1)) !important;
+  color: var(--bctext-0, #ffffff) !important;
+}
+
+html.vibe-theme-dark .question .question_name,
+html.vibe-theme-dark .question .name {
+  color: var(--bctext-0, #ffffff) !important;
+}
+
+html.vibe-theme-dark .question .text,
+html.vibe-theme-dark .question .question_text,
+html.vibe-theme-dark .question .question_content,
+html.vibe-theme-dark .question .user_content {
+  color: var(--bctext-0, #ffffff) !important;
+  background: transparent !important;
+}
+
+html.vibe-theme-dark .question .text *,
+html.vibe-theme-dark .question .question_text * {
+  color: var(--bctext-0, #ffffff) !important;
+}
+
+html.vibe-theme-dark .question code,
+.vibe-theme-dark .question code {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: none !important;
+  color: var(--bctext-0, #f3f4f6) !important;
+  box-shadow: none !important;
+}
+
+html.vibe-theme-dark .question pre,
+.vibe-theme-dark .question pre {
+  background: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.15)) !important;
+  color: var(--bctext-0, #ffffff) !important;
+}
+
+html.vibe-theme-dark .question .answer,
+.vibe-theme-dark .question .answer {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 6px !important;
+  color: var(--bctext-0, #ffffff) !important;
+}
+
+html.vibe-theme-dark .question .answer:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: var(--bcaccent, #d946ef) !important;
+}
+
+html.vibe-theme-dark .question .answer.selected_answer,
+html.vibe-theme-dark .question .answer:has(input:checked) {
+  background: color-mix(in srgb, var(--bcaccent, #d946ef) 14%, var(--bccards, #1E1724)) !important;
+  border-color: var(--bcaccent, #d946ef) !important;
+  box-shadow: 0 0 0 1px var(--bcaccent, #d946ef) !important;
+}
+
+/* Extra High-Specificity Dark Overrides for Quiz Results & Submissions */
+.vibe-theme-dark .quiz-submission,
+.vibe-theme-dark #quiz_show,
+.vibe-theme-dark #quiz_show .quiz-submission,
+.vibe-theme-dark div.quiz-submission,
+.vibe-theme-dark #questions,
+.vibe-theme-dark #questions.assessment_results,
+.vibe-theme-dark .quiz_sortable,
+.vibe-theme-dark .question_holder,
+.vibe-theme-dark .take_quiz_wrapper,
+.vibe-theme-dark #submit_quiz_form,
+html.vibe-theme-dark .quiz-submission,
+html.vibe-theme-dark #quiz_show,
+html.vibe-theme-dark #quiz_show .quiz-submission,
+html.vibe-theme-dark div.quiz-submission,
+html.vibe-theme-dark #questions,
+html.vibe-theme-dark #questions.assessment_results,
+html.vibe-theme-dark .quiz_sortable,
+html.vibe-theme-dark .question_holder,
+html.vibe-theme-dark .take_quiz_wrapper,
+html.vibe-theme-dark #submit_quiz_form {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* ==========================================================================
+   Full Canvas Visual & Alignment Polish (People, Pages, Discussions, Calendar)
+   ========================================================================== */
+
+/* People page: "+ People" button, tabs ("Everyone"), and dropdown select */
+#addUsers,
+.add_users_link,
+a#addUsers.btn {
+  background: var(--bcaccent, #0A84FF) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--bcaccent, #0A84FF) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  border-radius: 8px !important;
+}
+
+#group_categories_tabs,
+.ui-tabs-nav,
+ul#group_categories_tabs {
+  background: transparent !important;
+  border-bottom: 1px solid var(--bcborders, rgba(255, 255, 255, 0.12)) !important;
+}
+
+.vibe-theme-dark #group_categories_tabs li a,
+.vibe-theme-dark .ui-tabs-nav li a {
+  background: transparent !important;
+  color: var(--bctext-1, rgba(255, 255, 255, 0.7)) !important;
+  border: 1px solid transparent !important;
+  border-radius: 8px 8px 0 0 !important;
+}
+
+.vibe-theme-dark #group_categories_tabs li.ui-tabs-active a,
+.vibe-theme-dark #group_categories_tabs li.ui-state-active a,
+.vibe-theme-dark .ui-tabs-nav li.ui-tabs-active a,
+.vibe-theme-dark .ui-tabs-nav li.ui-state-active a {
+  background: var(--bccards, #1E1724) !important;
+  color: var(--bctext-0, #ffffff) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.15)) !important;
+  border-bottom-color: var(--bccards, #1E1724) !important;
+}
+
+/* People filter dropdowns */
+.roster-filter-select,
+.roster-filter-item select,
+select#enrollment_role_id {
+  height: 38px !important;
+  line-height: normal !important;
+  padding: 6px 14px !important;
+  box-sizing: border-box !important;
+  font-size: 14px !important;
+}
+
+/* Pages list: "Front Page" badge pill */
+.front-page-badge,
+.wiki-page-badge,
+.badge.front-page-badge,
+span.badge {
+  background: rgba(10, 132, 255, 0.14) !important;
+  color: var(--bcaccent, #0A84FF) !important;
+  border: 1px solid var(--bcaccent, #0A84FF) !important;
+  border-radius: 6px !important;
+  padding: 2px 8px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+/* Discussions list: Clean row separation without nested double borders */
+.item-group-condensed .discussion-topic,
+.discussion-list .discussion-topic,
+.discussion-list .discussion_entry {
+  border-left: none !important;
+  border-right: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.discussion-list {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+/* Announcements: Dark avatar placeholder circles */
+.vibe-theme-dark .avatar,
+.vibe-theme-dark .avatar-circle,
+.vibe-theme-dark span.avatar,
+.vibe-theme-dark .discussion-avatar {
+  background-color: var(--bcbuttons, rgba(255, 255, 255, 0.1)) !important;
+  color: var(--bctext-0, #ffffff) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.15)) !important;
+}
+
+/* Calendar: Top toolbar breathing room */
+#calendar-header,
+.fc-header-toolbar,
+#calendar-drag-and-drop-container .fc-header {
+  padding-top: 20px !important;
+  padding-bottom: 14px !important;
+  margin-bottom: 8px !important;
+}
+
+/* Quiz submission / Results: Perfectly aligned question width with alert banner */
+#quiz_show .quiz-submission,
+.quiz-submission,
+#questions.assessment_results {
+  max-width: 860px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+#questions.assessment_results .question {
+  max-width: 860px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* ==========================================================================
+   Quiz Review Question Alignment: Badge Placement, Matching Rows, Checkmarks
+   ========================================================================== */
+
+/* 1. Correct Answer Badge: Sit cleanly inside card padding, not overhanging outside */
+.question > .correct_answer,
+.question > .answer_arrow,
+.question .correct_answer.answer_arrow,
+.question .header .correct_answer,
+.question .header .answer_arrow {
+  position: static !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  background-color: #15803d !important;
+  color: #ffffff !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: uppercase !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  margin: 0 0 14px 0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+  top: auto !important;
+  left: auto !important;
+  width: fit-content !important;
+}
+
+/* 2. Review Mode Checkmark Icon & Checkbox Collision: Never overlap */
+.question .answer .answer_arrow {
+  position: static !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 10px 0 0 !important;
+  flex-shrink: 0 !important;
+  top: auto !important;
+  left: auto !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* When Canvas renders the green checkmark icon in review mode, hide the duplicate raw input beneath it */
+.question .answer:has(.answer_arrow) input[type="checkbox"],
+.question .answer:has(.answer_arrow) input[type="radio"],
+.question .answer.correct_answer input[type="checkbox"],
+.question .answer.correct_answer input[type="radio"] {
+  display: none !important;
+}
+
+/* 3. Matching Questions: Symmetrical row layout and aligned dropdown */
+.question .answer .answer_match,
+.question .matching_question .answer_match {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  padding: 12px 18px !important;
+  box-sizing: border-box !important;
+  gap: 16px !important;
+}
+
+.question .answer .answer_match select,
+.question select.match_select {
+  max-width: 340px !important;
+  min-width: 220px !important;
+  height: 38px !important;
+  padding: 6px 14px !important;
+  border-radius: 8px !important;
+  background-color: var(--bcbuttons, rgba(0, 0, 0, 0.05)) !important;
+  color: var(--bctext-0, inherit) !important;
+  border: 1px solid var(--bcborders, rgba(0, 0, 0, 0.12)) !important;
+  box-sizing: border-box !important;
+}
+
+.vibe-theme-dark .question .answer .answer_match select,
+.vibe-theme-dark .question select.match_select {
+  background-color: var(--bcbuttons, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--bctext-0, #ffffff) !important;
+  border: 1px solid var(--bcborders, rgba(255, 255, 255, 0.15)) !important;
+}
+
+.question .answer:has(.answer_match) .answer_arrow {
+  padding: 8px 18px 0 18px !important;
+  margin: 0 !important;
+  font-size: 13px !important;
+  color: #15803d !important;
+  font-weight: 600 !important;
+}
+
+/* 4. Enforce strict uniform card width on all quiz question cards */
+.question,
+.quiz_sortable .question,
+#questions .question,
+.display_question.question {
+  width: 100% !important;
+  max-width: 860px !important;
+  box-sizing: border-box !important;
+  margin: 0 auto 24px auto !important;
+}
+
+/* ==========================================================================
+   Dark Mode Content Contrast: Neutralize Pasted White Highlights & Clean Marks
+   ========================================================================== */
+
+/* Pasted white/off-white background text from Word/Google Docs in dark mode */
+/* Dark mode highlights: Tactile translucent pills with clear high-contrast text */
+.vibe-theme-dark .user_content span[style*="background-color: rgb(255, 255, 255)"],
+.vibe-theme-dark .user_content span[style*="background-color: #ffffff"],
+.vibe-theme-dark .user_content span[style*="background-color: #FFF"],
+.vibe-theme-dark .user_content span[style*="background-color: white"],
+.vibe-theme-dark .user_content span[style*="background: rgb(255, 255, 255)"],
+.vibe-theme-dark .user_content span[style*="background: #ffffff"],
+.vibe-theme-dark .user_content span[style*="background: #FFF"],
+.vibe-theme-dark .user_content span[style*="background: white"],
+.vibe-theme-dark .user_content [style*="background-color: rgb(255, 255, 255)"],
+.vibe-theme-dark .user_content [style*="background-color: #ffffff"],
+.vibe-theme-dark .user_content [style*="background-color: #FFF"],
+.vibe-theme-dark .user_content [style*="background-color: white"],
+.vibe-theme-dark .user_content [style*="background: rgb(255, 255, 255)"],
+.vibe-theme-dark .user_content [style*="background: #ffffff"],
+.vibe-theme-dark .user_content [style*="background: #FFF"],
+.vibe-theme-dark .user_content [style*="background: white"],
+.vibe-theme-dark .assignment-description [style*="background-color: rgb(255, 255, 255)"],
+.vibe-theme-dark .assignment-description [style*="background-color: #ffffff"],
+.vibe-theme-dark .assignment-description [style*="background-color: white"],
+.vibe-theme-dark .description.user_content [style*="background-color: rgb(255, 255, 255)"],
+.vibe-theme-dark .description.user_content [style*="background-color: #ffffff"],
+.vibe-theme-dark #content .user_content span[style*="background-color: #fff"],
+.vibe-theme-dark #content .user_content span[style*="background-color: rgb(255, 255, 255)"],
+.vibe-theme-dark #content .user_content span[style*="background: #fff"],
+.vibe-theme-dark #content .user_content span[style*="background: rgb(255, 255, 255)"] {
+  background-color: rgba(255, 255, 255, 0.14) !important;
+  color: var(--bctext-0, #ffffff) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  box-decoration-break: clone !important;
+  -webkit-box-decoration-break: clone !important;
+}
+
+.vibe-theme-dark .user_content [style*="background-color"] *,
+.vibe-theme-dark .user_content [style*="background:"] *,
+.vibe-theme-dark .assignment-description [style*="background-color"] *,
+.vibe-theme-dark .description.user_content [style*="background-color"] * {
+  color: inherit !important;
+}
+
+/* Light mode guaranteed dark text for all Canvas user content */
+html.vibe-theme-light .user_content,
+html.vibe-theme-light .user_content p,
+html.vibe-theme-light .user_content li,
+html.vibe-theme-light .user_content div,
+html.vibe-theme-light .assignment-description,
+html.vibe-theme-light .assignment-description p,
+html.vibe-theme-light .assignment-description li,
+html.vibe-theme-light .description.user_content,
+html.vibe-theme-light .description.user_content p {
+  color: var(--bctext-0, #29221C) !important;
+}
+
+html.vibe-theme-light [style*="color: rgb(226, 232, 240)"],
+html.vibe-theme-light [style*="color: #e2e8f0"],
+html.vibe-theme-light [style*="color: rgb(255, 255, 255)"],
+html.vibe-theme-light [style*="color: #ffffff"],
+html.vibe-theme-light [style*="color: #fff"] {
+  color: var(--bctext-0, #29221C) !important;
+}
+
+html.vibe-theme-light .user_content mark,
+html.vibe-theme-light mark {
+  background-color: #fef08a !important;
+  color: #713f12 !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+}
+
+/* High-contrast dark-mode styling for real colored text highlights (marks, yellow, etc.) */
+.vibe-theme-dark .user_content mark,
+.vibe-theme-dark .assignment-description mark,
+.vibe-theme-dark mark {
+  background-color: rgba(234, 179, 8, 0.28) !important;
+  color: #fef08a !important;
+  border-radius: 4px !important;
+  padding: 1px 4px !important;
+}
+
+
+/* Strip pasted white/near-white background artifacts in light mode so text blends into linen paper */
+html.vibe-theme-light .user_content span[style*="background-color: rgb(255, 255, 255)"],
+html.vibe-theme-light .user_content span[style*="background-color: rgb(255,255,255)"],
+html.vibe-theme-light .user_content span[style*="background-color: #ffffff"],
+html.vibe-theme-light .user_content span[style*="background-color: #FFFFFF"],
+html.vibe-theme-light .user_content span[style*="background-color: #fff"],
+html.vibe-theme-light .user_content span[style*="background-color: #FFF"],
+html.vibe-theme-light .user_content span[style*="background-color: white"],
+html.vibe-theme-light .user_content span[style*="background: rgb(255, 255, 255)"],
+html.vibe-theme-light .user_content span[style*="background: rgb(255,255,255)"],
+html.vibe-theme-light .user_content span[style*="background: #ffffff"],
+html.vibe-theme-light .user_content span[style*="background: #FFFFFF"],
+html.vibe-theme-light .user_content span[style*="background: #fff"],
+html.vibe-theme-light .user_content span[style*="background: #FFF"],
+html.vibe-theme-light .user_content span[style*="background: white"],
+html.vibe-theme-light .user_content [style*="background-color: rgb(255, 255, 255)"],
+html.vibe-theme-light .user_content [style*="background-color: rgb(255,255,255)"],
+html.vibe-theme-light .user_content [style*="background-color: #ffffff"],
+html.vibe-theme-light .user_content [style*="background-color: #FFFFFF"],
+html.vibe-theme-light .user_content [style*="background-color: #fff"],
+html.vibe-theme-light .user_content [style*="background-color: #FFF"],
+html.vibe-theme-light .user_content [style*="background-color: white"],
+html.vibe-theme-light .user_content [style*="background: rgb(255, 255, 255)"],
+html.vibe-theme-light .user_content [style*="background: rgb(255,255,255)"],
+html.vibe-theme-light .user_content [style*="background: #ffffff"],
+html.vibe-theme-light .user_content [style*="background: #FFFFFF"],
+html.vibe-theme-light .user_content [style*="background: #fff"],
+html.vibe-theme-light .user_content [style*="background: #FFF"],
+html.vibe-theme-light .user_content [style*="background: white"],
+html.vibe-theme-light .assignment-description [style*="background-color: rgb(255, 255, 255)"],
+html.vibe-theme-light .assignment-description [style*="background-color: #ffffff"],
+html.vibe-theme-light .assignment-description [style*="background-color: white"],
+html.vibe-theme-light .description.user_content [style*="background-color: rgb(255, 255, 255)"],
+html.vibe-theme-light .description.user_content [style*="background-color: #ffffff"],
+html.vibe-theme-light .description.user_content [style*="background-color: white"],
+html.vibe-theme-light #content .user_content span[style*="background-color: #fff"],
+html.vibe-theme-light #content .user_content span[style*="background-color: rgb(255, 255, 255)"],
+html.vibe-theme-light #content .user_content span[style*="background: #fff"],
+html.vibe-theme-light #content .user_content span[style*="background: rgb(255, 255, 255)"],
+html[data-theme-mode="light"] .user_content [style*="background-color: rgb(255, 255, 255)"],
+html[data-theme-mode="light"] .user_content [style*="background-color: #ffffff"],
+html[data-theme-mode="light"] .user_content [style*="background-color: white"],
+html[data-theme-mode="light"] .assignment-description [style*="background-color: rgb(255, 255, 255)"],
+html[data-theme-mode="light"] .assignment-description [style*="background-color: #ffffff"],
+html[data-theme-mode="light"] .description.user_content [style*="background-color: rgb(255, 255, 255)"],
+html[data-theme-mode="light"] .description.user_content [style*="background-color: #ffffff"] {
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+
+/* Light mode tactile highlight pills */
+html.vibe-theme-light mark,
+html.vibe-theme-light .user_content mark {
+  background-color: rgba(245, 158, 11, 0.22) !important;
+  color: #78350f !important;
+  border: 1px solid rgba(217, 119, 6, 0.28) !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  box-decoration-break: clone !important;
+  -webkit-box-decoration-break: clone !important;
+}
+
+html.vibe-theme-light .user_content [style*="background-color"]:not([style*="255, 255, 255"]):not([style*="255,255,255"]):not([style*="#fff"]):not([style*="#FFF"]):not([style*="white"]) *,
+html.vibe-theme-light .assignment-description [style*="background-color"]:not([style*="255, 255, 255"]):not([style*="255,255,255"]):not([style*="#fff"]):not([style*="#FFF"]):not([style*="white"]) * {
+  color: inherit !important;
+}
+
+
+/* ==========================================================================
+   New Quizzes & Embedded LTI Iframe Dark Mode (Zero White-on-Light-Text Flash)
+   ========================================================================== */
+html.vibe-lti-frame,
+html.vibe-lti-frame body,
+html.vibe-lti-frame #root,
+html.vibe-lti-frame #app,
+html.vibe-lti-frame main {
+  background-color: var(--bcbackground-0) !important;
+  color: var(--bctext-0) !important;
+}
+
+html.vibe-lti-frame aside,
+html.vibe-lti-frame nav,
+html.vibe-lti-frame [class*="drawerLayout__tray"],
+html.vibe-lti-frame [class*="Tray"] {
+  background-color: var(--bccards, var(--bcbackground-1)) !important;
+  border-color: var(--bcborders) !important;
+  color: var(--bctext-0) !important;
+}
+
+html.vibe-theme-dark.vibe-lti-frame [class*="radioInput__facade"],
+html.vibe-theme-dark.vibe-lti-frame [class*="checkboxFacade__facade"] {
+  background-color: var(--bcbackground-2, #262629) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+html.vibe-theme-dark.vibe-lti-frame input:checked + [class*="radioInput__facade"],
+html.vibe-theme-dark.vibe-lti-frame input:checked + [class*="checkboxFacade__facade"] {
+  background-color: var(--bcaccent, #8B5CF6) !important;
+  border-color: var(--bcaccent, #8B5CF6) !important;
+}

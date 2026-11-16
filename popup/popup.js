@@ -1,10 +1,34 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+  // ── Auto-Restore Recovered Presets & Wallpaper if storage is fresh ──
+  var RECOVERED_SEEDS = {
+    saved_user_palettes: (typeof DEFAULT_SAVED_PALETTES !== 'undefined' ? DEFAULT_SAVED_PALETTES : []),
+    card_radius: 16,
+    active_preset: "dracula-night"
+  };
+
+  try {
+    chrome.storage.local.get(['saved_user_palettes', 'vibe_wallpaper_url'], function(seedCheck) {
+      var updates = {};
+      if (!seedCheck.saved_user_palettes || !seedCheck.saved_user_palettes.length) {
+        updates.saved_user_palettes = RECOVERED_SEEDS.saved_user_palettes;
+      }
+
+      if (Object.keys(updates).length > 0) {
+        chrome.storage.local.set(updates, function() {
+          console.log('[CanvasCustomizer] Auto-restored user presets & wallpaper from backup!', updates);
+        });
+      }
+    });
+  } catch(e) {}
+
   var groupList = document.getElementById('theme-group-list');
   var radiusSlider = document.getElementById('radius-slider');
   var radiusVal = document.getElementById('radius-val');
   var resetBtn = document.getElementById('reset-btn');
   var restoreBtn = document.getElementById('restore-btn');
   var softNightToggle = document.getElementById('soft-night-toggle');
+  var openNewTabToggle = document.getElementById('open-new-tab-toggle');
   var gpaToggle = document.getElementById('gpa-toggle');
   var gpaColorInput = document.getElementById('gpa-color-input');
   var gpaColorResetBtn = document.getElementById('gpa-color-reset-btn');
@@ -1036,153 +1060,9 @@ document.addEventListener('DOMContentLoaded', function() {
   var restorePremadesBtn = document.getElementById('restore-premades-btn');
   var paletteModePill = document.getElementById('palette-mode-pill');
 
-  var DEFAULT_PREMADE_PALETTES = [
-    {
-      id: 'pal-coastline',
-      name: 'Coastline',
-      isPremade: true,
-      mode: 'dark',
-      colors: {
-        'background-0': '#1F3843',
-        'background-1': '#192E37',
-        'background-2': '#264653',
-        'cards': '#223D49',
-        'sidebar': '#14252D',
-        'sidebar-text': '#F8F9FA',
-        'borders': '#325868',
-        'buttons': '#264653',
-        'accent': '#F4A261',
-        'links': '#E76F51',
-        'text-0': '#F8F9FA',
-        'text-1': '#D6DFE2',
-        'text-2': '#A1B5BC'
-      },
-      courseColors: {
-        math: '#2A9D8F',
-        stat: '#E76F51',
-        data: '#F4A261',
-        music: '#E9C46A',
-        history: '#2A9D8F',
-        fallback: ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#3D7486', '#457B9D']
-      }
-    },
-    {
-      id: 'pal-terracotta',
-      name: 'Terracotta Sun',
-      isPremade: true,
-      mode: 'dark',
-      colors: {
-        'background-0': '#211714',
-        'background-1': '#1A1210',
-        'background-2': '#2D1F1B',
-        'cards': '#281C18',
-        'sidebar': '#160E0D',
-        'sidebar-text': '#FAF0E6',
-        'borders': '#443029',
-        'buttons': '#382520',
-        'accent': '#E27D60',
-        'links': '#E8A87C',
-        'text-0': '#FAF0E6',
-        'text-1': '#E0D2C7',
-        'text-2': '#A8998E'
-      },
-      courseColors: {
-        math: '#E27D60',
-        stat: '#E8A87C',
-        data: '#C38D9E',
-        music: '#41B3A3',
-        history: '#85DCB0',
-        fallback: ['#E27D60', '#E8A87C', '#C38D9E', '#41B3A3', '#85DCB0', '#DDA15E']
-      }
-    },
-    {
-      id: 'pal-rose-milk',
-      name: 'Rose Milk',
-      isPremade: true,
-      mode: 'light',
-      colors: {
-        'background-0': '#FAF2F5',
-        'background-1': '#F4E6EB',
-        'background-2': '#EBD6DF',
-        'cards': '#FFFFFF',
-        'sidebar': '#F6E8EE',
-        'sidebar-text': '#2E1825',
-        'borders': '#E3CDD7',
-        'buttons': '#EDDAE3',
-        'accent': '#E11D48',
-        'links': '#BE185D',
-        'text-0': '#281421',
-        'text-1': '#59364C',
-        'text-2': '#8A6178'
-      },
-      courseColors: {
-        math: '#E11D48',
-        stat: '#10B981',
-        data: '#6366F1',
-        music: '#F59E0B',
-        history: '#8B5CF6',
-        fallback: ['#E11D48', '#10B981', '#6366F1', '#F59E0B', '#8B5CF6', '#EC4899']
-      }
-    },
-    {
-      id: 'pal-sunlit-cream',
-      name: 'Sunlit Cream',
-      isPremade: true,
-      mode: 'light',
-      colors: {
-        'background-0': '#FAF6F0',
-        'background-1': '#F3ECE0',
-        'background-2': '#E8DEC8',
-        'cards': '#FFFFFF',
-        'sidebar': '#F5EFE6',
-        'sidebar-text': '#2B231C',
-        'borders': '#E0D4C3',
-        'buttons': '#EADECF',
-        'accent': '#D97706',
-        'links': '#B45309',
-        'text-0': '#241E19',
-        'text-1': '#574A3E',
-        'text-2': '#8C7B6D'
-      },
-      courseColors: {
-        math: '#D97706',
-        stat: '#059669',
-        data: '#2563EB',
-        music: '#DB2777',
-        history: '#7C3AED',
-        fallback: ['#D97706', '#059669', '#2563EB', '#DB2777', '#7C3AED', '#EA580C']
-      }
-    },
-    {
-      id: 'pal-matcha-latte',
-      name: 'Matcha Latte',
-      isPremade: true,
-      mode: 'dark',
-      colors: {
-        'background-0': '#19221B',
-        'background-1': '#131A15',
-        'background-2': '#233026',
-        'cards': '#1E2920',
-        'sidebar': '#0E140F',
-        'sidebar-text': '#F4F7F4',
-        'borders': '#334437',
-        'buttons': '#28362B',
-        'accent': '#A3C9A8',
-        'links': '#84B59F',
-        'text-0': '#F4F7F4',
-        'text-1': '#D5E0D6',
-        'text-2': '#96A898'
-      },
-      courseColors: {
-        math: '#A3C9A8',
-        stat: '#84B59F',
-        data: '#69B578',
-        music: '#DDB771',
-        history: '#C27BA0',
-        fallback: ['#A3C9A8', '#84B59F', '#69B578', '#DDB771', '#C27BA0', '#5B8E7D']
-      }
-    }
-  ];
+  var DEFAULT_PREMADE_PALETTES = (typeof DEFAULT_SAVED_PALETTES !== 'undefined' ? DEFAULT_SAVED_PALETTES : []).filter(function(p) {
+    return p && p.isPremade;
+  });
 
   function updateStudioLiveMockup() {
     var bg0 = currentStudioColors['background-0'];
@@ -1575,7 +1455,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'course_images', 'discovered_courses', 'custom_theme_colors',
       'vibe_wallpaper_url', 'vibe_wallpaper_opacity', 'vibe_wallpaper_blur',
       'vibe_sidebar_bg_url', 'vibe_sidebar_bg_opacity', 'vibe_sidebar_bg_blur',
-      'vibe_show_gpa', 'vibe_gpa_bg_color', 'saved_user_palettes'
+      'vibe_show_gpa', 'vibe_gpa_bg_color', 'saved_user_palettes', 'vibe_open_new_tab',
+      'course_landing_pages', 'default_course_landing', 'vibe_accent_color'
     ], function(res) {
       if (res && res.saved_user_palettes && Array.isArray(res.saved_user_palettes)) {
         savedUserPalettes = res.saved_user_palettes;
@@ -1626,6 +1507,9 @@ document.addEventListener('DOMContentLoaded', function() {
       if (softNightToggle && res && res.vibe_soft_night) {
         softNightToggle.checked = true;
       }
+      if (openNewTabToggle && res && res.vibe_open_new_tab !== undefined) {
+        openNewTabToggle.checked = !!res.vibe_open_new_tab;
+      }
       if (gpaToggle) {
         gpaToggle.checked = (res && res.vibe_show_gpa !== undefined) ? !!res.vibe_show_gpa : true;
         if (gpaColorRow) gpaColorRow.style.display = gpaToggle.checked ? 'flex' : 'none';
@@ -1649,6 +1533,8 @@ document.addEventListener('DOMContentLoaded', function() {
         res && res.vibe_sidebar_bg_opacity,
         res && res.vibe_sidebar_bg_blur
       );
+      updateQuickAccentUI(res && res.vibe_accent_color);
+      initCourseLandingUI(res);
     });
   } else {
     if(customThemeColors && customThemeColors[activePresetId]) { presets[activePresetId] = customThemeColors[activePresetId]; } applyPopupTheme(activePresetId);
@@ -1674,6 +1560,16 @@ document.addEventListener('DOMContentLoaded', function() {
     softNightToggle.addEventListener('change', function() {
       if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
         chrome.storage.local.set({ vibe_soft_night: softNightToggle.checked });
+      }
+    });
+  }
+
+  if (openNewTabToggle) {
+    openNewTabToggle.addEventListener('change', function() {
+      var isNewTab = openNewTabToggle.checked;
+      try { localStorage.setItem('vibe_open_new_tab', isNewTab ? 'true' : 'false'); } catch(e) {}
+      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        chrome.storage.local.set({ vibe_open_new_tab: isNewTab });
       }
     });
   }
@@ -1711,6 +1607,121 @@ document.addEventListener('DOMContentLoaded', function() {
       sendLiveParam('vibe_gpa_bg_color', '');
       if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
         chrome.storage.local.set({ vibe_gpa_bg_color: '' });
+      }
+    });
+  }
+
+  // Course Landing Page Settings
+  function initCourseLandingUI(res) {
+  // Course Landing Page Settings
+  var defaultLandingSelect = document.getElementById('default-landing-select');
+  var landingOverridesWrap = document.getElementById('course-landing-overrides-wrap');
+  var courseLandingList = document.getElementById('course-landing-list');
+
+  if (defaultLandingSelect) {
+    var currentDefLanding = (res && res.default_course_landing) || 'home';
+    defaultLandingSelect.value = currentDefLanding;
+    defaultLandingSelect.addEventListener('change', function() {
+      var val = defaultLandingSelect.value;
+      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        chrome.storage.local.set({ default_course_landing: val });
+      }
+    });
+  }
+
+  var discoveredCourses = (res && res.discovered_courses) || [];
+  var courseLandingPages = (res && res.course_landing_pages) || {};
+  var nicknames = (res && res.course_nicknames) || {};
+
+  if (courseLandingList && Array.isArray(discoveredCourses) && discoveredCourses.length > 0) {
+    if (landingOverridesWrap) landingOverridesWrap.style.display = 'block';
+    courseLandingList.innerHTML = '';
+    discoveredCourses.forEach(function(c) {
+      if (!c || !c.id) return;
+      var row = document.createElement('div');
+      row.className = 'course-landing-row';
+
+      var title = document.createElement('span');
+      title.className = 'course-landing-row-title';
+      var cleanName = nicknames['c_' + c.id] || nicknames['id_' + c.id] || c.code || c.name || ('Course ' + c.id);
+      title.textContent = cleanName;
+      title.title = c.name || cleanName;
+
+      var sel = document.createElement('select');
+      sel.className = 'vibe-select-tactile';
+      var options = [
+        { val: '', label: 'Default' },
+        { val: 'home', label: 'Home' },
+        { val: 'files', label: 'Files' },
+        { val: 'modules', label: 'Modules' },
+        { val: 'assignments', label: 'Assignments' },
+        { val: 'grades', label: 'Grades' },
+        { val: 'announcements', label: 'Announcements' }
+      ];
+      options.forEach(function(opt) {
+        var el = document.createElement('option');
+        el.value = opt.val;
+        el.textContent = opt.label;
+        sel.appendChild(el);
+      });
+      sel.value = courseLandingPages[c.id] || '';
+
+      sel.addEventListener('change', function() {
+        var chosen = sel.value;
+        if (chosen) {
+          courseLandingPages[c.id] = chosen;
+        } else {
+          delete courseLandingPages[c.id];
+        }
+        if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+          chrome.storage.local.set({ course_landing_pages: courseLandingPages });
+        }
+      });
+
+      row.appendChild(title);
+      row.appendChild(sel);
+      courseLandingList.appendChild(row);
+    });
+  }
+  }
+
+  // Quick Accent Color Override
+  var quickAccentPicker = document.getElementById('quick-accent-picker');
+  var quickAccentHex = document.getElementById('quick-accent-hex');
+  var quickAccentResetBtn = document.getElementById('quick-accent-reset-btn');
+
+  function updateQuickAccentUI(col) {
+    if (!col) {
+      var catalog = (typeof PRESET_THEMES !== 'undefined') ? PRESET_THEMES : {};
+      var curP = catalog[activePresetId] || catalog['pal-matcha-latte'];
+      col = (curP && curP.colors && (curP.colors.accent || curP.colors.links)) || '#8EB894';
+    }
+    if (quickAccentPicker) quickAccentPicker.value = col;
+    if (quickAccentHex) quickAccentHex.textContent = col.toUpperCase();
+  }
+
+  if (quickAccentPicker) {
+    quickAccentPicker.addEventListener('input', function() {
+      var val = quickAccentPicker.value;
+      if (quickAccentHex) quickAccentHex.textContent = val.toUpperCase();
+      debouncedStorageSet('vibe_accent_color', val, 60);
+      sendLiveParam('vibe_accent_color', val);
+    });
+    quickAccentPicker.addEventListener('change', function() {
+      var val = quickAccentPicker.value;
+      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        chrome.storage.local.set({ vibe_accent_color: val });
+      }
+    });
+  }
+
+  if (quickAccentResetBtn) {
+    quickAccentResetBtn.addEventListener('click', function() {
+      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        chrome.storage.local.remove('vibe_accent_color', function() {
+          sendLiveParam('vibe_accent_color', null);
+          updateQuickAccentUI(null);
+        });
       }
     });
   }
@@ -1789,6 +1800,8 @@ document.addEventListener('DOMContentLoaded', function() {
         radiusVal.textContent = '14px';
       }
       if (softNightToggle) softNightToggle.checked = false;
+      if (openNewTabToggle) openNewTabToggle.checked = false;
+      try { localStorage.setItem('vibe_open_new_tab', 'false'); } catch(e) {}
       if (gpaToggle) {
         gpaToggle.checked = true;
         if (gpaColorRow) gpaColorRow.style.display = 'flex';

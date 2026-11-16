@@ -357,32 +357,32 @@ var PRESETS = {
   },
   'pal-midnight-plum': {
     id: 'pal-midnight-plum',
-    name: 'Rose Milk',
+    name: 'Midnight Plum',
     isPremade: true,
-    mode: 'light',
-    vibe: 'Bright pastel blush, soft cream ivory cards, fresh peony accents, and sweet plum typography',
+    mode: 'dark',
+    vibe: 'Deep twilight indigo, dark plum velvet cards, luminous magenta accents, and soft lavender typography',
     colors: {
-      'background-0': '#FAF2F5',
-      'background-1': '#F4E6EB',
-      'background-2': '#EBD6DF',
-      'cards': '#FFFFFF',
-      'sidebar': '#F6E8EE',
-      'sidebar-text': '#2E1825',
-      'borders': '#E3CDD7',
-      'buttons': '#EDDAE3',
-      'accent': '#E11D48',
-      'links': '#BE185D',
-      'text-0': '#281421',
-      'text-1': '#59364C',
-      'text-2': '#8A6178'
+      'background-0': '#151019',
+      'background-1': '#110D14',
+      'background-2': '#1D1623',
+      'cards': '#1E1724',
+      'sidebar': '#0E0A10',
+      'sidebar-text': '#F3EEF5',
+      'borders': '#2E2236',
+      'buttons': '#261C2C',
+      'accent': '#C084FC',
+      'links': '#E879F9',
+      'text-0': '#F3EEF5',
+      'text-1': '#D0C4D6',
+      'text-2': '#9688A0'
     },
     courseColors: {
-      math: '#E11D48',
-      stat: '#10B981',
-      data: '#6366F1',
-      music: '#F59E0B',
-      history: '#8B5CF6',
-      fallback: ['#E11D48', '#10B981', '#6366F1', '#F59E0B', '#8B5CF6', '#EC4899']
+      math: '#C084FC',
+      stat: '#818CF8',
+      data: '#E879F9',
+      music: '#F472B6',
+      history: '#FB7185',
+      fallback: ['#C084FC', '#818CF8', '#E879F9', '#F472B6', '#FB7185', '#A78BFA']
     }
   },
   'pal-sunlit-cream': {
@@ -452,6 +452,215 @@ var PRESETS = {
     mode: 'dark',
     vibe: 'Organic deep forest, soft eucalyptus, sage leaf, and warm bamboo gold',
     colors: {
+      'background-0': '#141715',
+      'background-1': '#101311',
+      'background-2': '#1A201C',
+      'cards': '#1B221E',
+      'sidebar': '#161D18',
+      'sidebar-text': '#EAF0EB',
+      'borders': '#28332B',
+      'buttons': '#222B25',
+      'accent': '#8EB894',
+      'links': '#7CA99A',
+      'text-0': '#EAF0EB',
+      'text-1': '#C6D2C8',
+      'text-2': '#88988C'
+    },
+    courseColors: {
+      math: '#8EB894',
+      stat: '#7CA99A',
+      data: '#619B6F',
+      music: '#CDB278',
+      history: '#B8849E',
+      fallback: ['#8EB894', '#7CA99A', '#619B6F', '#CDB278', '#B8849E', '#568875']
+    }
+  },
+  'pal-matcha-cream': {
+    id: 'pal-matcha-cream',
+    name: 'Iced Matcha',
+    isPremade: true,
+    mode: 'light',
+    vibe: 'Refreshing iced matcha, creamy ivory oat milk, crisp sage borders, and deep forest typography',
+    colors: {
+      'background-0': '#F3F6F3',
+      'background-1': '#E9EFEA',
+      'background-2': '#DFE7E1',
+      'cards': '#FFFFFF',
+      'sidebar': '#EBF2ED',
+      'sidebar-text': '#19261C',
+      'borders': '#D3E0D6',
+      'buttons': '#DFECE2',
+      'accent': '#2D6A4F',
+      'links': '#1B4332',
+      'text-0': '#152218',
+      'text-1': '#3C5242',
+      'text-2': '#667D6C'
+    },
+    courseColors: {
+      math: '#2D6A4F',
+      stat: '#40916C',
+      data: '#52B788',
+      music: '#D4A373',
+      history: '#9B5DE5',
+      fallback: ['#2D6A4F', '#40916C', '#52B788', '#D4A373', '#9B5DE5', '#0077B6']
+    }
+  }
+};
+
+var DEFAULT_PRESET_ID = 'linen-day';
+
+var DEFAULT_SAVED_PALETTES = [
+  {
+    id: 'user-pal-1792136693370',
+    name: 'Matcha Latte (Custom)',
+    mode: 'dark',
+    colors: {
+      'accent': '#A3C9A8',
+      'accent-secondary': '#A3C9A8',
+      'background-0': '#19221B',
+      'background-1': '#1E2920',
+      'background-2': '#304133',
+      'borders': '#3D5241',
+      'buttons': '#304133',
+      'cards': '#1E2920',
+      'links': '#A3C9A8',
+      'sidebar': '#3F5543',
+      'sidebar-text': '#F7F2EA',
+      'text-0': '#F4F7F4',
+      'text-1': '#C7D6C7',
+      'text-2': '#9AB69A'
+    },
+    courseColors: {
+      math: '#A3C9A8',
+      stat: '#84B59F',
+      data: '#69B578',
+      music: '#DDB771',
+      history: '#C27BA0',
+      fallback: ['#457351', '#B8533C', '#CFA33C', '#486A89', '#9E77B0']
+    }
+  },
+  {
+    id: 'pal-coastline',
+    name: 'Coastline',
+    isPremade: true,
+    mode: 'dark',
+    colors: {
+      'background-0': '#1F3843',
+      'background-1': '#192E37',
+      'background-2': '#264653',
+      'cards': '#223D49',
+      'sidebar': '#14252D',
+      'sidebar-text': '#F8F9FA',
+      'borders': '#325868',
+      'buttons': '#264653',
+      'accent': '#F4A261',
+      'links': '#E76F51',
+      'text-0': '#F8F9FA',
+      'text-1': '#D6DFE2',
+      'text-2': '#A1B5BC'
+    },
+    courseColors: {
+      math: '#2A9D8F',
+      stat: '#E76F51',
+      data: '#F4A261',
+      music: '#E9C46A',
+      history: '#2A9D8F',
+      fallback: ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#3D7486', '#457B9D']
+    }
+  },
+  {
+    id: 'pal-terracotta',
+    name: 'Terracotta Sun',
+    isPremade: true,
+    mode: 'dark',
+    colors: {
+      'background-0': '#211714',
+      'background-1': '#1A1210',
+      'background-2': '#2D1F1B',
+      'cards': '#281C18',
+      'sidebar': '#160E0D',
+      'sidebar-text': '#FAF0E6',
+      'borders': '#443029',
+      'buttons': '#382520',
+      'accent': '#E27D60',
+      'links': '#E8A87C',
+      'text-0': '#FAF0E6',
+      'text-1': '#E0D2C7',
+      'text-2': '#A8998E'
+    },
+    courseColors: {
+      math: '#E27D60',
+      stat: '#E8A87C',
+      data: '#C38D9E',
+      music: '#41B3A3',
+      history: '#85DCB0',
+      fallback: ['#E27D60', '#E8A87C', '#C38D9E', '#41B3A3', '#85DCB0', '#DDA15E']
+    }
+  },
+  {
+    id: 'pal-rose-milk',
+    name: 'Rose Milk',
+    isPremade: true,
+    mode: 'light',
+    colors: {
+      'background-0': '#FAF2F5',
+      'background-1': '#F4E6EB',
+      'background-2': '#EBD6DF',
+      'cards': '#FFFFFF',
+      'sidebar': '#F6E8EE',
+      'sidebar-text': '#2E1825',
+      'borders': '#E3CDD7',
+      'buttons': '#EDDAE3',
+      'accent': '#E11D48',
+      'links': '#BE185D',
+      'text-0': '#281421',
+      'text-1': '#59364C',
+      'text-2': '#8A6178'
+    },
+    courseColors: {
+      math: '#E11D48',
+      stat: '#10B981',
+      data: '#6366F1',
+      music: '#F59E0B',
+      history: '#8B5CF6',
+      fallback: ['#E11D48', '#10B981', '#6366F1', '#F59E0B', '#8B5CF6', '#EC4899']
+    }
+  },
+  {
+    id: 'pal-sunlit-cream',
+    name: 'Sunlit Cream',
+    isPremade: true,
+    mode: 'light',
+    colors: {
+      'background-0': '#FAF6F0',
+      'background-1': '#F3ECE0',
+      'background-2': '#E8DEC8',
+      'cards': '#FFFFFF',
+      'sidebar': '#F5EFE6',
+      'sidebar-text': '#2B231C',
+      'borders': '#E0D4C3',
+      'buttons': '#EADECF',
+      'accent': '#D97706',
+      'links': '#B45309',
+      'text-0': '#241E19',
+      'text-1': '#574A3E',
+      'text-2': '#8C7B6D'
+    },
+    courseColors: {
+      math: '#D97706',
+      stat: '#059669',
+      data: '#2563EB',
+      music: '#DB2777',
+      history: '#7C3AED',
+      fallback: ['#D97706', '#059669', '#2563EB', '#DB2777', '#7C3AED', '#EA580C']
+    }
+  },
+  {
+    id: 'pal-matcha-latte',
+    name: 'Matcha Latte',
+    isPremade: true,
+    mode: 'dark',
+    colors: {
       'background-0': '#19221B',
       'background-1': '#131A15',
       'background-2': '#233026',
@@ -475,18 +684,18 @@ var PRESETS = {
       fallback: ['#A3C9A8', '#84B59F', '#69B578', '#DDB771', '#C27BA0', '#5B8E7D']
     }
   }
-};
-
-var DEFAULT_PRESET_ID = 'linen-day';
+];
 
 if (typeof window !== 'undefined') {
   window.PRESETS = PRESETS;
   window.DEFAULT_PRESET_ID = DEFAULT_PRESET_ID;
+  window.DEFAULT_SAVED_PALETTES = DEFAULT_SAVED_PALETTES;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.PRESETS = PRESETS;
   globalThis.DEFAULT_PRESET_ID = DEFAULT_PRESET_ID;
+  globalThis.DEFAULT_SAVED_PALETTES = DEFAULT_SAVED_PALETTES;
 }
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { PRESETS, DEFAULT_PRESET_ID };
+  module.exports = { PRESETS, DEFAULT_PRESET_ID, DEFAULT_SAVED_PALETTES };
 }

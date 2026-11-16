@@ -8,3 +8,6 @@ dist/
 build/
 .vscode/
 .idea/
+extension/
+plan.md
+consolidated_review_report.md

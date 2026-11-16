@@ -54,9 +54,9 @@ body.theme-dark {
 }
 
 body {
-  width: 348px;
-  min-width: 348px;
-  max-width: 348px;
+  width: 396px;
+  min-width: 396px;
+  max-width: 396px;
   background: var(--p-bg);
   color: var(--p-text);
   padding: 12px 13px;
@@ -1253,6 +1253,110 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 .saved-delete-btn:hover {
   color: #FF453A;
+}
+
+/* ── Course Landing Page & What-If Projector ──────────────── */
+.vibe-select-tactile {
+  background: var(--p-surface);
+  border: 1px solid var(--p-border-strong);
+  color: var(--p-text);
+  padding: 4px 8px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 550;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.14s ease;
+  min-width: 130px;
+}
+
+.vibe-select-tactile:focus {
+  border-color: var(--p-accent);
+}
+
+.course-landing-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.course-landing-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: var(--p-pill-bg);
+}
+
+.course-landing-row-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--p-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 170px;
+}
+
+.what-if-calc-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.what-if-inputs-row {
+  display: flex;
+  gap: 8px;
+}
+
+.what-if-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.what-if-field .sub-caption {
+  font-size: 9.5px;
+  color: var(--p-text-2);
+  white-space: nowrap;
+}
+
+.vibe-number-input {
+  width: 100%;
+  background: var(--p-surface);
+  border: 1px solid var(--p-border-strong);
+  color: var(--p-text);
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  outline: none;
+  transition: border-color 0.14s ease;
+  font-variant-numeric: tabular-nums;
+}
+
+.vibe-number-input:focus {
+  border-color: var(--p-accent);
+}
+
+.what-if-result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: var(--p-pill-bg);
+  border-radius: 8px;
+  border: 1px solid var(--p-border);
+}
+
+.what-if-result-badge {
+  font-size: 13px;
+  font-weight: 750;
+  color: var(--p-accent);
+  font-variant-numeric: tabular-nums;
 }
 
 
