@@ -28,7 +28,7 @@ console.log('PASS: Matches strictly scoped to Canvas domains');
 
 // 2. Validate Presets: 50% Dark and 50% Light
 const presetsFile = path.join(base, 'shared/presets.js');
-const { PRESETS } = require(presetsFile);
+const { PRESETS, DEFAULT_SAVED_PALETTES, getPairedPresetId } = require(presetsFile);
 
 if (PRESETS['taco-bell'] || PRESETS['chipotle']) {
   console.error('FAIL: Taco Bell and Chipotle must be removed!');
@@ -76,6 +76,51 @@ for (const [id, preset] of Object.entries(PRESETS)) {
 }
 console.log(`PASS: All ${Object.keys(PRESETS).length} presets have complete, valid color maps and subject courseColors`);
 
+// 3b. Validate DEFAULT_SAVED_PALETTES seed
+if (!Array.isArray(DEFAULT_SAVED_PALETTES) || DEFAULT_SAVED_PALETTES.length === 0) {
+  console.error('FAIL: DEFAULT_SAVED_PALETTES must be a non-empty array');
+  process.exit(1);
+}
+for (const pal of DEFAULT_SAVED_PALETTES) {
+  if (!pal.id || !pal.name || (pal.mode !== 'dark' && pal.mode !== 'light')) {
+    console.error('FAIL: Invalid saved palette metadata:', pal && pal.id);
+    process.exit(1);
+  }
+  for (const prop of requiredColorProps) {
+    if (!pal.colors || !pal.colors[prop]) {
+      console.error(`FAIL: Saved palette ${pal.id} missing color ${prop}`);
+      process.exit(1);
+    }
+  }
+  if (!pal.courseColors || !pal.courseColors.math) {
+    console.error(`FAIL: Saved palette ${pal.id} missing courseColors`);
+    process.exit(1);
+  }
+}
+console.log(`PASS: All ${DEFAULT_SAVED_PALETTES.length} DEFAULT_SAVED_PALETTES entries are valid`);
+
+// 3c. Validate getPairedPresetId helper
+if (typeof getPairedPresetId !== 'function') {
+  console.error('FAIL: getPairedPresetId is not exported');
+  process.exit(1);
+}
+const pairChecks = [
+  ['linen-day', null, 'linen-night'],
+  ['linen-night', null, 'linen-day'],
+  ['dracula-day', null, 'dracula-night'],
+  ['pal-matcha-latte', DEFAULT_SAVED_PALETTES, 'linen-day'],
+  ['pal-rose-milk', DEFAULT_SAVED_PALETTES, 'dracula-night'],
+  ['user-pal-1792136693370', DEFAULT_SAVED_PALETTES, 'linen-day']
+];
+for (const [inputId, extras, expected] of pairChecks) {
+  const actual = getPairedPresetId(inputId, extras);
+  if (actual !== expected) {
+    console.error(`FAIL: getPairedPresetId(${inputId}) expected ${expected}, got ${actual}`);
+    process.exit(1);
+  }
+}
+console.log('PASS: getPairedPresetId resolves paired and fallback presets accurately');
+
 
 // 4. Validate Files
 const filesToCheck = [
@@ -84,7 +129,7 @@ const filesToCheck = [
   'popup/popup.html',
   'popup/popup.css',
   'popup/popup.js',
-  'shared/canvas-styles.js',
+  'shared/presets.js',
   'icons/icon16.png',
   'icons/icon48.png',
   'icons/icon128.png'

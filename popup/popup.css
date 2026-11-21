@@ -9,22 +9,34 @@
 }
 
 /* Custom Sleek Scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+* {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  scrollbar-width: thin;
 }
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(128, 128, 128, 0.22);
-  border-radius: 999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(128, 128, 128, 0.40);
+
+@supports not (scrollbar-color: auto) {
+  * {
+    scrollbar-width: auto;
+  }
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(128, 128, 128, 0.40);
+  }
 }
 
 :root {
+  --scrollbar-thumb: rgba(128, 128, 128, 0.22);
+  --scrollbar-track: transparent;
   --p-bg: #F6F2EB;
   --p-surface: #FCFAF6;
   --p-border: rgba(40, 30, 20, 0.08);
@@ -118,32 +130,44 @@ body {
   border-radius: 5px;
 }
 
-.status-badge {
+.mode-toggle-btn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 9.5px;
-  font-weight: 650;
-  background: rgba(48, 200, 88, 0.12);
-  color: #248a3d;
-  border: 1px solid rgba(48, 200, 88, 0.28);
-  padding: 2px 6.5px;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--p-surface);
+  color: var(--p-text);
+  border: 1px solid var(--p-border-strong);
+  padding: 4px 9px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.mode-toggle-btn:hover {
+  background: var(--p-pill-bg);
+  border-color: var(--p-accent);
+}
+
+.shortcut-btn {
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  background: var(--p-surface);
+  color: var(--p-text);
+  border: 1px solid var(--p-border-strong);
+  padding: 4px 9px;
   border-radius: 6px;
-  letter-spacing: 0.01em;
+  cursor: pointer;
+  min-width: 82px;
+  text-align: center;
+  transition: border-color 120ms ease, color 120ms ease;
 }
 
-body.theme-dark .status-badge {
-  color: #34c759;
-  background: rgba(52, 199, 89, 0.15);
-  border-color: rgba(52, 199, 89, 0.3);
-}
-
-.status-dot {
-  width: 4.5px;
-  height: 4.5px;
-  border-radius: 50%;
-  background: #34c759;
-  box-shadow: 0 0 4px #34c759;
+.shortcut-btn.recording {
+  border-color: var(--p-accent);
+  color: var(--p-accent);
 }
 
 /* ── Segmented Control Bar (Apple iOS / macOS 15) ───────── */

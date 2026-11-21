@@ -2345,6 +2345,10 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   gap: 6px !important;
 }
 
+:root {
+  interpolate-size: allow-keywords;
+}
+
 /* Card Styling */
 .vibe-todo-card,
 .vibe-graded-card {
@@ -2356,9 +2360,11 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   border-radius: 8px !important;
   padding: 8px 10px !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+  block-size: auto !important;
   max-height: 140px !important;
   transition: transform 0.18s cubic-bezier(0.2, 0.9, 0.3, 1),
               opacity 0.15s ease,
+              block-size 0.22s cubic-bezier(0.4, 0, 0.2, 1) 0.05s,
               max-height 0.22s cubic-bezier(0.4, 0, 0.2, 1) 0.05s,
               margin 0.22s cubic-bezier(0.4, 0, 0.2, 1) 0.05s,
               padding 0.22s cubic-bezier(0.4, 0, 0.2, 1) 0.05s,
@@ -2378,6 +2384,7 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
 .vibe-graded-card.vibe-dismissing {
   transform: translateX(42px) scale(0.96) !important;
   opacity: 0 !important;
+  block-size: 0 !important;
   max-height: 0 !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
@@ -2864,9 +2871,11 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   border-radius: 7px !important;
   background-color: transparent !important;
   border: 1px solid transparent !important;
+  block-size: auto !important;
   max-height: 80px !important;
   transition: background-color 0.12s ease,
               border-color 0.12s ease,
+              block-size 0.22s cubic-bezier(0.4, 0, 0.2, 1),
               max-height 0.22s cubic-bezier(0.4, 0, 0.2, 1),
               margin 0.22s cubic-bezier(0.4, 0, 0.2, 1),
               padding 0.22s cubic-bezier(0.4, 0, 0.2, 1),
@@ -2907,6 +2916,7 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
 }
 
 .vibe-minimal-row.vibe-row-completed {
+  block-size: 0 !important;
   max-height: 0 !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
@@ -2917,6 +2927,14 @@ html.vibe-theme-dark .vibe-dashboard-page #right-side .button-sidebar-wide, html
   border-width: 0 !important;
   overflow: hidden !important;
   pointer-events: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vibe-todo-card,
+  .vibe-graded-card,
+  .vibe-minimal-row {
+    transition: none !important;
+  }
 }
 
 .vibe-minimal-check {
@@ -5858,6 +5876,45 @@ span[class*="checkboxFacade__facade"] {
   color: var(--bctext-2, #999) !important;
   text-align: center !important;
   padding: 0 4px !important;
+}
+.vibe-gpa-course-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  max-height: 150px !important;
+  overflow-y: auto !important;
+  padding-right: 4px !important;
+}
+.vibe-gpa-course-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 12.5px !important;
+  color: var(--bctext-0, #eee) !important;
+  cursor: pointer !important;
+  padding: 4px 6px !important;
+  border-radius: 6px !important;
+  transition: background 120ms !important;
+}
+.vibe-gpa-course-item:hover {
+  background: var(--bcbackground-2, rgba(255, 255, 255, 0.06)) !important;
+}
+.vibe-gpa-course-item input[type="checkbox"] {
+  accent-color: var(--bcaccent, #b85338) !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+}
+.vibe-gpa-course-item-name {
+  flex: 1 !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+.vibe-gpa-course-item-score {
+  font-variant-numeric: tabular-nums !important;
+  color: var(--bctext-2, #999) !important;
+  font-size: 12px !important;
 }
 .vibe-gpa-custom-editor {
   display: flex !important;

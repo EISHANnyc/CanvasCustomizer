@@ -219,14 +219,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!extractedWallpaperColors || extractedWallpaperColors.length === 0) return null;
     var bg = null, card = null, accent = null, sec = null;
 
-    var sortedBySat = extractedWallpaperColors.slice().sort(function(a, b) {
+    var sortedBySat = extractedWallpaperColors.toSorted(function(a, b) {
       return hexToHsl(b).s - hexToHsl(a).s;
     });
     accent = sortedBySat[0] || (isDark ? '#F59E0B' : '#B85338');
     sec = sortedBySat[1] || (isDark ? '#3B82F6' : '#2A8C66');
 
     if (isDark) {
-      var sortedByLight = extractedWallpaperColors.slice().sort(function(a, b) {
+      var sortedByLight = extractedWallpaperColors.toSorted(function(a, b) {
         return hexToHsl(a).l - hexToHsl(b).l;
       });
       var darkest = sortedByLight[0] || '#1E1B18';
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
       bg = hslToHex(dHsl.h, Math.min(dHsl.s, 22), 12);
       card = hslToHex(dHsl.h, Math.min(dHsl.s, 20), 18);
     } else {
-      var sortedByLightDesc = extractedWallpaperColors.slice().sort(function(a, b) {
+      var sortedByLightDesc = extractedWallpaperColors.toSorted(function(a, b) {
         return hexToHsl(b).l - hexToHsl(a).l;
       });
       var lightest = sortedByLightDesc[0] || '#F5F0E8';
@@ -433,10 +433,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (mf && mf.version) vBadge.textContent = 'v' + mf.version;
       } catch (e) {}
     }
+    if (typeof updateQuickModeToggleUI === 'function') updateQuickModeToggleUI();
   }
 
   function renderGroups() {
-    groupList.innerHTML = '';
+    groupList.replaceChildren();
     GROUPS.forEach(function(group) {
       var dayP = presets[group.day];
       var nightP = presets[group.night];
@@ -619,6 +620,7 @@ document.addEventListener('DOMContentLoaded', function() {
               hexInp.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                   e.preventDefault();
+                  if (e.isComposing || e.keyCode === 229) return;
                   applyUserHex(hexInp.value);
                 }
               });
@@ -709,6 +711,146 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   });
+
+  // ── Quick Dark/Light Toggle & Shortcut Recorder ─────────────
+  var DEFAULT_THEME_SHORTCUT = { code: 'KeyD', alt: true, shift: true, ctrl: false, meta: false };
+  var currentThemeShortcut = Object.assign({}, DEFAULT_THEME_SHORTCUT);
+  var quickModeToggleBtn = document.getElementById('quick-mode-toggle-btn');
+  var quickModeLabel = document.getElementById('quick-mode-label');
+  var quickModeIcon = document.getElementById('quick-mode-icon');
+  var shortcutRecordBtn = document.getElementById('shortcut-record-btn');
+  var shortcutResetBtn = document.getElementById('shortcut-reset-btn');
+  var isRecordingShortcut = false;
+
+  function formatShortcutLabel(sc) {
+    var s = sc || DEFAULT_THEME_SHORTCUT;
+    var parts = [];
+    if (s.ctrl) parts.push('Ctrl');
+    if (s.alt) parts.push('Alt');
+    if (s.shift) parts.push('Shift');
+    if (s.meta) parts.push('Cmd');
+    var keyPart = (s.code || 'KeyD').replace(/^Key/, '').replace(/^Digit/, '');
+    parts.push(keyPart);
+    return parts.join('+');
+  }
+
+  function updateQuickModeToggleUI() {
+    if (!quickModeToggleBtn) return;
+    var activeP = presets[activePresetId] || presets['linen-day'];
+    var isDark = activeP && activeP.mode === 'dark';
+    var scText = formatShortcutLabel(currentThemeShortcut);
+    quickModeToggleBtn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    quickModeToggleBtn.title = (isDark ? 'Switch to Light mode' : 'Switch to Dark mode') + ' (' + scText + ')';
+    if (quickModeLabel) quickModeLabel.textContent = isDark ? 'Dark' : 'Light';
+    if (quickModeIcon) {
+      quickModeIcon.innerHTML = isDark
+        ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'
+        : '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+    }
+  }
+
+  function renderShortcutUI() {
+    if (shortcutRecordBtn && !isRecordingShortcut) {
+      shortcutRecordBtn.textContent = formatShortcutLabel(currentThemeShortcut);
+    }
+    updateQuickModeToggleUI();
+  }
+
+  function cancelShortcutRecording() {
+    if (!isRecordingShortcut) return;
+    isRecordingShortcut = false;
+    if (shortcutRecordBtn) {
+      shortcutRecordBtn.classList.remove('recording');
+      shortcutRecordBtn.textContent = formatShortcutLabel(currentThemeShortcut);
+    }
+  }
+
+  if (quickModeToggleBtn) {
+    quickModeToggleBtn.addEventListener('click', function() {
+      if (typeof getPairedPresetId !== 'function') return;
+      var nextId = getPairedPresetId(activePresetId, savedUserPalettes);
+      if (nextId && presets[nextId]) {
+        selectPreset(nextId);
+      }
+    });
+  }
+
+  if (shortcutRecordBtn) {
+    shortcutRecordBtn.addEventListener('click', function() {
+      if (isRecordingShortcut) {
+        cancelShortcutRecording();
+        return;
+      }
+      setTimeout(function() {
+        isRecordingShortcut = true;
+        shortcutRecordBtn.classList.add('recording');
+        shortcutRecordBtn.textContent = 'Press keys...';
+      }, 0);
+    });
+    shortcutRecordBtn.addEventListener('blur', cancelShortcutRecording);
+  }
+
+  if (shortcutResetBtn) {
+    shortcutResetBtn.addEventListener('click', function() {
+      cancelShortcutRecording();
+      currentThemeShortcut = Object.assign({}, DEFAULT_THEME_SHORTCUT);
+      renderShortcutUI();
+      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        chrome.storage.local.set({ vibe_theme_shortcut: currentThemeShortcut });
+      }
+    });
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (!isRecordingShortcut) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.key === 'Escape') {
+      cancelShortcutRecording();
+      return;
+    }
+    var blockedCodes = ['ShiftLeft', 'ShiftRight', 'ControlLeft', 'ControlRight', 'AltLeft', 'AltRight', 'MetaLeft', 'MetaRight', 'Tab', 'CapsLock', 'Enter', 'Space', 'Backspace'];
+    if (blockedCodes.indexOf(e.code) !== -1 || !e.code) return;
+    if (!e.altKey && !e.ctrlKey && !e.metaKey) return;
+
+    currentThemeShortcut = {
+      code: e.code,
+      alt: !!e.altKey,
+      shift: !!e.shiftKey,
+      ctrl: !!e.ctrlKey,
+      meta: !!e.metaKey
+    };
+    isRecordingShortcut = false;
+    if (shortcutRecordBtn) shortcutRecordBtn.classList.remove('recording');
+    renderShortcutUI();
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+      chrome.storage.local.set({ vibe_theme_shortcut: currentThemeShortcut });
+    }
+  });
+
+  if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.onChanged) {
+    chrome.storage.onChanged.addListener(function(changes, area) {
+      if (area !== 'local') return;
+      if (changes.active_preset && changes.active_preset.newValue && presets[changes.active_preset.newValue]) {
+        activePresetId = changes.active_preset.newValue;
+        applyPopupTheme(activePresetId);
+        renderGroups();
+      }
+      if (changes.vibe_theme_shortcut && changes.vibe_theme_shortcut.newValue && changes.vibe_theme_shortcut.newValue.code) {
+        currentThemeShortcut = changes.vibe_theme_shortcut.newValue;
+        renderShortcutUI();
+      }
+    });
+  }
+
+  var tzSelectEl = document.getElementById('timezone-select');
+  if (tzSelectEl) {
+    tzSelectEl.addEventListener('change', function() {
+      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        chrome.storage.local.set({ vibe_timezone: tzSelectEl.value || 'auto' });
+      }
+    });
+  }
 
   function selectPreset(presetId) {
     activePresetId = presetId;
@@ -807,6 +949,7 @@ document.addEventListener('DOMContentLoaded', function() {
     sidebarBgUrlInput.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') {
         e.preventDefault();
+        if (e.isComposing || e.keyCode === 229) return;
         applySidebarBgUrl();
       }
     });
@@ -989,6 +1132,7 @@ document.addEventListener('DOMContentLoaded', function() {
     wallpaperUrlInput.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') {
         e.preventDefault();
+        if (e.isComposing || e.keyCode === 229) return;
         applyWallpaperUrl();
       }
     });
@@ -1173,7 +1317,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function renderSavedPalettesShelf() {
     if (!savedPalettesShelf) return;
-    savedPalettesShelf.innerHTML = '';
+    savedPalettesShelf.replaceChildren();
 
     if (paletteLimitCaption) {
       paletteLimitCaption.textContent = 'Saved Palettes (' + (savedUserPalettes ? savedUserPalettes.length : 0) + '/10)';
@@ -1294,16 +1438,30 @@ document.addEventListener('DOMContentLoaded', function() {
         registerSavedPalettesIntoPresets();
         renderSavedPalettesShelf();
       } else if (savedUserPalettes.length >= 10) {
-        alert('Palette limit reached (10 max). Delete one to add.');
+        showPaletteNotice('Palette limit reached (10 max). Delete one to add.');
       }
     });
+  }
+
+  var paletteNoticeTimer = null;
+  function showPaletteNotice(msg) {
+    if (!paletteLimitCaption) return;
+    if (paletteNoticeTimer) clearTimeout(paletteNoticeTimer);
+    paletteLimitCaption.textContent = msg;
+    paletteLimitCaption.style.color = '#ef4444';
+    paletteNoticeTimer = setTimeout(function() {
+      if (paletteLimitCaption) {
+        paletteLimitCaption.style.removeProperty('color');
+        paletteLimitCaption.textContent = 'Saved Palettes (' + (savedUserPalettes ? savedUserPalettes.length : 0) + '/10)';
+      }
+    }, 2800);
   }
 
   if (savePaletteBtn) {
     savePaletteBtn.addEventListener('click', function() {
       if (!savedUserPalettes) savedUserPalettes = [];
       if (savedUserPalettes.length >= 10) {
-        alert('You have reached the maximum limit of 10 saved custom palettes. Please delete one to save a new one.');
+        showPaletteNotice('Max 10 saved palettes reached. Delete one first.');
         return;
       }
 
@@ -1395,7 +1553,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
           var parsed = JSON.parse(evt.target.result);
           if (!Array.isArray(parsed)) {
-            alert('Invalid backup file. Expected an array of saved palettes.');
+            showPaletteNotice('Invalid backup file: expected a palette array.');
             return;
           }
 
@@ -1409,7 +1567,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
 
           if (validPalettes.length === 0) {
-            alert('No valid palettes found in this JSON file.');
+            showPaletteNotice('No valid palettes found in this JSON file.');
             return;
           }
 
@@ -1441,7 +1599,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (importPalettesBtn) importPalettesBtn.textContent = 'Import';
           }, 1500);
         } catch (err) {
-          alert('Could not read JSON file: ' + err.message);
+          showPaletteNotice('Could not read JSON file: ' + err.message);
         }
       };
       reader.readAsText(file);
@@ -1456,8 +1614,16 @@ document.addEventListener('DOMContentLoaded', function() {
       'vibe_wallpaper_url', 'vibe_wallpaper_opacity', 'vibe_wallpaper_blur',
       'vibe_sidebar_bg_url', 'vibe_sidebar_bg_opacity', 'vibe_sidebar_bg_blur',
       'vibe_show_gpa', 'vibe_gpa_bg_color', 'saved_user_palettes', 'vibe_open_new_tab',
-      'course_landing_pages', 'default_course_landing', 'vibe_accent_color'
+      'course_landing_pages', 'default_course_landing', 'vibe_accent_color', 'vibe_theme_shortcut', 'vibe_timezone'
     ], function(res) {
+      var tzSel = document.getElementById('timezone-select');
+      if (tzSel) {
+        tzSel.value = (res && res.vibe_timezone) ? res.vibe_timezone : 'auto';
+      }
+      if (res && res.vibe_theme_shortcut && res.vibe_theme_shortcut.code) {
+        currentThemeShortcut = res.vibe_theme_shortcut;
+      }
+      if (typeof renderShortcutUI === 'function') renderShortcutUI();
       if (res && res.saved_user_palettes && Array.isArray(res.saved_user_palettes)) {
         savedUserPalettes = res.saved_user_palettes;
         try { localStorage.setItem('vibe_saved_user_palettes_backup', JSON.stringify(savedUserPalettes)); } catch(e) {}
@@ -1635,7 +1801,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (courseLandingList && Array.isArray(discoveredCourses) && discoveredCourses.length > 0) {
     if (landingOverridesWrap) landingOverridesWrap.style.display = 'block';
-    courseLandingList.innerHTML = '';
+    courseLandingList.replaceChildren();
     discoveredCourses.forEach(function(c) {
       if (!c || !c.id) return;
       var row = document.createElement('div');

@@ -686,16 +686,43 @@ var DEFAULT_SAVED_PALETTES = [
   }
 ];
 
+function getPairedPresetId(currentId, extraPalettes) {
+  var lookup = Object.assign({}, PRESETS);
+  var extras = Array.isArray(extraPalettes) ? extraPalettes : DEFAULT_SAVED_PALETTES;
+  if (Array.isArray(extras)) {
+    for (var i = 0; i < extras.length; i++) {
+      var ep = extras[i];
+      if (ep && ep.id && !lookup[ep.id]) {
+        lookup[ep.id] = ep;
+      }
+    }
+  }
+  var current = lookup[currentId];
+  var targetMode = (current && current.mode === 'dark') ? 'light' : 'dark';
+  if (current && current.themeGroup) {
+    var keys = Object.keys(PRESETS);
+    for (var k = 0; k < keys.length; k++) {
+      var candidate = PRESETS[keys[k]];
+      if (candidate && candidate.themeGroup === current.themeGroup && candidate.mode === targetMode) {
+        return candidate.id;
+      }
+    }
+  }
+  return targetMode === 'light' ? DEFAULT_PRESET_ID : 'dracula-night';
+}
+
 if (typeof window !== 'undefined') {
   window.PRESETS = PRESETS;
   window.DEFAULT_PRESET_ID = DEFAULT_PRESET_ID;
   window.DEFAULT_SAVED_PALETTES = DEFAULT_SAVED_PALETTES;
+  window.getPairedPresetId = getPairedPresetId;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.PRESETS = PRESETS;
   globalThis.DEFAULT_PRESET_ID = DEFAULT_PRESET_ID;
   globalThis.DEFAULT_SAVED_PALETTES = DEFAULT_SAVED_PALETTES;
+  globalThis.getPairedPresetId = getPairedPresetId;
 }
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { PRESETS, DEFAULT_PRESET_ID, DEFAULT_SAVED_PALETTES };
+  module.exports = { PRESETS, DEFAULT_PRESET_ID, DEFAULT_SAVED_PALETTES, getPairedPresetId };
 }

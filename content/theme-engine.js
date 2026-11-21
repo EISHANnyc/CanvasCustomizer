@@ -711,6 +711,85 @@
     return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')';
   }
 
+  var activeTimeZoneSetting = 'auto';
+  try {
+    activeTimeZoneSetting = localStorage.getItem('vibe_cached_timezone') || 'auto';
+  } catch (e) {}
+
+  function getActiveTimeZone() {
+    if (activeTimeZoneSetting && activeTimeZoneSetting !== 'auto') {
+      return activeTimeZoneSetting;
+    }
+    try {
+      if (typeof window !== 'undefined' && window.ENV && window.ENV.TIMEZONE) {
+        return window.ENV.TIMEZONE;
+      }
+    } catch (e) {}
+    try {
+      return Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+    } catch (e) {
+      return 'UTC';
+    }
+  }
+
+  function getDatePartsInTz(dateObj) {
+    var tz = getActiveTimeZone();
+    try {
+      var fmt = new Intl.DateTimeFormat('en-US', {
+        timeZone: tz,
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        weekday: 'short',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false
+      });
+      var parts = fmt.formatToParts(dateObj);
+      var out = { year: dateObj.getFullYear(), month: dateObj.getMonth(), day: dateObj.getDate(), weekday: '', hour: dateObj.getHours(), minute: dateObj.getMinutes() };
+      for (var i = 0; i < parts.length; i++) {
+        var pt = parts[i];
+        if (pt.type === 'year') out.year = parseInt(pt.value, 10);
+        else if (pt.type === 'month') out.month = parseInt(pt.value, 10) - 1;
+        else if (pt.type === 'day') out.day = parseInt(pt.value, 10);
+        else if (pt.type === 'weekday') out.weekday = pt.value;
+        else if (pt.type === 'hour') {
+          var hVal = parseInt(pt.value, 10);
+          out.hour = (hVal === 24) ? 0 : hVal;
+        }
+        else if (pt.type === 'minute') out.minute = parseInt(pt.value, 10);
+      }
+      return out;
+    } catch (e) {
+      var shortDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      return {
+        year: dateObj.getFullYear(),
+        month: dateObj.getMonth(),
+        day: dateObj.getDate(),
+        weekday: shortDays[dateObj.getDay()],
+        hour: dateObj.getHours(),
+        minute: dateObj.getMinutes()
+      };
+    }
+  }
+
+  function formatTimeInTz(dateObj) {
+    try {
+      return dateObj.toLocaleTimeString('en-US', {
+        timeZone: getActiveTimeZone(),
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
+    } catch (e) {
+      var hours = dateObj.getHours();
+      var minutes = dateObj.getMinutes();
+      var ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      return hours + ':' + (minutes < 10 ? '0' + minutes : minutes) + ' ' + ampm;
+    }
+  }
+
   function getUrgencyDetails(dateObj, item) {
     if (!item) item = {};
     if (item.type === 'announcement') {
@@ -732,7 +811,8 @@
     }
     if (item.unlockDateObj && item.unlockDateObj.getTime() > now.getTime()) {
       var mNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      var openStr = 'Opens ' + mNames[item.unlockDateObj.getMonth()] + ' ' + item.unlockDateObj.getDate();
+      var unlockParts = getDatePartsInTz(item.unlockDateObj);
+      var openStr = 'Opens ' + mNames[unlockParts.month] + ' ' + unlockParts.day;
       return {
         label: openStr,
         countdownShort: openStr,
@@ -751,26 +831,21 @@
       };
     }
 
-    var hours = dateObj.getHours();
-    var minutes = dateObj.getMinutes();
-    var ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    var minStr = minutes < 10 ? '0' + minutes : minutes;
-    var timeStr = hours + ':' + minStr + ' ' + ampm;
+    var timeStr = formatTimeInTz(dateObj);
+    var nowParts = getDatePartsInTz(now);
+    var targetParts = getDatePartsInTz(dateObj);
 
     var diffMs = dateObj.getTime() - now.getTime();
     var diffMinutes = Math.round(diffMs / 60000);
     var diffHours = Math.round(diffMs / 3600000);
 
-    var todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-    var targetStart = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate()).getTime();
+    var todayStart = Date.UTC(nowParts.year, nowParts.month, nowParts.day);
+    var targetStart = Date.UTC(targetParts.year, targetParts.month, targetParts.day);
     var dayDiff = Math.round((targetStart - todayStart) / 86400000);
 
-    var shortDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    var dayName = shortDays[dateObj.getDay()];
-    var mName = monthNames[dateObj.getMonth()];
+    var dayName = targetParts.weekday;
+    var mName = monthNames[targetParts.month];
 
     // Overdue by more than 3 hours
     if (diffMinutes < -180) {
@@ -818,7 +893,7 @@
 
     // Due Today: same day
     if (dayDiff === 0) {
-      var dueHour = dateObj.getHours();
+      var dueHour = targetParts.hour;
       var todayPrefix = dueHour >= 17 ? 'Tonight · ' : 'Today · ';
       var todayShort = dueHour >= 17 ? 'Tonight ' : 'Today ';
       return {
@@ -1621,8 +1696,7 @@
           displaySpan = document.createElement('span');
           displaySpan.className = 'vibe-title-text';
           displaySpan.textContent = customNick || origTitle;
-          titleEl.innerHTML = '';
-          titleEl.appendChild(displaySpan);
+          titleEl.replaceChildren(displaySpan);
         } else {
           displaySpan.textContent = customNick || origTitle;
         }
@@ -1979,7 +2053,7 @@
     if (scaleKey === 'custom' && Array.isArray(customScaleData) && customScaleData.length > 0) {
       return {
         label: 'Custom Scale',
-        breaks: customScaleData.slice().sort(function(a, b) { return b.min - a.min; })
+        breaks: customScaleData.toSorted(function(a, b) { return b.min - a.min; })
       };
     }
     return GPA_SCALES[scaleKey] || GPA_SCALES.sfu || GPA_SCALES.standard4;
@@ -2077,7 +2151,7 @@
     var container = document.querySelector('.ic-DashboardCard__box__container');
     if (!container) return;
 
-    safeStorageGet(['vibe_show_gpa', 'vibe_gpa_bg_color', 'vibe_gpa_scale', 'vibe_gpa_custom_scale', 'vibe_gpa_past_gpa', 'vibe_gpa_past_credits', 'vibe_gpa_mode', 'course_nicknames'], function(res) {
+    safeStorageGet(['vibe_show_gpa', 'vibe_gpa_bg_color', 'vibe_gpa_scale', 'vibe_gpa_custom_scale', 'vibe_gpa_past_gpa', 'vibe_gpa_past_credits', 'vibe_gpa_mode', 'vibe_gpa_excluded_courses', 'course_nicknames'], function(res) {
       var nicknames = (res && res.course_nicknames) || {};
       var showGpa = (res && res.vibe_show_gpa !== undefined) ? !!res.vibe_show_gpa : true;
       var existing = document.getElementById('vibe-gpa-school-card');
@@ -2121,8 +2195,15 @@
       var heroBg      = customBg || ('linear-gradient(135deg,' + accentColor + 'dd 0%,' + accentColor + '88 100%)');
       var colorInputVal = customBg && customBg.startsWith('#') ? customBg : accentColor;
 
+      var excludedIds = Array.isArray(res && res.vibe_gpa_excluded_courses)
+        ? res.vibe_gpa_excluded_courses.map(String)
+        : [];
+
       fetchCourseGrades(function(courses) {
-        var result = calculateGPA(courses, scaleKey, pastGpa, pastCredits, customScaleData);
+        var includedCourses = courses.filter(function(c) {
+          return excludedIds.indexOf(String(c.id)) === -1;
+        });
+        var result = calculateGPA(includedCourses, scaleKey, pastGpa, pastCredits, customScaleData);
         var displayGpa = (mode === 'cumulative' && result.cumGpa !== null) ? result.cumGpa : result.semGpa;
         var gpaStr = displayGpa !== null ? displayGpa.toFixed(2) : '—';
         var modeLabel = mode === 'cumulative' ? 'Cumulative' : 'Semester';
@@ -2137,7 +2218,7 @@
 
         // Build breakdown rows: Course | Score | GPA (Grade letter removed to eliminate header overlap)
         var rowsHtml = '';
-        var sorted = result.breakdown.slice().sort(function(a, b) { return b.score - a.score; });
+        var sorted = result.breakdown.toSorted(function(a, b) { return b.score - a.score; });
         for (var i = 0; i < sorted.length; i++) {
           var cr = sorted[i];
           var crClean = cr.code ? cr.code.replace(/\s+/g, '').toUpperCase() : '';
@@ -2157,7 +2238,7 @@
 
         // Build Custom Scale Editor HTML
         var customRowsHtml = '';
-        var editScaleList = customScaleData.slice().sort(function(a, b) { return b.min - a.min; });
+        var editScaleList = customScaleData.toSorted(function(a, b) { return b.min - a.min; });
         for (var s = 0; s < editScaleList.length; s++) {
           var rowItem = editScaleList[s];
           customRowsHtml +=
@@ -2230,6 +2311,27 @@
           }
         });
 
+        var coursesChecklistHtml = '';
+        if (courses.length === 0) {
+          coursesChecklistHtml = '<div class="vibe-gpa-editor-hint" style="padding:4px 0;">No graded courses found yet.</div>';
+        } else {
+          for (var ci = 0; ci < courses.length; ci++) {
+            var cItem = courses[ci];
+            var cIdStr = String(cItem.id);
+            var isChecked = excludedIds.indexOf(cIdStr) === -1;
+            var cClean = cItem.code ? cItem.code.replace(/\s+/g, '').toUpperCase() : '';
+            var cNick = (nicknames && (nicknames['c_' + cItem.id] || nicknames[cItem.id] || nicknames[cClean] || nicknames[cItem.code])) || null;
+            var cLabel = cNick || cItem.code || cItem.name;
+            var cScoreStr = (typeof cItem.score === 'number' && !isNaN(cItem.score)) ? (cItem.score.toFixed(1) + '%') : '—';
+            coursesChecklistHtml +=
+              '<label class="vibe-gpa-course-item" title="' + escapeHtml(cItem.name) + '">' +
+                '<input type="checkbox" class="vibe-gpa-course-cb" data-course-id="' + escapeHtml(cIdStr) + '"' + (isChecked ? ' checked' : '') + '>' +
+                '<span class="vibe-gpa-course-item-name">' + escapeHtml(cLabel) + '</span>' +
+                '<span class="vibe-gpa-course-item-score">' + cScoreStr + '</span>' +
+              '</label>';
+          }
+        }
+
         var modalBackdrop = document.createElement('div');
         modalBackdrop.id = 'vibe-gpa-modal-backdrop';
         modalBackdrop.className = 'vibe-gpa-modal-backdrop';
@@ -2288,6 +2390,13 @@
                   '<input id="vibe-gpa-color-input" type="color" value="' + colorInputVal + '" style="width:34px;height:28px;border:none;padding:0;background:none;cursor:pointer;border-radius:6px;">' +
                   '<button type="button" id="vibe-gpa-color-reset-btn" class="mini-text-btn" style="background:none;border:none;color:var(--bctext-2);font-size:12px;cursor:pointer;text-decoration:underline;">Reset to theme</button>' +
                 '</div>' +
+              '</div>' +
+              '<div class="vibe-gpa-custom-editor-card">' +
+                '<div class="vibe-gpa-custom-editor-header">' +
+                  '<span class="vibe-gpa-editor-title">Included Courses</span>' +
+                  '<span class="vibe-gpa-editor-hint">Uncheck to exclude from GPA</span>' +
+                '</div>' +
+                '<div class="vibe-gpa-course-list" id="vibe-gpa-course-list">' + coursesChecklistHtml + '</div>' +
               '</div>' +
             '</div>' +
             '<div class="vibe-gpa-modal-footer">' +
@@ -2352,7 +2461,7 @@
           var s = GPA_SCALES[targetScaleKey] || GPA_SCALES.sfu;
           if (!s || !Array.isArray(s.breaks)) return;
           var html = '';
-          s.breaks.slice().sort(function(a, b) { return b.min - a.min; }).forEach(function(b) {
+          s.breaks.toSorted(function(a, b) { return b.min - a.min; }).forEach(function(b) {
             html += '<div class="vibe-gpa-custom-row">' +
               '<input type="number" class="vibe-scale-min" min="0" max="100" step="0.5" value="' + b.min + '" title="Min %">' +
               '<input type="text" class="vibe-scale-letter" maxlength="3" value="' + escapeHtml(b.letter || '') + '" title="Letter">' +
@@ -2470,6 +2579,16 @@
             } else if (colorInput && colorInput.value) {
               toSave.vibe_gpa_bg_color = colorInput.value;
             }
+
+            var courseCbs = modalBackdrop.querySelectorAll('.vibe-gpa-course-cb');
+            var newExcluded = [];
+            courseCbs.forEach(function(cb) {
+              if (!cb.checked) {
+                var cid = cb.getAttribute('data-course-id');
+                if (cid) newExcluded.push(cid);
+              }
+            });
+            toSave.vibe_gpa_excluded_courses = newExcluded;
 
             safeStorageSet(toSave, function() {
               closeModal();
@@ -2645,9 +2764,8 @@
           var dTitle = sanitizeTitle(dItem.title);
           if (/^Opens:\s*/i.test(dTitle)) dTitle = dTitle.replace(/^Opens:\s*/i, '');
           if (dTitle.length > 24) dTitle = dTitle.substring(0, 22) + '…';
-          var dMonth = dItem.dateObj.getMonth() + 1;
-          var dDate = dItem.dateObj.getDate();
-          var dDateStr = dMonth + '/' + dDate;
+          var dParts = getDatePartsInTz(dItem.dateObj);
+          var dDateStr = (dParts.month + 1) + '/' + dParts.day;
           var strikeCls = dItem.isPastDue ? ' strike' : '';
           var itemHref = (dItem.href && dItem.href !== '#') ? dItem.href : '';
           var escTitle = (dItem.title || '').replace(/"/g, '&quot;');
@@ -2988,16 +3106,16 @@
   }
 
   function formatDayGroupHeader(dateObj, isCompletedGroup) {
-    var now = new Date();
-    var todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-    var targetStart = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate()).getTime();
+    var nowParts = getDatePartsInTz(new Date());
+    var targetParts = getDatePartsInTz(dateObj);
+    var todayStart = Date.UTC(nowParts.year, nowParts.month, nowParts.day);
+    var targetStart = Date.UTC(targetParts.year, targetParts.month, targetParts.day);
     var diffDays = Math.round((targetStart - todayStart) / (1000 * 60 * 60 * 24));
 
-    var shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    var shortDay = shortDayNames[dateObj.getDay()];
-    var monthName = monthNames[dateObj.getMonth()];
-    var dayNum = dateObj.getDate();
+    var shortDay = targetParts.weekday;
+    var monthName = monthNames[targetParts.month];
+    var dayNum = targetParts.day;
 
     if (diffDays === 0) {
       return { label: 'Today · ' + monthName + ' ' + dayNum, isToday: true, isTomorrow: false };
@@ -3069,30 +3187,16 @@
     var now = new Date();
     if (item.isOpenCard) {
       if (!dateObj) return 'Opens Soon';
-      var oh = dateObj.getHours();
-      var om = dateObj.getMinutes();
-      var oap = oh >= 12 ? 'PM' : 'AM';
-      oh = oh % 12;
-      oh = oh ? oh : 12;
-      var oms = om < 10 ? '0' + om : om;
-      return 'Opens · ' + oh + ':' + oms + ' ' + oap;
+      return 'Opens · ' + formatTimeInTz(dateObj);
     }
     if (item.unlockDateObj && item.unlockDateObj.getTime() > now.getTime()) {
       var mNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      return 'Opens ' + mNames[item.unlockDateObj.getMonth()] + ' ' + item.unlockDateObj.getDate();
+      var up = getDatePartsInTz(item.unlockDateObj);
+      return 'Opens ' + mNames[up.month] + ' ' + up.day;
     }
 
     if (!dateObj) return item.dateStr || 'Upcoming';
-
-    var hours = dateObj.getHours();
-    var minutes = dateObj.getMinutes();
-    var ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    var minStr = minutes < 10 ? '0' + minutes : minutes;
-    var timeStr = hours + ':' + minStr + ' ' + ampm;
-
-    return timeStr;
+    return formatTimeInTz(dateObj);
   }
 
   function fetchPlannerItems(daysAhead, callback) {
@@ -3483,14 +3587,15 @@
         groupMap[noDateKey].items.push(item);
         continue;
       }
-      var y = d.getFullYear();
-      var m = ('0' + (d.getMonth() + 1)).slice(-2);
-      var dayNum = ('0' + d.getDate()).slice(-2);
+      var dp = getDatePartsInTz(d);
+      var y = dp.year;
+      var m = ('0' + (dp.month + 1)).slice(-2);
+      var dayNum = ('0' + dp.day).slice(-2);
       var groupKey = y + '-' + m + '-' + dayNum;
       var headerInfo = formatDayGroupHeader(d, true);
 
       if (!groupMap[groupKey]) {
-        var dayMidnight = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+        var dayMidnight = Date.UTC(dp.year, dp.month, dp.day);
         var newGroup = {
           key: groupKey,
           header: headerInfo,
@@ -3520,22 +3625,25 @@
   function groupItemsByDay(items) {
     var groups = [];
     var groupMap = {};
-    var now = new Date();
-    var todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    var nowParts = getDatePartsInTz(new Date());
+    var todayKey = nowParts.year + '-' + ('0' + (nowParts.month + 1)).slice(-2) + '-' + ('0' + nowParts.day).slice(-2);
 
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
       var d = item.dueDateObj || item.dateObj;
 
-      // Filter out items without dates, invalid dates, or dates in the past
-      if (!d || isNaN(d.getTime()) || d.getTime() < todayMidnight) {
+      if (!d || isNaN(d.getTime())) {
         continue;
       }
 
-      var y = d.getFullYear();
-      var m = ('0' + (d.getMonth() + 1)).slice(-2);
-      var dayNum = ('0' + d.getDate()).slice(-2);
+      var dp = getDatePartsInTz(d);
+      var y = dp.year;
+      var m = ('0' + (dp.month + 1)).slice(-2);
+      var dayNum = ('0' + dp.day).slice(-2);
       var groupKey = y + '-' + m + '-' + dayNum;
+      if (groupKey < todayKey) {
+        continue;
+      }
       var headerInfo = formatDayGroupHeader(d);
 
       if (!groupMap[groupKey]) {
@@ -4005,10 +4113,8 @@
       rightSide.insertBefore(duoContainer, rightSide.firstChild);
     }
 
-    if (!duoContainer.querySelector('#vibe-todo-widget')) {
+    if (!duoContainer.querySelector('#vibe-todo-widget') || !duoContainer.querySelector('#vibe-graded-widget')) {
       renderReformattedWidget(duoContainer, cachedPlannerItems || [], cachedGradedItems || [], presetId);
-    } else if (cachedPlannerItems && cachedGradedItems) {
-      renderReformattedWidget(duoContainer, cachedPlannerItems, cachedGradedItems, presetId);
     }
 
     if (isRenderingWidget) return;
@@ -4037,85 +4143,101 @@
     });
   }
 
+  function buildItemsRenderSig(items, presetId, nicknames) {
+    var nickHash = nicknames ? Object.keys(nicknames).length : 0;
+    var parts = [presetId || '', getActiveTimeZone(), nickHash];
+    if (Array.isArray(items)) {
+      for (var i = 0; i < items.length; i++) {
+        var it = items[i];
+        if (!it) continue;
+        parts.push((it.key || it.id || it.title || '') + '@' + (it.score !== undefined && it.score !== null ? it.score : '') + '@' + (it.grade || '') + '@' + (it.dateStr || ''));
+      }
+    }
+    return parts.join('|');
+  }
+
   function renderReformattedWidget(duoContainer, upcomingItems, gradedItems, presetId) {
     if (!duoContainer) return;
 
-    var html =
-      '<div class="vibe-sidebar-tabs" id="vibe-sidebar-tabs" role="tablist">' +
-        '<button class="vibe-tab-btn active" data-target="todo" type="button" role="tab" aria-selected="true">' +
-          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>' +
-          '<span>Tasks</span>' +
-        '</button>' +
-        '<button class="vibe-tab-btn" data-target="graded" type="button" role="tab" aria-selected="false">' +
-          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>' +
-          '<span>Completed</span>' +
-        '</button>' +
-      '</div>' +
-      '<div class="vibe-feed-card" id="vibe-todo-widget">' +
-        '<div class="vibe-feed-header">' +
-          '<div class="vibe-feed-title-wrap">' +
-            '<span class="vibe-feed-title">' +
-              '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>' +
-              '<span>Tasks</span>' +
-            '</span>' +
-            '<span class="vibe-feed-badge" id="vibe-todo-counter">0</span>' +
-          '</div>' +
-          '<div class="vibe-feed-header-actions">' +
-            '<button id="vibe-todo-restore-btn" class="vibe-feed-action-btn" type="button" title="Restore all dismissed tasks">↻ Restore</button>' +
-            '<a class="vibe-feed-cal-link" href="/calendar" title="View Full Calendar">' +
-              '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>' +
-            '</a>' +
-          '</div>' +
+    var needsShell = !duoContainer.querySelector('#vibe-todo-widget') || !duoContainer.querySelector('#vibe-graded-widget');
+    if (needsShell) {
+      var html =
+        '<div class="vibe-sidebar-tabs" id="vibe-sidebar-tabs" role="tablist">' +
+          '<button class="vibe-tab-btn active" data-target="todo" type="button" role="tab" aria-selected="true">' +
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>' +
+            '<span>Tasks</span>' +
+          '</button>' +
+          '<button class="vibe-tab-btn" data-target="graded" type="button" role="tab" aria-selected="false">' +
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>' +
+            '<span>Completed</span>' +
+          '</button>' +
         '</div>' +
-        '<div class="vibe-todo-list" id="vibe-todo-card-list"></div>' +
-      '</div>' +
-      '<div class="vibe-feed-card" id="vibe-graded-widget">' +
-        '<div class="vibe-feed-header">' +
-          '<div class="vibe-feed-title-wrap">' +
-            '<span class="vibe-feed-title">' +
-              '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>' +
-              '<span>Completed</span>' +
-            '</span>' +
-            '<span class="vibe-feed-badge" id="vibe-graded-counter">0</span>' +
+        '<div class="vibe-feed-card" id="vibe-todo-widget">' +
+          '<div class="vibe-feed-header">' +
+            '<div class="vibe-feed-title-wrap">' +
+              '<span class="vibe-feed-title">' +
+                '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>' +
+                '<span>Tasks</span>' +
+              '</span>' +
+              '<span class="vibe-feed-badge" id="vibe-todo-counter">0</span>' +
+            '</div>' +
+            '<div class="vibe-feed-header-actions">' +
+              '<button id="vibe-todo-restore-btn" class="vibe-feed-action-btn" type="button" title="Restore all dismissed tasks">↻ Restore</button>' +
+              '<a class="vibe-feed-cal-link" href="/calendar" title="View Full Calendar">' +
+                '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>' +
+              '</a>' +
+            '</div>' +
           '</div>' +
-          '<div class="vibe-feed-header-actions">' +
-            '<a class="vibe-feed-cal-link" href="/grades" title="View All Grades">' +
-              '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>' +
-            '</a>' +
-          '</div>' +
+          '<div class="vibe-todo-list" id="vibe-todo-card-list"></div>' +
         '</div>' +
-        '<div class="vibe-graded-list" id="vibe-graded-card-list"></div>' +
-      '</div>';
+        '<div class="vibe-feed-card" id="vibe-graded-widget">' +
+          '<div class="vibe-feed-header">' +
+            '<div class="vibe-feed-title-wrap">' +
+              '<span class="vibe-feed-title">' +
+                '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>' +
+                '<span>Completed</span>' +
+              '</span>' +
+              '<span class="vibe-feed-badge" id="vibe-graded-counter">0</span>' +
+            '</div>' +
+            '<div class="vibe-feed-header-actions">' +
+              '<a class="vibe-feed-cal-link" href="/grades" title="View All Grades">' +
+                '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>' +
+              '</a>' +
+            '</div>' +
+          '</div>' +
+          '<div class="vibe-graded-list" id="vibe-graded-card-list"></div>' +
+        '</div>';
 
-    duoContainer.innerHTML = html;
+      duoContainer.innerHTML = html;
 
-    // Responsive tab switcher for single-column screen sizes
-    var tabBtns = duoContainer.querySelectorAll('.vibe-tab-btn');
-    for (var t = 0; t < tabBtns.length; t++) {
-      tabBtns[t].addEventListener('click', function(e) {
-        var btn = e.currentTarget;
-        for (var k = 0; k < tabBtns.length; k++) {
-          tabBtns[k].classList.remove('active');
-          tabBtns[k].setAttribute('aria-selected', 'false');
-        }
-        btn.classList.add('active');
-        btn.setAttribute('aria-selected', 'true');
-        if (btn.getAttribute('data-target') === 'graded') {
-          duoContainer.classList.add('show-completed');
-        } else {
-          duoContainer.classList.remove('show-completed');
-        }
-      });
-    }
+      // Responsive tab switcher for single-column screen sizes
+      var tabBtns = duoContainer.querySelectorAll('.vibe-tab-btn');
+      for (var t = 0; t < tabBtns.length; t++) {
+        tabBtns[t].addEventListener('click', function(e) {
+          var btn = e.currentTarget;
+          for (var k = 0; k < tabBtns.length; k++) {
+            tabBtns[k].classList.remove('active');
+            tabBtns[k].setAttribute('aria-selected', 'false');
+          }
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+          if (btn.getAttribute('data-target') === 'graded') {
+            duoContainer.classList.add('show-completed');
+          } else {
+            duoContainer.classList.remove('show-completed');
+          }
+        });
+      }
 
-    // Wire restore button on Tasks header
-    var todoRestoreBtn = duoContainer.querySelector('#vibe-todo-restore-btn');
-    if (todoRestoreBtn) {
-      todoRestoreBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        restoreAllDismissedItems(presetId);
-      });
+      // Wire restore button on Tasks header
+      var todoRestoreBtn = duoContainer.querySelector('#vibe-todo-restore-btn');
+      if (todoRestoreBtn) {
+        todoRestoreBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          restoreAllDismissedItems(presetId);
+        });
+      }
     }
 
     var upList = duoContainer.querySelector('#vibe-todo-card-list');
@@ -4123,15 +4245,24 @@
 
     safeStorageGet(['course_nicknames'], function(res) {
       var nicknames = (res && res.course_nicknames) || {};
-      populateGroupedCards(upList, upcomingItems, presetId, nicknames);
-      populateGradedCards(gradList, gradedItems, presetId, nicknames);
+      var upSig = buildItemsRenderSig(upcomingItems, presetId, nicknames);
+      var gradSig = buildItemsRenderSig(gradedItems, presetId, nicknames);
+
+      if (upList && (upList.getAttribute('data-vibe-sig') !== upSig || upList.children.length === 0)) {
+        upList.setAttribute('data-vibe-sig', upSig);
+        populateGroupedCards(upList, upcomingItems, presetId, nicknames);
+      }
+      if (gradList && (gradList.getAttribute('data-vibe-sig') !== gradSig || gradList.children.length === 0)) {
+        gradList.setAttribute('data-vibe-sig', gradSig);
+        populateGradedCards(gradList, gradedItems, presetId, nicknames);
+      }
     });
   }
 
   // Revamped Minimalist Graded Cards (Clean, Tabular & High-Contrast)
   function populateGradedCards(container, items, presetId, nicknames) {
     if (!container) return;
-    container.innerHTML = '';
+    container.replaceChildren();
     
     var activeCid = getActiveCourseId();
     var filteredItems = items || [];
@@ -4411,7 +4542,7 @@
   // Revamped Minimalist Grouped Cards (Clean Checklist Architecture)
   function populateGroupedCards(container, items, presetId, nicknames) {
     if (!container) return;
-    container.innerHTML = '';
+    container.replaceChildren();
     var activeCid = getActiveCourseId();
     var filteredItems = items || [];
     if (activeCid) {
@@ -5447,12 +5578,53 @@
       });
     }
 
+    var currentActivePresetId = DEFAULT_PRESET_ID;
+    var activeThemeShortcut = { code: 'KeyD', alt: true, shift: true, ctrl: false, meta: false };
+
+    function isTextInputTarget(el) {
+      if (!el || el.nodeType !== 1) return false;
+      var tag = el.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+      if (el.isContentEditable) return true;
+      return typeof el.closest === 'function' && !!el.closest('[contenteditable="true"], .tox-edit-area');
+    }
+
+    if (window === window.top) {
+      document.addEventListener('keydown', function(e) {
+        if (e.repeat || e.isComposing || e.keyCode === 229) return;
+        var sc = activeThemeShortcut;
+        if (!sc || !sc.code || e.code !== sc.code) return;
+        if (e.altKey !== !!sc.alt || e.shiftKey !== !!sc.shift || e.ctrlKey !== !!sc.ctrl || e.metaKey !== !!sc.meta) return;
+        var pathTarget = (typeof e.composedPath === 'function') ? e.composedPath()[0] : null;
+        if (isTextInputTarget(document.activeElement) || isTextInputTarget(pathTarget)) return;
+        if (typeof getPairedPresetId !== 'function') return;
+
+        e.preventDefault();
+        safeStorageGet(['active_preset', 'saved_user_palettes'], function(res) {
+          var curId = (res && res.active_preset) || currentActivePresetId || DEFAULT_PRESET_ID;
+          var userPals = (res && Array.isArray(res.saved_user_palettes)) ? res.saved_user_palettes : null;
+          var nextId = getPairedPresetId(curId, userPals);
+          if (!nextId || nextId === curId) return;
+          currentActivePresetId = nextId;
+          try { localStorage.setItem('vibe_cached_preset', nextId); } catch (err) {}
+          safeStorageSet({ active_preset: nextId });
+        });
+      });
+    }
+
     safeStorageGet([
       'active_preset', 'card_radius', 'vibe_soft_night',
       'vibe_wallpaper_url', 'vibe_wallpaper_opacity', 'vibe_wallpaper_blur',
       'vibe_sidebar_bg_url', 'vibe_sidebar_bg_opacity', 'vibe_sidebar_bg_blur',
-      'custom_theme_colors', 'saved_user_palettes', 'vibe_open_new_tab'
+      'custom_theme_colors', 'saved_user_palettes', 'vibe_open_new_tab', 'vibe_theme_shortcut', 'vibe_timezone'
     ], function(res) {
+      if (res && res.vibe_timezone) {
+        activeTimeZoneSetting = res.vibe_timezone;
+        try { localStorage.setItem('vibe_cached_timezone', activeTimeZoneSetting); } catch (e) {}
+      }
+      if (res && res.vibe_theme_shortcut && res.vibe_theme_shortcut.code) {
+        activeThemeShortcut = res.vibe_theme_shortcut;
+      }
       if (res && res.vibe_open_new_tab !== undefined) {
         defaultOpenNewTab = !!res.vibe_open_new_tab;
         try { localStorage.setItem('vibe_open_new_tab', defaultOpenNewTab ? 'true' : 'false'); } catch(e) {}
@@ -5471,6 +5643,7 @@
         );
       }
       var presetId = (res && res.active_preset) || DEFAULT_PRESET_ID;
+      currentActivePresetId = presetId;
       try { localStorage.setItem('vibe_cached_preset', presetId); } catch (e) {}
       var catalog = (typeof PRESETS !== 'undefined') ? Object.assign({}, PRESETS) : {};
 
@@ -5605,8 +5778,21 @@
               });
             }
             syncCanvasLayout();
+            if (changes.vibe_timezone) {
+              activeTimeZoneSetting = changes.vibe_timezone.newValue || 'auto';
+              try { localStorage.setItem('vibe_cached_timezone', activeTimeZoneSetting); } catch (e) {}
+              safeStorageGet(['active_preset'], function(tzRes) {
+                var tzPid = (tzRes && tzRes.active_preset) || currentActivePresetId || DEFAULT_PRESET_ID;
+                applyCardHeroColors(tzPid);
+                initTodoReformatter(tzPid);
+              });
+            }
+            if (changes.vibe_theme_shortcut && changes.vibe_theme_shortcut.newValue && changes.vibe_theme_shortcut.newValue.code) {
+              activeThemeShortcut = changes.vibe_theme_shortcut.newValue;
+            }
             if (changes.active_preset && changes.active_preset.newValue) {
               var newId = changes.active_preset.newValue;
+              currentActivePresetId = newId;
               try { localStorage.setItem('vibe_cached_preset', newId); } catch (e) {}
               safeStorageGet(['saved_user_palettes'], function(spRes) {
                 var catalog = (typeof PRESETS !== 'undefined') ? Object.assign({}, PRESETS) : {};
@@ -5762,11 +5948,12 @@
     }
 
     window.addEventListener('message', function(ev) {
-      if (!ev || !ev.data) return;
+      if (!ev || ev.source !== window || !ev.data) return;
       if (ev.data.type === 'VIBE_SET_STORAGE') {
         safeStorageSet(ev.data.payload, function() {
           var pId = (ev.data.payload && ev.data.payload.active_preset) || DEFAULT_PRESET_ID;
-          applyTheme(pId);
+          var pObj = (typeof PRESETS !== 'undefined' && PRESETS[pId]) ? PRESETS[pId] : null;
+          if (pObj) applyPresetTheme(pObj);
           applyCardHeroColors(pId);
         });
       }

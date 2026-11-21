@@ -15,9 +15,12 @@
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
           </span>
           <span class="brand-title">CanvasCustomizer</span>
-          <span class="version-badge" id="version-badge">v1.0.31</span>
+          <span class="version-badge" id="version-badge">v1.1.69</span>
         </div>
-        <span class="status-badge"><span class="status-dot"></span>Active</span>
+        <button type="button" class="mode-toggle-btn" id="quick-mode-toggle-btn" title="Switch Dark/Light mode (Alt+Shift+D)" aria-pressed="false">
+          <svg class="mode-toggle-icon" id="quick-mode-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <span id="quick-mode-label">Dark</span>
+        </button>
       </div>
 
       <!-- SEGMENTED NAVIGATION TABS -->
@@ -264,6 +267,39 @@
               </div>
               <div class="slider-track-wrap">
                 <input type="range" id="radius-slider" min="0" max="24" value="14">
+              </div>
+            </div>
+
+            <div class="feature-card-divider"></div>
+
+            <div class="feature-sub-row">
+              <div class="sub-label-wrap">
+                <span class="sub-label">Dark/Light Shortcut</span>
+                <span class="sub-caption">Toggle active theme mode on Canvas</span>
+              </div>
+              <div class="sub-color-action">
+                <button type="button" class="shortcut-btn" id="shortcut-record-btn" title="Click to record a new shortcut (Alt/Ctrl + key)">Alt+Shift+D</button>
+                <button type="button" class="mini-text-btn" id="shortcut-reset-btn" title="Reset to Alt+Shift+D">Reset</button>
+              </div>
+            </div>
+
+            <div class="feature-card-divider"></div>
+
+            <div class="feature-sub-row">
+              <div class="sub-label-wrap">
+                <span class="sub-label">Display Timezone</span>
+                <span class="sub-caption">Override OS clock for due times</span>
+              </div>
+              <div class="sub-action-wrap">
+                <select id="timezone-select" class="vibe-select-tactile">
+                  <option value="auto">Auto (Canvas / System)</option>
+                  <option value="America/Vancouver">Pacific — BC (PT)</option>
+                  <option value="America/Edmonton">Mountain (MT)</option>
+                  <option value="America/Winnipeg">Central (CT)</option>
+                  <option value="America/Toronto">Eastern (ET)</option>
+                  <option value="America/Halifax">Atlantic (AT)</option>
+                  <option value="UTC">UTC</option>
+                </select>
               </div>
             </div>
           </div>
