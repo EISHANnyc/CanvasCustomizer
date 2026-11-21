@@ -7956,3 +7956,84 @@ html.vibe-theme-dark.vibe-lti-frame input:checked + [class*="checkboxFacade__fac
   background-color: var(--bcaccent, #8B5CF6) !important;
   border-color: var(--bcaccent, #8B5CF6) !important;
 }
+
+/* ── Design Craft Polish ──────────────────────────────────── */
+.vibe-gpa-big,
+.vibe-gpa-row-score,
+.vibe-gpa-row-gp,
+.vibe-feed-badge,
+.vibe-minimal-day-count,
+.vibe-minimal-time,
+.vibe-pomodoro-time {
+  font-variant-numeric: tabular-nums !important;
+}
+
+.vibe-gpa-modal-title,
+.vibe-feed-title {
+  text-wrap: balance !important;
+}
+
+.vibe-tab-btn,
+.vibe-feed-action-btn,
+.vibe-gpa-settings-btn,
+.vibe-gpa-btn-primary,
+.vibe-gpa-btn-secondary,
+.vibe-todo-dismiss {
+  transition: transform 140ms cubic-bezier(0.22, 1, 0.36, 1),
+              background-color 140ms cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 140ms cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 140ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.vibe-tab-btn:active,
+.vibe-feed-action-btn:active,
+.vibe-gpa-settings-btn:active,
+.vibe-gpa-btn-primary:active,
+.vibe-gpa-btn-secondary:active,
+.vibe-todo-dismiss:active {
+  transform: scale(0.96) !important;
+}
+
+.vibe-feed-card {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+.vibe-gpa-modal-box {
+  transform-origin: center center !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14), 0 20px 48px rgba(0, 0, 0, 0.36) !important;
+}
+
+.vibe-gpa-modal-backdrop.vibe-modal-open .vibe-gpa-modal-box {
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), opacity 160ms ease !important;
+}
+
+#vibe-pomodoro-popover {
+  transform-origin: bottom right !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 14px 36px rgba(0, 0, 0, 0.24) !important;
+}
+
+#vibe-todo-card-list,
+#vibe-graded-card-list,
+.vibe-gpa-course-list {
+  mask-image: linear-gradient(to bottom, transparent 0, #000 8px, #000 calc(100% - 8px), transparent 100%) !important;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 8px, #000 calc(100% - 8px), transparent 100%) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vibe-tab-btn,
+  .vibe-feed-action-btn,
+  .vibe-gpa-settings-btn,
+  .vibe-gpa-btn-primary,
+  .vibe-gpa-btn-secondary,
+  .vibe-todo-dismiss {
+    transition: none !important;
+  }
+  .vibe-tab-btn:active,
+  .vibe-feed-action-btn:active,
+  .vibe-gpa-settings-btn:active,
+  .vibe-gpa-btn-primary:active,
+  .vibe-gpa-btn-secondary:active,
+  .vibe-todo-dismiss:active {
+    transform: none !important;
+  }
+}

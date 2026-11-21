@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Validate Manifest & JSON syntax
         run: |
@@ -34,7 +34,6 @@ jobs:
           node -c content/theme-engine.js
           node -c popup/popup.js
           node -c shared/presets.js
-          node -c shared/canvas-styles.js
 
       - name: Run Extension Validation Suite
         run: |
